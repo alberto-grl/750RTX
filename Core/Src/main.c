@@ -831,7 +831,7 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 	ubADCDualConversionComplete = RESET;
 }
 
-void HAL_DACEx_ConvCpltCallbackCh1(DAC_HandleTypeDef *hdac)
+void HAL_DAC_ConvCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	ValidAudioHalf = &AudioOut[BSIZE];
 	LED_RED_ON;
@@ -842,7 +842,7 @@ void HAL_DACEx_ConvCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 
 }
 
-void HAL_DACEx_ConvHalfCpltCallbackCh1(DAC_HandleTypeDef *hdac)
+void HAL_DAC_ConvHalfCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	ValidAudioHalf = &AudioOut[0];
 	LED_RED_OFF;
@@ -1003,7 +1003,7 @@ void SystemClock_Config_For_OC(void)
 void UserInput(void)
 {
 	volatile HAL_StatusTypeDef result;
-	float SValue;
+
 
 	__HAL_UART_SEND_REQ (&huart3, UART_RXDATA_FLUSH_REQUEST);
 	__HAL_UART_CLEAR_OREFLAG (&huart3);
