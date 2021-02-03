@@ -198,7 +198,7 @@ int main(void)
 
 	// Don't forget to set a different SamplingRate in main.c
 	SystemClock_Config_For_OC();
-
+//	 SystemClock_Config();
 
   /* USER CODE END SysInit */
 
@@ -219,13 +219,13 @@ int main(void)
 	/* Run the ADC calibration in single-ended mode */
 	if (HAL_ADCEx_Calibration_Start(&hadc1, ADC_CALIB_OFFSET, ADC_SINGLE_ENDED) != HAL_OK)
 	{
-		/* Calibration Error */
+		// Calibration Error
 		Error_Handler();
 	}
 
 	if (HAL_ADCEx_Calibration_Start(&hadc2, ADC_CALIB_OFFSET, ADC_SINGLE_ENDED) != HAL_OK)
 	{
-		/* Calibration Error */
+		// Calibration Error
 		Error_Handler();
 	}
 
@@ -389,7 +389,7 @@ void SystemClock_Config(void)
   * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
   RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
@@ -435,8 +435,8 @@ void SystemClock_Config(void)
   PeriphClkInitStruct.PLL3.PLL3M = 4;
   PeriphClkInitStruct.PLL3.PLL3N = 240;
   PeriphClkInitStruct.PLL3.PLL3P = 2;
-  PeriphClkInitStruct.PLL3.PLL3Q = 2;
-  PeriphClkInitStruct.PLL3.PLL3R = 2;
+  PeriphClkInitStruct.PLL3.PLL3Q = 8;
+  PeriphClkInitStruct.PLL3.PLL3R = 4;
   PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_1;
   PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
   PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
@@ -887,28 +887,27 @@ void SystemClock_Config_For_OC(void)
 
 
 
-	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-	RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-	RCC_OscInitStruct.PLL.PLLM = 4;
-	RCC_OscInitStruct.PLL.PLLN = 480;
-	RCC_OscInitStruct.PLL.PLLP = 2;
-	RCC_OscInitStruct.PLL.PLLQ = 4;
-	RCC_OscInitStruct.PLL.PLLR = 2;
-	RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_1;
-	RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
-	RCC_OscInitStruct.PLL.PLLFRACN = 0;
 
+
+	  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+	  RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
+	  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+	  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+	  RCC_OscInitStruct.PLL.PLLM = 4;
+	  RCC_OscInitStruct.PLL.PLLN = 480;
+	  RCC_OscInitStruct.PLL.PLLP = 2;
+	  RCC_OscInitStruct.PLL.PLLQ = 2;
+	  RCC_OscInitStruct.PLL.PLLR = 2;
+	  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_1;
+	  RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
+	  RCC_OscInitStruct.PLL.PLLFRACN = 0;
 
 #ifdef USE_EXTERNAL_OSCILLATOR
 	RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS; // External clock on pin 29 CN 11 (PF0/PH0)
 #else
-	RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-#endif
 	RCC_OscInitStruct.HSEState = RCC_HSE_ON; //Xtal oscillator
-	RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-	RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+#endif
+	 RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_HSE;
 	RCC_OscInitStruct.PLL.PLLM = 2;
 #ifdef CLK_600M_CPU_150M_ADC
 	RCC_OscInitStruct.PLL.PLLN = 300;
@@ -956,7 +955,8 @@ void SystemClock_Config_For_OC(void)
 		Error_Handler();
 	}
 	PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_LPTIM2
-			|RCC_PERIPHCLK_ADC;
+			|RCC_PERIPHCLK_ADC|RCC_PERIPHCLK_USB;
+	 PeriphClkInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
 	PeriphClkInitStruct.PLL3.PLL3M = 4;
 #ifdef CLK_600M_CPU_150M_ADC
 	PeriphClkInitStruct.PLL3.PLL3N = 300;
@@ -983,11 +983,11 @@ void SystemClock_Config_For_OC(void)
 	PeriphClkInitStruct.PLL2.PLL2R = 2;
 	PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_1;
 	PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
-	PeriphClkInitStruct.PLL2.PLL2FRACN = 6000;
+	PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
 	PeriphClkInitStruct.PLL3.PLL3M = 4;
 	//	PeriphClkInitStruct.PLL3.PLL3N = 240;
 	PeriphClkInitStruct.PLL3.PLL3P = 2;
-	PeriphClkInitStruct.PLL3.PLL3Q = 2;
+	PeriphClkInitStruct.PLL3.PLL3Q = 8;
 	PeriphClkInitStruct.PLL3.PLL3R = 4;
 	PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_1;
 	PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
@@ -1001,7 +1001,9 @@ void SystemClock_Config_For_OC(void)
 	{
 		Error_Handler();
 	}
-
+	 /** Enable USB Voltage detector TODO: is it needed?
+	  */
+	  HAL_PWREx_EnableUSBVoltageDetector();
 	HAL_RCC_MCOConfig(RCC_MCO2, RCC_MCO2SOURCE_PLL2PCLK, RCC_MCODIV_1);
 
 	//	  HAL_RCC_MCOConfig(RCC_MCO2, RCC_MCO2SOURCE_HSE, RCC_MCODIV_3);
