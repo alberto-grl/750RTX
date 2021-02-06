@@ -191,10 +191,6 @@ int main(void)
 	/* Enable I-Cache---------------------------------------------------------*/
 	SCB_EnableICache();
 
-	/* Enable D-Cache---------------------------------------------------------*/
-#ifdef USE_DCACHE
-	SCB_EnableDCache();
-#endif
 
 	// Don't forget to set a different SamplingRate in main.c
 	SystemClock_Config_For_OC();
@@ -213,6 +209,13 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
+
+
+	/* Enable D-Cache---------------------------------------------------------*/
+#ifdef USE_DCACHE
+	SCB_EnableDCache();
+#endif
+
 	// Initialise again so we can change divider with a #define in main.h
 	MX_TIM6_Init_Custom_Rate();
 
@@ -389,7 +392,7 @@ void SystemClock_Config(void)
   * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
+  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
@@ -425,7 +428,7 @@ void SystemClock_Config(void)
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_LPTIM2
                               |RCC_PERIPHCLK_ADC|RCC_PERIPHCLK_USB;
   PeriphClkInitStruct.PLL2.PLL2M = 4;
-  PeriphClkInitStruct.PLL2.PLL2N = 144;
+  PeriphClkInitStruct.PLL2.PLL2N = 261;
   PeriphClkInitStruct.PLL2.PLL2P = 19;
   PeriphClkInitStruct.PLL2.PLL2Q = 2;
   PeriphClkInitStruct.PLL2.PLL2R = 2;
@@ -1004,7 +1007,7 @@ void SystemClock_Config_For_OC(void)
 	 /** Enable USB Voltage detector TODO: is it needed?
 	  */
 	  HAL_PWREx_EnableUSBVoltageDetector();
-	HAL_RCC_MCOConfig(RCC_MCO2, RCC_MCO2SOURCE_PLL2PCLK, RCC_MCODIV_1);
+//	HAL_RCC_MCOConfig(RCC_MCO2, RCC_MCO2SOURCE_PLL2PCLK, RCC_MCODIV_1);
 
 	//	  HAL_RCC_MCOConfig(RCC_MCO2, RCC_MCO2SOURCE_HSE, RCC_MCODIV_3);
 	//	  HAL_RCC_MCOConfig(RCC_MCO2, RCC_MCO2SOURCE_SYSCLK, RCC_MCODIV_10);
@@ -1074,7 +1077,8 @@ void UserInput(void)
 
 	SValue = 10 / 3.01 * log10(PeakAudioValue * 2000.0);
 	sprintf((char*)UartTXString, "S %-4.1f\r", SValue);
-	HAL_UART_Transmit(&huart3, (uint8_t *) UartTXString, strlen(UartTXString), 100);
+	//HAL_UART_Transmit(&huart3, (uint8_t *) UartTXString, strlen(UartTXString), 100);
+	CDC_Transmit_FS(UartTXString, strlen(UartTXString));
 }
 
 void DisplayStatus(void)
@@ -1113,7 +1117,9 @@ void DisplayStatus(void)
 	case Wide: strcpy(StringWidth,"Wide"); break;
 	}
 	sprintf(UartTXString, "          Freq %.0f Step %s Mode %s BW %s AGG %s Volume %1.1f   \r", LOfreq, StringStep, StringMode, StringWidth, StringAGC, volume);
-	HAL_UART_Transmit(&huart3, (uint8_t *) UartTXString, strlen(UartTXString), 100);
+	//HAL_UART_Transmit(&huart3, (uint8_t *) UartTXString, strlen(UartTXString), 100);
+
+	CDC_Transmit_FS(UartTXString, strlen(UartTXString));
 }
 
 
