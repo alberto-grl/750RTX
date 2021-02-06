@@ -96,6 +96,8 @@ EXTERN uint8_t        Muted;
 EXTERN char      msg[32];
 EXTERN float SValue;
 
+
+
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;
 //TODO EXTERN EXTI_InitTypeDef      EXTI_InitStructure;
 

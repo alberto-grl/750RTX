@@ -145,6 +145,10 @@ extern void SetFOut(uint32_t);
 //#define TEST_NO_SDR
 //#define TEST_FRAC_DIV
 
+//#define UART_UI
+#define USB_UI
+
+
 #define BSIZE        (512)
 #define FFTLEN       (BSIZE*2)
 #define NUMFIRCOEFS  64
