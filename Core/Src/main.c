@@ -320,7 +320,7 @@ int main(void)
 	//	 SetFOut(20700000);
 
 	/* Enable PLL2FRACN . */
-	__HAL_RCC_PLL2FRACN_ENABLE();
+//	__HAL_RCC_PLL2FRACN_ENABLE();
 
 
 	/*
