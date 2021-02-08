@@ -129,7 +129,7 @@ extern void SetFOut(uint32_t);
 #define USE_DCACHE
 
 // Uncomment for external 8 MHz clock instead of internal xtal oscillator
-//#define USE_EXTERNAL_OSCILLATOR
+#define USE_EXTERNAL_OSCILLATOR
 
 //#define USE_EXTERNAL_MIXER
 
@@ -140,7 +140,8 @@ extern void SetFOut(uint32_t);
 //#define CLK_500M_CPU_128M_ADC
 //#define CLK_480M_CPU_120M_ADC /*old board*/
 //#define CLK_600M_CPU_60M_ADC
-#define CLK_600M_CPU_160M_ADC /* new board */
+//#define CLK_600M_CPU_160M_ADC /* new board */
+#define CLK_600M_CPU_160M_ADC_XTAL25 /* new board */
 
 //#define TEST_NO_SDR
 //#define TEST_FRAC_DIV
