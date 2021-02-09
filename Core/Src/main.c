@@ -46,7 +46,7 @@
   FFT Filters https://www.danvillesignal.com/images/pdfs/compdsp_Borgerding_FFT_slides2.pdf http://dsp-book.narod.ru/DSPMW/08.PDF
   Measuring inductance https://daycounter.com/Articles/How-To-Measure-Inductance.phtml
   RF Filters https://rf-tools.com/lc-filter/
-
+  Only terminal for Android that supports escape codes is DroidTerm, AFAIK.
 
   MCO2 output is pin PC9, CN8 pin 4.
  */
@@ -195,7 +195,7 @@ int main(void)
 	// Don't forget to set a different SamplingRate in main.c
 	SystemClock_Config_For_OC();
 	//	 SystemClock_Config();
-
+	  HAL_Delay(20);  //needed for USB setup. USB somentimes (and almost always oh an Android phone) does not initialize
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -354,7 +354,7 @@ while (1)
 		/* complete callback.*/
 
 		UserInput();
-		//	  HAL_Delay(10);
+			  HAL_Delay(100);
 		if (ubADCDualConversionComplete == RESET)
 		{
 			//	    	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
@@ -1067,6 +1067,8 @@ void UserInput(void)
 			SetFstep(1); break;
 		case 56: //8
 			SetFstep(0); break;
+		case 57: //9
+			SetFstep(9); break;
 		case 108: //L
 			SetMode((Mode)LSB); break;
 		case 117: //U
@@ -1099,7 +1101,7 @@ void UserInput(void)
 	}
 
 	SValue = 10 / 3.01 * log10(PeakAudioValue * 2000.0);
-	sprintf((char*)UartTXString, "S %-4.1f\r", SValue);
+	sprintf((char*)UartTXString, "\e[1;1HS %-4.1f\r", SValue);
 #ifdef UART_UI
 	HAL_UART_Transmit(&huart3, (uint8_t *) UartTXString, strlen(UartTXString), 100);
 #endif
@@ -1123,6 +1125,7 @@ void DisplayStatus(void)
 	case 10: strcpy(StringStep,"  10"); break;
 	case 100: strcpy(StringStep," 100"); break;
 	case 1000: strcpy(StringStep,"  1K"); break;
+	case 9000: strcpy(StringStep,"   9K"); break;
 	case 10000: strcpy(StringStep," 10K"); break;
 	case 100000: strcpy(StringStep,"100K"); break;
 	}
@@ -1144,7 +1147,7 @@ void DisplayStatus(void)
 	case Narrow: strcpy(StringWidth,"Narrow"); break;
 	case Wide: strcpy(StringWidth,"Wide"); break;
 	}
-	sprintf(UartTXString, "          Freq %.0f Step %s Mode %s BW %s AGG %s Volume %1.1f   \r", LOfreq, StringStep, StringMode, StringWidth, StringAGC, volume);
+	sprintf(UartTXString, "\e[3;1HFreq %.0f Step %s\e[5;1HMode %s BW %s AGG %s Volume %1.1f   \r", LOfreq, StringStep, StringMode, StringWidth, StringAGC, volume);
 #ifdef UART_UI
 	//HAL_UART_Transmit(&huart3, (uint8_t *) UartTXString, strlen(UartTXString), 100);
 #endif

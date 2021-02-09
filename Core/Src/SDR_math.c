@@ -109,17 +109,24 @@ void SDR_downconvert_f32(uint16_t* signal, float offset, float* zeroIF_R, float*
   blkCnt = BSIZE >> 2u;   // loop unrolling.  Compute 4 outputs at a time
   while(blkCnt)
   {  // DMA Mode2, first ADC2 then ADC1...
-/*
+	  /*
      tmp1=((*(pt+1)-offset)) / 2048.f;
 		 tmp2=((*(pt)  -offset)) / 2048.f;
 		 tmp3=((*(pt+3)-offset)) / 2048.f;
 		 tmp4=((*(pt+2)-offset)) / 2048.f;
 */
+#ifdef TEST_SINGLE_ADC
+    tmp2=((*(pt+1)-offset)) / 2048.f;
+	tmp1 = tmp2;
+	tmp4=((*(pt+3)-offset)) / 2048.f;
+	tmp3 = tmp4;
+#else
+    tmp2=((*(pt+1)-offset)) / 2048.f;
+    tmp1=((*(pt)  -offset)) / 2048.f;
+	tmp4=((*(pt+3)-offset)) / 2048.f;
+	tmp3=((*(pt+2)-offset)) / 2048.f;
+#endif
 
-     tmp2=((*(pt+1)-offset)) / 2048.f;
-		 tmp1=((*(pt)  -offset)) / 2048.f;
-		 tmp4=((*(pt+3)-offset)) / 2048.f;
-		 tmp3=((*(pt+2)-offset)) / 2048.f;
 
     *zeroIF_R++ = *LOR++ * tmp1;  *zeroIF_I++ = *LOI++ * tmp1;
 		 *zeroIF_R++ = *LOR++ * tmp2;  *zeroIF_I++ = *LOI++ * tmp2;

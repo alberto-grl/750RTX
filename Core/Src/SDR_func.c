@@ -203,7 +203,10 @@ void SetMode(/*WM_HWIN ptr,*/ Mode newmode)
 // Set the frequency step according to the radio button pressed by the user
 void SetFstep(int idx)
 {
-	Fstep = pow(10, 5 - idx);
+	if (idx == 9)
+		Fstep = 9000;  // MW Channel for Europe
+	else
+	    Fstep = pow(10, 5 - idx);
 }	
 //-----------------------------------------------------------------------------
 // Increase the frequency by the value of the current step

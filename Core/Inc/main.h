@@ -149,6 +149,8 @@ extern void SetFOut(uint32_t);
 //#define UART_UI
 #define USB_UI
 
+//#define TEST_SINGLE_ADC
+
 
 #define BSIZE        (512)
 #define FFTLEN       (BSIZE*2)
