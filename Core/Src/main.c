@@ -278,7 +278,9 @@ int main(void)
 #endif
 	SetFOutVHF(10000000);
 
-	SamplingRate = SamplingRate * 4000000.f / 3999300.f; // Correct Xtal error
+	// SamplingRate = SamplingRate * 4000000.f / 3999300.f; // Correct Xtal error
+
+	SamplingRate = SamplingRate * 4000000.f / 4000000.f; // Correct Xtal error
 
 	AudioRate = SamplingRate / 4 /16.f / 4.f; //First decimation was 16, now is 64
 	SDR_compute_IIR_parms();  // compute the IIR parms for the CW peak filter
