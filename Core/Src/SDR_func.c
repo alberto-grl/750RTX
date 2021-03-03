@@ -95,30 +95,35 @@ void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 		break;
 
 	case LSB :
-		/* TODO rimettere
+
 		bw[LSB] = newbw;
 		LSBindex = (newbw == Narrow) ? 0 : 1;
+		AMindex = (newbw == Narrow) ? 0 : 1;
+		LSBindex = 0; // TODO toglimi
 		SDR_2R_toC_f32((float *)FFTmaskSSB_R[LSBindex],
 				(float *)FFTmaskSSB_I[LSBindex], FFTmask, FFTLEN);
-		*/
+
 		break;
 
 	case USB :
-		/* TODO rimettere
+
 		bw[USB] = newbw;
 		USBindex = (newbw == Narrow) ? 0 : 1;
+		AMindex = (newbw == Narrow) ? 0 : 1;
+		USBindex = 0; // TODO toglimi
 		SDR_2R_toC_f32((float *)FFTmaskSSB_R[USBindex],
 				(float *)FFTmaskSSB_I[USBindex], FFTmask, FFTLEN);
-		*/
+
 		break;
 
 	case CW  :
-		/* TODO rimettere
+
 		bw[CW] = newbw;
 		CWindex = (newbw == Narrow) ? 0 : 1;
+		CWindex = 0; // TODO toglimi
 		SDR_2R_toC_f32((float *)FFTmaskCW_R[CWindex],
 				(float *)FFTmaskCW_I[CWindex], FFTmask, FFTLEN);
-	*/
+
 		break;
 
 	default :
