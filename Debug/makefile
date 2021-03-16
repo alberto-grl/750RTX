@@ -1,5 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
+# Toolchain: GNU Tools for STM32 (9-2020-q2-update)
 ################################################################################
 
 -include ../makefile.init
@@ -32,6 +33,12 @@ endif
 
 -include ../makefile.defs
 
+OPTIONAL_TOOL_DEPS := \
+$(wildcard ../makefile.defs) \
+$(wildcard ../makefile.init) \
+$(wildcard ../makefile.targets) \
+
+
 BUILD_ARTIFACT_NAME := 750RTX
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX := 
@@ -58,22 +65,22 @@ all: main-build
 main-build: 750RTX.elf secondary-outputs
 
 # Tool invocations
-750RTX.elf: $(OBJS) $(USER_OBJS) C:\Users\alberto\STM32CubeIDE\workspace_1.3.0\750RTX\STM32H750VBTX_FLASH.ld
-	arm-none-eabi-gcc -o "750RTX.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\alberto\STM32CubeIDE\workspace_1.3.0\750RTX\STM32H750VBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="750RTX.map" -Wl,--gc-sections -static -L"C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.7.0\Drivers\CMSIS/Lib/GCC" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+750RTX.elf: $(OBJS) $(USER_OBJS) C:\Users\albytest\STM32CubeIDE\workspaceArmRadioH7\750RTX\STM32H750VBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "750RTX.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\albytest\STM32CubeIDE\workspaceArmRadioH7\750RTX\STM32H750VBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="750RTX.map" -Wl,--gc-sections -static -Wl,--start-group -larm_cortexM7lfsp_math -Wl,--end-group -L"C:\Users\albytest\STM32Cube\Repository\STM32Cube_FW_H7_V1.7.0\Drivers\CMSIS/Lib/GCC" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-default.size.stdout: $(EXECUTABLES)
+default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-size  $(EXECUTABLES)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-750RTX.list: $(EXECUTABLES)
+750RTX.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "750RTX.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-750RTX.bin: $(EXECUTABLES)
+750RTX.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "750RTX.bin"
 	@echo 'Finished building: $@'
 	@echo ' '

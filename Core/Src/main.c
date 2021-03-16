@@ -145,6 +145,7 @@ __IO ITStatus UartTXFinished = RESET;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void PeriphCommonClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_ADC1_Init(void);
@@ -185,6 +186,9 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
+/* Configure the peripherals common clocks */
+  PeriphCommonClock_Config();
+
   /* USER CODE BEGIN SysInit */
 #endif
 
@@ -194,8 +198,11 @@ int main(void)
 
 	// Don't forget to set a different SamplingRate in main.c
 	SystemClock_Config_For_OC();
+
+	/* Configure the peripherals common clocks */
+	  PeriphCommonClock_Config();
 	//	 SystemClock_Config();
-	  HAL_Delay(20);  //needed for USB setup. USB somentimes (and almost always oh an Android phone) does not initialize
+	HAL_Delay(20);  //needed for USB setup. USB somentimes (and almost always oh an Android phone) does not initialize
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -276,7 +283,8 @@ int main(void)
 #ifdef CLK_600M_CPU_160M_ADC_XTAL25
 	SamplingRate = ((160000000) / 4) * 2 / 8.f;//ADC Clock /async div * 2 ADC channels /8 cycles for 12 bit ADC
 #endif
-	SetFOutVHF(10000000);
+	TXEnable(1);
+	SetFOut(7000000);
 
 	// SamplingRate = SamplingRate * 4000000.f / 3999300.f; // Correct Xtal error
 
@@ -324,7 +332,7 @@ int main(void)
 	//	 SetFOut(20700000);
 
 	/* Enable PLL2FRACN . */
-//	__HAL_RCC_PLL2FRACN_ENABLE();
+	//	__HAL_RCC_PLL2FRACN_ENABLE();
 
 
 	/*
@@ -343,6 +351,8 @@ while (1)
 
 	 */
 
+	// Funziona? serve?		SET_BIT(hadc1.Instance->CFGR, ADC_CFGR_AWD1EN);
+
 	while (1)
 	{
     /* USER CODE END WHILE */
@@ -356,7 +366,7 @@ while (1)
 		/* complete callback.*/
 
 		UserInput();
-			  HAL_Delay(100);
+		HAL_Delay(100);
 		if (ubADCDualConversionComplete == RESET)
 		{
 			//	    	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
@@ -379,7 +389,6 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
   /** Supply configuration update enable
   */
@@ -429,36 +438,45 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART3|RCC_PERIPHCLK_LPTIM2
-                              |RCC_PERIPHCLK_ADC|RCC_PERIPHCLK_USB;
-  PeriphClkInitStruct.PLL2.PLL2M = 25;
-  PeriphClkInitStruct.PLL2.PLL2N = 261;
-  PeriphClkInitStruct.PLL2.PLL2P = 19;
+  HAL_RCC_MCOConfig(RCC_MCO2, RCC_MCO2SOURCE_PLL2PCLK, RCC_MCODIV_1);
+}
+
+/**
+  * @brief Peripherals Common Clock Configuration
+  * @retval None
+  */
+void PeriphCommonClock_Config(void)
+{
+  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+
+  /** Enables PLL2P clock output
+  */
+  __HAL_RCC_PLL2CLKOUT_ENABLE(RCC_PLL2_DIVP);
+  /** Initializes the peripherals clock
+  */
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADC|RCC_PERIPHCLK_LPTIM2;
+  PeriphClkInitStruct.PLL2.PLL2M = 4;
+  PeriphClkInitStruct.PLL2.PLL2N = 38;
+  PeriphClkInitStruct.PLL2.PLL2P = 24;
   PeriphClkInitStruct.PLL2.PLL2Q = 2;
   PeriphClkInitStruct.PLL2.PLL2R = 2;
-  PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_0;
+  PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_2;
   PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
   PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
   PeriphClkInitStruct.PLL3.PLL3M = 5;
-  PeriphClkInitStruct.PLL3.PLL3N = 120;
+  PeriphClkInitStruct.PLL3.PLL3N = 80;
   PeriphClkInitStruct.PLL3.PLL3P = 2;
   PeriphClkInitStruct.PLL3.PLL3Q = 8;
   PeriphClkInitStruct.PLL3.PLL3R = 5;
   PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_2;
   PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
   PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
-  PeriphClkInitStruct.Usart234578ClockSelection = RCC_USART234578CLKSOURCE_D2PCLK1;
-  PeriphClkInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
   PeriphClkInitStruct.Lptim2ClockSelection = RCC_LPTIM2CLKSOURCE_PLL2;
   PeriphClkInitStruct.AdcClockSelection = RCC_ADCCLKSOURCE_PLL3;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
     Error_Handler();
   }
-  HAL_RCC_MCOConfig(RCC_MCO2, RCC_MCO2SOURCE_PLL2PCLK, RCC_MCODIV_1);
-  /** Enable USB Voltage detector
-  */
-  HAL_PWREx_EnableUSBVoltageDetector();
 }
 
 /**
@@ -474,6 +492,7 @@ static void MX_ADC1_Init(void)
   /* USER CODE END ADC1_Init 0 */
 
   ADC_MultiModeTypeDef multimode = {0};
+  ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
   ADC_ChannelConfTypeDef sConfig = {0};
 
   /* USER CODE BEGIN ADC1_Init 1 */
@@ -509,6 +528,18 @@ static void MX_ADC1_Init(void)
   {
     Error_Handler();
   }
+  /** Configure Analog WatchDog 1
+  */
+  AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
+  AnalogWDGConfig.WatchdogMode = ADC_ANALOGWATCHDOG_SINGLE_REG;
+  AnalogWDGConfig.Channel = ADC_CHANNEL_5;
+  AnalogWDGConfig.ITMode = ENABLE;
+  AnalogWDGConfig.HighThreshold = 4094;
+  AnalogWDGConfig.LowThreshold = 1;
+  if (HAL_ADC_AnalogWDGConfig(&hadc1, &AnalogWDGConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /** Configure Regular Channel
   */
   sConfig.Channel = ADC_CHANNEL_5;
@@ -540,6 +571,7 @@ static void MX_ADC2_Init(void)
 
   /* USER CODE END ADC2_Init 0 */
 
+  ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
   ADC_ChannelConfTypeDef sConfig = {0};
 
   /* USER CODE BEGIN ADC2_Init 1 */
@@ -561,6 +593,18 @@ static void MX_ADC2_Init(void)
   hadc2.Init.LeftBitShift = ADC_LEFTBITSHIFT_NONE;
   hadc2.Init.OversamplingMode = DISABLE;
   if (HAL_ADC_Init(&hadc2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure Analog WatchDog 1
+  */
+  AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
+  AnalogWDGConfig.WatchdogMode = ADC_ANALOGWATCHDOG_SINGLE_REG;
+  AnalogWDGConfig.Channel = ADC_CHANNEL_5;
+  AnalogWDGConfig.ITMode = ENABLE;
+  AnalogWDGConfig.HighThreshold = 4094;
+  AnalogWDGConfig.LowThreshold = 1;
+  if (HAL_ADC_AnalogWDGConfig(&hadc2, &AnalogWDGConfig) != HAL_OK)
   {
     Error_Handler();
   }
@@ -782,6 +826,9 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(TX_ENA_GPIO_Port, TX_ENA_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : SwInt1_Pin */
@@ -789,6 +836,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(SwInt1_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : TX_ENA_Pin */
+  GPIO_InitStruct.Pin = TX_ENA_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(TX_ENA_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PC9 */
   GPIO_InitStruct.Pin = GPIO_PIN_9;
@@ -975,9 +1029,9 @@ void SystemClock_Config_For_OC(void)
 	PeriphClkInitStruct.PLL2.PLL2P = 16;
 	PeriphClkInitStruct.PLL2.PLL2Q = 2;
 	PeriphClkInitStruct.PLL2.PLL2R = 2;
-		PeriphClkInitStruct.PLL3.PLL3P = 2;
-		PeriphClkInitStruct.PLL3.PLL3Q = 8;
-		PeriphClkInitStruct.PLL3.PLL3R = 4;
+	PeriphClkInitStruct.PLL3.PLL3P = 2;
+	PeriphClkInitStruct.PLL3.PLL3Q = 8;
+	PeriphClkInitStruct.PLL3.PLL3R = 4;
 	PeriphClkInitStruct.PLL3.PLL3M = 4;
 #ifdef CLK_600M_CPU_150M_ADC
 	PeriphClkInitStruct.PLL3.PLL3N = 300;
@@ -1024,11 +1078,20 @@ void SystemClock_Config_For_OC(void)
 	/** Enable USB Voltage detector TODO: is it needed?
 	 */
 	HAL_PWREx_EnableUSBVoltageDetector();
-	//	HAL_RCC_MCOConfig(RCC_MCO2, RCC_MCO2SOURCE_PLL2PCLK, RCC_MCODIV_1);
+		HAL_RCC_MCOConfig(RCC_MCO2, RCC_MCO2SOURCE_PLL2PCLK, RCC_MCODIV_1);
 
 	//	  HAL_RCC_MCOConfig(RCC_MCO2, RCC_MCO2SOURCE_HSE, RCC_MCODIV_3);
 	//	  HAL_RCC_MCOConfig(RCC_MCO2, RCC_MCO2SOURCE_SYSCLK, RCC_MCODIV_10);
 }
+
+void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
+{
+	OVFDetected = OVF_TIMEOUT;
+	/* Reset register IER */
+	 __HAL_ADC_DISABLE_IT(&hadc1, (ADC_IT_AWD1));
+	 __HAL_ADC_DISABLE_IT(&hadc2, (ADC_IT_AWD1));
+}
+
 
 void UserInput(void)
 {
@@ -1104,6 +1167,32 @@ void UserInput(void)
 
 	SValue = 10 / 3.01 * log10(PeakAudioValue * 2000.0);
 	sprintf((char*)UartTXString, "\e[1;1HS %-4.1f\r", SValue);
+
+#ifdef UART_UI
+	HAL_UART_Transmit(&huart3, (uint8_t *) UartTXString, strlen(UartTXString), 100);
+#endif
+#ifdef USB_UI
+	CDC_Transmit_FS(UartTXString, strlen(UartTXString));
+#endif
+
+
+	if (OVFDetected)
+	{
+		sprintf((char*)UartTXString, "\e[4;1HOVF\r");
+		OVFDetected--;
+		/* Clear ADC analog watchdog flag */
+		__HAL_ADC_CLEAR_FLAG(&hadc1, ADC_FLAG_AWD1);
+		__HAL_ADC_CLEAR_FLAG(&hadc2, ADC_FLAG_AWD1);
+		if (!OVFDetected)
+		{
+			/* Reset register IER */
+				 __HAL_ADC_ENABLE_IT(&hadc1, (ADC_IT_AWD1));
+				 __HAL_ADC_ENABLE_IT(&hadc2, (ADC_IT_AWD1));
+		}
+	} else
+	{
+		sprintf((char*)UartTXString, "\e[4;1H   \r");
+	}
 #ifdef UART_UI
 	HAL_UART_Transmit(&huart3, (uint8_t *) UartTXString, strlen(UartTXString), 100);
 #endif
@@ -1250,8 +1339,8 @@ M = 4
 P = 24
 MCODIV = 1
 	 */
-	DivN2 = (((uint64_t)FHz * 24 * 4 * 0x2000) / (uint64_t)8000000) >> 13;
-	FracN2 = (((uint64_t)FHz * 24 * 4* 0x2000) / (uint64_t)8000000) & 0x1FFF;
+	DivN2 = (((uint64_t)FHz * 24 * 4 * 0x2000) / (uint64_t)25000000) >> 13;
+//	FracN2 = (((uint64_t)FHz * 24 * 4* 0x2000) / (uint64_t)8000000) & 0x1FFF;
 
 	__HAL_RCC_PLL2_DISABLE();
 	__HAL_RCC_PLL2_CONFIG(4, DivN2, 24, 2, 2);
@@ -1291,6 +1380,14 @@ MCODIV = 1
 	__HAL_RCC_PLL2_ENABLE();
 
 
+}
+
+void TXEnable(uint8_t Status)
+{
+	if (Status)
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
+	else
+		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
 }
 
 /* USER CODE END 4 */

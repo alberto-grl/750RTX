@@ -95,6 +95,7 @@ EXTERN __IO uint32_t uwTick;
 EXTERN uint8_t        Muted;
 EXTERN char      msg[32];
 EXTERN float SValue;
+EXTERN uint16_t OVFDetected;
 
 
 

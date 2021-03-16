@@ -122,6 +122,8 @@ extern void SetFOut(uint32_t);
 #define SwInt1_Pin GPIO_PIN_14
 #define SwInt1_GPIO_Port GPIOC
 #define SwInt1_EXTI_IRQn EXTI15_10_IRQn
+#define TX_ENA_Pin GPIO_PIN_11
+#define TX_ENA_GPIO_Port GPIOD
 #define LED_GREEN_Pin GPIO_PIN_8
 #define LED_GREEN_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
@@ -165,6 +167,8 @@ extern void SetFOut(uint32_t);
 #define myPI         3.14159265358979f
 #define TWOPI        (2.f*myPI)
 #define CWPITCH      650.f
+
+#define OVF_TIMEOUT 2
 
 
 
