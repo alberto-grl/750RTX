@@ -200,7 +200,7 @@ int main(void)
 	SystemClock_Config_For_OC();
 
 	/* Configure the peripherals common clocks */
-	PeriphCommonClock_Config();
+	//PeriphCommonClock_Config();
 	//	 SystemClock_Config();
 	HAL_Delay(20);  //needed for USB setup. USB somentimes (and almost always oh an Android phone) does not initialize
 	/* USER CODE END SysInit */
@@ -283,7 +283,7 @@ int main(void)
 #ifdef CLK_600M_CPU_160M_ADC_XTAL25
 	SamplingRate = ((160000000) / 4) * 2 / 8.f;//ADC Clock /async div * 2 ADC channels /8 cycles for 12 bit ADC
 #endif
-	TXEnable(0);
+	TXEnable(1);
 	SetFOut(7000000);
 
 	// SamplingRate = SamplingRate * 4000000.f / 3999300.f; // Correct Xtal error
@@ -1066,13 +1066,16 @@ void SystemClock_Config_For_OC(void)
 #endif
 #ifdef CLK_600M_CPU_160M_ADC_XTAL25
 
-	PeriphClkInitStruct.PLL2.PLL2M = 25;
-	PeriphClkInitStruct.PLL2.PLL2N = 240;
+	PeriphClkInitStruct.PLL2.PLL2M = 4;
+	PeriphClkInitStruct.PLL2.PLL2N = 38;
+	PeriphClkInitStruct.PLL2.PLL2P = 24;
+	PeriphClkInitStruct.PLL2.PLL2Q = 2;
+	PeriphClkInitStruct.PLL2.PLL2R = 2;
 	PeriphClkInitStruct.PLL3.PLL3M = 5;
 	PeriphClkInitStruct.PLL3.PLL3N = 160;
 	PeriphClkInitStruct.PLL3.PLL3R = 5;
 #endif
-	PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_1;
+	PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_2;
 	PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
 	PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
 
