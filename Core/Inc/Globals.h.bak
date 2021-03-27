@@ -97,9 +97,6 @@ EXTERN char      msg[32];
 EXTERN float SValue;
 EXTERN uint16_t OVFDetected;
 
-#ifdef FAKE_RF_SIGNAL
-EXTERN uint16_t TestSignalData[BSIZE];
-#endif
 
 
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;

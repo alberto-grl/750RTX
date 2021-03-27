@@ -135,8 +135,6 @@ extern void SetFOut(uint32_t);
 
 //#define USE_EXTERNAL_MIXER
 
-#define FAKE_RF_SIGNAL
-
 // Select CPU and ADC Clock. Uncomment only one at a time
 //#define CLK_600M_CPU_150M_ADC
 //TODO 500 128 seems to be bad

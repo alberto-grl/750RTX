@@ -341,11 +341,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 
 
-//FFT returns BUFLEN/2 bins, 1024. Each bin size is FADC/ decimation /FFT size
-// eg 10000000 / 64 / 4 / 1024 = 38.14697 Hz
-// when NCO F is higher than signal then the highest elements are filled
-//eg NCO 625381, signal 625000, FFTbuf elements filled are 2028 and 2029
-//FFTBuf 1023 and 1025 are the farest from NCO freq.
+
 
 	// compute the direct FFT
 	arm_cfft_f32(&arm_cfft_sR_f32_len1024, FFTbuf, DIRECTFFT, NOREVERSE);
@@ -442,6 +438,12 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 	volatile uint16_t *pR;
 	static uint16_t IntCounter;
 
+	#define AG_TEST_SIGNAL
+
+#ifdef AG_TEST_SIGNAL
+uint16_t test_data[BSIZE];
+#endif
+
 
 //LED_YELLOW_ON;
 
@@ -476,8 +478,21 @@ else
 
 
 
-#ifdef FAKE_RF_SIGNAL
-pR=TestSignalData;
+#ifdef AG_TEST_SIGNAL
+pR=test_data;
+
+// ARMRadio for M7 60 M: Generate a fake RF carrier at 3750.000 / 16 = 234.375 KHz
+// ARMRadio for M7 150 M: Generate a fake RF carrier at 9375.000 / 16 = 585.9375 KHz
+// ARMRadio for M7 120 M : Generate a fake RF carrier at 7500.000 / 16 = 468.750 KHz
+// ARMRadio for M4: Generate a fake RF carrier at 1.785714 / 16 = 111.607 KHz
+
+for (k=0; k< BSIZE; k++)
+{
+	if (k % 16 > 7)
+		pR[k] = 2048 + 10;
+	else
+		pR[k] = 2048 - 10;
+}
 #endif
 
 
