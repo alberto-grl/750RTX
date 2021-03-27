@@ -4895,8 +4895,8 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  80028b2:	f04f 0901 	mov.w	r9, #1
   hadc1.Instance = ADC1;
  80028b6:	4dbf      	ldr	r5, [pc, #764]	; (8002bb4 <main+0x35c>)
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV4;
- 80028b8:	f44f 2a00 	mov.w	sl, #524288	; 0x80000
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV2;
+ 80028b8:	f44f 2a80 	mov.w	sl, #262144	; 0x40000
   GPIO_InitTypeDef GPIO_InitStruct = {0};
  80028bc:	e9cd 442c 	strd	r4, r4, [sp, #176]	; 0xb0
  80028c0:	e9cd 442f 	strd	r4, r4, [sp, #188]	; 0xbc
