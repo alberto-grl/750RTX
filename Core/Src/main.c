@@ -262,21 +262,24 @@ int main(void)
 	Hangcount[Slow] = 30;
 	AgcThreshold    = 1.92e-4f;
 
+
+
 #ifdef FAKE_RF_SIGNAL
 
 	uint16_t k;
 
-	// ARMRadio for M7 60 M: Generate a fake RF carrier at 3750.000 / 16 = 234.375 KHz
-	// ARMRadio for M7 150 M: Generate a fake RF carrier at 9375.000 / 16 = 585.9375 KHz
-	// ARMRadio for M7 120 M : Generate a fake RF carrier at 7500.000 / 16 = 468.750 KHz
+	// ARMRadio for M7 ADC 60 M: Generate a fake RF carrier at 3750.000 / 16 = 234.375 KHz
+	// ARMRadio for M7 ADC 150 M: Generate a fake RF carrier at 9375.000 / 16 = 585.9375 KHz
+	// ARMRadio for M7 ADC 160 M: Generate a fake RF carrier at 10000.000 / 16 = 625 KHz
+	// ARMRadio for M7 ADC 120 M : Generate a fake RF carrier at 7500.000 / 16 = 468.750 KHz
 	// ARMRadio for M4: Generate a fake RF carrier at 1.785714 / 16 = 111.607 KHz
 
 	for (k=0; k< BSIZE; k++)
 	{
 		if (k % 16 > 7)
-			TestSignalData[k] = 2048 + 10;
+			TestSignalData[k] = 2048 + 100;
 		else
-			TestSignalData[k] = 2048 - 10;
+			TestSignalData[k] = 2048 - 100;
 	}
 #endif
 
@@ -301,6 +304,15 @@ int main(void)
 #endif
 #ifdef CLK_600M_CPU_160M_ADC_XTAL25
 	SamplingRate = ((160000000) / 4) * 2 / 8.f;//ADC Clock /async div * 2 ADC channels /8 cycles for 12 bit ADC
+#endif
+#ifdef CLK_620M_CPU_160M_ADC_XTAL25
+	SamplingRate = ((160000000) / 4) * 2 / 8.f;//ADC Clock /async div * 2 ADC channels /8 cycles for 12 bit ADC
+#endif
+#ifdef CLK_640M_CPU_160M_ADC_XTAL25
+	SamplingRate = ((160000000) / 4) * 2 / 8.f;//ADC Clock /async div * 2 ADC channels /8 cycles for 12 bit ADC
+#endif
+#ifdef CLK_600M_CPU_150M_ADC_XTAL25
+	SamplingRate = ((150000000) / 4) * 2 / 8.f;//ADC Clock /async div * 2 ADC channels /8 cycles for 12 bit ADC
 #endif
 	TXEnable(0);
 	SetFOut(7000000);
@@ -335,6 +347,7 @@ int main(void)
 
 	///////////////
 	HAL_TIM_Base_Start(&htim6);
+	//TIM6->CNT = 0;
 	HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
 	HAL_DAC_Start_DMA(&hdac1, DAC_CHANNEL_1, (uint32_t*)AudioOut, BSIZE * 2, DAC_ALIGN_12B_R);
 
@@ -420,7 +433,7 @@ void SystemClock_Config(void)
   HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
   /** Configure the main internal regulator output voltage
   */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
 
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
   /** Macro to configure the PLL clock source
@@ -435,7 +448,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 10;
-  RCC_OscInitStruct.PLL.PLLN = 250;
+  RCC_OscInitStruct.PLL.PLLN = 383;
   RCC_OscInitStruct.PLL.PLLP = 2;
   RCC_OscInitStruct.PLL.PLLQ = 2;
   RCC_OscInitStruct.PLL.PLLR = 2;
@@ -459,7 +472,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
   RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
   {
     Error_Handler();
   }
@@ -1021,8 +1034,20 @@ void SystemClock_Config_For_OC(void)
 	RCC_OscInitStruct.PLL.PLLN = 300;
 #endif
 #ifdef CLK_600M_CPU_160M_ADC_XTAL25
-	RCC_OscInitStruct.PLL.PLLM = 5;
-	RCC_OscInitStruct.PLL.PLLN = 240;
+	RCC_OscInitStruct.PLL.PLLM = 10;
+	RCC_OscInitStruct.PLL.PLLN = 480;
+#endif
+#ifdef CLK_620M_CPU_160M_ADC_XTAL25
+	RCC_OscInitStruct.PLL.PLLM = 10;
+	RCC_OscInitStruct.PLL.PLLN = 496;
+#endif
+#ifdef CLK_640M_CPU_160M_ADC_XTAL25
+	RCC_OscInitStruct.PLL.PLLM = 10;
+	RCC_OscInitStruct.PLL.PLLN = 512;
+#endif
+#ifdef CLK_600M_CPU_150M_ADC_XTAL25
+	RCC_OscInitStruct.PLL.PLLM = 10;
+	RCC_OscInitStruct.PLL.PLLN = 480;
 #endif
 	RCC_OscInitStruct.PLL.PLLP = 2;
 	RCC_OscInitStruct.PLL.PLLQ = 4;
@@ -1092,6 +1117,39 @@ void SystemClock_Config_For_OC(void)
 	PeriphClkInitStruct.PLL2.PLL2R = 2;
 	PeriphClkInitStruct.PLL3.PLL3M = 5;
 	PeriphClkInitStruct.PLL3.PLL3N = 160;
+	PeriphClkInitStruct.PLL3.PLL3R = 5;
+#endif
+#ifdef CLK_620M_CPU_160M_ADC_XTAL25
+
+	PeriphClkInitStruct.PLL2.PLL2M = 4;
+	PeriphClkInitStruct.PLL2.PLL2N = 38;
+	PeriphClkInitStruct.PLL2.PLL2P = 24;
+	PeriphClkInitStruct.PLL2.PLL2Q = 2;
+	PeriphClkInitStruct.PLL2.PLL2R = 2;
+	PeriphClkInitStruct.PLL3.PLL3M = 5;
+	PeriphClkInitStruct.PLL3.PLL3N = 160;
+	PeriphClkInitStruct.PLL3.PLL3R = 5;
+#endif
+#ifdef CLK_640M_CPU_160M_ADC_XTAL25
+
+	PeriphClkInitStruct.PLL2.PLL2M = 4;
+	PeriphClkInitStruct.PLL2.PLL2N = 38;
+	PeriphClkInitStruct.PLL2.PLL2P = 24;
+	PeriphClkInitStruct.PLL2.PLL2Q = 2;
+	PeriphClkInitStruct.PLL2.PLL2R = 2;
+	PeriphClkInitStruct.PLL3.PLL3M = 5;
+	PeriphClkInitStruct.PLL3.PLL3N = 160;
+	PeriphClkInitStruct.PLL3.PLL3R = 5;
+#endif
+#ifdef CLK_600M_CPU_150M_ADC_XTAL25
+
+	PeriphClkInitStruct.PLL2.PLL2M = 4;
+	PeriphClkInitStruct.PLL2.PLL2N = 38;
+	PeriphClkInitStruct.PLL2.PLL2P = 24;
+	PeriphClkInitStruct.PLL2.PLL2Q = 2;
+	PeriphClkInitStruct.PLL2.PLL2R = 2;
+	PeriphClkInitStruct.PLL3.PLL3M = 5;
+	PeriphClkInitStruct.PLL3.PLL3N = 150;
 	PeriphClkInitStruct.PLL3.PLL3R = 5;
 #endif
 	PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_2;
@@ -1340,6 +1398,15 @@ void MX_TIM6_Init_Custom_Rate(void)
 #endif
 #ifdef CLK_600M_CPU_160M_ADC_XTAL25
 	htim6.Init.Period = 7679;
+#endif
+#ifdef CLK_620M_CPU_160M_ADC_XTAL25
+	htim6.Init.Period = 7935;
+#endif
+#ifdef CLK_640M_CPU_160M_ADC_XTAL25
+	htim6.Init.Period = 8191;
+#endif
+#ifdef CLK_600M_CPU_150M_ADC_XTAL25
+	htim6.Init.Period = 8191;
 #endif
 	htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
 	if (HAL_TIM_Base_Init(&htim6) != HAL_OK)

@@ -135,7 +135,7 @@ extern void SetFOut(uint32_t);
 
 //#define USE_EXTERNAL_MIXER
 
-#define FAKE_RF_SIGNAL
+
 
 // Select CPU and ADC Clock. Uncomment only one at a time
 //#define CLK_600M_CPU_150M_ADC
@@ -145,7 +145,10 @@ extern void SetFOut(uint32_t);
 //#define CLK_480M_CPU_120M_ADC /*old board*/
 //#define CLK_600M_CPU_60M_ADC
 //#define CLK_600M_CPU_160M_ADC /* new board */
-#define CLK_600M_CPU_160M_ADC_XTAL25 /* new board */
+//#define CLK_600M_CPU_160M_ADC_XTAL25 /* new board */
+#define CLK_600M_CPU_150M_ADC_XTAL25 /* new board */
+//#define CLK_620M_CPU_160M_ADC_XTAL25 /* new board */
+//#define CLK_640M_CPU_160M_ADC_XTAL25 /*CPU Hangs - DO NOT USE. new board */
 
 //#define TEST_NO_SDR
 //#define TEST_FRAC_DIV
@@ -154,6 +157,13 @@ extern void SetFOut(uint32_t);
 #define USB_UI
 
 //#define TEST_SINGLE_ADC
+//#define AG_TEST_AUDIO
+#define FAKE_RF_SIGNAL
+
+
+//FFT filter test
+#define NEW_MASK
+//#define OLD_MASK
 
 
 #define BSIZE        (512)

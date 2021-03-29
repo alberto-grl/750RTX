@@ -297,7 +297,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	  return;
   }
 	 */
-//	#define AG_TEST_AUDIO
+
 
 #ifdef AG_TEST_AUDIO
 	int16_t i;

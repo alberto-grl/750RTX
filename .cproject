@@ -9,7 +9,7 @@
                 				
                 <macros>
                     					
-                    <stringMacro name="CMSIS_LOC" type="VALUE_PATH_DIR" value="C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.7.0\Drivers\CMSIS"/>
+                    <stringMacro name="CMSIS_LOC" type="VALUE_PATH_DIR" value="C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS"/>
                     				
                 </macros>
                 				
@@ -137,9 +137,11 @@
                                     								
                                 </option>
                                 								
-                                <option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.directories.255358807" name="Library search path (-L)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.directories" valueType="libPaths">
+                                <option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.directories.255358807" name="Library search path (-L)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.directories" useByScannerDiscovery="false" valueType="libPaths">
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${CMSIS_LOC}/Lib/GCC&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${CMSIS_LOC}/DSP/Lib/GCC&quot;"/>
                                     								
                                 </option>
                                 								

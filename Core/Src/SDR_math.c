@@ -102,7 +102,7 @@ void SDR_2R_toC_f32(float * pSrcA, float * pSrcB, float * pDst, uint32_t blockSi
 void SDR_downconvert_f32(uint16_t* signal, float offset, float* zeroIF_R, float* zeroIF_I)
 {
   uint32_t blkCnt;            // loop counter
-  float  tmp1, tmp2, tmp3, tmp4, *LOR=LO_R, *LOI=LO_I;
+  float  tmp1, tmp2, tmp3, tmp4, *LOI=LO_R, *LOR=LO_I;
 	uint16_t *pt = signal;
 	
 // loop Unrolling
@@ -128,7 +128,7 @@ void SDR_downconvert_f32(uint16_t* signal, float offset, float* zeroIF_R, float*
 #endif
 
 
-    *zeroIF_R++ = *LOR++ * tmp1;  *zeroIF_I++ = *LOI++ * tmp1;
+		 *zeroIF_R++ = *LOR++ * tmp1;  *zeroIF_I++ = *LOI++ * tmp1;
 		 *zeroIF_R++ = *LOR++ * tmp2;  *zeroIF_I++ = *LOI++ * tmp2;
 		 *zeroIF_R++ = *LOR++ * tmp3;  *zeroIF_I++ = *LOI++ * tmp3;
 		 *zeroIF_R++ = *LOR++ * tmp4;  *zeroIF_I++ = *LOI++ * tmp4;
