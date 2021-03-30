@@ -147,7 +147,7 @@ extern void SetFOut(uint32_t);
 //#define CLK_600M_CPU_160M_ADC /* new board */
 //#define CLK_600M_CPU_160M_ADC_XTAL25 /* new board */
 #define CLK_600M_CPU_150M_ADC_XTAL25 /* new board */
-//#define CLK_620M_CPU_160M_ADC_XTAL25 /* new board */
+//#define CLK_620M_CPU_160M_ADC_XTAL25 /* new board Motorboat noise */
 //#define CLK_640M_CPU_160M_ADC_XTAL25 /*CPU Hangs - DO NOT USE. new board */
 
 //#define TEST_NO_SDR
@@ -159,6 +159,8 @@ extern void SetFOut(uint32_t);
 //#define TEST_SINGLE_ADC
 //#define AG_TEST_AUDIO
 #define FAKE_RF_SIGNAL
+
+//#define TEST_WF
 
 
 //FFT filter test

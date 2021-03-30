@@ -21,33 +21,33 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   8 .data         00000554  24000000  0801b8d0  00030000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          0000f18c  24000560  0801be24  00030560  2**5
+  9 .bss          0000f98c  24000560  0801be24  00030560  2**5
                   ALLOC
- 10 ._user_heap_stack 00000604  2400f6ec  0801be24  0003f6ec  2**0
+ 10 ._user_heap_stack 00000604  2400feec  0801be24  0003feec  2**0
                   ALLOC
  11 .dtcm         0000f000  20000000  20000000  00040000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
  12 .ARM.attributes 0000002e  00000000  00000000  0004f000  2**0
                   CONTENTS, READONLY
- 13 .debug_info   0005874c  00000000  00000000  0004f02e  2**0
+ 13 .debug_info   0005888a  00000000  00000000  0004f02e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 000093ad  00000000  00000000  000a777a  2**0
+ 14 .debug_abbrev 000093bc  00000000  00000000  000a78b8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_loc    000283b1  00000000  00000000  000b0b27  2**0
+ 15 .debug_loc    0002843e  00000000  00000000  000b0c74  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_aranges 00001a98  00000000  00000000  000d8ed8  2**3
+ 16 .debug_aranges 00001aa0  00000000  00000000  000d90b8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_ranges 000044c8  00000000  00000000  000da970  2**3
+ 17 .debug_ranges 000044e8  00000000  00000000  000dab58  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_macro  0003fcbb  00000000  00000000  000dee38  2**0
+ 18 .debug_macro  0003fcbb  00000000  00000000  000df040  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_line   0003c32d  00000000  00000000  0011eaf3  2**0
+ 19 .debug_line   0003c385  00000000  00000000  0011ecfb  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_str    00183a92  00000000  00000000  0015ae20  2**0
+ 20 .debug_str    00183abd  00000000  00000000  0015b080  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .comment      000000c8  00000000  00000000  002de8b2  2**0
+ 21 .comment      000000c8  00000000  00000000  002deb3d  2**0
                   CONTENTS, READONLY
- 22 .debug_frame  00007114  00000000  00000000  002de97c  2**2
+ 22 .debug_frame  00007130  00000000  00000000  002dec08  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -597,17 +597,17 @@ void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 }	
  8000764:	bc70      	pop	{r4, r5, r6}
  8000766:	4770      	bx	lr
- 8000768:	2400c9fc 	.word	0x2400c9fc
+ 8000768:	2400d1fc 	.word	0x2400d1fc
  800076c:	24000cb0 	.word	0x24000cb0
  8000770:	240094b8 	.word	0x240094b8
  8000774:	240094b4 	.word	0x240094b4
  8000778:	20004000 	.word	0x20004000
  800077c:	080131f8 	.word	0x080131f8
  8000780:	080141f8 	.word	0x080141f8
- 8000784:	2400de02 	.word	0x2400de02
+ 8000784:	2400e602 	.word	0x2400e602
  8000788:	080111f8 	.word	0x080111f8
  800078c:	080121f8 	.word	0x080121f8
- 8000790:	2400de00 	.word	0x2400de00
+ 8000790:	2400e600 	.word	0x2400e600
  8000794:	080151f8 	.word	0x080151f8
  8000798:	080161f8 	.word	0x080161f8
  800079c:	24008678 	.word	0x24008678
@@ -738,9 +738,9 @@ void SetAGC(/*WM_HWIN ptr,*/ Agctype newAGC)
  800082a:	bc30      	pop	{r4, r5}
  800082c:	4770      	bx	lr
  800082e:	bf00      	nop
- 8000830:	2400c9fc 	.word	0x2400c9fc
+ 8000830:	2400d1fc 	.word	0x2400d1fc
  8000834:	240008a0 	.word	0x240008a0
- 8000838:	2400c9ec 	.word	0x2400c9ec
+ 8000838:	2400d1ec 	.word	0x2400d1ec
  800083c:	2400a4c4 	.word	0x2400a4c4
  8000840:	24002cbc 	.word	0x24002cbc
  8000844:	2400866c 	.word	0x2400866c
@@ -937,7 +937,7 @@ void SetMode(/*WM_HWIN ptr,*/ Mode newmode)
  8000976:	e7a1      	b.n	80008bc <Tune_Preset+0x70>
  8000978:	24008f04 	.word	0x24008f04
  800097c:	2400a4c8 	.word	0x2400a4c8
- 8000980:	2400c9fc 	.word	0x2400c9fc
+ 8000980:	2400d1fc 	.word	0x2400d1fc
  8000984:	24007e2c 	.word	0x24007e2c
  8000988:	24000cb0 	.word	0x24000cb0
  800098c:	240094b4 	.word	0x240094b4
@@ -945,13 +945,13 @@ void SetMode(/*WM_HWIN ptr,*/ Mode newmode)
  8000994:	080131f8 	.word	0x080131f8
  8000998:	080141f8 	.word	0x080141f8
  800099c:	24004a84 	.word	0x24004a84
- 80009a0:	2400de02 	.word	0x2400de02
+ 80009a0:	2400e602 	.word	0x2400e602
  80009a4:	24008678 	.word	0x24008678
  80009a8:	080151f8 	.word	0x080151f8
  80009ac:	080161f8 	.word	0x080161f8
  80009b0:	080111f8 	.word	0x080111f8
  80009b4:	080121f8 	.word	0x080121f8
- 80009b8:	2400de00 	.word	0x2400de00
+ 80009b8:	2400e600 	.word	0x2400e600
  80009bc:	240094b8 	.word	0x240094b8
 
 080009c0 <SetMode>:
@@ -1008,7 +1008,7 @@ void SetMode(/*WM_HWIN ptr,*/ Mode newmode)
  8000a1e:	f7ff bebf 	b.w	80007a0 <SetAGC>
 }	
  8000a22:	bd08      	pop	{r3, pc}
- 8000a24:	2400c9fc 	.word	0x2400c9fc
+ 8000a24:	2400d1fc 	.word	0x2400d1fc
  8000a28:	240094b8 	.word	0x240094b8
  8000a2c:	24007e2c 	.word	0x24007e2c
 
@@ -1026,7 +1026,7 @@ void SetFstep(int idx)
  8000a34:	d012      	beq.n	8000a5c <SetFstep+0x2c>
 		Fstep = 9000;  // MW Channel for Europe
 	else
-	    Fstep = pow(10, 5 - idx);
+		Fstep = pow(10, 5 - idx);
  8000a36:	f1c0 0005 	rsb	r0, r0, #5
  8000a3a:	ee06 0a90 	vmov	s13, r0
  8000a3e:	ed9f 7b0a 	vldr	d7, [pc, #40]	; 8000a68 <SetFstep+0x38>
@@ -1048,7 +1048,7 @@ void SetFstep(int idx)
  8000a66:	bf00      	nop
  8000a68:	bbb55516 	.word	0xbbb55516
  8000a6c:	40026bb1 	.word	0x40026bb1
- 8000a70:	2400c9f4 	.word	0x2400c9f4
+ 8000a70:	2400d1f4 	.word	0x2400d1f4
 
 08000a74 <FplusClicked>:
 //-----------------------------------------------------------------------------
@@ -1238,9 +1238,9 @@ void FplusClicked()
  8000b98:	7019      	strb	r1, [r3, #0]
 	switch(CurrentMode)
  8000b9a:	e7a7      	b.n	8000aec <FplusClicked+0x78>
- 8000b9c:	2400c9f4 	.word	0x2400c9f4
+ 8000b9c:	2400d1f4 	.word	0x2400d1f4
  8000ba0:	2400a4c8 	.word	0x2400a4c8
- 8000ba4:	2400c9fc 	.word	0x2400c9fc
+ 8000ba4:	2400d1fc 	.word	0x2400d1fc
  8000ba8:	240094b8 	.word	0x240094b8
  8000bac:	24008f04 	.word	0x24008f04
  8000bb0:	4c3ebc20 	.word	0x4c3ebc20
@@ -1251,13 +1251,13 @@ void FplusClicked()
  8000bc4:	080131f8 	.word	0x080131f8
  8000bc8:	080141f8 	.word	0x080141f8
  8000bcc:	24004a84 	.word	0x24004a84
- 8000bd0:	2400de02 	.word	0x2400de02
+ 8000bd0:	2400e602 	.word	0x2400e602
  8000bd4:	24008678 	.word	0x24008678
  8000bd8:	080151f8 	.word	0x080151f8
  8000bdc:	080161f8 	.word	0x080161f8
  8000be0:	080111f8 	.word	0x080111f8
  8000be4:	080121f8 	.word	0x080121f8
- 8000be8:	2400de00 	.word	0x2400de00
+ 8000be8:	2400e600 	.word	0x2400e600
 
 08000bec <FminusClicked>:
 //-----------------------------------------------------------------------------
@@ -1447,9 +1447,9 @@ void FminusClicked()
  8000d10:	7019      	strb	r1, [r3, #0]
 	switch(CurrentMode)
  8000d12:	e7a7      	b.n	8000c64 <FminusClicked+0x78>
- 8000d14:	2400c9f4 	.word	0x2400c9f4
+ 8000d14:	2400d1f4 	.word	0x2400d1f4
  8000d18:	2400a4c8 	.word	0x2400a4c8
- 8000d1c:	2400c9fc 	.word	0x2400c9fc
+ 8000d1c:	2400d1fc 	.word	0x2400d1fc
  8000d20:	240094b8 	.word	0x240094b8
  8000d24:	24008f04 	.word	0x24008f04
  8000d28:	45fa0000 	.word	0x45fa0000
@@ -1460,13 +1460,13 @@ void FminusClicked()
  8000d3c:	080131f8 	.word	0x080131f8
  8000d40:	080141f8 	.word	0x080141f8
  8000d44:	24004a84 	.word	0x24004a84
- 8000d48:	2400de02 	.word	0x2400de02
+ 8000d48:	2400e602 	.word	0x2400e602
  8000d4c:	24008678 	.word	0x24008678
  8000d50:	080151f8 	.word	0x080151f8
  8000d54:	080161f8 	.word	0x080161f8
  8000d58:	080111f8 	.word	0x080111f8
  8000d5c:	080121f8 	.word	0x080121f8
- 8000d60:	2400de00 	.word	0x2400de00
+ 8000d60:	2400e600 	.word	0x2400e600
 
 08000d64 <LED_switch>:
 {	
@@ -1556,6 +1556,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
  8000dd4:	7823      	ldrb	r3, [r4, #0]
  8000dd6:	2b01      	cmp	r3, #1
  8000dd8:	d038      	beq.n	8000e4c <HAL_GPIO_EXTI_Callback+0xe4>
+		arm_sqrt_f32(tmp, &WFBuffer[WFSample >> 1]);
+	}
+#endif
+
 	// mult. by the fast convolution mask
 	arm_cmplx_mult_cmplx_f32(FFTbuf, FFTmask, FFTbuf2, FFTLEN);
  8000dda:	f44f 6380 	mov.w	r3, #1024	; 0x400
@@ -1645,7 +1649,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
  8000e70:	20006000 	.word	0x20006000
  8000e74:	24008ef8 	.word	0x24008ef8
  8000e78:	24001cbc 	.word	0x24001cbc
- 8000e7c:	2400c9fc 	.word	0x2400c9fc
+ 8000e7c:	2400d1fc 	.word	0x2400d1fc
  8000e80:	24000cbc 	.word	0x24000cbc
  8000e84:	20002000 	.word	0x20002000
  8000e88:	080173e4 	.word	0x080173e4
@@ -1653,127 +1657,127 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
  8000e90:	20004000 	.word	0x20004000
  8000e94:	20001000 	.word	0x20001000
  8000e98:	24002dd4 	.word	0x24002dd4
- 8000e9c:	2400ca00 	.word	0x2400ca00
+ 8000e9c:	2400d200 	.word	0x2400d200
  8000ea0:	24004ab0 	.word	0x24004ab0
  8000ea4:	240094b8 	.word	0x240094b8
 
 08000ea8 <ADC_Stream0_Handler>:
-pR=TestSignalData;
+	pR=TestSignalData;
 #endif
 
 
-// compute the new NCO buffer, with the CWpitch offset if receiving CW  
-if(CurrentMode == CW)
+	// compute the new NCO buffer, with the CWpitch offset if receiving CW
+	if(CurrentMode == CW)
  8000ea8:	4b77      	ldr	r3, [pc, #476]	; (8001088 <ADC_Stream0_Handler+0x1e0>)
 {
  8000eaa:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
  8000eae:	ed2d 8b10 	vpush	{d8-d15}
-if(CurrentMode == CW)
+	if(CurrentMode == CW)
  8000eb2:	781b      	ldrb	r3, [r3, #0]
 {
  8000eb4:	b097      	sub	sp, #92	; 0x5c
-if(CurrentMode == CW)
+	if(CurrentMode == CW)
  8000eb6:	2b03      	cmp	r3, #3
  8000eb8:	f000 8401 	beq.w	80016be <ADC_Stream0_Handler+0x816>
-	SDR_ComputeLO(LOfreq-cwpitch);  // prepare next LO buffer
-else
-	SDR_ComputeLO(LOfreq);          // prepare next LO buffer
+		SDR_ComputeLO(LOfreq-cwpitch);  // prepare next LO buffer
+	else
+		SDR_ComputeLO(LOfreq);          // prepare next LO buffer
  8000ebc:	4b73      	ldr	r3, [pc, #460]	; (800108c <ADC_Stream0_Handler+0x1e4>)
  8000ebe:	ed93 0a00 	vldr	s0, [r3]
  8000ec2:	f000 fc0d 	bl	80016e0 <SDR_ComputeLO>
 
-// compute the smoothed average value of the buffer, to be used as offset
-// in the short words to floating point conversion routine  
-sum = 0; k = BSIZE;
-while(k)
+	// compute the smoothed average value of the buffer, to be used as offset
+	// in the short words to floating point conversion routine
+	sum = 0; k = BSIZE;
+	while(k)
  8000ec6:	4a72      	ldr	r2, [pc, #456]	; (8001090 <ADC_Stream0_Handler+0x1e8>)
-sum = 0; k = BSIZE;
+	sum = 0; k = BSIZE;
  8000ec8:	ed9f 0a72 	vldr	s0, [pc, #456]	; 8001094 <ADC_Stream0_Handler+0x1ec>
  8000ecc:	f5a2 6480 	sub.w	r4, r2, #1024	; 0x400
-{
-	sum += pR[k-1];
+	{
+		sum += pR[k-1];
  8000ed0:	8811      	ldrh	r1, [r2, #0]
  8000ed2:	3a08      	subs	r2, #8
-	sum += pR[k-2];
+		sum += pR[k-2];
  8000ed4:	88d3      	ldrh	r3, [r2, #6]
-	sum += pR[k-1];
+		sum += pR[k-1];
  8000ed6:	b289      	uxth	r1, r1
-	sum += pR[k-3];
+		sum += pR[k-3];
  8000ed8:	8890      	ldrh	r0, [r2, #4]
-	sum += pR[k-2];
+		sum += pR[k-2];
  8000eda:	b29b      	uxth	r3, r3
-	sum += pR[k-1];
+		sum += pR[k-1];
  8000edc:	ee07 1a90 	vmov	s15, r1
-	sum += pR[k-3];
+		sum += pR[k-3];
  8000ee0:	b280      	uxth	r0, r0
-	sum += pR[k-4];
+		sum += pR[k-4];
  8000ee2:	8851      	ldrh	r1, [r2, #2]
-while(k)
+	while(k)
  8000ee4:	4294      	cmp	r4, r2
-	sum += pR[k-1];
+		sum += pR[k-1];
  8000ee6:	eeb8 6ae7 	vcvt.f32.s32	s12, s15
-	sum += pR[k-2];
+		sum += pR[k-2];
  8000eea:	ee07 3a90 	vmov	s15, r3
-	sum += pR[k-4];
+		sum += pR[k-4];
  8000eee:	b289      	uxth	r1, r1
-	sum += pR[k-2];
+		sum += pR[k-2];
  8000ef0:	eeb8 7ae7 	vcvt.f32.s32	s14, s15
-	sum += pR[k-3];
+		sum += pR[k-3];
  8000ef4:	ee07 0a90 	vmov	s15, r0
-	sum += pR[k-4];
+		sum += pR[k-4];
  8000ef8:	ee06 1a90 	vmov	s13, r1
-	sum += pR[k-3];
+		sum += pR[k-3];
  8000efc:	eef8 7ae7 	vcvt.f32.s32	s15, s15
-	sum += pR[k-4];
+		sum += pR[k-4];
  8000f00:	eef8 6ae6 	vcvt.f32.s32	s13, s13
  8000f04:	ee77 7a27 	vadd.f32	s15, s14, s15
  8000f08:	ee77 7a86 	vadd.f32	s15, s15, s12
  8000f0c:	ee77 7aa6 	vadd.f32	s15, s15, s13
  8000f10:	ee30 0a27 	vadd.f32	s0, s0, s15
-while(k)
+	while(k)
  8000f14:	d1dc      	bne.n	8000ed0 <ADC_Stream0_Handler+0x28>
-	k-=4;
-}
+		k-=4;
+	}
 
-TestSampledValue=pR[BSIZE/2];
+	TestSampledValue=pR[BSIZE/2];
  8000f16:	4860      	ldr	r0, [pc, #384]	; (8001098 <ADC_Stream0_Handler+0x1f0>)
  8000f18:	2400      	movs	r4, #0
 
-meanavg = sum/(float)BSIZE; //TODO was "mean". Seems to be a bug from original ArmRadio
+	meanavg = sum/(float)BSIZE; //TODO was "mean". Seems to be a bug from original ArmRadio
  8000f1a:	eddf 7a60 	vldr	s15, [pc, #384]	; 800109c <ADC_Stream0_Handler+0x1f4>
-TestSampledValue=pR[BSIZE/2];
+	TestSampledValue=pR[BSIZE/2];
  8000f1e:	f8b0 3200 	ldrh.w	r3, [r0, #512]	; 0x200
-meanavg = sum/(float)BSIZE; //TODO was "mean". Seems to be a bug from original ArmRadio
+	meanavg = sum/(float)BSIZE; //TODO was "mean". Seems to be a bug from original ArmRadio
  8000f22:	ee20 0a27 	vmul.f32	s0, s0, s15
  8000f26:	4d5e      	ldr	r5, [pc, #376]	; (80010a0 <ADC_Stream0_Handler+0x1f8>)
-TestSampledValue=pR[BSIZE/2];
+	TestSampledValue=pR[BSIZE/2];
  8000f28:	b29b      	uxth	r3, r3
  8000f2a:	4e5e      	ldr	r6, [pc, #376]	; (80010a4 <ADC_Stream0_Handler+0x1fc>)
  8000f2c:	4f5e      	ldr	r7, [pc, #376]	; (80010a8 <ADC_Stream0_Handler+0x200>)
  8000f2e:	ee07 3a90 	vmov	s15, r3
 
-// downconvert to zero IF, by multiplication by the exp(-jwt) signal
-// generated by the NCO, and at the same time convert to floating point  
-SDR_downconvert_f32((uint16_t *)pR, meanavg, ADC_Rdata, ADC_Idata);
+	// downconvert to zero IF, by multiplication by the exp(-jwt) signal
+	// generated by the NCO, and at the same time convert to floating point
+	SDR_downconvert_f32((uint16_t *)pR, meanavg, ADC_Rdata, ADC_Idata);
  8000f32:	4a5e      	ldr	r2, [pc, #376]	; (80010ac <ADC_Stream0_Handler+0x204>)
  8000f34:	495e      	ldr	r1, [pc, #376]	; (80010b0 <ADC_Stream0_Handler+0x208>)
-TestSampledValue=pR[BSIZE/2];
+	TestSampledValue=pR[BSIZE/2];
  8000f36:	eef8 7a67 	vcvt.f32.u32	s15, s15
-meanavg = sum/(float)BSIZE; //TODO was "mean". Seems to be a bug from original ArmRadio
+	meanavg = sum/(float)BSIZE; //TODO was "mean". Seems to be a bug from original ArmRadio
  8000f3a:	ed85 0a00 	vstr	s0, [r5]
  8000f3e:	8034      	strh	r4, [r6, #0]
-SDR_downconvert_f32((uint16_t *)pR, meanavg, ADC_Rdata, ADC_Idata);
+	SDR_downconvert_f32((uint16_t *)pR, meanavg, ADC_Rdata, ADC_Idata);
  8000f40:	f8df 81f4 	ldr.w	r8, [pc, #500]	; 8001138 <ADC_Stream0_Handler+0x290>
-TestSampledValue=pR[BSIZE/2];
+	TestSampledValue=pR[BSIZE/2];
  8000f44:	edc7 7a00 	vstr	s15, [r7]
-SDR_downconvert_f32((uint16_t *)pR, meanavg, ADC_Rdata, ADC_Idata);
+	SDR_downconvert_f32((uint16_t *)pR, meanavg, ADC_Rdata, ADC_Idata);
  8000f48:	f000 fcb8 	bl	80018bc <SDR_downconvert_f32>
-// passed to the baseband interrupt routine, where it is additionally filtered with a
-// sync-compensating FIR, which also adds further stop band rejection and a decimation by 4
-//-------------------------------------------------------------------------
+	// passed to the baseband interrupt routine, where it is additionally filtered with a
+	// sync-compensating FIR, which also adds further stop band rejection and a decimation by 4
+	//-------------------------------------------------------------------------
 
-k=BSIZE/2;  // BSIZE/2 to process BSIZE entries, two at a time
-while(k--)
+	k=BSIZE/2;  // BSIZE/2 to process BSIZE entries, two at a time
+	while(k--)
  8000f4c:	21ff      	movs	r1, #255	; 0xff
  8000f4e:	f8df e1ec 	ldr.w	lr, [pc, #492]	; 800113c <ADC_Stream0_Handler+0x294>
  8000f52:	f8df c1ec 	ldr.w	ip, [pc, #492]	; 8001140 <ADC_Stream0_Handler+0x298>
@@ -1873,7 +1877,7 @@ while(k--)
  8001080:	edcd 6a11 	vstr	s13, [sp, #68]	; 0x44
  8001084:	e167      	b.n	8001356 <ADC_Stream0_Handler+0x4ae>
  8001086:	bf00      	nop
- 8001088:	2400c9fc 	.word	0x2400c9fc
+ 8001088:	2400d1fc 	.word	0x2400d1fc
  800108c:	2400a4c8 	.word	0x2400a4c8
  8001090:	24004202 	.word	0x24004202
  8001094:	00000000 	.word	0x00000000
@@ -1881,7 +1885,7 @@ while(k--)
  800109c:	3b000000 	.word	0x3b000000
  80010a0:	2400c9e0 	.word	0x2400c9e0
  80010a4:	24000610 	.word	0x24000610
- 80010a8:	2400c9f8 	.word	0x2400c9f8
+ 80010a8:	2400d1f8 	.word	0x2400d1f8
  80010ac:	2400867c 	.word	0x2400867c
  80010b0:	24007e6c 	.word	0x24007e6c
  80010b4:	240005b0 	.word	0x240005b0
@@ -1923,70 +1927,70 @@ while(k--)
  8001144:	24000604 	.word	0x24000604
  8001148:	240005a8 	.word	0x240005a8
  800114c:	2400057c 	.word	0x2400057c
-	// at this point we have two elem. (tmp1R[even] and outR[odd] and also the I counterparts)
-	// produced using 4 input samples, totalling a decimation by 2
-	// now compute the couple of elements for the next step
+		// at this point we have two elem. (tmp1R[even] and outR[odd] and also the I counterparts)
+		// produced using 4 input samples, totalling a decimation by 2
+		// now compute the couple of elements for the next step
 
-	inER=tmp1R;  inOR=outR;                    inEI=tmp1I;  inOI=outI;
-	outR=(inOR+6.f*inO2Rold+inO2Rold2+4.f*(inER+inE2Rold)); outI=(inOI+6.f*inO2Iold+inO2Iold2+4.f*(inEI+inE2Iold));
+		inER=tmp1R;  inOR=outR;                    inEI=tmp1I;  inOI=outI;
+		outR=(inOR+6.f*inO2Rold+inO2Rold2+4.f*(inER+inE2Rold)); outI=(inOI+6.f*inO2Iold+inO2Iold2+4.f*(inEI+inE2Iold));
  8001150:	eeaa 5a84 	vfma.f32	s10, s21, s8
 
-	inE2Rold = inER;                           inE2Iold = inEI;
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inE2Rold = inER;                           inE2Iold = inEI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
 
-	if((k & 0x2)) // skip the if block for k multiple of 4 (in base zero),
+		if((k & 0x2)) // skip the if block for k multiple of 4 (in base zero),
  8001154:	0799      	lsls	r1, r3, #30
  8001156:	eeea 5a04 	vfma.f32	s11, s20, s8
-	outR=(inOR+6.f*inO2Rold+inO2Rold2+4.f*(inER+inE2Rold)); outI=(inOI+6.f*inO2Iold+inO2Iold2+4.f*(inEI+inE2Iold));
+		outR=(inOR+6.f*inO2Rold+inO2Rold2+4.f*(inER+inE2Rold)); outI=(inOI+6.f*inO2Iold+inO2Iold2+4.f*(inEI+inE2Iold));
  800115a:	ee79 9aac 	vadd.f32	s19, s19, s25
  800115e:	ee39 9a0c 	vadd.f32	s18, s18, s24
  8001162:	eea9 5aa4 	vfma.f32	s10, s19, s9
  8001166:	eee9 5a24 	vfma.f32	s11, s18, s9
  800116a:	ee75 2a26 	vadd.f32	s5, s10, s13
  800116e:	ee75 7a86 	vadd.f32	s15, s11, s12
-	if((k & 0x2)) // skip the if block for k multiple of 4 (in base zero),
+		if((k & 0x2)) // skip the if block for k multiple of 4 (in base zero),
  8001172:	f100 8118 	bmi.w	80013a6 <ADC_Stream0_Handler+0x4fe>
-	// now we have the input samples decimated by 4, even element in tmp2R, tmp2I,
-	// and the odd element in outR, outI
-	// now compute the couple of elements for the next step
+		// now we have the input samples decimated by 4, even element in tmp2R, tmp2I,
+		// and the odd element in outR, outI
+		// now compute the couple of elements for the next step
 
-	inER=tmp2R;  inOR=outR;                    inEI=tmp2I;  inOI=outI;
-	outR=(inOR+6.f*inO3Rold+inO3Rold2+4.f*(inER+inE3Rold)); outI=(inOI+6.f*inO3Iold+inO3Iold2+4.f*(inEI+inE3Iold));
+		inER=tmp2R;  inOR=outR;                    inEI=tmp2I;  inOI=outI;
+		outR=(inOR+6.f*inO3Rold+inO3Rold2+4.f*(inER+inE3Rold)); outI=(inOI+6.f*inO3Iold+inO3Iold2+4.f*(inEI+inE3Iold));
  8001176:	eead 3a84 	vfma.f32	s6, s27, s8
  800117a:	ed9d 7a01 	vldr	s14, [sp, #4]
  800117e:	eeed 3a04 	vfma.f32	s7, s26, s8
  8001182:	eddd 5a00 	vldr	s11, [sp]
  8001186:	ee7b ba87 	vadd.f32	s23, s23, s14
 
-	inE3Rold  = inER;                          inE3Iold  = inEI;
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inE3Rold  = inER;                          inE3Iold  = inEI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
 
-	if((k & 0x4)) // skip the if block for k multiple of 8 (in base zero),
+		if((k & 0x4)) // skip the if block for k multiple of 8 (in base zero),
  800118a:	075f      	lsls	r7, r3, #29
-	outR=(inOR+6.f*inO3Rold+inO3Rold2+4.f*(inER+inE3Rold)); outI=(inOI+6.f*inO3Iold+inO3Iold2+4.f*(inEI+inE3Iold));
+		outR=(inOR+6.f*inO3Rold+inO3Rold2+4.f*(inER+inE3Rold)); outI=(inOI+6.f*inO3Iold+inO3Iold2+4.f*(inEI+inE3Iold));
  800118c:	ee3b ba25 	vadd.f32	s22, s22, s11
  8001190:	eeab 3aa4 	vfma.f32	s6, s23, s9
  8001194:	eeeb 3a24 	vfma.f32	s7, s22, s9
  8001198:	ee33 7a22 	vadd.f32	s14, s6, s5
  800119c:	ee33 2aa7 	vadd.f32	s4, s7, s15
-	if((k & 0x4)) // skip the if block for k multiple of 8 (in base zero),
+		if((k & 0x4)) // skip the if block for k multiple of 8 (in base zero),
  80011a0:	f100 8112 	bmi.w	80013c8 <ADC_Stream0_Handler+0x520>
-	// at this point we have two elem. (tmp1R[even] and outR[odd] and also the I counterparts)
-	// produced using 4 input samples, totalling a decimation by 8
-	// now compute the couple of elements for the next step
+		// at this point we have two elem. (tmp1R[even] and outR[odd] and also the I counterparts)
+		// produced using 4 input samples, totalling a decimation by 8
+		// now compute the couple of elements for the next step
 
-	inER=tmp3R;  inOR=outR;                    inEI=tmp3I;  inOI=outI;
-	outR=(inOR+6.f*inO4Rold+inO4Rold2+4.f*(inER+inE4Rold)); outI=(inOI+6.f*inO4Iold+inO4Iold2+4.f*(inEI+inE4Iold));
+		inER=tmp3R;  inOR=outR;                    inEI=tmp3I;  inOI=outI;
+		outR=(inOR+6.f*inO4Rold+inO4Rold2+4.f*(inER+inE4Rold)); outI=(inOI+6.f*inO4Iold+inO4Iold2+4.f*(inEI+inE4Iold));
  80011a4:	ed9d 9a04 	vldr	s18, [sp, #16]
 
-	inE4Rold = inER;                           inE4Iold = inEI;
-	inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
+		inE4Rold = inER;                           inE4Iold = inEI;
+		inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
 
-	if((k & 0x8)) // skip the if block for k multiple of 8 (in base zero),
+		if((k & 0x8)) // skip the if block for k multiple of 8 (in base zero),
  80011a8:	0719      	lsls	r1, r3, #28
  80011aa:	eddd 9a03 	vldr	s19, [sp, #12]
  80011ae:	eeaf 9a84 	vfma.f32	s18, s31, s8
-	outR=(inOR+6.f*inO4Rold+inO4Rold2+4.f*(inER+inE4Rold)); outI=(inOI+6.f*inO4Iold+inO4Iold2+4.f*(inEI+inE4Iold));
+		outR=(inOR+6.f*inO4Rold+inO4Rold2+4.f*(inER+inE4Rold)); outI=(inOI+6.f*inO4Iold+inO4Iold2+4.f*(inEI+inE4Iold));
  80011b2:	ed9d 5a07 	vldr	s10, [sp, #28]
  80011b6:	eeef 9a04 	vfma.f32	s19, s30, s8
  80011ba:	eddd 3a06 	vldr	s7, [sp, #24]
@@ -1996,48 +2000,48 @@ while(k--)
  80011ca:	eeee 9a24 	vfma.f32	s19, s28, s9
  80011ce:	ee37 9a09 	vadd.f32	s18, s14, s18
  80011d2:	ee79 9a82 	vadd.f32	s19, s19, s4
-	if((k & 0x8)) // skip the if block for k multiple of 8 (in base zero),
+		if((k & 0x8)) // skip the if block for k multiple of 8 (in base zero),
  80011d6:	f100 81a1 	bmi.w	800151c <ADC_Stream0_Handler+0x674>
-	// now we have the input samples decimated by 8, even element in tmp2R, tmp2I,
-	// and the odd element in outR, outI
-	// now compute the couple of elements for the next step
+		// now we have the input samples decimated by 8, even element in tmp2R, tmp2I,
+		// and the odd element in outR, outI
+		// now compute the couple of elements for the next step
 
-	inER=tmp4R;  inOR=outR;                    inEI=tmp4I;  inOI=outI;
-	outR=(inOR+6.f*inO5Rold+inO5Rold2+4.f*(inER+inE5Rold)); outI=(inOI+6.f*inO5Iold+inO5Iold2+4.f*(inEI+inE5Iold));
+		inER=tmp4R;  inOR=outR;                    inEI=tmp4I;  inOI=outI;
+		outR=(inOR+6.f*inO5Rold+inO5Rold2+4.f*(inER+inE5Rold)); outI=(inOI+6.f*inO5Iold+inO5Iold2+4.f*(inEI+inE5Iold));
  80011da:	ed9d ba0a 	vldr	s22, [sp, #40]	; 0x28
 
-	inE5Rold  = inER;                          inE5Iold  = inEI;
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inE5Rold  = inER;                          inE5Iold  = inEI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
 
-	if((k & 0x10)) // skip the if block for k multiple of 10 (in base zero),
+		if((k & 0x10)) // skip the if block for k multiple of 10 (in base zero),
  80011de:	f013 0110 	ands.w	r1, r3, #16
  80011e2:	ed9d ea02 	vldr	s28, [sp, #8]
  80011e6:	eddd ba0c 	vldr	s23, [sp, #48]	; 0x30
  80011ea:	eddd ea05 	vldr	s29, [sp, #20]
  80011ee:	eeae ba04 	vfma.f32	s22, s28, s8
-	outR=(inOR+6.f*inO5Rold+inO5Rold2+4.f*(inER+inE5Rold)); outI=(inOI+6.f*inO5Iold+inO5Iold2+4.f*(inEI+inE5Iold));
+		outR=(inOR+6.f*inO5Rold+inO5Rold2+4.f*(inER+inE5Rold)); outI=(inOI+6.f*inO5Iold+inO5Iold2+4.f*(inEI+inE5Iold));
  80011f2:	ed9d 3a13 	vldr	s6, [sp, #76]	; 0x4c
  80011f6:	ed9d 5a0b 	vldr	s10, [sp, #44]	; 0x2c
  80011fa:	eeee ba84 	vfma.f32	s23, s29, s8
  80011fe:	eddd 3a0d 	vldr	s7, [sp, #52]	; 0x34
  8001202:	ee33 5a05 	vadd.f32	s10, s6, s10
  8001206:	ed9d 3a12 	vldr	s6, [sp, #72]	; 0x48
-	if((k & 0x10)) // skip the if block for k multiple of 10 (in base zero),
+		if((k & 0x10)) // skip the if block for k multiple of 10 (in base zero),
  800120a:	910b      	str	r1, [sp, #44]	; 0x2c
-	outR=(inOR+6.f*inO5Rold+inO5Rold2+4.f*(inER+inE5Rold)); outI=(inOI+6.f*inO5Iold+inO5Iold2+4.f*(inEI+inE5Iold));
+		outR=(inOR+6.f*inO5Rold+inO5Rold2+4.f*(inER+inE5Rold)); outI=(inOI+6.f*inO5Iold+inO5Iold2+4.f*(inEI+inE5Iold));
  800120c:	ee73 5a23 	vadd.f32	s11, s6, s7
  8001210:	eea5 ba24 	vfma.f32	s22, s10, s9
  8001214:	eee5 baa4 	vfma.f32	s23, s11, s9
  8001218:	ee39 ba0b 	vadd.f32	s22, s18, s22
  800121c:	ee79 baab 	vadd.f32	s23, s19, s23
-	if((k & 0x10)) // skip the if block for k multiple of 10 (in base zero),
+		if((k & 0x10)) // skip the if block for k multiple of 10 (in base zero),
  8001220:	f040 81a5 	bne.w	800156e <ADC_Stream0_Handler+0x6c6>
-	// at this point we have two elem. (tmp3R[even] and outR[odd] and also the I counterparts)
-	// produced with 4 of the previous elem, i.e. with 16 input samples, totalling
-	// a decimation by 16. Now compute the couple of elements for the next step
+		// at this point we have two elem. (tmp3R[even] and outR[odd] and also the I counterparts)
+		// produced with 4 of the previous elem, i.e. with 16 input samples, totalling
+		// a decimation by 16. Now compute the couple of elements for the next step
 
-	inER=tmp5R;  inOR=outR;                    inEI=tmp5I;  inOI=outI;
-	outR=(inOR+6.f*inO6Rold+inO6Rold2+4.f*(inER+inE6Rold)); outI=(inOI+6.f*inO6Iold+inO6Iold2+4.f*(inEI+inE6Iold));
+		inER=tmp5R;  inOR=outR;                    inEI=tmp5I;  inOI=outI;
+		outR=(inOR+6.f*inO6Rold+inO6Rold2+4.f*(inER+inE6Rold)); outI=(inOI+6.f*inO6Iold+inO6Iold2+4.f*(inEI+inE6Iold));
  8001224:	eddd 3a08 	vldr	s7, [sp, #32]
  8001228:	ed9d 5a0e 	vldr	s10, [sp, #56]	; 0x38
  800122c:	ed9d 3a09 	vldr	s6, [sp, #36]	; 0x24
@@ -2046,131 +2050,131 @@ while(k--)
  8001238:	ed9d ea11 	vldr	s28, [sp, #68]	; 0x44
  800123c:	eee3 3a04 	vfma.f32	s7, s6, s8
  8001240:	ed9d 3a0f 	vldr	s6, [sp, #60]	; 0x3c
-	// we downscale it with a factor of 8388608, i.e. the gain of the CIC, i.e.	R^M = 64^4 = 16777216
-	// divided by two, to compensate for the 3 dB loss caused by keeping just half of the band
+		// we downscale it with a factor of 8388608, i.e. the gain of the CIC, i.e.	R^M = 64^4 = 16777216
+		// divided by two, to compensate for the 3 dB loss caused by keeping just half of the band
 
-	// create a block of BSIZE*4 entries, which will be then decimated by 4
+		// create a block of BSIZE*4 entries, which will be then decimated by 4
 
-	Rbasedata[idx] = outR/8388608.f;    Ibasedata[idx++] = outI/8388608.f;  //decimate by 64
+		Rbasedata[idx] = outR/8388608.f;    Ibasedata[idx++] = outI/8388608.f;  //decimate by 64
  8001244:	49df      	ldr	r1, [pc, #892]	; (80015c4 <ADC_Stream0_Handler+0x71c>)
  8001246:	eb01 0785 	add.w	r7, r1, r5, lsl #2
  800124a:	00a9      	lsls	r1, r5, #2
  800124c:	3501      	adds	r5, #1
  800124e:	9703      	str	r7, [sp, #12]
  8001250:	eef0 5a63 	vmov.f32	s11, s7
-	outR=(inOR+6.f*inO6Rold+inO6Rold2+4.f*(inER+inE6Rold)); outI=(inOI+6.f*inO6Iold+inO6Iold2+4.f*(inEI+inE6Iold));
+		outR=(inOR+6.f*inO6Rold+inO6Rold2+4.f*(inER+inE6Rold)); outI=(inOI+6.f*inO6Iold+inO6Iold2+4.f*(inEI+inE6Iold));
  8001254:	eddd 3a14 	vldr	s7, [sp, #80]	; 0x50
-	Rbasedata[idx] = outR/8388608.f;    Ibasedata[idx++] = outI/8388608.f;  //decimate by 64
+		Rbasedata[idx] = outR/8388608.f;    Ibasedata[idx++] = outI/8388608.f;  //decimate by 64
  8001258:	4fdb      	ldr	r7, [pc, #876]	; (80015c8 <ADC_Stream0_Handler+0x720>)
  800125a:	b22d      	sxth	r5, r5
-	outR=(inOR+6.f*inO6Rold+inO6Rold2+4.f*(inER+inE6Rold)); outI=(inOI+6.f*inO6Iold+inO6Iold2+4.f*(inEI+inE6Iold));
+		outR=(inOR+6.f*inO6Rold+inO6Rold2+4.f*(inER+inE6Rold)); outI=(inOI+6.f*inO6Iold+inO6Iold2+4.f*(inEI+inE6Iold));
  800125c:	ee33 3a83 	vadd.f32	s6, s7, s6
  8001260:	eddd 3a15 	vldr	s7, [sp, #84]	; 0x54
-	Rbasedata[idx] = outR/8388608.f;    Ibasedata[idx++] = outI/8388608.f;  //decimate by 64
+		Rbasedata[idx] = outR/8388608.f;    Ibasedata[idx++] = outI/8388608.f;  //decimate by 64
  8001264:	4439      	add	r1, r7
-	//	  Rbasedata[idx] = outR/65536.f;    Ibasedata[idx++] = outI/65536.f; //decimate by 16
+		//	  Rbasedata[idx] = outR/65536.f;    Ibasedata[idx++] = outI/65536.f; //decimate by 16
 
-	if(idx < BSIZE*4)
+		if(idx < BSIZE*4)
  8001266:	f5b5 6f00 	cmp.w	r5, #2048	; 0x800
-	outR=(inOR+6.f*inO6Rold+inO6Rold2+4.f*(inER+inE6Rold)); outI=(inOI+6.f*inO6Iold+inO6Iold2+4.f*(inEI+inE6Iold));
+		outR=(inOR+6.f*inO6Rold+inO6Rold2+4.f*(inER+inE6Rold)); outI=(inOI+6.f*inO6Iold+inO6Iold2+4.f*(inEI+inE6Iold));
  800126a:	ee73 3a8e 	vadd.f32	s7, s7, s28
-	Rbasedata[idx] = outR/8388608.f;    Ibasedata[idx++] = outI/8388608.f;  //decimate by 64
+		Rbasedata[idx] = outR/8388608.f;    Ibasedata[idx++] = outI/8388608.f;  //decimate by 64
  800126e:	9f03      	ldr	r7, [sp, #12]
  8001270:	eea3 5a24 	vfma.f32	s10, s6, s9
  8001274:	eee3 5aa4 	vfma.f32	s11, s7, s9
  8001278:	eddf 3ad4 	vldr	s7, [pc, #848]	; 80015cc <ADC_Stream0_Handler+0x724>
-	outR=(inOR+6.f*inO6Rold+inO6Rold2+4.f*(inER+inE6Rold)); outI=(inOI+6.f*inO6Iold+inO6Iold2+4.f*(inEI+inE6Iold));
+		outR=(inOR+6.f*inO6Rold+inO6Rold2+4.f*(inER+inE6Rold)); outI=(inOI+6.f*inO6Iold+inO6Iold2+4.f*(inEI+inE6Iold));
  800127c:	ee35 5a0b 	vadd.f32	s10, s10, s22
  8001280:	ee75 5aab 	vadd.f32	s11, s11, s23
-	Rbasedata[idx] = outR/8388608.f;    Ibasedata[idx++] = outI/8388608.f;  //decimate by 64
+		Rbasedata[idx] = outR/8388608.f;    Ibasedata[idx++] = outI/8388608.f;  //decimate by 64
  8001284:	ee25 5a23 	vmul.f32	s10, s10, s7
  8001288:	ee65 5aa3 	vmul.f32	s11, s11, s7
  800128c:	ed87 5a00 	vstr	s10, [r7]
  8001290:	edc1 5a00 	vstr	s11, [r1]
-	if(idx < BSIZE*4)
+		if(idx < BSIZE*4)
  8001294:	f2c0 81da 	blt.w	800164c <ADC_Stream0_Handler+0x7a4>
 
 #endif
 
-		// generate now an interrupt to signal the base band processing routine that it has a new buffer
+			// generate now an interrupt to signal the base band processing routine that it has a new buffer
 
-		EXTI->SWIER1 |= GPIO_PIN_14;
+			EXTI->SWIER1 |= GPIO_PIN_14;
  8001298:	f04f 47b0 	mov.w	r7, #1476395008	; 0x58000000
-	inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
+		inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
  800129c:	eddd 3a08 	vldr	s7, [sp, #32]
  80012a0:	ed9d 5a09 	vldr	s10, [sp, #36]	; 0x24
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  80012a4:	eef0 5a4a 	vmov.f32	s11, s20
-		EXTI->SWIER1 |= GPIO_PIN_14;
+			EXTI->SWIER1 |= GPIO_PIN_14;
  80012a8:	68b9      	ldr	r1, [r7, #8]
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  80012aa:	eeb0 aa46 	vmov.f32	s20, s12
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
  80012ae:	ed9d 3a02 	vldr	s6, [sp, #8]
-	inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
+		inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
  80012b2:	edcd 3a0e 	vstr	s7, [sp, #56]	; 0x38
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  80012b6:	eef0 3a4d 	vmov.f32	s7, s26
-	inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
+		inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
  80012ba:	ed8d fa03 	vstr	s30, [sp, #12]
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  80012be:	eeb0 da67 	vmov.f32	s26, s15
-	inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
+		inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
  80012c2:	edcd fa04 	vstr	s31, [sp, #16]
  80012c6:	eeb0 fa42 	vmov.f32	s30, s4
  80012ca:	eef0 fa47 	vmov.f32	s31, s14
-	inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
+		inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
  80012ce:	ed8d 5a10 	vstr	s10, [sp, #64]	; 0x40
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
  80012d2:	ed8d 3a0a 	vstr	s6, [sp, #40]	; 0x28
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  80012d6:	eeb0 5a6a 	vmov.f32	s10, s21
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  80012da:	eeb0 3a6d 	vmov.f32	s6, s27
-		EXTI->SWIER1 |= GPIO_PIN_14;
+			EXTI->SWIER1 |= GPIO_PIN_14;
  80012de:	f441 4180 	orr.w	r1, r1, #16384	; 0x4000
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  80012e2:	eef0 da62 	vmov.f32	s27, s5
-	inE6Rold = inER;                           inE6Iold = inEI;
+		inE6Rold = inER;                           inE6Iold = inEI;
  80012e6:	ed9d 6a14 	vldr	s12, [sp, #80]	; 0x50
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  80012ea:	eef0 aa66 	vmov.f32	s21, s13
-	inE6Rold = inER;                           inE6Iold = inEI;
+		inE6Rold = inER;                           inE6Iold = inEI;
  80012ee:	eddd 2a15 	vldr	s5, [sp, #84]	; 0x54
-	inE5Rold  = inER;                          inE5Iold  = inEI;
+		inE5Rold  = inER;                          inE5Iold  = inEI;
  80012f2:	eddd 6a12 	vldr	s13, [sp, #72]	; 0x48
-	idx = 0;
+		idx = 0;
  80012f6:	9d0b      	ldr	r5, [sp, #44]	; 0x2c
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
  80012f8:	edcd ea0c 	vstr	s29, [sp, #48]	; 0x30
-	inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
+		inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
  80012fc:	edcd ba09 	vstr	s23, [sp, #36]	; 0x24
  8001300:	ed8d ba08 	vstr	s22, [sp, #32]
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
  8001304:	edcd 9a05 	vstr	s19, [sp, #20]
  8001308:	ed8d 9a02 	vstr	s18, [sp, #8]
-		EXTI->SWIER1 |= GPIO_PIN_14;
+			EXTI->SWIER1 |= GPIO_PIN_14;
  800130c:	60b9      	str	r1, [r7, #8]
-	inE6Rold = inER;                           inE6Iold = inEI;
+		inE6Rold = inER;                           inE6Iold = inEI;
  800130e:	edcd 2a11 	vstr	s5, [sp, #68]	; 0x44
  8001312:	ed8d 6a0f 	vstr	s12, [sp, #60]	; 0x3c
-	inE5Rold  = inER;                          inE5Iold  = inEI;
+		inE5Rold  = inER;                          inE5Iold  = inEI;
  8001316:	edcd 6a0d 	vstr	s13, [sp, #52]	; 0x34
-	inE2Rold = inER;                           inE2Iold = inEI;
+		inE2Rold = inER;                           inE2Iold = inEI;
  800131a:	eeb0 9a4c 	vmov.f32	s18, s24
-	inE5Rold  = inER;                          inE5Iold  = inEI;
+		inE5Rold  = inER;                          inE5Iold  = inEI;
  800131e:	eddd 7a13 	vldr	s15, [sp, #76]	; 0x4c
-	inE2Rold = inER;                           inE2Iold = inEI;
+		inE2Rold = inER;                           inE2Iold = inEI;
  8001322:	eef0 9a6c 	vmov.f32	s19, s25
-	inE4Rold = inER;                           inE4Iold = inEI;
+		inE4Rold = inER;                           inE4Iold = inEI;
  8001326:	ed9d ea06 	vldr	s28, [sp, #24]
  800132a:	eddd ea07 	vldr	s29, [sp, #28]
-	inE3Rold  = inER;                          inE3Iold  = inEI;
+		inE3Rold  = inER;                          inE3Iold  = inEI;
  800132e:	ed9d ba00 	vldr	s22, [sp]
  8001332:	eddd ba01 	vldr	s23, [sp, #4]
-	inE5Rold  = inER;                          inE5Iold  = inEI;
+		inE5Rold  = inER;                          inE5Iold  = inEI;
  8001336:	edcd 7a0b 	vstr	s15, [sp, #44]	; 0x2c
-while(k--)
+	while(k--)
  800133a:	3208      	adds	r2, #8
  800133c:	3b01      	subs	r3, #1
  800133e:	eef0 7a40 	vmov.f32	s15, s0
@@ -2179,7 +2183,7 @@ while(k--)
  8001346:	eeb0 7a60 	vmov.f32	s14, s1
  800134a:	b29b      	uxth	r3, r3
  800134c:	d059      	beq.n	8001402 <ADC_Stream0_Handler+0x55a>
-	inER=*ptDataR++; inOR=*ptDataR++;          inEI=*ptDataI++; inOI=*ptDataI++;
+		inER=*ptDataR++; inOR=*ptDataR++;          inEI=*ptDataI++; inOI=*ptDataI++;
  800134e:	eef0 0a48 	vmov.f32	s1, s16
  8001352:	eeb0 0a68 	vmov.f32	s0, s17
  8001356:	ed52 8a01 	vldr	s17, [r2, #-4]
@@ -2190,60 +2194,60 @@ while(k--)
  800136a:	ed12 1a02 	vldr	s2, [r2, #-8]
  800136e:	eeb0 6a48 	vmov.f32	s12, s16
  8001372:	ed50 1a02 	vldr	s3, [r0, #-8]
-	outR=(inOR+6.f*inO1Rold+inO1Rold2+4.f*(inER+inE1Rold)); outI=(inOI+6.f*inO1Iold+inO1Iold2+4.f*(inEI+inE1Iold));
+		outR=(inOR+6.f*inO1Rold+inO1Rold2+4.f*(inER+inE1Rold)); outI=(inOI+6.f*inO1Iold+inO1Iold2+4.f*(inEI+inE1Iold));
  8001376:	ee31 2a02 	vadd.f32	s4, s2, s4
-	if((k & 0x1))  // skip the if-block for k multiple of 2 (in base zero),
+		if((k & 0x1))  // skip the if-block for k multiple of 2 (in base zero),
  800137a:	07df      	lsls	r7, r3, #31
  800137c:	eee0 6a04 	vfma.f32	s13, s0, s8
  8001380:	eea0 6a84 	vfma.f32	s12, s1, s8
-	outR=(inOR+6.f*inO1Rold+inO1Rold2+4.f*(inER+inE1Rold)); outI=(inOI+6.f*inO1Iold+inO1Iold2+4.f*(inEI+inE1Iold));
+		outR=(inOR+6.f*inO1Rold+inO1Rold2+4.f*(inER+inE1Rold)); outI=(inOI+6.f*inO1Iold+inO1Iold2+4.f*(inEI+inE1Iold));
  8001384:	ee72 2aa1 	vadd.f32	s5, s5, s3
  8001388:	eee2 6a24 	vfma.f32	s13, s4, s9
  800138c:	eea2 6aa4 	vfma.f32	s12, s5, s9
  8001390:	ee77 6aa6 	vadd.f32	s13, s15, s13
  8001394:	ee37 6a06 	vadd.f32	s12, s14, s12
-	if((k & 0x1))  // skip the if-block for k multiple of 2 (in base zero),
+		if((k & 0x1))  // skip the if-block for k multiple of 2 (in base zero),
  8001398:	f57f aeda 	bpl.w	8001150 <ADC_Stream0_Handler+0x2a8>
-		tmp1R = outR; tmp1I = outI;  // save the even element produced
+			tmp1R = outR; tmp1I = outI;  // save the even element produced
  800139c:	eeb0 ca46 	vmov.f32	s24, s12
  80013a0:	eef0 ca66 	vmov.f32	s25, s13
  80013a4:	e7c9      	b.n	800133a <ADC_Stream0_Handler+0x492>
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  80013a6:	eef0 5a4a 	vmov.f32	s11, s20
-		tmp2R = outR; tmp2I = outI;  // save the even element produced
+			tmp2R = outR; tmp2I = outI;  // save the even element produced
  80013aa:	edcd 7a00 	vstr	s15, [sp]
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  80013ae:	eeb0 5a6a 	vmov.f32	s10, s21
-		tmp2R = outR; tmp2I = outI;  // save the even element produced
+			tmp2R = outR; tmp2I = outI;  // save the even element produced
  80013b2:	edcd 2a01 	vstr	s5, [sp, #4]
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  80013b6:	eeb0 aa46 	vmov.f32	s20, s12
  80013ba:	eef0 aa66 	vmov.f32	s21, s13
-	inE2Rold = inER;                           inE2Iold = inEI;
+		inE2Rold = inER;                           inE2Iold = inEI;
  80013be:	eeb0 9a4c 	vmov.f32	s18, s24
  80013c2:	eef0 9a6c 	vmov.f32	s19, s25
  80013c6:	e7b8      	b.n	800133a <ADC_Stream0_Handler+0x492>
  80013c8:	eeb0 ba65 	vmov.f32	s22, s11
-	inE3Rold  = inER;                          inE3Iold  = inEI;
+		inE3Rold  = inER;                          inE3Iold  = inEI;
  80013cc:	eddd ba01 	vldr	s23, [sp, #4]
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  80013d0:	eef0 3a4d 	vmov.f32	s7, s26
-		tmp3R = outR; tmp3I = outI;  // save the even element produced
+			tmp3R = outR; tmp3I = outI;  // save the even element produced
  80013d4:	ed8d 2a06 	vstr	s4, [sp, #24]
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  80013d8:	eeb0 3a6d 	vmov.f32	s6, s27
-		tmp3R = outR; tmp3I = outI;  // save the even element produced
+			tmp3R = outR; tmp3I = outI;  // save the even element produced
  80013dc:	ed8d 7a07 	vstr	s14, [sp, #28]
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  80013e0:	eef0 5a4a 	vmov.f32	s11, s20
  80013e4:	eeb0 5a6a 	vmov.f32	s10, s21
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  80013e8:	eeb0 da67 	vmov.f32	s26, s15
  80013ec:	eef0 da62 	vmov.f32	s27, s5
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  80013f0:	eeb0 aa46 	vmov.f32	s20, s12
  80013f4:	eef0 aa66 	vmov.f32	s21, s13
-	inE2Rold = inER;                           inE2Iold = inEI;
+		inE2Rold = inER;                           inE2Iold = inEI;
  80013f8:	eeb0 9a4c 	vmov.f32	s18, s24
  80013fc:	eef0 9a6c 	vmov.f32	s19, s25
  8001400:	e79b      	b.n	800133a <ADC_Stream0_Handler+0x492>
@@ -2331,84 +2335,84 @@ while(k--)
  8001506:	edcb 7a00 	vstr	s15, [fp]
  800150a:	eddd 7a11 	vldr	s15, [sp, #68]	; 0x44
  800150e:	edc9 7a00 	vstr	s15, [r9]
+		}
+
+		// LED_YELLOW_OFF;
+
 	}
-
-	// LED_YELLOW_OFF;
-
-}
  8001512:	b017      	add	sp, #92	; 0x5c
  8001514:	ecbd 8b10 	vpop	{d8-d15}
  8001518:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
  800151c:	eeb0 ea63 	vmov.f32	s28, s7
-	inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
+		inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
  8001520:	ed8d fa03 	vstr	s30, [sp, #12]
  8001524:	eef0 ea45 	vmov.f32	s29, s10
  8001528:	edcd fa04 	vstr	s31, [sp, #16]
  800152c:	eeb0 ba65 	vmov.f32	s22, s11
-		tmp4R = outR; tmp4I = outI;  // save the even element produced
+			tmp4R = outR; tmp4I = outI;  // save the even element produced
  8001530:	edcd 9a12 	vstr	s19, [sp, #72]	; 0x48
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  8001534:	eef0 3a4d 	vmov.f32	s7, s26
-		tmp4R = outR; tmp4I = outI;  // save the even element produced
+			tmp4R = outR; tmp4I = outI;  // save the even element produced
  8001538:	ed8d 9a13 	vstr	s18, [sp, #76]	; 0x4c
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  800153c:	eeb0 3a6d 	vmov.f32	s6, s27
-	inE3Rold  = inER;                          inE3Iold  = inEI;
+		inE3Rold  = inER;                          inE3Iold  = inEI;
  8001540:	eddd ba01 	vldr	s23, [sp, #4]
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  8001544:	eef0 5a4a 	vmov.f32	s11, s20
  8001548:	eeb0 5a6a 	vmov.f32	s10, s21
-	inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
+		inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
  800154c:	eeb0 fa42 	vmov.f32	s30, s4
  8001550:	eef0 fa47 	vmov.f32	s31, s14
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  8001554:	eeb0 da67 	vmov.f32	s26, s15
  8001558:	eef0 da62 	vmov.f32	s27, s5
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  800155c:	eeb0 aa46 	vmov.f32	s20, s12
  8001560:	eef0 aa66 	vmov.f32	s21, s13
-	inE2Rold = inER;                           inE2Iold = inEI;
+		inE2Rold = inER;                           inE2Iold = inEI;
  8001564:	eeb0 9a4c 	vmov.f32	s18, s24
  8001568:	eef0 9a6c 	vmov.f32	s19, s25
  800156c:	e6e5      	b.n	800133a <ADC_Stream0_Handler+0x492>
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
  800156e:	eddd 5a02 	vldr	s11, [sp, #8]
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  8001572:	eef0 3a4d 	vmov.f32	s7, s26
  8001576:	eeb0 3a6d 	vmov.f32	s6, s27
-	inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
+		inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
  800157a:	ed8d fa03 	vstr	s30, [sp, #12]
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  800157e:	eeb0 5a6a 	vmov.f32	s10, s21
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
  8001582:	edcd 5a0a 	vstr	s11, [sp, #40]	; 0x28
-	inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
+		inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
  8001586:	edcd fa04 	vstr	s31, [sp, #16]
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  800158a:	eef0 5a4a 	vmov.f32	s11, s20
-	inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
+		inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
  800158e:	eeb0 fa42 	vmov.f32	s30, s4
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
  8001592:	edcd ea0c 	vstr	s29, [sp, #48]	; 0x30
-	inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
+		inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
  8001596:	eef0 fa47 	vmov.f32	s31, s14
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
  800159a:	edcd 9a05 	vstr	s19, [sp, #20]
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  800159e:	eeb0 da67 	vmov.f32	s26, s15
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
  80015a2:	ed8d 9a02 	vstr	s18, [sp, #8]
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  80015a6:	eef0 da62 	vmov.f32	s27, s5
-		tmp5R = outR; tmp5I = outI;  // save the even element produced
+			tmp5R = outR; tmp5I = outI;  // save the even element produced
  80015aa:	edcd ba15 	vstr	s23, [sp, #84]	; 0x54
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  80015ae:	eeb0 aa46 	vmov.f32	s20, s12
-		tmp5R = outR; tmp5I = outI;  // save the even element produced
+			tmp5R = outR; tmp5I = outI;  // save the even element produced
  80015b2:	ed8d ba14 	vstr	s22, [sp, #80]	; 0x50
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  80015b6:	eef0 aa66 	vmov.f32	s21, s13
-	inE5Rold  = inER;                          inE5Iold  = inEI;
+		inE5Rold  = inER;                          inE5Iold  = inEI;
  80015ba:	eddd 7a12 	vldr	s15, [sp, #72]	; 0x48
  80015be:	edcd 7a0d 	vstr	s15, [sp, #52]	; 0x34
  80015c2:	e6aa      	b.n	800131a <ADC_Stream0_Handler+0x472>
@@ -2446,59 +2450,59 @@ while(k--)
  8001640:	2400060c 	.word	0x2400060c
  8001644:	240005ac 	.word	0x240005ac
  8001648:	24000600 	.word	0x24000600
-	inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
+		inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
  800164c:	eddd 5a09 	vldr	s11, [sp, #36]	; 0x24
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  8001650:	eef0 3a4d 	vmov.f32	s7, s26
  8001654:	eeb0 da67 	vmov.f32	s26, s15
-	inE6Rold = inER;                           inE6Iold = inEI;
+		inE6Rold = inER;                           inE6Iold = inEI;
  8001658:	eddd 7a15 	vldr	s15, [sp, #84]	; 0x54
-	inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
+		inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
  800165c:	edcd 5a10 	vstr	s11, [sp, #64]	; 0x40
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  8001660:	eeb0 3a6d 	vmov.f32	s6, s27
-	inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
+		inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
  8001664:	eddd 5a08 	vldr	s11, [sp, #32]
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  8001668:	eeb0 5a6a 	vmov.f32	s10, s21
-	inE6Rold = inER;                           inE6Iold = inEI;
+		inE6Rold = inER;                           inE6Iold = inEI;
  800166c:	edcd 7a11 	vstr	s15, [sp, #68]	; 0x44
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+		inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
  8001670:	eef0 da62 	vmov.f32	s27, s5
-	inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
+		inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
  8001674:	edcd 5a0e 	vstr	s11, [sp, #56]	; 0x38
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  8001678:	eef0 aa66 	vmov.f32	s21, s13
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
  800167c:	eddd 5a05 	vldr	s11, [sp, #20]
-	inE6Rold = inER;                           inE6Iold = inEI;
+		inE6Rold = inER;                           inE6Iold = inEI;
  8001680:	eddd 7a14 	vldr	s15, [sp, #80]	; 0x50
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
  8001684:	edcd 5a0c 	vstr	s11, [sp, #48]	; 0x30
  8001688:	eddd 5a02 	vldr	s11, [sp, #8]
-	inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
+		inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
  800168c:	ed8d fa03 	vstr	s30, [sp, #12]
  8001690:	eeb0 fa42 	vmov.f32	s30, s4
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
  8001694:	edcd 5a0a 	vstr	s11, [sp, #40]	; 0x28
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  8001698:	eef0 5a4a 	vmov.f32	s11, s20
-	inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
+		inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
  800169c:	edcd fa04 	vstr	s31, [sp, #16]
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+		inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
  80016a0:	eeb0 aa46 	vmov.f32	s20, s12
-	inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
+		inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
  80016a4:	eef0 fa47 	vmov.f32	s31, s14
-	inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
+		inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
  80016a8:	edcd ba09 	vstr	s23, [sp, #36]	; 0x24
  80016ac:	ed8d ba08 	vstr	s22, [sp, #32]
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
  80016b0:	edcd 9a05 	vstr	s19, [sp, #20]
  80016b4:	ed8d 9a02 	vstr	s18, [sp, #8]
-	inE6Rold = inER;                           inE6Iold = inEI;
+		inE6Rold = inER;                           inE6Iold = inEI;
  80016b8:	edcd 7a0f 	vstr	s15, [sp, #60]	; 0x3c
  80016bc:	e77d      	b.n	80015ba <ADC_Stream0_Handler+0x712>
-	SDR_ComputeLO(LOfreq-cwpitch);  // prepare next LO buffer
+		SDR_ComputeLO(LOfreq-cwpitch);  // prepare next LO buffer
  80016be:	4a06      	ldr	r2, [pc, #24]	; (80016d8 <ADC_Stream0_Handler+0x830>)
  80016c0:	4b06      	ldr	r3, [pc, #24]	; (80016dc <ADC_Stream0_Handler+0x834>)
  80016c2:	ed92 0a00 	vldr	s0, [r2]
@@ -3638,7 +3642,7 @@ void SDR_demodSSB_CW_AGC(float32_t * tmpSamp, float32_t * fAudio)
  8001f3e:	42a3      	cmp	r3, r4
  8001f40:	d1dd      	bne.n	8001efe <SDR_demodSSB_CW_AGC+0xe6>
  8001f42:	e7aa      	b.n	8001e9a <SDR_demodSSB_CW_AGC+0x82>
- 8001f44:	2400c9fc 	.word	0x2400c9fc
+ 8001f44:	2400d1fc 	.word	0x2400d1fc
  8001f48:	2400866c 	.word	0x2400866c
  8001f4c:	240000ec 	.word	0x240000ec
  8001f50:	2400061c 	.word	0x2400061c
@@ -3686,7 +3690,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *AdcHandle)
 }
  8001f90:	bd08      	pop	{r3, pc}
  8001f92:	bf00      	nop
- 8001f94:	2400d600 	.word	0x2400d600
+ 8001f94:	2400de00 	.word	0x2400de00
  8001f98:	e000ed00 	.word	0xe000ed00
  8001f9c:	24000669 	.word	0x24000669
 
@@ -3729,7 +3733,7 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 }
  8001fcc:	bd08      	pop	{r3, pc}
  8001fce:	bf00      	nop
- 8001fd0:	2400d200 	.word	0x2400d200
+ 8001fd0:	2400da00 	.word	0x2400da00
  8001fd4:	e000ed00 	.word	0xe000ed00
  8001fd8:	24000669 	.word	0x24000669
 
@@ -3970,17 +3974,13 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  8002136:	ed8d 7b04 	vstr	d7, [sp, #16]
  800213a:	ec53 2b16 	vmov	r2, r3, d6
  800213e:	f00b fd39 	bl	800dbb4 <siprintf>
-#ifdef UART_UI
-	//HAL_UART_Transmit(&huart3, (uint8_t *) UartTXString, strlen(UartTXString), 100);
-#endif
-#ifdef USB_UI
 	CDC_Transmit_FS(UartTXString, strlen(UartTXString));
  8002142:	4834      	ldr	r0, [pc, #208]	; (8002214 <DisplayStatus+0x1bc>)
  8002144:	f7fe f8cc 	bl	80002e0 <strlen>
  8002148:	4601      	mov	r1, r0
  800214a:	4832      	ldr	r0, [pc, #200]	; (8002214 <DisplayStatus+0x1bc>)
  800214c:	b289      	uxth	r1, r1
-#endif
+	PrintUI(UartTXString);
 }
  800214e:	b006      	add	sp, #24
  8002150:	e8bd 4070 	ldmia.w	sp!, {r4, r5, r6, lr}
@@ -4054,10 +4054,10 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  80021c6:	e75b      	b.n	8002080 <DisplayStatus+0x28>
  80021c8:	4d09      	ldr	r5, [pc, #36]	; (80021f0 <DisplayStatus+0x198>)
  80021ca:	e78d      	b.n	80020e8 <DisplayStatus+0x90>
- 80021cc:	2400c9f4 	.word	0x2400c9f4
+ 80021cc:	2400d1f4 	.word	0x2400d1f4
  80021d0:	08017260 	.word	0x08017260
  80021d4:	24000658 	.word	0x24000658
- 80021d8:	2400c9fc 	.word	0x2400c9fc
+ 80021d8:	2400d1fc 	.word	0x2400d1fc
  80021dc:	08017250 	.word	0x08017250
  80021e0:	000186a0 	.word	0x000186a0
  80021e4:	08017280 	.word	0x08017280
@@ -4501,7 +4501,7 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  80025b0:	58020c00 	.word	0x58020c00
 
 080025b4 <Error_Handler>:
-  /* USER CODE BEGIN Error_Handler_Debug */
+	/* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 
 	while(1)
@@ -4773,7 +4773,7 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
 {
  8002798:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
  800279c:	b0b5      	sub	sp, #212	; 0xd4
-  HAL_Init();
+	HAL_Init();
  800279e:	f000 fee9 	bl	8003574 <HAL_Init>
     if (SCB->CCR & SCB_CCR_IC_Msk) return;  /* return if ICache is already enabled */
  80027a2:	4bd1      	ldr	r3, [pc, #836]	; (8002ae8 <main+0x350>)
@@ -4798,36 +4798,36 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  80027c8:	f3bf 8f4f 	dsb	sy
   __ASM volatile ("isb 0xF":::"memory");
  80027cc:	f3bf 8f6f 	isb	sy
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
  80027d0:	2400      	movs	r4, #0
-  __HAL_RCC_GPIOC_CLK_ENABLE();
+	__HAL_RCC_GPIOC_CLK_ENABLE();
  80027d2:	4ec6      	ldr	r6, [pc, #792]	; (8002aec <main+0x354>)
 	SystemClock_Config_For_OC();
  80027d4:	f7ff ff08 	bl	80025e8 <SystemClock_Config_For_OC>
 	HAL_Delay(20);  //needed for USB setup. USB somentimes (and almost always oh an Android phone) does not initialize
  80027d8:	2014      	movs	r0, #20
  80027da:	f000 ff0d 	bl	80035f8 <HAL_Delay>
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
  80027de:	942c      	str	r4, [sp, #176]	; 0xb0
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
  80027e0:	2701      	movs	r7, #1
-  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+	hadc1.Init.Resolution = ADC_RESOLUTION_12B;
  80027e2:	f04f 0b08 	mov.w	fp, #8
-  HAL_GPIO_WritePin(TX_ENA_GPIO_Port, TX_ENA_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(TX_ENA_GPIO_Port, TX_ENA_Pin, GPIO_PIN_RESET);
  80027e6:	4622      	mov	r2, r4
  80027e8:	f44f 6100 	mov.w	r1, #2048	; 0x800
  80027ec:	48c0      	ldr	r0, [pc, #768]	; (8002af0 <main+0x358>)
-  GPIO_InitStruct.Pin = TX_ENA_Pin;
+	GPIO_InitStruct.Pin = TX_ENA_Pin;
  80027ee:	f44f 6800 	mov.w	r8, #2048	; 0x800
  80027f2:	f04f 0901 	mov.w	r9, #1
-  hadc1.Instance = ADC1;
+	hadc1.Instance = ADC1;
  80027f6:	4dbf      	ldr	r5, [pc, #764]	; (8002af4 <main+0x35c>)
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV2;
+	hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV2;
  80027f8:	f44f 2a80 	mov.w	sl, #262144	; 0x40000
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
  80027fc:	e9cd 442a 	strd	r4, r4, [sp, #168]	; 0xa8
  8002800:	e9cd 442d 	strd	r4, r4, [sp, #180]	; 0xb4
-  __HAL_RCC_GPIOC_CLK_ENABLE();
+	__HAL_RCC_GPIOC_CLK_ENABLE();
  8002804:	f8d6 30e0 	ldr.w	r3, [r6, #224]	; 0xe0
  8002808:	f043 0304 	orr.w	r3, r3, #4
  800280c:	f8c6 30e0 	str.w	r3, [r6, #224]	; 0xe0
@@ -4835,7 +4835,7 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  8002814:	f003 0304 	and.w	r3, r3, #4
  8002818:	9305      	str	r3, [sp, #20]
  800281a:	9b05      	ldr	r3, [sp, #20]
-  __HAL_RCC_GPIOH_CLK_ENABLE();
+	__HAL_RCC_GPIOH_CLK_ENABLE();
  800281c:	f8d6 30e0 	ldr.w	r3, [r6, #224]	; 0xe0
  8002820:	f043 0380 	orr.w	r3, r3, #128	; 0x80
  8002824:	f8c6 30e0 	str.w	r3, [r6, #224]	; 0xe0
@@ -4843,7 +4843,7 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  800282c:	f003 0380 	and.w	r3, r3, #128	; 0x80
  8002830:	9306      	str	r3, [sp, #24]
  8002832:	9b06      	ldr	r3, [sp, #24]
-  __HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOA_CLK_ENABLE();
  8002834:	f8d6 30e0 	ldr.w	r3, [r6, #224]	; 0xe0
  8002838:	433b      	orrs	r3, r7
  800283a:	f8c6 30e0 	str.w	r3, [r6, #224]	; 0xe0
@@ -4851,7 +4851,7 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  8002842:	403b      	ands	r3, r7
  8002844:	9307      	str	r3, [sp, #28]
  8002846:	9b07      	ldr	r3, [sp, #28]
-  __HAL_RCC_GPIOB_CLK_ENABLE();
+	__HAL_RCC_GPIOB_CLK_ENABLE();
  8002848:	f8d6 30e0 	ldr.w	r3, [r6, #224]	; 0xe0
  800284c:	f043 0302 	orr.w	r3, r3, #2
  8002850:	f8c6 30e0 	str.w	r3, [r6, #224]	; 0xe0
@@ -4859,7 +4859,7 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  8002858:	f003 0302 	and.w	r3, r3, #2
  800285c:	9308      	str	r3, [sp, #32]
  800285e:	9b08      	ldr	r3, [sp, #32]
-  __HAL_RCC_GPIOD_CLK_ENABLE();
+	__HAL_RCC_GPIOD_CLK_ENABLE();
  8002860:	f8d6 30e0 	ldr.w	r3, [r6, #224]	; 0xe0
  8002864:	ea43 030b 	orr.w	r3, r3, fp
  8002868:	f8c6 30e0 	str.w	r3, [r6, #224]	; 0xe0
@@ -4867,207 +4867,207 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  8002870:	ea03 030b 	and.w	r3, r3, fp
  8002874:	9309      	str	r3, [sp, #36]	; 0x24
  8002876:	9b09      	ldr	r3, [sp, #36]	; 0x24
-  HAL_GPIO_WritePin(TX_ENA_GPIO_Port, TX_ENA_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(TX_ENA_GPIO_Port, TX_ENA_Pin, GPIO_PIN_RESET);
  8002878:	f003 fe7c 	bl	8006574 <HAL_GPIO_WritePin>
-  HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_RESET);
  800287c:	4622      	mov	r2, r4
  800287e:	f44f 7180 	mov.w	r1, #256	; 0x100
  8002882:	489d      	ldr	r0, [pc, #628]	; (8002af8 <main+0x360>)
  8002884:	f003 fe76 	bl	8006574 <HAL_GPIO_WritePin>
-  GPIO_InitStruct.Pin = SwInt1_Pin;
+	GPIO_InitStruct.Pin = SwInt1_Pin;
  8002888:	f44f 4280 	mov.w	r2, #16384	; 0x4000
  800288c:	4b9b      	ldr	r3, [pc, #620]	; (8002afc <main+0x364>)
-  HAL_GPIO_Init(SwInt1_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(SwInt1_GPIO_Port, &GPIO_InitStruct);
  800288e:	a92a      	add	r1, sp, #168	; 0xa8
  8002890:	489b      	ldr	r0, [pc, #620]	; (8002b00 <main+0x368>)
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
+	GPIO_InitStruct.Pull = GPIO_PULLUP;
  8002892:	972c      	str	r7, [sp, #176]	; 0xb0
-  GPIO_InitStruct.Pin = SwInt1_Pin;
+	GPIO_InitStruct.Pin = SwInt1_Pin;
  8002894:	e9cd 232a 	strd	r2, r3, [sp, #168]	; 0xa8
-  HAL_GPIO_Init(SwInt1_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(SwInt1_GPIO_Port, &GPIO_InitStruct);
  8002898:	f003 fd4e 	bl	8006338 <HAL_GPIO_Init>
-  GPIO_InitStruct.Pin = TX_ENA_Pin;
+	GPIO_InitStruct.Pin = TX_ENA_Pin;
  800289c:	2202      	movs	r2, #2
  800289e:	2300      	movs	r3, #0
-  HAL_GPIO_Init(TX_ENA_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(TX_ENA_GPIO_Port, &GPIO_InitStruct);
  80028a0:	a92a      	add	r1, sp, #168	; 0xa8
  80028a2:	4893      	ldr	r0, [pc, #588]	; (8002af0 <main+0x358>)
-  GPIO_InitStruct.Pin = TX_ENA_Pin;
+	GPIO_InitStruct.Pin = TX_ENA_Pin;
  80028a4:	e9cd 892a 	strd	r8, r9, [sp, #168]	; 0xa8
  80028a8:	e9cd 232c 	strd	r2, r3, [sp, #176]	; 0xb0
-  GPIO_InitStruct.Pin = GPIO_PIN_9;
+	GPIO_InitStruct.Pin = GPIO_PIN_9;
  80028ac:	f44f 7800 	mov.w	r8, #512	; 0x200
-  HAL_GPIO_Init(TX_ENA_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(TX_ENA_GPIO_Port, &GPIO_InitStruct);
  80028b0:	f003 fd42 	bl	8006338 <HAL_GPIO_Init>
-  GPIO_InitStruct.Pin = GPIO_PIN_9;
+	GPIO_InitStruct.Pin = GPIO_PIN_9;
  80028b4:	f04f 0902 	mov.w	r9, #2
  80028b8:	2200      	movs	r2, #0
  80028ba:	2303      	movs	r3, #3
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
  80028bc:	a92a      	add	r1, sp, #168	; 0xa8
  80028be:	4890      	ldr	r0, [pc, #576]	; (8002b00 <main+0x368>)
-  GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
+	GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
  80028c0:	942e      	str	r4, [sp, #184]	; 0xb8
-  GPIO_InitStruct.Pin = GPIO_PIN_9;
+	GPIO_InitStruct.Pin = GPIO_PIN_9;
  80028c2:	e9cd 892a 	strd	r8, r9, [sp, #168]	; 0xa8
  80028c6:	e9cd 232c 	strd	r2, r3, [sp, #176]	; 0xb0
-  GPIO_InitStruct.Pin = LED_GREEN_Pin;
+	GPIO_InitStruct.Pin = LED_GREEN_Pin;
  80028ca:	f44f 7880 	mov.w	r8, #256	; 0x100
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
  80028ce:	f003 fd33 	bl	8006338 <HAL_GPIO_Init>
-  GPIO_InitStruct.Pin = LED_GREEN_Pin;
+	GPIO_InitStruct.Pin = LED_GREEN_Pin;
  80028d2:	f04f 0901 	mov.w	r9, #1
  80028d6:	2300      	movs	r3, #0
  80028d8:	2200      	movs	r2, #0
-  HAL_GPIO_Init(LED_GREEN_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(LED_GREEN_GPIO_Port, &GPIO_InitStruct);
  80028da:	a92a      	add	r1, sp, #168	; 0xa8
  80028dc:	4886      	ldr	r0, [pc, #536]	; (8002af8 <main+0x360>)
-  GPIO_InitStruct.Pin = LED_GREEN_Pin;
+	GPIO_InitStruct.Pin = LED_GREEN_Pin;
  80028de:	e9cd 232c 	strd	r2, r3, [sp, #176]	; 0xb0
  80028e2:	e9cd 892a 	strd	r8, r9, [sp, #168]	; 0xa8
-  HAL_GPIO_Init(LED_GREEN_GPIO_Port, &GPIO_InitStruct);
+	HAL_GPIO_Init(LED_GREEN_GPIO_Port, &GPIO_InitStruct);
  80028e6:	f003 fd27 	bl	8006338 <HAL_GPIO_Init>
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 4, 0);
+	HAL_NVIC_SetPriority(EXTI15_10_IRQn, 4, 0);
  80028ea:	4622      	mov	r2, r4
  80028ec:	2104      	movs	r1, #4
  80028ee:	2028      	movs	r0, #40	; 0x28
  80028f0:	f002 f802 	bl	80048f8 <HAL_NVIC_SetPriority>
-  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+	HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
  80028f4:	2028      	movs	r0, #40	; 0x28
  80028f6:	f002 f839 	bl	800496c <HAL_NVIC_EnableIRQ>
-  __HAL_RCC_DMA1_CLK_ENABLE();
+	__HAL_RCC_DMA1_CLK_ENABLE();
  80028fa:	f8d6 30d8 	ldr.w	r3, [r6, #216]	; 0xd8
-  HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
+	HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
  80028fe:	4622      	mov	r2, r4
  8002900:	4621      	mov	r1, r4
-  __HAL_RCC_DMA1_CLK_ENABLE();
+	__HAL_RCC_DMA1_CLK_ENABLE();
  8002902:	433b      	orrs	r3, r7
-  HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
+	HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
  8002904:	200b      	movs	r0, #11
-  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+	hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
  8002906:	f04f 0904 	mov.w	r9, #4
-  hadc1.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
+	hadc1.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
  800290a:	f44f 5880 	mov.w	r8, #4096	; 0x1000
-  __HAL_RCC_DMA1_CLK_ENABLE();
+	__HAL_RCC_DMA1_CLK_ENABLE();
  800290e:	f8c6 30d8 	str.w	r3, [r6, #216]	; 0xd8
  8002912:	f8d6 30d8 	ldr.w	r3, [r6, #216]	; 0xd8
-  hadc1.Init.LowPowerAutoWait = DISABLE;
+	hadc1.Init.LowPowerAutoWait = DISABLE;
  8002916:	f44f 7680 	mov.w	r6, #256	; 0x100
-  __HAL_RCC_DMA1_CLK_ENABLE();
+	__HAL_RCC_DMA1_CLK_ENABLE();
  800291a:	403b      	ands	r3, r7
  800291c:	9304      	str	r3, [sp, #16]
  800291e:	9b04      	ldr	r3, [sp, #16]
-  HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
+	HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
  8002920:	f001 ffea 	bl	80048f8 <HAL_NVIC_SetPriority>
-  HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
+	HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
  8002924:	200b      	movs	r0, #11
  8002926:	f002 f821 	bl	800496c <HAL_NVIC_EnableIRQ>
-  HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 2, 0);
+	HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 2, 0);
  800292a:	4622      	mov	r2, r4
  800292c:	2102      	movs	r1, #2
  800292e:	200c      	movs	r0, #12
  8002930:	f001 ffe2 	bl	80048f8 <HAL_NVIC_SetPriority>
-  HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
+	HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
  8002934:	200c      	movs	r0, #12
  8002936:	f002 f819 	bl	800496c <HAL_NVIC_EnableIRQ>
-  hadc1.Instance = ADC1;
+	hadc1.Instance = ADC1;
  800293a:	4a72      	ldr	r2, [pc, #456]	; (8002b04 <main+0x36c>)
-  hadc1.Init.ConversionDataManagement = ADC_CONVERSIONDATA_DMA_CIRCULAR;
+	hadc1.Init.ConversionDataManagement = ADC_CONVERSIONDATA_DMA_CIRCULAR;
  800293c:	2303      	movs	r3, #3
-  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+	if (HAL_ADC_Init(&hadc1) != HAL_OK)
  800293e:	4628      	mov	r0, r5
-  hadc1.Init.LowPowerAutoWait = DISABLE;
+	hadc1.Init.LowPowerAutoWait = DISABLE;
  8002940:	82ae      	strh	r6, [r5, #20]
-  ADC_MultiModeTypeDef multimode = {0};
+	ADC_MultiModeTypeDef multimode = {0};
  8002942:	940a      	str	r4, [sp, #40]	; 0x28
-  ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
+	ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
  8002944:	9414      	str	r4, [sp, #80]	; 0x50
-  ADC_ChannelConfTypeDef sConfig = {0};
+	ADC_ChannelConfTypeDef sConfig = {0};
  8002946:	9422      	str	r4, [sp, #136]	; 0x88
-  ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
+	ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
  8002948:	9419      	str	r4, [sp, #100]	; 0x64
-  hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
+	hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
  800294a:	60ec      	str	r4, [r5, #12]
-  hadc1.Init.NbrOfConversion = 1;
+	hadc1.Init.NbrOfConversion = 1;
  800294c:	61af      	str	r7, [r5, #24]
-  hadc1.Init.DiscontinuousConvMode = DISABLE;
+	hadc1.Init.DiscontinuousConvMode = DISABLE;
  800294e:	772c      	strb	r4, [r5, #28]
-  hadc1.Init.LeftBitShift = ADC_LEFTBITSHIFT_NONE;
+	hadc1.Init.LeftBitShift = ADC_LEFTBITSHIFT_NONE;
  8002950:	636c      	str	r4, [r5, #52]	; 0x34
-  hadc1.Init.OversamplingMode = DISABLE;
+	hadc1.Init.OversamplingMode = DISABLE;
  8002952:	f885 4038 	strb.w	r4, [r5, #56]	; 0x38
-  hadc1.Instance = ADC1;
+	hadc1.Instance = ADC1;
  8002956:	602a      	str	r2, [r5, #0]
-  hadc1.Init.ConversionDataManagement = ADC_CONVERSIONDATA_DMA_CIRCULAR;
+	hadc1.Init.ConversionDataManagement = ADC_CONVERSIONDATA_DMA_CIRCULAR;
  8002958:	62eb      	str	r3, [r5, #44]	; 0x2c
-  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+	hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
  800295a:	f8c5 9010 	str.w	r9, [r5, #16]
-  hadc1.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
+	hadc1.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
  800295e:	f8c5 8030 	str.w	r8, [r5, #48]	; 0x30
-  ADC_MultiModeTypeDef multimode = {0};
+	ADC_MultiModeTypeDef multimode = {0};
  8002962:	e9cd 440b 	strd	r4, r4, [sp, #44]	; 0x2c
-  ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
+	ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
  8002966:	e9cd 4415 	strd	r4, r4, [sp, #84]	; 0x54
  800296a:	e9cd 4417 	strd	r4, r4, [sp, #92]	; 0x5c
-  ADC_ChannelConfTypeDef sConfig = {0};
+	ADC_ChannelConfTypeDef sConfig = {0};
  800296e:	e9cd 4423 	strd	r4, r4, [sp, #140]	; 0x8c
  8002972:	e9cd 4425 	strd	r4, r4, [sp, #148]	; 0x94
  8002976:	e9cd 4427 	strd	r4, r4, [sp, #156]	; 0x9c
-  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+	hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
  800297a:	e9c5 4409 	strd	r4, r4, [r5, #36]	; 0x24
-  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+	hadc1.Init.Resolution = ADC_RESOLUTION_12B;
  800297e:	e9c5 ab01 	strd	sl, fp, [r5, #4]
-  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+	if (HAL_ADC_Init(&hadc1) != HAL_OK)
  8002982:	f001 fd57 	bl	8004434 <HAL_ADC_Init>
  8002986:	2800      	cmp	r0, #0
  8002988:	f040 81e7 	bne.w	8002d5a <main+0x5c2>
-  multimode.Mode = ADC_DUALMODE_INTERL;
+	multimode.Mode = ADC_DUALMODE_INTERL;
  800298c:	2207      	movs	r2, #7
  800298e:	f44f 4300 	mov.w	r3, #32768	; 0x8000
-  if (HAL_ADCEx_MultiModeConfigChannel(&hadc1, &multimode) != HAL_OK)
+	if (HAL_ADCEx_MultiModeConfigChannel(&hadc1, &multimode) != HAL_OK)
  8002992:	a90a      	add	r1, sp, #40	; 0x28
  8002994:	4628      	mov	r0, r5
-  multimode.TwoSamplingDelay = ADC_TWOSAMPLINGDELAY_2CYCLES;
+	multimode.TwoSamplingDelay = ADC_TWOSAMPLINGDELAY_2CYCLES;
  8002996:	960c      	str	r6, [sp, #48]	; 0x30
-  multimode.Mode = ADC_DUALMODE_INTERL;
+	multimode.Mode = ADC_DUALMODE_INTERL;
  8002998:	e9cd 230a 	strd	r2, r3, [sp, #40]	; 0x28
-  if (HAL_ADCEx_MultiModeConfigChannel(&hadc1, &multimode) != HAL_OK)
+	if (HAL_ADCEx_MultiModeConfigChannel(&hadc1, &multimode) != HAL_OK)
  800299c:	f001 ff30 	bl	8004800 <HAL_ADCEx_MultiModeConfigChannel>
  80029a0:	2800      	cmp	r0, #0
  80029a2:	f040 81da 	bne.w	8002d5a <main+0x5c2>
-  AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
+	AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
  80029a6:	4a58      	ldr	r2, [pc, #352]	; (8002b08 <main+0x370>)
  80029a8:	f44f 0340 	mov.w	r3, #12582912	; 0xc00000
-  AnalogWDGConfig.Channel = ADC_CHANNEL_5;
+	AnalogWDGConfig.Channel = ADC_CHANNEL_5;
  80029ac:	4c57      	ldr	r4, [pc, #348]	; (8002b0c <main+0x374>)
-  if (HAL_ADC_AnalogWDGConfig(&hadc1, &AnalogWDGConfig) != HAL_OK)
+	if (HAL_ADC_AnalogWDGConfig(&hadc1, &AnalogWDGConfig) != HAL_OK)
  80029ae:	a914      	add	r1, sp, #80	; 0x50
  80029b0:	4628      	mov	r0, r5
-  AnalogWDGConfig.ITMode = ENABLE;
+	AnalogWDGConfig.ITMode = ENABLE;
  80029b2:	f88d 705c 	strb.w	r7, [sp, #92]	; 0x5c
-  AnalogWDGConfig.Channel = ADC_CHANNEL_5;
+	AnalogWDGConfig.Channel = ADC_CHANNEL_5;
  80029b6:	9416      	str	r4, [sp, #88]	; 0x58
-  AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
+	AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
  80029b8:	e9cd 2314 	strd	r2, r3, [sp, #80]	; 0x50
-  AnalogWDGConfig.HighThreshold = 4094;
+	AnalogWDGConfig.HighThreshold = 4094;
  80029bc:	2301      	movs	r3, #1
  80029be:	f640 72fe 	movw	r2, #4094	; 0xffe
  80029c2:	e9cd 2318 	strd	r2, r3, [sp, #96]	; 0x60
-  if (HAL_ADC_AnalogWDGConfig(&hadc1, &AnalogWDGConfig) != HAL_OK)
+	if (HAL_ADC_AnalogWDGConfig(&hadc1, &AnalogWDGConfig) != HAL_OK)
  80029c6:	f001 fa13 	bl	8003df0 <HAL_ADC_AnalogWDGConfig>
  80029ca:	4603      	mov	r3, r0
  80029cc:	2800      	cmp	r0, #0
  80029ce:	f040 81c4 	bne.w	8002d5a <main+0x5c2>
-  sConfig.Channel = ADC_CHANNEL_5;
+	sConfig.Channel = ADC_CHANNEL_5;
  80029d2:	2200      	movs	r2, #0
-  sConfig.OffsetSignedSaturation = DISABLE;
+	sConfig.OffsetSignedSaturation = DISABLE;
  80029d4:	f88d 30a1 	strb.w	r3, [sp, #161]	; 0xa1
-  sConfig.Channel = ADC_CHANNEL_5;
+	sConfig.Channel = ADC_CHANNEL_5;
  80029d8:	f240 73ff 	movw	r3, #2047	; 0x7ff
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
  80029dc:	a922      	add	r1, sp, #136	; 0x88
  80029de:	4628      	mov	r0, r5
-  sConfig.Channel = ADC_CHANNEL_5;
+	sConfig.Channel = ADC_CHANNEL_5;
  80029e0:	e9cd 2324 	strd	r2, r3, [sp, #144]	; 0x90
  80029e4:	a33e      	add	r3, pc, #248	; (adr r3, 8002ae0 <main+0x348>)
  80029e6:	e9d3 2300 	ldrd	r2, r3, [r3]
@@ -5075,80 +5075,80 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  80029ee:	2300      	movs	r3, #0
  80029f0:	2204      	movs	r2, #4
  80029f2:	e9cd 2326 	strd	r2, r3, [sp, #152]	; 0x98
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
  80029f6:	f000 ffcb 	bl	8003990 <HAL_ADC_ConfigChannel>
  80029fa:	4603      	mov	r3, r0
  80029fc:	2800      	cmp	r0, #0
  80029fe:	f040 81ac 	bne.w	8002d5a <main+0x5c2>
-  hadc2.Instance = ADC2;
+	hadc2.Instance = ADC2;
  8002a02:	4d43      	ldr	r5, [pc, #268]	; (8002b10 <main+0x378>)
  8002a04:	4a43      	ldr	r2, [pc, #268]	; (8002b14 <main+0x37c>)
-  ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
+	ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
  8002a06:	900e      	str	r0, [sp, #56]	; 0x38
-  ADC_ChannelConfTypeDef sConfig = {0};
+	ADC_ChannelConfTypeDef sConfig = {0};
  8002a08:	901a      	str	r0, [sp, #104]	; 0x68
-  if (HAL_ADC_Init(&hadc2) != HAL_OK)
+	if (HAL_ADC_Init(&hadc2) != HAL_OK)
  8002a0a:	4628      	mov	r0, r5
-  hadc2.Init.LowPowerAutoWait = DISABLE;
+	hadc2.Init.LowPowerAutoWait = DISABLE;
  8002a0c:	82ae      	strh	r6, [r5, #20]
-  hadc2.Init.NbrOfConversion = 1;
+	hadc2.Init.NbrOfConversion = 1;
  8002a0e:	61af      	str	r7, [r5, #24]
-  hadc2.Init.DiscontinuousConvMode = DISABLE;
+	hadc2.Init.DiscontinuousConvMode = DISABLE;
  8002a10:	772b      	strb	r3, [r5, #28]
-  hadc2.Init.LeftBitShift = ADC_LEFTBITSHIFT_NONE;
+	hadc2.Init.LeftBitShift = ADC_LEFTBITSHIFT_NONE;
  8002a12:	636b      	str	r3, [r5, #52]	; 0x34
-  hadc2.Init.OversamplingMode = DISABLE;
+	hadc2.Init.OversamplingMode = DISABLE;
  8002a14:	f885 3038 	strb.w	r3, [r5, #56]	; 0x38
-  hadc2.Instance = ADC2;
+	hadc2.Instance = ADC2;
  8002a18:	602a      	str	r2, [r5, #0]
-  ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
+	ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
  8002a1a:	9313      	str	r3, [sp, #76]	; 0x4c
-  hadc2.Init.Resolution = ADC_RESOLUTION_12B;
+	hadc2.Init.Resolution = ADC_RESOLUTION_12B;
  8002a1c:	e9c5 ab01 	strd	sl, fp, [r5, #4]
-  hadc2.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+	hadc2.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
  8002a20:	e9c5 3903 	strd	r3, r9, [r5, #12]
-  hadc2.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
+	hadc2.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
  8002a24:	e9c5 380b 	strd	r3, r8, [r5, #44]	; 0x2c
-  ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
+	ADC_AnalogWDGConfTypeDef AnalogWDGConfig = {0};
  8002a28:	e9cd 330f 	strd	r3, r3, [sp, #60]	; 0x3c
  8002a2c:	e9cd 3311 	strd	r3, r3, [sp, #68]	; 0x44
-  ADC_ChannelConfTypeDef sConfig = {0};
+	ADC_ChannelConfTypeDef sConfig = {0};
  8002a30:	e9cd 331b 	strd	r3, r3, [sp, #108]	; 0x6c
  8002a34:	e9cd 331d 	strd	r3, r3, [sp, #116]	; 0x74
  8002a38:	e9cd 331f 	strd	r3, r3, [sp, #124]	; 0x7c
-  if (HAL_ADC_Init(&hadc2) != HAL_OK)
+	if (HAL_ADC_Init(&hadc2) != HAL_OK)
  8002a3c:	f001 fcfa 	bl	8004434 <HAL_ADC_Init>
  8002a40:	2800      	cmp	r0, #0
  8002a42:	f040 818a 	bne.w	8002d5a <main+0x5c2>
-  AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
+	AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
  8002a46:	4a30      	ldr	r2, [pc, #192]	; (8002b08 <main+0x370>)
  8002a48:	f44f 0340 	mov.w	r3, #12582912	; 0xc00000
-  if (HAL_ADC_AnalogWDGConfig(&hadc2, &AnalogWDGConfig) != HAL_OK)
+	if (HAL_ADC_AnalogWDGConfig(&hadc2, &AnalogWDGConfig) != HAL_OK)
  8002a4c:	a90e      	add	r1, sp, #56	; 0x38
  8002a4e:	4628      	mov	r0, r5
-  AnalogWDGConfig.Channel = ADC_CHANNEL_5;
+	AnalogWDGConfig.Channel = ADC_CHANNEL_5;
  8002a50:	9410      	str	r4, [sp, #64]	; 0x40
-  AnalogWDGConfig.ITMode = ENABLE;
+	AnalogWDGConfig.ITMode = ENABLE;
  8002a52:	f88d 7044 	strb.w	r7, [sp, #68]	; 0x44
-  AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
+	AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
  8002a56:	e9cd 230e 	strd	r2, r3, [sp, #56]	; 0x38
-  AnalogWDGConfig.HighThreshold = 4094;
+	AnalogWDGConfig.HighThreshold = 4094;
  8002a5a:	2301      	movs	r3, #1
  8002a5c:	f640 72fe 	movw	r2, #4094	; 0xffe
  8002a60:	e9cd 2312 	strd	r2, r3, [sp, #72]	; 0x48
-  if (HAL_ADC_AnalogWDGConfig(&hadc2, &AnalogWDGConfig) != HAL_OK)
+	if (HAL_ADC_AnalogWDGConfig(&hadc2, &AnalogWDGConfig) != HAL_OK)
  8002a64:	f001 f9c4 	bl	8003df0 <HAL_ADC_AnalogWDGConfig>
  8002a68:	4603      	mov	r3, r0
  8002a6a:	2800      	cmp	r0, #0
  8002a6c:	f040 8175 	bne.w	8002d5a <main+0x5c2>
-  sConfig.OffsetSignedSaturation = DISABLE;
+	sConfig.OffsetSignedSaturation = DISABLE;
  8002a70:	f88d 3081 	strb.w	r3, [sp, #129]	; 0x81
-  sConfig.Channel = ADC_CHANNEL_5;
+	sConfig.Channel = ADC_CHANNEL_5;
  8002a74:	2200      	movs	r2, #0
-  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+	if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
  8002a76:	a91a      	add	r1, sp, #104	; 0x68
  8002a78:	4628      	mov	r0, r5
-  sConfig.Channel = ADC_CHANNEL_5;
+	sConfig.Channel = ADC_CHANNEL_5;
  8002a7a:	a419      	add	r4, pc, #100	; (adr r4, 8002ae0 <main+0x348>)
  8002a7c:	e9d4 3400 	ldrd	r3, r4, [r4]
  8002a80:	e9cd 341a 	strd	r3, r4, [sp, #104]	; 0x68
@@ -5157,44 +5157,44 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  8002a8c:	2204      	movs	r2, #4
  8002a8e:	2300      	movs	r3, #0
  8002a90:	e9cd 231e 	strd	r2, r3, [sp, #120]	; 0x78
-  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+	if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
  8002a94:	f000 ff7c 	bl	8003990 <HAL_ADC_ConfigChannel>
  8002a98:	4601      	mov	r1, r0
  8002a9a:	2800      	cmp	r0, #0
  8002a9c:	f040 815d 	bne.w	8002d5a <main+0x5c2>
-  DAC_ChannelConfTypeDef sConfig = {0};
+	DAC_ChannelConfTypeDef sConfig = {0};
  8002aa0:	2224      	movs	r2, #36	; 0x24
-  hdac1.Instance = DAC1;
+	hdac1.Instance = DAC1;
  8002aa2:	4c1d      	ldr	r4, [pc, #116]	; (8002b18 <main+0x380>)
-  DAC_ChannelConfTypeDef sConfig = {0};
+	DAC_ChannelConfTypeDef sConfig = {0};
  8002aa4:	a82a      	add	r0, sp, #168	; 0xa8
  8002aa6:	f00a fc39 	bl	800d31c <memset>
-  hdac1.Instance = DAC1;
+	hdac1.Instance = DAC1;
  8002aaa:	4b1c      	ldr	r3, [pc, #112]	; (8002b1c <main+0x384>)
-  if (HAL_DAC_Init(&hdac1) != HAL_OK)
+	if (HAL_DAC_Init(&hdac1) != HAL_OK)
  8002aac:	4620      	mov	r0, r4
-  hdac1.Instance = DAC1;
+	hdac1.Instance = DAC1;
  8002aae:	6023      	str	r3, [r4, #0]
-  if (HAL_DAC_Init(&hdac1) != HAL_OK)
+	if (HAL_DAC_Init(&hdac1) != HAL_OK)
  8002ab0:	f001 ff82 	bl	80049b8 <HAL_DAC_Init>
  8002ab4:	4602      	mov	r2, r0
  8002ab6:	2800      	cmp	r0, #0
  8002ab8:	f040 814f 	bne.w	8002d5a <main+0x5c2>
-  sConfig.DAC_SampleAndHold = DAC_SAMPLEANDHOLD_DISABLE;
+	sConfig.DAC_SampleAndHold = DAC_SAMPLEANDHOLD_DISABLE;
  8002abc:	2000      	movs	r0, #0
  8002abe:	2116      	movs	r1, #22
  8002ac0:	2600      	movs	r6, #0
  8002ac2:	2701      	movs	r7, #1
-  sConfig.DAC_UserTrimming = DAC_TRIMMING_FACTORY;
+	sConfig.DAC_UserTrimming = DAC_TRIMMING_FACTORY;
  8002ac4:	922e      	str	r2, [sp, #184]	; 0xb8
-  sConfig.DAC_SampleAndHold = DAC_SAMPLEANDHOLD_DISABLE;
+	sConfig.DAC_SampleAndHold = DAC_SAMPLEANDHOLD_DISABLE;
  8002ac6:	e9cd 012a 	strd	r0, r1, [sp, #168]	; 0xa8
-  if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_1) != HAL_OK)
+	if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_1) != HAL_OK)
  8002aca:	a92a      	add	r1, sp, #168	; 0xa8
  8002acc:	4620      	mov	r0, r4
-  sConfig.DAC_SampleAndHold = DAC_SAMPLEANDHOLD_DISABLE;
+	sConfig.DAC_SampleAndHold = DAC_SAMPLEANDHOLD_DISABLE;
  8002ace:	e9cd 672c 	strd	r6, r7, [sp, #176]	; 0xb0
-  if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_1) != HAL_OK)
+	if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_1) != HAL_OK)
  8002ad2:	f002 f8ad 	bl	8004c30 <HAL_DAC_ConfigChannel>
  8002ad6:	4603      	mov	r3, r0
  8002ad8:	2800      	cmp	r0, #0
@@ -5216,93 +5216,93 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  8002b14:	40022100 	.word	0x40022100
  8002b18:	24002ccc 	.word	0x24002ccc
  8002b1c:	40007400 	.word	0x40007400
-  if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_2) != HAL_OK)
+	if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_2) != HAL_OK)
  8002b20:	a92a      	add	r1, sp, #168	; 0xa8
  8002b22:	4620      	mov	r0, r4
  8002b24:	2210      	movs	r2, #16
-  sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
+	sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
  8002b26:	932b      	str	r3, [sp, #172]	; 0xac
-  if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_2) != HAL_OK)
+	if (HAL_DAC_ConfigChannel(&hdac1, &sConfig, DAC_CHANNEL_2) != HAL_OK)
  8002b28:	f002 f882 	bl	8004c30 <HAL_DAC_ConfigChannel>
  8002b2c:	2800      	cmp	r0, #0
  8002b2e:	f040 8114 	bne.w	8002d5a <main+0x5c2>
-  hlptim2.Instance = LPTIM2;
+	hlptim2.Instance = LPTIM2;
  8002b32:	489d      	ldr	r0, [pc, #628]	; (8002da8 <main+0x610>)
-  hlptim2.Init.Clock.Source = LPTIM_CLOCKSOURCE_APBCLOCK_LPOSC;
+	hlptim2.Init.Clock.Source = LPTIM_CLOCKSOURCE_APBCLOCK_LPOSC;
  8002b34:	2300      	movs	r3, #0
-  hlptim2.Init.Trigger.Source = LPTIM_TRIGSOURCE_SOFTWARE;
+	hlptim2.Init.Trigger.Source = LPTIM_TRIGSOURCE_SOFTWARE;
  8002b36:	f64f 71ff 	movw	r1, #65535	; 0xffff
-  hlptim2.Init.CounterSource = LPTIM_COUNTERSOURCE_EXTERNAL;
+	hlptim2.Init.CounterSource = LPTIM_COUNTERSOURCE_EXTERNAL;
  8002b3a:	f44f 0200 	mov.w	r2, #8388608	; 0x800000
-  hlptim2.Instance = LPTIM2;
+	hlptim2.Instance = LPTIM2;
  8002b3e:	4c9b      	ldr	r4, [pc, #620]	; (8002dac <main+0x614>)
-  hlptim2.Init.Trigger.Source = LPTIM_TRIGSOURCE_SOFTWARE;
+	hlptim2.Init.Trigger.Source = LPTIM_TRIGSOURCE_SOFTWARE;
  8002b40:	6141      	str	r1, [r0, #20]
-  hlptim2.Instance = LPTIM2;
+	hlptim2.Instance = LPTIM2;
  8002b42:	6004      	str	r4, [r0, #0]
-  hlptim2.Init.CounterSource = LPTIM_COUNTERSOURCE_EXTERNAL;
+	hlptim2.Init.CounterSource = LPTIM_COUNTERSOURCE_EXTERNAL;
  8002b44:	6282      	str	r2, [r0, #40]	; 0x28
-  hlptim2.Init.Clock.Prescaler = LPTIM_PRESCALER_DIV1;
+	hlptim2.Init.Clock.Prescaler = LPTIM_PRESCALER_DIV1;
  8002b46:	e9c0 3301 	strd	r3, r3, [r0, #4]
-  hlptim2.Init.UltraLowPowerClock.SampleTime = LPTIM_CLOCKSAMPLETIME_DIRECTTRANSITION;
+	hlptim2.Init.UltraLowPowerClock.SampleTime = LPTIM_CLOCKSAMPLETIME_DIRECTTRANSITION;
  8002b4a:	e9c0 3303 	strd	r3, r3, [r0, #12]
-  hlptim2.Init.UpdateMode = LPTIM_UPDATE_IMMEDIATE;
+	hlptim2.Init.UpdateMode = LPTIM_UPDATE_IMMEDIATE;
  8002b4e:	e9c0 3308 	strd	r3, r3, [r0, #32]
-  hlptim2.Init.Input2Source = LPTIM_INPUT2SOURCE_GPIO;
+	hlptim2.Init.Input2Source = LPTIM_INPUT2SOURCE_GPIO;
  8002b52:	e9c0 330b 	strd	r3, r3, [r0, #44]	; 0x2c
-  if (HAL_LPTIM_Init(&hlptim2) != HAL_OK)
+	if (HAL_LPTIM_Init(&hlptim2) != HAL_OK)
  8002b56:	f003 fd1f 	bl	8006598 <HAL_LPTIM_Init>
  8002b5a:	4605      	mov	r5, r0
  8002b5c:	2800      	cmp	r0, #0
  8002b5e:	f040 80fc 	bne.w	8002d5a <main+0x5c2>
-  huart3.Instance = USART3;
+	huart3.Instance = USART3;
  8002b62:	4c93      	ldr	r4, [pc, #588]	; (8002db0 <main+0x618>)
-  MX_TIM6_Init();
+	MX_TIM6_Init();
  8002b64:	f7ff fdf2 	bl	800274c <MX_TIM6_Init_Custom_Rate>
-  huart3.Instance = USART3;
+	huart3.Instance = USART3;
  8002b68:	4992      	ldr	r1, [pc, #584]	; (8002db4 <main+0x61c>)
-  huart3.Init.BaudRate = 115200;
+	huart3.Init.BaudRate = 115200;
  8002b6a:	f44f 32e1 	mov.w	r2, #115200	; 0x1c200
-  huart3.Init.Mode = UART_MODE_TX_RX;
+	huart3.Init.Mode = UART_MODE_TX_RX;
  8002b6e:	230c      	movs	r3, #12
-  if (HAL_UART_Init(&huart3) != HAL_OK)
+	if (HAL_UART_Init(&huart3) != HAL_OK)
  8002b70:	4620      	mov	r0, r4
-  huart3.Init.Parity = UART_PARITY_NONE;
+	huart3.Init.Parity = UART_PARITY_NONE;
  8002b72:	6125      	str	r5, [r4, #16]
-  huart3.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+	huart3.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
  8002b74:	62a5      	str	r5, [r4, #40]	; 0x28
-  huart3.Init.Mode = UART_MODE_TX_RX;
+	huart3.Init.Mode = UART_MODE_TX_RX;
  8002b76:	6163      	str	r3, [r4, #20]
-  huart3.Init.BaudRate = 115200;
+	huart3.Init.BaudRate = 115200;
  8002b78:	e9c4 1200 	strd	r1, r2, [r4]
-  huart3.Init.StopBits = UART_STOPBITS_1;
+	huart3.Init.StopBits = UART_STOPBITS_1;
  8002b7c:	e9c4 5502 	strd	r5, r5, [r4, #8]
-  huart3.Init.OverSampling = UART_OVERSAMPLING_16;
+	huart3.Init.OverSampling = UART_OVERSAMPLING_16;
  8002b80:	e9c4 5506 	strd	r5, r5, [r4, #24]
-  huart3.Init.ClockPrescaler = UART_PRESCALER_DIV1;
+	huart3.Init.ClockPrescaler = UART_PRESCALER_DIV1;
  8002b84:	e9c4 5508 	strd	r5, r5, [r4, #32]
-  if (HAL_UART_Init(&huart3) != HAL_OK)
+	if (HAL_UART_Init(&huart3) != HAL_OK)
  8002b88:	f006 ffc8 	bl	8009b1c <HAL_UART_Init>
  8002b8c:	4601      	mov	r1, r0
  8002b8e:	2800      	cmp	r0, #0
  8002b90:	f040 80e3 	bne.w	8002d5a <main+0x5c2>
-  if (HAL_UARTEx_SetTxFifoThreshold(&huart3, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
+	if (HAL_UARTEx_SetTxFifoThreshold(&huart3, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
  8002b94:	4620      	mov	r0, r4
  8002b96:	f007 fac5 	bl	800a124 <HAL_UARTEx_SetTxFifoThreshold>
  8002b9a:	4601      	mov	r1, r0
  8002b9c:	2800      	cmp	r0, #0
  8002b9e:	f040 80dc 	bne.w	8002d5a <main+0x5c2>
-  if (HAL_UARTEx_SetRxFifoThreshold(&huart3, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
+	if (HAL_UARTEx_SetRxFifoThreshold(&huart3, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
  8002ba2:	4620      	mov	r0, r4
  8002ba4:	f007 fafc 	bl	800a1a0 <HAL_UARTEx_SetRxFifoThreshold>
  8002ba8:	2800      	cmp	r0, #0
  8002baa:	f040 80d6 	bne.w	8002d5a <main+0x5c2>
-  if (HAL_UARTEx_DisableFifoMode(&huart3) != HAL_OK)
+	if (HAL_UARTEx_DisableFifoMode(&huart3) != HAL_OK)
  8002bae:	4620      	mov	r0, r4
  8002bb0:	f007 fa9a 	bl	800a0e8 <HAL_UARTEx_DisableFifoMode>
  8002bb4:	2800      	cmp	r0, #0
  8002bb6:	f040 80d0 	bne.w	8002d5a <main+0x5c2>
-  MX_USB_DEVICE_Init();
+	MX_USB_DEVICE_Init();
  8002bba:	f008 ff53 	bl	800ba64 <MX_USB_DEVICE_Init>
     if (SCB->CCR & SCB_CCR_DC_Msk) return;  /* return if DCache is already enabled */
  8002bbe:	497e      	ldr	r1, [pc, #504]	; (8002db8 <main+0x620>)
@@ -5551,7 +5551,7 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  8002d52:	f001 fccd 	bl	80046f0 <HAL_ADCEx_MultiModeStart_DMA>
  8002d56:	4604      	mov	r4, r0
  8002d58:	b110      	cbz	r0, 8002d60 <main+0x5c8>
-    Error_Handler();
+		Error_Handler();
  8002d5a:	f7ff fc2b 	bl	80025b4 <Error_Handler>
 	while(arc != ARM_MATH_SUCCESS)
  8002d5e:	e7fe      	b.n	8002d5e <main+0x5c6>
@@ -5606,14 +5606,14 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  8002ddc:	3f7cac08 	.word	0x3f7cac08
  8002de0:	44228000 	.word	0x44228000
  8002de4:	24007dc4 	.word	0x24007dc4
- 8002de8:	2400de00 	.word	0x2400de00
- 8002dec:	2400de02 	.word	0x2400de02
+ 8002de8:	2400e600 	.word	0x2400e600
+ 8002dec:	2400e602 	.word	0x2400e602
  8002df0:	240094b4 	.word	0x240094b4
  8002df4:	24008678 	.word	0x24008678
  8002df8:	00010101 	.word	0x00010101
  8002dfc:	240094b8 	.word	0x240094b8
  8002e00:	24007e2c 	.word	0x24007e2c
- 8002e04:	2400c9ec 	.word	0x2400c9ec
+ 8002e04:	2400d1ec 	.word	0x2400d1ec
  8002e08:	3f7fdf3b 	.word	0x3f7fdf3b
  8002e0c:	3f7ffcb9 	.word	0x3f7ffcb9
  8002e10:	2400a4c4 	.word	0x2400a4c4
@@ -5633,7 +5633,7 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
  8002e48:	240000f4 	.word	0x240000f4
  8002e4c:	2400a4d0 	.word	0x2400a4d0
  8002e50:	24008ef8 	.word	0x24008ef8
- 8002e54:	2400d200 	.word	0x2400d200
+ 8002e54:	2400da00 	.word	0x2400da00
  8002e58:	24009460 	.word	0x24009460
  8002e5c:	24002ccc 	.word	0x24002ccc
  8002e60:	240074c0 	.word	0x240074c0
@@ -6495,7 +6495,7 @@ void OTG_FS_IRQHandler(void)
  8003334:	4801      	ldr	r0, [pc, #4]	; (800333c <OTG_FS_IRQHandler+0x8>)
  8003336:	f003 ba5b 	b.w	80067f0 <HAL_PCD_IRQHandler>
  800333a:	bf00      	nop
- 800333c:	2400f2d4 	.word	0x2400f2d4
+ 800333c:	2400fad4 	.word	0x2400fad4
 
 08003340 <_getpid>:
 }
@@ -6703,7 +6703,7 @@ void *_sbrk(ptrdiff_t incr)
  80033f0:	24000670 	.word	0x24000670
  80033f4:	24080000 	.word	0x24080000
  80033f8:	00000400 	.word	0x00000400
- 80033fc:	2400f6f0 	.word	0x2400f6f0
+ 80033fc:	2400fef0 	.word	0x2400fef0
 
 08003400 <SystemInit>:
  __IO uint32_t tmpreg;
@@ -6984,7 +6984,7 @@ LoopFillZerobss:
   ldr  r2, =_sbss
  800351c:	24000560 	.word	0x24000560
   ldr  r3, = _ebss
- 8003520:	2400f6ec 	.word	0x2400f6ec
+ 8003520:	2400feec 	.word	0x2400feec
 
 08003524 <ADC3_IRQHandler>:
  * @retval None       
@@ -26922,7 +26922,7 @@ void MX_USB_DEVICE_Init(void)
   HAL_PWREx_EnableUSBVoltageDetector();
  800bacc:	f7fb bb7c 	b.w	80071c8 <HAL_PWREx_EnableUSBVoltageDetector>
  800bad0:	24000330 	.word	0x24000330
- 800bad4:	2400de04 	.word	0x2400de04
+ 800bad4:	2400e604 	.word	0x2400e604
  800bad8:	24000204 	.word	0x24000204
  800badc:	24000314 	.word	0x24000314
 
@@ -26973,7 +26973,7 @@ static int8_t CDC_DeInit_FS(void)
 }
  800bb0c:	2000      	movs	r0, #0
  800bb0e:	bd70      	pop	{r4, r5, r6, pc}
- 800bb10:	2400de04 	.word	0x2400de04
+ 800bb10:	2400e604 	.word	0x2400e604
  800bb14:	24007cc0 	.word	0x24007cc0
  800bb18:	24004ab4 	.word	0x24004ab4
 
@@ -26994,9 +26994,9 @@ static int8_t CDC_DeInit_FS(void)
  800bb32:	2000      	movs	r0, #0
  800bb34:	bd10      	pop	{r4, pc}
  800bb36:	bf00      	nop
- 800bb38:	2400de04 	.word	0x2400de04
- 800bb3c:	2400e8d4 	.word	0x2400e8d4
- 800bb40:	2400e0d4 	.word	0x2400e0d4
+ 800bb38:	2400e604 	.word	0x2400e604
+ 800bb3c:	2400f0d4 	.word	0x2400f0d4
+ 800bb40:	2400e8d4 	.word	0x2400e8d4
 
 0800bb44 <CDC_Control_FS>:
   switch(cmd)
@@ -27058,7 +27058,7 @@ static int8_t CDC_DeInit_FS(void)
   result = USBD_CDC_TransmitPacket(&hUsbDeviceFS);
  800bb9e:	f7ff baa1 	b.w	800b0e4 <USBD_CDC_TransmitPacket>
  800bba2:	bf00      	nop
- 800bba4:	2400de04 	.word	0x2400de04
+ 800bba4:	2400e604 	.word	0x2400e604
 
 0800bba8 <USBD_FS_DeviceDescriptor>:
   * @retval Pointer to descriptor buffer
@@ -27116,7 +27116,7 @@ uint8_t * USBD_FS_ManufacturerStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *l
  800bbce:	4620      	mov	r0, r4
  800bbd0:	bd10      	pop	{r4, pc}
  800bbd2:	bf00      	nop
- 800bbd4:	2400f0d4 	.word	0x2400f0d4
+ 800bbd4:	2400f8d4 	.word	0x2400f8d4
  800bbd8:	08017398 	.word	0x08017398
 
 0800bbdc <USBD_FS_ProductStrDescriptor>:
@@ -27134,7 +27134,7 @@ uint8_t * USBD_FS_ManufacturerStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *l
  800bbea:	4620      	mov	r0, r4
  800bbec:	bd10      	pop	{r4, pc}
  800bbee:	bf00      	nop
- 800bbf0:	2400f0d4 	.word	0x2400f0d4
+ 800bbf0:	2400f8d4 	.word	0x2400f8d4
  800bbf4:	080173ac 	.word	0x080173ac
 
 0800bbf8 <USBD_FS_ConfigStrDescriptor>:
@@ -27164,7 +27164,7 @@ uint8_t * USBD_FS_ConfigStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
  800bc06:	4620      	mov	r0, r4
  800bc08:	bd10      	pop	{r4, pc}
  800bc0a:	bf00      	nop
- 800bc0c:	2400f0d4 	.word	0x2400f0d4
+ 800bc0c:	2400f8d4 	.word	0x2400f8d4
  800bc10:	080173c4 	.word	0x080173c4
 
 0800bc14 <USBD_FS_InterfaceStrDescriptor>:
@@ -27194,7 +27194,7 @@ uint8_t * USBD_FS_InterfaceStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *leng
  800bc22:	4620      	mov	r0, r4
  800bc24:	bd10      	pop	{r4, pc}
  800bc26:	bf00      	nop
- 800bc28:	2400f0d4 	.word	0x2400f0d4
+ 800bc28:	2400f8d4 	.word	0x2400f8d4
  800bc2c:	080173d0 	.word	0x080173d0
 
 0800bc30 <USBD_FS_SerialStrDescriptor>:
@@ -27780,7 +27780,7 @@ USBD_StatusTypeDef USBD_LL_Init(USBD_HandleTypeDef *pdev)
  800bf24:	f7f6 fb46 	bl	80025b4 <Error_Handler>
  800bf28:	e7ec      	b.n	800bf04 <USBD_LL_Init+0x38>
  800bf2a:	bf00      	nop
- 800bf2c:	2400f2d4 	.word	0x2400f2d4
+ 800bf2c:	2400fad4 	.word	0x2400fad4
  800bf30:	40080000 	.word	0x40080000
 
 0800bf34 <USBD_LL_Start>:
@@ -32764,7 +32764,7 @@ USBD_StatusTypeDef USBD_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800f37a:	b103      	cbz	r3, 800f37e <_sbrk_r+0x1a>
  800f37c:	6023      	str	r3, [r4, #0]
  800f37e:	bd38      	pop	{r3, r4, r5, pc}
- 800f380:	2400f6dc 	.word	0x2400f6dc
+ 800f380:	2400fedc 	.word	0x2400fedc
 
 0800f384 <__assert_func>:
  800f384:	b51f      	push	{r0, r1, r2, r3, r4, lr}
@@ -32853,13 +32853,13 @@ USBD_StatusTypeDef USBD_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800f43c:	4801      	ldr	r0, [pc, #4]	; (800f444 <__malloc_lock+0x8>)
  800f43e:	f000 bc17 	b.w	800fc70 <__retarget_lock_acquire_recursive>
  800f442:	bf00      	nop
- 800f444:	2400f6e4 	.word	0x2400f6e4
+ 800f444:	2400fee4 	.word	0x2400fee4
 
 0800f448 <__malloc_unlock>:
  800f448:	4801      	ldr	r0, [pc, #4]	; (800f450 <__malloc_unlock+0x8>)
  800f44a:	f000 bc12 	b.w	800fc72 <__retarget_lock_release_recursive>
  800f44e:	bf00      	nop
- 800f450:	2400f6e4 	.word	0x2400f6e4
+ 800f450:	2400fee4 	.word	0x2400fee4
 
 0800f454 <_realloc_r>:
  800f454:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
@@ -33615,25 +33615,25 @@ USBD_StatusTypeDef USBD_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800fb04:	4801      	ldr	r0, [pc, #4]	; (800fb0c <__sfp_lock_acquire+0x8>)
  800fb06:	f000 b8b3 	b.w	800fc70 <__retarget_lock_acquire_recursive>
  800fb0a:	bf00      	nop
- 800fb0c:	2400f6e8 	.word	0x2400f6e8
+ 800fb0c:	2400fee8 	.word	0x2400fee8
 
 0800fb10 <__sfp_lock_release>:
  800fb10:	4801      	ldr	r0, [pc, #4]	; (800fb18 <__sfp_lock_release+0x8>)
  800fb12:	f000 b8ae 	b.w	800fc72 <__retarget_lock_release_recursive>
  800fb16:	bf00      	nop
- 800fb18:	2400f6e8 	.word	0x2400f6e8
+ 800fb18:	2400fee8 	.word	0x2400fee8
 
 0800fb1c <__sinit_lock_acquire>:
  800fb1c:	4801      	ldr	r0, [pc, #4]	; (800fb24 <__sinit_lock_acquire+0x8>)
  800fb1e:	f000 b8a7 	b.w	800fc70 <__retarget_lock_acquire_recursive>
  800fb22:	bf00      	nop
- 800fb24:	2400f6e3 	.word	0x2400f6e3
+ 800fb24:	2400fee3 	.word	0x2400fee3
 
 0800fb28 <__sinit_lock_release>:
  800fb28:	4801      	ldr	r0, [pc, #4]	; (800fb30 <__sinit_lock_release+0x8>)
  800fb2a:	f000 b8a2 	b.w	800fc72 <__retarget_lock_release_recursive>
  800fb2e:	bf00      	nop
- 800fb30:	2400f6e3 	.word	0x2400f6e3
+ 800fb30:	2400fee3 	.word	0x2400fee3
 
 0800fb34 <__sinit>:
  800fb34:	b510      	push	{r4, lr}
@@ -33928,7 +33928,7 @@ USBD_StatusTypeDef USBD_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800fdc6:	6023      	str	r3, [r4, #0]
  800fdc8:	bd38      	pop	{r3, r4, r5, pc}
  800fdca:	bf00      	nop
- 800fdcc:	2400f6dc 	.word	0x2400f6dc
+ 800fdcc:	2400fedc 	.word	0x2400fedc
 
 0800fdd0 <_getpid_r>:
  800fdd0:	f7f3 bab6 	b.w	8003340 <_getpid>
@@ -34009,7 +34009,7 @@ USBD_StatusTypeDef USBD_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800fe76:	b103      	cbz	r3, 800fe7a <_write_r+0x1e>
  800fe78:	6023      	str	r3, [r4, #0]
  800fe7a:	bd38      	pop	{r3, r4, r5, pc}
- 800fe7c:	2400f6dc 	.word	0x2400f6dc
+ 800fe7c:	2400fedc 	.word	0x2400fedc
 
 0800fe80 <_close_r>:
  800fe80:	b538      	push	{r3, r4, r5, lr}
@@ -34025,7 +34025,7 @@ USBD_StatusTypeDef USBD_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800fe96:	b103      	cbz	r3, 800fe9a <_close_r+0x1a>
  800fe98:	6023      	str	r3, [r4, #0]
  800fe9a:	bd38      	pop	{r3, r4, r5, pc}
- 800fe9c:	2400f6dc 	.word	0x2400f6dc
+ 800fe9c:	2400fedc 	.word	0x2400fedc
 
 0800fea0 <_fstat_r>:
  800fea0:	b538      	push	{r3, r4, r5, lr}
@@ -34043,7 +34043,7 @@ USBD_StatusTypeDef USBD_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800feba:	6023      	str	r3, [r4, #0]
  800febc:	bd38      	pop	{r3, r4, r5, pc}
  800febe:	bf00      	nop
- 800fec0:	2400f6dc 	.word	0x2400f6dc
+ 800fec0:	2400fedc 	.word	0x2400fedc
 
 0800fec4 <_isatty_r>:
  800fec4:	b538      	push	{r3, r4, r5, lr}
@@ -34059,7 +34059,7 @@ USBD_StatusTypeDef USBD_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800feda:	b103      	cbz	r3, 800fede <_isatty_r+0x1a>
  800fedc:	6023      	str	r3, [r4, #0]
  800fede:	bd38      	pop	{r3, r4, r5, pc}
- 800fee0:	2400f6dc 	.word	0x2400f6dc
+ 800fee0:	2400fedc 	.word	0x2400fedc
 
 0800fee4 <_lseek_r>:
  800fee4:	b538      	push	{r3, r4, r5, lr}
@@ -34077,7 +34077,7 @@ USBD_StatusTypeDef USBD_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800fefe:	b103      	cbz	r3, 800ff02 <_lseek_r+0x1e>
  800ff00:	6023      	str	r3, [r4, #0]
  800ff02:	bd38      	pop	{r3, r4, r5, pc}
- 800ff04:	2400f6dc 	.word	0x2400f6dc
+ 800ff04:	2400fedc 	.word	0x2400fedc
 
 0800ff08 <_read_r>:
  800ff08:	b538      	push	{r3, r4, r5, lr}
@@ -34095,7 +34095,7 @@ USBD_StatusTypeDef USBD_Get_USB_Status(HAL_StatusTypeDef hal_status)
  800ff22:	b103      	cbz	r3, 800ff26 <_read_r+0x1e>
  800ff24:	6023      	str	r3, [r4, #0]
  800ff26:	bd38      	pop	{r3, r4, r5, pc}
- 800ff28:	2400f6dc 	.word	0x2400f6dc
+ 800ff28:	2400fedc 	.word	0x2400fedc
  800ff2c:	00000000 	.word	0x00000000
 
 0800ff30 <exp>:
