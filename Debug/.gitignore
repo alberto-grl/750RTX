@@ -2,3 +2,7 @@
 /Drivers/
 /Middlewares/
 /USB_DEVICE/
+/makefile
+/objects.list
+/objects.mk
+/sources.mk

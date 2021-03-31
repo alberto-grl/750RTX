@@ -103,6 +103,10 @@ EXTERN float WFBuffer[FFTLEN/2];
 EXTERN uint16_t TestSignalData[BSIZE];
 #endif
 
+#ifdef CW_DECODER
+EXTERN float CWLevel, SignalAverage, OldSignalAverage;
+EXTERN uint8_t CWIn;
+#endif
 
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;
 //TODO EXTERN EXTI_InitTypeDef      EXTI_InitStructure;

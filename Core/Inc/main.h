@@ -70,6 +70,9 @@ typedef struct
 #define LED_YELLOW_ON   HAL_GPIO_WritePin(GPIOE, GPIO_PIN_1, GPIO_PIN_SET)
 #define LED_RED_OFF  	 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET)
 #define LED_RED_ON  	 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET)
+#define LED_GREEN_OFF  	 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET)
+#define LED_GREEN_ON  	 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET)
+#define SW01_IN          HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)
 
 /* USER CODE END EM */
 
@@ -113,12 +116,17 @@ void SystemClock_Config_For_OC(void);
 void MX_TIM6_Init_Custom_Rate(void);
 
 extern void SetFOut(uint32_t);
+extern void DecodeCW(void);
+extern void keyIsDown(void);
+extern void keyIsUp(void);
 
 
 
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define IN_SW01_Pin GPIO_PIN_13
+#define IN_SW01_GPIO_Port GPIOC
 #define SwInt1_Pin GPIO_PIN_14
 #define SwInt1_GPIO_Port GPIOC
 #define SwInt1_EXTI_IRQn EXTI15_10_IRQn
@@ -161,6 +169,10 @@ extern void SetFOut(uint32_t);
 #define FAKE_RF_SIGNAL
 
 //#define TEST_WF
+#define CW_DECODER
+
+#define SIGNAL_AVERAGE_T_CONST 0.01
+#define CW_THRESHOLD 0.01
 
 
 //FFT filter test
