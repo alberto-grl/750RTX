@@ -65,8 +65,8 @@ all: main-build
 main-build: 750RTX.elf secondary-outputs
 
 # Tool invocations
-750RTX.elf: $(OBJS) $(USER_OBJS) C:\Users\albytest\STM32CubeIDE\workspaceArmRadioH7\750RTX\STM32H750VBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "750RTX.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\albytest\STM32CubeIDE\workspaceArmRadioH7\750RTX\STM32H750VBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="750RTX.map" -Wl,--gc-sections -static -Wl,--start-group -larm_cortexM7lfsp_math -Wl,--end-group -L"C:\Users\albytest\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/Lib/GCC" -L"C:\Users\albytest\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+750RTX.elf: $(OBJS) $(USER_OBJS) C:\Users\alberto\STM32CubeIDE\workspace_1.3.0\750RTX\STM32H750VBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "750RTX.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\alberto\STM32CubeIDE\workspace_1.3.0\750RTX\STM32H750VBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="750RTX.map" -Wl,--gc-sections -static -Wl,--start-group -larm_cortexM7lfsp_math -Wl,--end-group -L"C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/Lib/GCC" -L"C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -120,6 +120,8 @@ extern void DecodeCW(void);
 extern void keyIsDown(void);
 extern void keyIsUp(void);
 
+extern void TXEnable(uint8_t);
+
 
 
 /* USER CODE END EFP */

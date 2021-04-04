@@ -278,7 +278,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 {
 
 	short  *p;
-	static uint8_t Idx = 1;
 	static uint16_t WFSample;
 	volatile float tmp;
 	float BinValue;
@@ -381,9 +380,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 //	if (CWLevel > (SignalAverage + CW_THRESHOLD))
 	if (SW01_IN)
-		CWIn = 1;
-	else
 		CWIn = 0;
+	else
+		CWIn = 1;
 
 	DecodeCW();
 
@@ -478,7 +477,6 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 
 	volatile uint16_t *pR;
-	static uint16_t IntCounter;
 
 
 	//LED_YELLOW_ON;

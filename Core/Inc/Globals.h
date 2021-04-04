@@ -106,6 +106,8 @@ EXTERN uint16_t TestSignalData[BSIZE];
 #ifdef CW_DECODER
 EXTERN float CWLevel, SignalAverage, OldSignalAverage;
 EXTERN uint8_t CWIn;
+EXTERN char DecodedCWChar;
+EXTERN int NCharReceived;
 #endif
 
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;

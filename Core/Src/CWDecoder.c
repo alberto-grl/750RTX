@@ -26,7 +26,7 @@ char       line2[] = "                    ";
 char       line3[] = "                    ";
 
 uint8_t ditOrDah = true;  // We have either a full dit or a full dah
-int dit = 10;             // We start by defining a dit as 10 milliseconds
+int dit = 200;             // We start by defining a dit as 10 milliseconds
 
 // The following values will auto adjust to the sender's speed
 int averageDah = 240;             // A dah should be 3 times as long as a dit
@@ -68,13 +68,13 @@ char lcdGuy = ' ';       // We will store the actual character decoded here
  {
 
    if (CWIn) keyIsDown();       // LOW, or 0, means tone is being decoded
-   if (!CWIn) keyIsUp();          // HIGH, or 1, means no tone is there
+   else keyIsUp();          // HIGH, or 1, means no tone is there
  }
 
  void keyIsDown(void) {
    // The decoder is detecting our tone
 
-	 LED_GREEN_OFF;
+	 LED_GREEN_ON;
 
 
    if (startUpTime>0){
@@ -98,7 +98,7 @@ char lcdGuy = ' ';       // We will store the actual character decoded here
   void keyIsUp() {
    // The decoder does not detect our tone
 
-	  LED_GREEN_ON;
+	  LED_GREEN_OFF;
 
    // If we haven't already started our timer, do it now
    if (startUpTime == 0){startUpTime = HAL_GetTick();}
@@ -108,7 +108,7 @@ char lcdGuy = ' ';       // We will store the actual character decoded here
    upTime = HAL_GetTick() - startUpTime;
    if (upTime<10)return;
    if (upTime > (averageDah*2)) {
-      printSpace();
+//TODO rimettere      printSpace();
    }
 
    // Only do this once after the key goes up
@@ -127,6 +127,7 @@ char lcdGuy = ' ';       // We will store the actual character decoded here
        // Are we done yet?
        if (upTime > dit) {
          // BINGO! we're done with this one
+    	   NCharReceived++;
          printCharacter();       // Go figure out what character it was and print it
          characterDone=true;     // We got him, we're done here
          myNum=0;                // This sets us up for getting the next start bit
@@ -189,7 +190,7 @@ void printSpace() {
     lastWord[i]=' ';
    }
 
-  lcdGuy=' ';            // this is going to go to the LCD
+  lcdGuy='X'; //TODO rimettere spazio            // this is going to go to the LCD
 
   // We don't need to print the space if we are at the very end of the line
   if (letterCount < 20) {
@@ -251,6 +252,10 @@ void printPunctuation() {
 }
 
 void sendToLCD(){
+
+DecodedCWChar = lcdGuy;
+
+/*
   // Do this only if the character is a 'space'
   if (lcdGuy > ' '){
    lastWord[lastWordCount] = lcdGuy; // store the space at the end of the array
@@ -271,7 +276,7 @@ void sendToLCD(){
   // print our character at the current cursor location
   sprintf((char*)UartTXString, "%c", lcdGuy);
   	PrintUI(UartTXString);
-
+*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

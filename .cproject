@@ -9,7 +9,7 @@
                 				
                 <macros>
                     					
-                    <stringMacro name="CMSIS_LOC" type="VALUE_PATH_DIR" value="C:\Users\albytest\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS"/>
+                    <stringMacro name="CMSIS_LOC" type="VALUE_PATH_DIR" value="C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS"/>
                     				
                 </macros>
                 				
