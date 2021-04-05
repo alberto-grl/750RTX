@@ -119,6 +119,12 @@ extern void SetFOut(uint32_t);
 extern void DecodeCW(void);
 extern void keyIsDown(void);
 extern void keyIsUp(void);
+extern void printPunctuation(void);
+extern void printSpace(void);
+extern void sendToLCD(void);
+extern void printCharacter(void);
+extern void shiftBits(void);
+extern void PrintUI(char*);
 
 extern void TXEnable(uint8_t);
 
@@ -168,7 +174,7 @@ extern void TXEnable(uint8_t);
 
 //#define TEST_SINGLE_ADC
 //#define AG_TEST_AUDIO
-#define FAKE_RF_SIGNAL
+//#define FAKE_RF_SIGNAL
 
 //#define TEST_WF
 #define CW_DECODER

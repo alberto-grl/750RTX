@@ -355,7 +355,7 @@ int main(void)
 	HAL_DAC_Start_DMA(&hdac1, DAC_CHANNEL_1, (uint32_t*)AudioOut, BSIZE * 2, DAC_ALIGN_12B_R);
 
 	//Test for TX
-	HAL_SYSCFG_VREFBUF_VoltageScalingConfig(SYSCFG_VREFBUF_VOLTAGE_SCALE0);
+	HAL_SYSCFG_VREFBUF_VoltageScalingConfig(SYSCFG_VREFBUF_VOLTAGE_SCALE3);
 	HAL_DAC_Start(&hdac1, DAC_CHANNEL_2);
 	HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 4095);
 
@@ -1205,24 +1205,30 @@ void PrintUI(char* UartTXString)
 #endif
 }
 
+#ifdef CW_DECODER
 void DisplayCW(void)
 {
 	static uint8_t PosColumn;
+	static uint8_t PosRow = 9;
 	if ((uint8_t)DecodedCWChar == 0)
 		return;
+	  NCharReceived++;
 
-	sprintf((char*)UartTXString, "\e[%d;%dH%c", 9, PosColumn++, DecodedCWChar);
-	PrintUI(UartTXString);
-/*	if (PosColumn >= 20)
+	if (PosColumn++ >= 20)
 	{
-		PosColumn = 0;
+		PosColumn = 1;
+		PosRow++;
 	}
-	sprintf((char*)UartTXString, "%c     ", DecodedCWChar);
+	if (PosRow >= 9 + 4)
+		{
+			PosRow = 9;
+		}
+	sprintf((char*)UartTXString, "\e[%d;%dH%c      ", PosRow, PosColumn, DecodedCWChar);
 	PrintUI(UartTXString);
-*/
+
 	DecodedCWChar = 0;
 }
-
+#endif
 
 void UserInput(void)
 {
@@ -1306,11 +1312,12 @@ void UserInput(void)
 	sprintf((char*)UartTXString, "\e[1;1HS %-4.1f\r", SValue);
 	PrintUI(UartTXString);
 
-	sprintf((char*)UartTXString, "\e[7;1HS %-4.1f, %-4.1f, %d     %d    \r", CWLevel, SignalAverage, CWIn, NCharReceived);
+#ifdef CW_DECODER
+	sprintf((char*)UartTXString, "\e[7;1HS %-4.1f, %-4.1f, %-4.1f, %d      ", CWLevel*100, SignalAverage*100, (CWLevel - BaseNoiseLevel)*100, CurrentAverageDah);
 	PrintUI(UartTXString);
-
+	HAL_Delay(20);  //TODO Previous USB transmission needs to be finished before next one. Use a better way to ensure it is, or compose a long string and send it at once.
 	DisplayCW();
-
+#endif
 
 #ifdef TEST_WF
 	sprintf((char*)UartTXString, "\e[8;1H");
