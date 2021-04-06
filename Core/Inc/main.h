@@ -174,7 +174,7 @@ extern void TXEnable(uint8_t);
 
 //#define TEST_SINGLE_ADC
 //#define AG_TEST_AUDIO
-//#define FAKE_RF_SIGNAL
+#define FAKE_RF_SIGNAL
 
 //#define TEST_WF
 #define CW_DECODER
