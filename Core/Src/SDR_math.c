@@ -328,6 +328,12 @@ void SDR_demodSSB_CW_AGC(float32_t * tmpSamp, float32_t * fAudio)
 	  tmp = tmpSamp[k]*tmpSamp[k] + tmpSamp[k+1]*tmpSamp[k+1];
 	  arm_sqrt_f32(tmp, &sav);  
 
+#ifdef CW_DECODER
+	  if ((sav) > CWLevel)
+		  CWLevel= (sav);
+#endif
+
+
 	  if(pk < sav)
 	  {
 			pk = sav;

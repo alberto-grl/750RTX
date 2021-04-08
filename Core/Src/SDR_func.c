@@ -410,6 +410,40 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	{
 		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
 		arm_sqrt_f32(tmp, &BinValue);
+		if (CWLevel < BinValue);
+			CWLevel = BinValue;
+	}
+	BaseNoiseLevel = 0;
+	for (WFSample=2*FFTLEN -62; WFSample<(2*FFTLEN - 50); WFSample += 2)
+	{
+		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+		arm_sqrt_f32(tmp, &BinValue);
+		BaseNoiseLevel += BinValue;
+	}
+	SignalAverage = SIGNAL_AVERAGE_T_CONST * CWLevel + (1 - SIGNAL_AVERAGE_T_CONST) * OldSignalAverage;
+	OldSignalAverage = SignalAverage;
+
+	if (CWLevel > (SignalAverage + CW_THRESHOLD))
+//	if (CWLevel - BaseNoiseLevel > (CW_THRESHOLD))
+//	if (SW01_IN)
+
+		CWIn = 1;
+	else
+		CWIn = 0;
+
+	DecodeCW();
+
+#endif
+
+/*
+#ifdef CW_DECODER
+
+	CWLevel = 0;
+	for (WFSample=2*FFTLEN -42; WFSample<(2*FFTLEN - 40); WFSample += 2)
+	//for (WFSample=46; WFSample<52; WFSample += 2)
+	{
+		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+		arm_sqrt_f32(tmp, &BinValue);
 		CWLevel += BinValue;
 	}
 	BaseNoiseLevel = 0;
@@ -521,6 +555,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 //-----------------------------------------------------------------------------  
 // This the handler of the highest priority task interrupts, those generated
 // by DMA2 Stream when a new ADC buffer is just filled
+// Frequency is FADC / bitsPerSampleADC / BSIZE/2
+// 150000000 /16 /512 = 18310,54688
+
 void ADC_Stream0_Handler(uint8_t FullConversion)
 {
 	static int16_t k, idx = 0;
@@ -572,7 +609,7 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 	// process the data contained in the just filled buffer
 	if(FullConversion)
-		pR =(uint16_t *) &aADCDualConvertedValues[BSIZE/2];
+		pR =(uint16_t *) &aADCDualConvertedValues[BSIZE];
 	else
 		pR = (uint16_t *) &aADCDualConvertedValues[0];
 
@@ -591,6 +628,9 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 	// compute the smoothed average value of the buffer, to be used as offset
 	// in the short words to floating point conversion routine
+
+	//TODO Check if it should be BSIZE/2
+
 	sum = 0; k = BSIZE;
 	while(k)
 	{
