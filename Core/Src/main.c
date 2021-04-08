@@ -127,7 +127,7 @@ UART_HandleTypeDef huart3;
 /* USER CODE BEGIN PV */
 
 /* Variable containing ADC conversions results */
-ALIGN_32BYTES(__IO uint32_t   aADCDualConvertedValues[2*BSIZE]);    /* ADC dual mode interleaved conversion results (ADC master and ADC slave results concatenated on data register 32 bits of ADC master). */
+ALIGN_32BYTES(__IO uint32_t   aADCDualConvertedValues[BSIZE]);    /* ADC dual mode interleaved conversion results (ADC master and ADC slave results concatenated on data register 32 bits of ADC master). */
 //ALIGN_32BYTES(__IO uint16_t   aADCxConvertedValues[BSIZE]);       /* For the purpose of this example, dispatch dual conversion values into arrays corresponding to each ADC conversion values. */
 //ALIGN_32BYTES(__IO uint16_t   aADCyConvertedValues[BSIZE]);       /* For the purpose of this example, dispatch dual conversion values into arrays corresponding to each ADC conversion values. */
 ALIGN_32BYTES(__IO short AudioOut[BSIZE*2]);			  // A single array because we are using the half/full complete irq to switch between the two halves
@@ -344,7 +344,7 @@ int main(void)
 	DisplayStatus();    // Display status, it would not be shown until a user input was given
 	if (HAL_ADCEx_MultiModeStart_DMA(&hadc1,
 			(uint32_t *)aADCDualConvertedValues,
-			BSIZE*2   //Source code says transfer size is in bytes, but it is in number of transfers
+			BSIZE   //Source code says transfer size is in bytes, but it is in number of transfers
 	) != HAL_OK)
 	{
 		/* Start Error */
@@ -983,7 +983,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *AdcHandle)
 {
 	/* Invalidate Data Cache to get the updated content of the SRAM on the second half of the ADC converted data buffer: 32 bytes */
 #ifdef USE_DCACHE
-	SCB_InvalidateDCache_by_Addr((uint32_t *) &aADCDualConvertedValues[BSIZE], 4*BSIZE);
+	SCB_InvalidateDCache_by_Addr((uint32_t *) &aADCDualConvertedValues[BSIZE/2], 2*BSIZE);
 #endif
 	ADC_Stream0_Handler(1);
 	/* Set variable to report DMA transfer status to main program */
@@ -999,7 +999,7 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 {
 	/* Invalidate Data Cache to get the updated content of the SRAM on the first half of the ADC converted data buffer: 32 bytes */
 #ifdef USE_DCACHE
-	SCB_InvalidateDCache_by_Addr((uint32_t *) &aADCDualConvertedValues[0], 4*BSIZE);
+	SCB_InvalidateDCache_by_Addr((uint32_t *) &aADCDualConvertedValues[0], 2*BSIZE);
 #endif
 	ADC_Stream0_Handler(0);
 	/* Reset variable to report DMA transfer status to main program */
@@ -1500,7 +1500,7 @@ void MX_TIM6_Init_Custom_Rate(void)
 	htim6.Init.Period = 7679;
 #endif
 #ifdef CLK_600M_CPU_160M_ADC_XTAL25
-	htim6.Init.Period = 15359; //was 7679
+	htim6.Init.Period = 7679; //was 7679
 #endif
 #ifdef CLK_620M_CPU_160M_ADC_XTAL25
 	htim6.Init.Period = 7935;
@@ -1509,7 +1509,7 @@ void MX_TIM6_Init_Custom_Rate(void)
 	htim6.Init.Period = 8191;
 #endif
 #ifdef CLK_600M_CPU_150M_ADC_XTAL25
-	htim6.Init.Period = 16383; //was 8191
+	htim6.Init.Period = 8191; //was 8191
 #endif
 	htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
 	if (HAL_TIM_Base_Init(&htim6) != HAL_OK)

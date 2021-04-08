@@ -609,7 +609,7 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 	// process the data contained in the just filled buffer
 	if(FullConversion)
-		pR =(uint16_t *) &aADCDualConvertedValues[BSIZE];
+		pR =(uint16_t *) &aADCDualConvertedValues[BSIZE/2];
 	else
 		pR = (uint16_t *) &aADCDualConvertedValues[0];
 
