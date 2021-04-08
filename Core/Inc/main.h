@@ -179,8 +179,8 @@ extern void TXEnable(uint8_t);
 //#define TEST_WF
 #define CW_DECODER
 
-#define SIGNAL_AVERAGE_T_CONST 0.01
-#define CW_THRESHOLD 0.01
+#define SIGNAL_AVERAGE_T_CONST 0.2
+#define CW_THRESHOLD 0.02
 
 
 //FFT filter test

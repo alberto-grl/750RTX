@@ -366,7 +366,44 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	}
 #endif
 
+
 #ifdef CW_DECODER
+
+	CWLevel = 0;
+	for (WFSample=2*FFTLEN -50; WFSample<(2*FFTLEN - 40); WFSample += 2)
+	//for (WFSample=46; WFSample<52; WFSample += 2)
+	{
+		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+		arm_sqrt_f32(tmp, &BinValue);
+		if (CWLevel < BinValue);
+			CWLevel = BinValue;
+	}
+	BaseNoiseLevel = 9999.f;
+	for (WFSample=2*FFTLEN -60; WFSample<(2*FFTLEN - 30); WFSample += 2)
+	{
+		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+		arm_sqrt_f32(tmp, &BinValue);
+		if (BaseNoiseLevel > BinValue)
+			BaseNoiseLevel = BinValue;
+	}
+	SignalAverage = SIGNAL_AVERAGE_T_CONST * CWLevel + (1 - SIGNAL_AVERAGE_T_CONST) * OldSignalAverage;
+	OldSignalAverage = SignalAverage;
+
+//	if (CWLevel > (SignalAverage + CW_THRESHOLD))
+	if (CWLevel - BaseNoiseLevel > (CW_THRESHOLD))
+//	if (SW01_IN)
+
+		CWIn = 1;
+	else
+		CWIn = 0;
+
+	DecodeCW();
+
+#endif
+
+/*
+#ifdef CW_DECODER
+
 	CWLevel = 0;
 	for (WFSample=2*FFTLEN -42; WFSample<(2*FFTLEN - 40); WFSample += 2)
 	//for (WFSample=46; WFSample<52; WFSample += 2)
@@ -396,7 +433,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	DecodeCW();
 
 #endif
-
+*/
 
 	// mult. by the fast convolution mask
 	arm_cmplx_mult_cmplx_f32(FFTbuf, FFTmask, FFTbuf2, FFTLEN);
@@ -428,6 +465,26 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	}
 
 
+/*
+#ifdef CW_DECODER
+
+
+	SignalAverage = SIGNAL_AVERAGE_T_CONST * CWLevel + (1 - SIGNAL_AVERAGE_T_CONST) * OldSignalAverage;
+	OldSignalAverage = SignalAverage;
+
+	if (CWLevel > (SignalAverage + CW_THRESHOLD))
+//	if (CWLevel - BaseNoiseLevel > (CW_THRESHOLD))
+//	if (SW01_IN)
+
+		CWIn = 1;
+	else
+		CWIn = 0;
+
+	DecodeCW();
+
+#endif
+
+*/
 
 #ifdef AG_TEST_AUDIO
 	//TODO correct comment
