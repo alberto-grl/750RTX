@@ -161,8 +161,8 @@ extern void TXEnable(uint8_t);
 //#define CLK_480M_CPU_120M_ADC /*old board*/
 //#define CLK_600M_CPU_60M_ADC
 //#define CLK_600M_CPU_160M_ADC /* new board */
-#define CLK_600M_CPU_160M_ADC_XTAL25 /* new board */
-//#define CLK_600M_CPU_150M_ADC_XTAL25 /* new board */
+//#define CLK_600M_CPU_160M_ADC_XTAL25 /* new board */
+#define CLK_600M_CPU_150M_ADC_XTAL25 /* new board */
 //#define CLK_620M_CPU_160M_ADC_XTAL25 /* new board Motorboat noise */
 //#define CLK_640M_CPU_160M_ADC_XTAL25 /*CPU Hangs - DO NOT USE. new board */
 
@@ -174,13 +174,13 @@ extern void TXEnable(uint8_t);
 
 //#define TEST_SINGLE_ADC
 //#define AG_TEST_AUDIO
-#define FAKE_RF_SIGNAL
+//#define FAKE_RF_SIGNAL
 
 //#define TEST_WF
 #define CW_DECODER
 
 #define SIGNAL_AVERAGE_T_CONST 0.2
-#define CW_THRESHOLD 0.02
+#define CW_THRESHOLD 0.06
 
 
 //FFT filter test
