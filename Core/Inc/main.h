@@ -161,8 +161,8 @@ extern void TXEnable(uint8_t);
 //#define CLK_480M_CPU_120M_ADC /*old board*/
 //#define CLK_600M_CPU_60M_ADC
 //#define CLK_600M_CPU_160M_ADC /* new board */
-//#define CLK_600M_CPU_160M_ADC_XTAL25 /* new board */
-#define CLK_600M_CPU_150M_ADC_XTAL25 /* new board */
+#define CLK_600M_CPU_160M_ADC_XTAL25 /* new board */
+//#define CLK_600M_CPU_150M_ADC_XTAL25 /* new board */
 //#define CLK_620M_CPU_160M_ADC_XTAL25 /* new board Motorboat noise */
 //#define CLK_640M_CPU_160M_ADC_XTAL25 /*CPU Hangs - DO NOT USE. new board */
 
