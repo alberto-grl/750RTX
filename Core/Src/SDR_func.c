@@ -278,9 +278,11 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 {
 
 	short  *p;
-	static uint16_t WFSample;
+	volatile uint16_t WFSample;
 	volatile float tmp;
 	float BinValue;
+
+
 
 
 
@@ -301,6 +303,22 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	  return;
   }
 	 */
+
+#ifdef DEBUG_TX_CW
+	static int TX;
+	if (TX++ == 1)
+	{
+		TXEnable(0);
+	}
+	else
+	{
+		if (TX== 4)
+		{
+			TX = 0;
+		TXEnable(1);
+		}
+	}
+#endif
 
 
 #ifdef AG_TEST_AUDIO
@@ -370,30 +388,29 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 #ifdef CW_DECODER
 
 	CWLevel = 0;
-	for (WFSample=2*FFTLEN -50; WFSample<(2*FFTLEN - 40); WFSample += 2)
-	//for (WFSample=46; WFSample<52; WFSample += 2)
-	{
-		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
-		arm_sqrt_f32(tmp, &BinValue);
-		if (CWLevel < BinValue);
-			CWLevel = BinValue;
-	}
 	BaseNoiseLevel = 9999.f;
-	for (WFSample=2*FFTLEN -60; WFSample<(2*FFTLEN - 30); WFSample += 2)
+	for (WFSample=70; WFSample<90; WFSample += 2)
+		//		for (WFSample=2*FFTLEN -50; WFSample<(2*FFTLEN - 40); WFSample += 2)
+		//for (WFSample=46; WFSample<52; WFSample += 2)
 	{
 		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
 		arm_sqrt_f32(tmp, &BinValue);
+		if (CWLevel < BinValue)
+			CWLevel = BinValue;
 		if (BaseNoiseLevel > BinValue)
 			BaseNoiseLevel = BinValue;
 	}
 	SignalAverage = SIGNAL_AVERAGE_T_CONST * CWLevel + (1 - SIGNAL_AVERAGE_T_CONST) * OldSignalAverage;
 	OldSignalAverage = SignalAverage;
 
-//	if (CWLevel > (SignalAverage + CW_THRESHOLD))
-	if (CWLevel - BaseNoiseLevel > (CW_THRESHOLD))
-//	if (SW01_IN)
+	//We shorten the pulse by filtering out the first sample at attack.
+	// This gives a 50% duty cycle for a square wave.
+	// Without filter a square wave would have an higher on time than off time.
 
-		CWIn = 1;
+	//	if (CWLevel > (SignalAverage + CW_THRESHOLD))
+	if (CWLevel - BaseNoiseLevel > (CW_THRESHOLD))
+		//	if (SW01_IN)
+		CWIn += 1; //TODO limit CW increase
 	else
 		CWIn = 0;
 
@@ -401,7 +418,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 #endif
 
-/*
+	/*
 #ifdef CW_DECODER
 
 	CWLevel = 0;
@@ -467,7 +484,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	DecodeCW();
 
 #endif
-*/
+	 */
 
 	// mult. by the fast convolution mask
 	arm_cmplx_mult_cmplx_f32(FFTbuf, FFTmask, FFTbuf2, FFTLEN);
@@ -499,7 +516,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	}
 
 
-/*
+	/*
 #ifdef CW_DECODER
 
 
@@ -518,7 +535,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 #endif
 
-*/
+	 */
 
 #ifdef AG_TEST_AUDIO
 	//TODO correct comment
@@ -622,7 +639,7 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 	// compute the new NCO buffer, with the CWpitch offset if receiving CW
 	if(CurrentMode == CW)
-		SDR_ComputeLO(LOfreq-cwpitch);  // prepare next LO buffer
+		SDR_ComputeLO(LOfreq+cwpitch);  // prepare next LO buffer
 	else
 		SDR_ComputeLO(LOfreq);          // prepare next LO buffer
 
