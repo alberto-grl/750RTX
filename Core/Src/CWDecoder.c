@@ -69,9 +69,12 @@ char lcdGuy = ' ';       // We will store the actual character decoded here
 
 void DecodeCW(void)
 {
+// 12 WPM is 5 Hz
+//We are limited by the FFT execution rate
 
-	if (CWIn) keyIsDown();       // LOW, or 0, means tone is being decoded
-	else keyIsUp();          // HIGH, or 1, means no tone is there
+
+	if (CWIn > 1) keyIsDown();       // tone is being decoded
+	else keyIsUp();          //  no tone is there
 }
 
 void keyIsDown(void) {
