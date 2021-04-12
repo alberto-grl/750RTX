@@ -97,8 +97,8 @@ extern void Tune_Preset(uint8_t);
 extern void Load_Presets(void);
 extern void DisplayFrequency(void);
 extern void SetFstep(int);
-extern void FminusClicked(void);
-extern void FplusClicked(void);
+extern void FminusClicked(uint16_t);
+extern void FplusClicked(uint16_t);
 extern void SetAGC(Agctype);
 extern void SetBW(Bwidth);
 extern void SetMode(Mode);
@@ -180,7 +180,7 @@ extern void TXEnable(uint8_t);
 #define CW_DECODER
 
 #define SIGNAL_AVERAGE_T_CONST 0.2
-#define CW_THRESHOLD 0.06
+#define CW_THRESHOLD 0.1
 
 
 //FFT filter test

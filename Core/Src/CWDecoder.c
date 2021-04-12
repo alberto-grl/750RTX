@@ -32,8 +32,8 @@ uint8_t ditOrDah = true;  // We have either a full dit or a full dah
 int dit = 200;             // We start by defining a dit as 10 milliseconds
 
 // The following values will auto adjust to the sender's speed
-static int averageDah = 100;             // A dah should be 3 times as long as a dit
-int averageWordGap = 100;  // will auto adjust
+static int averageDah = 80;             // A dah should be 3 times as long as a dit
+int averageWordGap = 80;  // will auto adjust
 long fullWait = 6000;             // The time between letters
 long waitWait = 6000;             // The time between dits and dahs
 long newWord = 0;                 // The time between words
@@ -44,12 +44,12 @@ int downTime = 0;        // How long the tone was on in milliseconds
 int upTime = 0;          // How long the tone was off in milliseconds
 int myBounce = 2;        // Used as a short delay between key up and down
 
-long startDownTime = 0;  // Arduino's internal timer when tone first comes on
-long startUpTime = 0;    // Arduino's internal timer when tone first goes off
+static long startDownTime = 0;  // Arduino's internal timer when tone first comes on
+static long startUpTime = 0;    // Arduino's internal timer when tone first goes off
 
-long lastDahTime = 0;    // Length of last dah in milliseconds
-long lastDitTime = 0;    // Length oflast dit in milliseconds
-long averageDahTime = 0; // Sloppy Average of length of dahs
+static long lastDahTime = 0;    // Length of last dah in milliseconds
+static long lastDitTime = 0;    // Length oflast dit in milliseconds
+static long averageDahTime = 0; // Sloppy Average of length of dahs
 
 uint8_t justDid = true; // Makes sure we only print one space during long gaps
 
@@ -73,7 +73,7 @@ void DecodeCW(void)
 //We are limited by the FFT execution rate
 
 
-	if (CWIn > 1) keyIsDown();       // tone is being decoded
+	if (CWIn > 2) keyIsDown();       // tone is being decoded
 	else keyIsUp();          //  no tone is there
 }
 
@@ -146,7 +146,8 @@ void shiftBits() {
 	// we know we've got a dit or a dah, let's find out which
 	// then we will shift the bits in myNum and then add 1 or not add 1
 
-	if (downTime < dit / 3) return;  // ignore my keybounce
+//	if (downTime < dit / 3) return;  // ignore my keybounce //TODO serve? blocca l'autoregolazione
+	if (downTime < 10) return;
 
 	myNum = myNum << 1;   // shift bits left
 	ditOrDah = true;        // we will know which one in two lines
@@ -155,10 +156,20 @@ void shiftBits() {
 	// If it is a dit we add 1. If it is a dah we do nothing!
 	if (downTime < dit) {
 		myNum++;           // add one because it is a dit
+		// The next three lines handle the automatic speed adjustment:
+		/* In the original code  the speed adjustmnet was performed only for dah.
+		 * If speed is far off then it would be never adjusted, since everithing looks like a dit.
+		 * TODO use float for average. It is slower than original, but probably could be made even slower
+		 * Also check for a better approach that keeps count of space duration too.
+		 */
+			averageDah = (downTime * 2 + 7 * averageDah) / 8;  // running average of dahs
+			CurrentAverageDah = averageDah;
+			dit = averageDah / 3;                    // normal dit would be this
+			dit = dit * 2;    // double it to get the threshold between dits and dahs
 	} else {
 
 		// The next three lines handle the automatic speed adjustment:
-		averageDah = (downTime+averageDah) / 2;  // running average of dahs
+		averageDah = (downTime+ 7 * averageDah) / 8;  // running average of dahs
 		CurrentAverageDah = averageDah;
 		dit = averageDah / 3;                    // normal dit would be this
 		dit = dit * 2;    // double it to get the threshold between dits and dahs
@@ -247,7 +258,7 @@ void printPunctuation() {
 		break;
 	case 122:
 		lcdGuy = 's';
-		sendToLCD();
+//		sendToLCD(); //TODO use other character
 		lcdGuy = 'k';
 		break;
 	default:
