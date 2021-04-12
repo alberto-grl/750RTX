@@ -215,9 +215,9 @@ void SetFstep(int idx)
 }	
 //-----------------------------------------------------------------------------
 // Increase the frequency by the value of the current step
-void FplusClicked()
+void FplusClicked(uint16_t Nsteps)
 {	
-	LOfreq += Fstep;
+	LOfreq += Fstep * Nsteps;
 	LOfreq  = min(LOfreq, 50000000.f);
 	psets[0].freq = LOfreq; psets[0].mode = CurrentMode;
 	psets[0].bw = bw[CurrentMode];
@@ -231,9 +231,9 @@ void FplusClicked()
 }	
 //-----------------------------------------------------------------------------
 // Decrease the frequency by the value of the current step
-void FminusClicked()
+void FminusClicked(uint16_t Nsteps)
 {	
-	LOfreq -= Fstep;
+	LOfreq -= Fstep * Nsteps;
 	LOfreq  = max(LOfreq, 8000.f);
 	psets[0].freq = LOfreq; psets[0].mode = CurrentMode;
 	psets[0].bw = bw[CurrentMode];
@@ -389,7 +389,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 	CWLevel = 0;
 	BaseNoiseLevel = 9999.f;
-	for (WFSample=70; WFSample<90; WFSample += 2)
+	for (WFSample=64; WFSample<84; WFSample += 2)
 		//		for (WFSample=2*FFTLEN -50; WFSample<(2*FFTLEN - 40); WFSample += 2)
 		//for (WFSample=46; WFSample<52; WFSample += 2)
 	{
@@ -409,7 +409,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 	//	if (CWLevel > (SignalAverage + CW_THRESHOLD))
 	if (CWLevel - BaseNoiseLevel > (CW_THRESHOLD))
-		//	if (SW01_IN)
+//			if (!SW01_IN)
 		CWIn += 1; //TODO limit CW increase
 	else
 		CWIn = 0;
