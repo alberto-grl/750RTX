@@ -320,7 +320,8 @@ int main(void)
 #ifdef CLK_600M_CPU_150M_ADC_XTAL25
 	SamplingRate = ((150000000) / 4) * 2 / 8.f;//ADC Clock /async div * 2 ADC channels /8 cycles for 12 bit ADC
 #endif
-	TXEnable(0);
+	CarrierEnable(0);
+	TXSwitch(0);
 	SetFOut(7000000);
 
 	// SamplingRate = SamplingRate * 4000000.f / 3999300.f; // Correct Xtal error
@@ -927,7 +928,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(TX_ENA_GPIO_Port, TX_ENA_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, RXTX_Pin|TX_ENA_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_RESET);
@@ -944,12 +945,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(SwInt1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : TX_ENA_Pin */
-  GPIO_InitStruct.Pin = TX_ENA_Pin;
+  /*Configure GPIO pins : RXTX_Pin TX_ENA_Pin */
+  GPIO_InitStruct.Pin = RXTX_Pin|TX_ENA_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(TX_ENA_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PC9 */
   GPIO_InitStruct.Pin = GPIO_PIN_9;
@@ -1248,13 +1249,13 @@ void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef *hadc)
 }
 
 
-void PrintUI(char* UartTXString)
+void PrintUI(uint8_t* UartTXString)
 {
 #ifdef UART_UI
 	HAL_UART_Transmit(&huart3, (uint8_t *) UartTXString, strlen(UartTXString), 100);
 #endif
 #ifdef USB_UI
-	CDC_Transmit_FS(UartTXString, strlen(UartTXString));
+	CDC_Transmit_FS(UartTXString, strlen((char *)UartTXString));
 #endif
 }
 
@@ -1286,8 +1287,8 @@ void DisplayCW(void)
 void UserInput(void)
 {
 	volatile HAL_StatusTypeDef result;
-	uint16_t i;
-	uint8_t PointString[16];
+
+
 
 #ifdef UART_UI
 	__HAL_UART_SEND_REQ (&huart3, UART_RXDATA_FLUSH_REQUEST);
@@ -1337,9 +1338,9 @@ void UserInput(void)
 		case 102: //F
 			SetAGC((Agctype)Fast);  break;
 		case 114: //R
-			TXEnable(0);  break;
+			TXSwitch(0);  break;
 		case 116: //T
-			TXEnable(1);  break;
+			TXSwitch(1);  break;
 		case 115: //S
 			SetAGC((Agctype)Slow);  break;
 		case 110: //N
@@ -1467,7 +1468,7 @@ void DisplayStatus(void)
 	case Narrow: strcpy(StringWidth,"Narrow"); break;
 	case Wide: strcpy(StringWidth,"Wide"); break;
 	}
-	sprintf(UartTXString, "\e[3;1HFreq %5.3f  Step %s\e[5;1HMode %s BW %s AGG %s Volume %1.1f   \r", LOfreq/1000.f, StringStep, StringMode, StringWidth, StringAGC, volume);
+	sprintf((char *)UartTXString, "\e[3;1HFreq %5.3f  Step %s\e[5;1HMode %s BW %s AGG %s Volume %1.1f   \r", LOfreq/1000.f, StringStep, StringMode, StringWidth, StringAGC, volume);
 	PrintUI(UartTXString);
 }
 
@@ -1559,7 +1560,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
 
 void SetFOut(uint32_t FHz)
 {
-	volatile uint32_t DivN2, FracN2;
+	volatile uint32_t DivN2;
 
 
 	/* FOut = FXtal * M / N / P / MCODIV
@@ -1590,56 +1591,52 @@ void SetFracPLL(uint32_t Coeff)
 	__HAL_RCC_PLL2FRACN_ENABLE();
 }
 
-void SetFOutVHF(uint32_t FHz)
-{
-	volatile uint32_t DivN2, FracN2;
 
-
-	/* FOut = FXtal * M / N / P / MCODIV
-FXtal = 8 MHz
-
-Local oscillator is 10.7 - 40.7 MHz
-
-MCODIV = 1
-M = 4
-P = 24
-MCODIV = 1
-	 */
-	DivN2 = 291;
-	FracN2 = 0;
-
-	__HAL_RCC_PLL2_DISABLE();
-	__HAL_RCC_PLL2_CONFIG(8, DivN2, 2, 2, 2);
-	__HAL_RCC_PLL2_ENABLE();
-
-
-}
-
-void TXEnable(uint8_t Status)
+void TXSwitch(uint8_t Status)
 {
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 	if (Status)
-	{
-		/*Configure GPIO pin : PC9 */
-		GPIO_InitStruct.Pin = GPIO_PIN_9;
-		GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-		GPIO_InitStruct.Pull = GPIO_NOPULL;
-		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-		GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
-		HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+		{
+			/*Configure GPIO pin : PC9 */
+			GPIO_InitStruct.Pin = GPIO_PIN_9;
+			GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+			GPIO_InitStruct.Pull = GPIO_NOPULL;
+			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+			GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
+			HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+			RELAY_TX_ON;
+			TransmissionEnabled = 1;
+		}
+		else
+		{
+			/*Configure GPIO pin : PC9 */
+			GPIO_InitStruct.Pin = GPIO_PIN_9;
+			GPIO_InitStruct.Mode =  GPIO_MODE_OUTPUT_PP;
+			GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+			HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+			RELAY_TX_OFF;
+			TransmissionEnabled = 0;
+
+		}
+	}
+
+
+void CarrierEnable(uint8_t Status)
+{
+
+	if (Status)
+	{
+//TODO: Ramping
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
+		TXCarrierEnabled = 1;
 	}
 	else
 	{
-		/*Configure GPIO pin : PC9 */
-		GPIO_InitStruct.Pin = GPIO_PIN_9;
-		GPIO_InitStruct.Mode =  GPIO_MODE_OUTPUT_PP;
-		GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-		HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
+		TXCarrierEnabled = 0;
 
 	}
 }

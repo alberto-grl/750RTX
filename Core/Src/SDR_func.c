@@ -277,14 +277,20 @@ void SysTick_Handler()
 void HAL_GPIO_EXTI_Callback(uint16_t pin)
 {
 
-	short  *p;
 	volatile uint16_t WFSample;
 	volatile float tmp;
 	float BinValue;
+	int16_t i;
 
 
-
-
+	if (TransmissionEnabled && SW01_IN)
+	{
+		CarrierEnable(1);
+	}
+	else
+	{
+		CarrierEnable(0);
+	}
 
 #ifdef TEST_NO_SDR
 	return;
@@ -315,15 +321,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 		if (TX== 4)
 		{
 			TX = 0;
-		TXEnable(1);
+			TXEnable(1);
 		}
 	}
 #endif
 
 
-#ifdef AG_TEST_AUDIO
-	int16_t i;
-#endif
 
 #ifdef TEST_FRAC_DIV
 	int16_t i;
@@ -409,7 +412,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 	//	if (CWLevel > (SignalAverage + CW_THRESHOLD))
 	if (CWLevel - BaseNoiseLevel > (CW_THRESHOLD))
-//			if (!SW01_IN)
+		//			if (!SW01_IN)
 		CWIn += 1; //TODO limit CW increase
 	else
 		CWIn = 0;
@@ -516,26 +519,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	}
 
 
-	/*
-#ifdef CW_DECODER
-
-
-	SignalAverage = SIGNAL_AVERAGE_T_CONST * CWLevel + (1 - SIGNAL_AVERAGE_T_CONST) * OldSignalAverage;
-	OldSignalAverage = SignalAverage;
-
-	if (CWLevel > (SignalAverage + CW_THRESHOLD))
-//	if (CWLevel - BaseNoiseLevel > (CW_THRESHOLD))
-//	if (SW01_IN)
-
-		CWIn = 1;
-	else
-		CWIn = 0;
-
-	DecodeCW();
-
-#endif
-
-	 */
 
 #ifdef AG_TEST_AUDIO
 	//TODO correct comment
@@ -552,6 +535,17 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 #endif
 
+
+	// CW tone while keying
+	//TODO: make it sine and with attack/decay
+	if (TXCarrierEnabled)
+		for (i=0; i<BSIZE; i++)
+		{
+			if (i % 64 > 31)
+				fAudio[i] = 0.1; //Volume
+			else
+				fAudio[i] = -0.1;
+		}
 
 
 

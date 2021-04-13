@@ -112,6 +112,8 @@ EXTERN int NCharReceived;
 EXTERN int CurrentAverageDah;
 #endif
 
+EXTERN uint8_t TXCarrierEnabled;
+EXTERN uint8_t TransmissionEnabled;
 
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;
 //TODO EXTERN EXTI_InitTypeDef      EXTI_InitStructure;

@@ -72,6 +72,8 @@ typedef struct
 #define LED_RED_ON  	 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET)
 #define LED_GREEN_OFF  	 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET)
 #define LED_GREEN_ON  	 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET)
+#define RELAY_TX_OFF  	 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET)
+#define RELAY_TX_ON  	 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET)
 #define SW01_IN          HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)
 
 /* USER CODE END EM */
@@ -102,6 +104,8 @@ extern void FplusClicked(uint16_t);
 extern void SetAGC(Agctype);
 extern void SetBW(Bwidth);
 extern void SetMode(Mode);
+extern void HAL_GPIO_EXTI_Callback(uint16_t);
+extern void EXTI1_IRQHandler(void);
 
 extern void DisplayFrequency(void);
 extern void Touch(void);
@@ -124,9 +128,10 @@ extern void printSpace(void);
 extern void sendToLCD(void);
 extern void printCharacter(void);
 extern void shiftBits(void);
-extern void PrintUI(char*);
+extern void PrintUI(uint8_t*);
 
-extern void TXEnable(uint8_t);
+extern void CarrierEnable(uint8_t);
+extern void TXSwitch(uint8_t);
 
 
 
@@ -138,6 +143,8 @@ extern void TXEnable(uint8_t);
 #define SwInt1_Pin GPIO_PIN_14
 #define SwInt1_GPIO_Port GPIOC
 #define SwInt1_EXTI_IRQn EXTI15_10_IRQn
+#define RXTX_Pin GPIO_PIN_10
+#define RXTX_GPIO_Port GPIOD
 #define TX_ENA_Pin GPIO_PIN_11
 #define TX_ENA_GPIO_Port GPIOD
 #define LED_GREEN_Pin GPIO_PIN_8
