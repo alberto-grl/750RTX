@@ -158,7 +158,7 @@ void shiftBits() {
 		myNum++;           // add one because it is a dit
 		// The next three lines handle the automatic speed adjustment:
 		/* In the original code  the speed adjustmnet was performed only for dah.
-		 * If speed is far off then it would be never adjusted, since everithing looks like a dit.
+		 * If speed is far off then it would be never adjusted, since everything looks like a dit.
 		 * TODO use float for average. It is slower than original, but probably could be made even slower
 		 * Also check for a better approach that keeps count of space duration too.
 		 */

@@ -392,7 +392,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 	CWLevel = 0;
 	BaseNoiseLevel = 9999.f;
-	for (WFSample=64; WFSample<84; WFSample += 2)
+	for (WFSample=58; WFSample<68; WFSample += 2)
+//	for (WFSample=64; WFSample<84; WFSample += 2)
 		//		for (WFSample=2*FFTLEN -50; WFSample<(2*FFTLEN - 40); WFSample += 2)
 		//for (WFSample=46; WFSample<52; WFSample += 2)
 	{
@@ -411,7 +412,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	// Without filter a square wave would have an higher on time than off time.
 
 	//	if (CWLevel > (SignalAverage + CW_THRESHOLD))
-	if (CWLevel - BaseNoiseLevel > (CW_THRESHOLD))
+	if (CWLevel - BaseNoiseLevel > (CWThreshold))
 		//			if (!SW01_IN)
 		CWIn += 1; //TODO limit CW increase
 	else

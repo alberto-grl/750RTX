@@ -115,6 +115,9 @@ EXTERN int CurrentAverageDah;
 EXTERN uint8_t TXCarrierEnabled;
 EXTERN uint8_t TransmissionEnabled;
 
+EXTERN float XTalFreq;
+EXTERN float CWThreshold;
+
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;
 //TODO EXTERN EXTI_InitTypeDef      EXTI_InitStructure;
 
