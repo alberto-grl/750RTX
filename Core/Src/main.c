@@ -1371,12 +1371,12 @@ void UserInput(void)
 	EncVal = TIM4->CNT;
 	if (EncVal > 0)
 	{
-		FplusClicked(EncVal);
+		FplusClicked(EncVal/2); // One encoder click is two counts
 		DisplayStatus();
 	}
 	if (EncVal < 0)
 	{
-		FminusClicked(-EncVal);
+		FminusClicked(-EncVal/2); // One encoder click is two counts
 		DisplayStatus();
 	}
 	TIM4->CNT = 0;

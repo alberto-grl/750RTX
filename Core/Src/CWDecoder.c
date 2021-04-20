@@ -69,11 +69,11 @@ char lcdGuy = ' ';       // We will store the actual character decoded here
 
 void DecodeCW(void)
 {
-// 12 WPM is 5 Hz
-//We are limited by the FFT execution rate
+	// 12 WPM is 5 Hz
+	//We are limited by the FFT execution rate
 
 
-	if (CWIn > 2) keyIsDown();       // tone is being decoded
+	if (CWIn > 1) keyIsDown();       // tone is being decoded
 	else keyIsUp();          //  no tone is there
 }
 
@@ -146,7 +146,7 @@ void shiftBits() {
 	// we know we've got a dit or a dah, let's find out which
 	// then we will shift the bits in myNum and then add 1 or not add 1
 
-//	if (downTime < dit / 3) return;  // ignore my keybounce //TODO serve? blocca l'autoregolazione
+	//	if (downTime < dit / 3) return;  // ignore my keybounce //TODO serve? blocca l'autoregolazione
 	if (downTime < 10) return;
 
 	myNum = myNum << 1;   // shift bits left
@@ -156,24 +156,28 @@ void shiftBits() {
 	// If it is a dit we add 1. If it is a dah we do nothing!
 	if (downTime < dit) {
 		myNum++;           // add one because it is a dit
-		// The next three lines handle the automatic speed adjustment:
-		/* In the original code  the speed adjustmnet was performed only for dah.
-		 * If speed is far off then it would be never adjusted, since everything looks like a dit.
-		 * TODO use float for average. It is slower than original, but probably could be made even slower
-		 * Also check for a better approach that keeps count of space duration too.
-		 */
-			averageDah = (downTime * 2 + 7 * averageDah) / 8;  // running average of dahs
-			CurrentAverageDah = averageDah;
-			dit = averageDah / 3;                    // normal dit would be this
-			dit = dit * 2;    // double it to get the threshold between dits and dahs
-	} else {
-
-		// The next three lines handle the automatic speed adjustment:
-		averageDah = (downTime+ 7 * averageDah) / 8;  // running average of dahs
+	}
+	LastPulsesRatio =  (float)downTime/ LastDownTime;
+	if (((LastPulsesRatio > 1.8) && (LastPulsesRatio < 5.0)) || ((LastPulsesRatio > (1/1.8)) && (LastPulsesRatio < (1 / 5.0))))
+	{
+		if (LastPulsesRatio > 1)
+		{
+			averageDah = downTime;
+		}
+		else
+		{
+			averageDah = LastDownTime;
+		}
+		averageDah = (downTime + 7 * averageDah) / 8;  // running average of dahs
 		CurrentAverageDah = averageDah;
+		if (averageDah > 400)
+			averageDah = 400;
+		if (averageDah < 50)
+			averageDah = 50;
 		dit = averageDah / 3;                    // normal dit would be this
 		dit = dit * 2;    // double it to get the threshold between dits and dahs
 	}
+	LastDownTime = downTime;
 }
 
 
@@ -258,7 +262,7 @@ void printPunctuation() {
 		break;
 	case 122:
 		lcdGuy = 's';
-//		sendToLCD(); //TODO use other character
+		//		sendToLCD(); //TODO use other character
 		lcdGuy = 'k';
 		break;
 	default:
@@ -460,6 +464,6 @@ void reprintOverFlow(){
 	lastWordCount=0;      // clear the last word length
 }
 
-*/
+ */
 
 #endif

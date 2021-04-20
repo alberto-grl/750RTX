@@ -110,6 +110,8 @@ EXTERN uint8_t CWIn;
 EXTERN char DecodedCWChar;
 EXTERN int NCharReceived;
 EXTERN int CurrentAverageDah;
+EXTERN float LastPulsesRatio;
+EXTERN float LastDownTime;
 #endif
 
 EXTERN uint8_t TXCarrierEnabled;
