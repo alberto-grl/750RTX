@@ -98,7 +98,7 @@ EXTERN float SValue;
 EXTERN uint16_t OVFDetected;
 EXTERN int16_t EncVal;
 
-EXTERN float WFBuffer[FFTLEN/2];
+EXTERN float WFBuffer[FFTLEN];
 
 #ifdef FAKE_RF_SIGNAL
 EXTERN uint16_t TestSignalData[BSIZE];

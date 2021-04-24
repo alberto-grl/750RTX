@@ -183,7 +183,7 @@ extern void SetTXPLL(float);
 //#define AG_TEST_AUDIO
 //#define FAKE_RF_SIGNAL
 //#define DEBUG_TX_CW
-//#define TEST_WF
+#define TEST_WF
 #define CW_DECODER
 
 #define SIGNAL_AVERAGE_T_CONST 0.2

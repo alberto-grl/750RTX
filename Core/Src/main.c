@@ -1262,6 +1262,7 @@ void PrintUI(uint8_t* UartTXString)
 #endif
 #ifdef USB_UI
 	CDC_Transmit_FS(UartTXString, strlen((char *)UartTXString));
+	HAL_Delay(1);
 #endif
 }
 
@@ -1269,7 +1270,7 @@ void PrintUI(uint8_t* UartTXString)
 void DisplayCW(void)
 {
 	static uint8_t PosColumn;
-	static uint8_t PosRow = 9;
+	static uint8_t PosRow = 13;
 	if ((uint8_t)DecodedCWChar == 0)
 		return;
 	NCharReceived++;
@@ -1279,11 +1280,11 @@ void DisplayCW(void)
 		PosColumn = 1;
 		PosRow++;
 	}
-	if (PosRow >= 9 + 4)
+	if (PosRow >= 13 + 4)
 	{
-		PosRow = 9;
+		PosRow = 13;
 	}
-	sprintf((char*)UartTXString, "\e[%d;%dH%c        ", PosRow, PosColumn, DecodedCWChar);
+	sprintf((char*)UartTXString , "\e[%d;%dH%c        ", PosRow, PosColumn, DecodedCWChar);
 	PrintUI(UartTXString);
 
 	DecodedCWChar = 0;
@@ -1388,20 +1389,63 @@ void UserInput(void)
 #ifdef CW_DECODER
 	sprintf((char*)UartTXString, "\e[7;1HS %-4.1f, %-4.1f, %-4.1f, %d      ", CWLevel*100, SignalAverage*100, (CWLevel - BaseNoiseLevel)*100, CurrentAverageDah);
 	PrintUI(UartTXString);
-	HAL_Delay(20);  //TODO Previous USB transmission needs to be finished before next one. Use a better way to ensure it is, or compose a long string and send it at once.
 	DisplayCW();
 #endif
 
 #ifdef TEST_WF
-	sprintf((char*)UartTXString, "\e[8;1H");
-	PrintUI(UartTXString);
-	for (i=0; i<10; i++)
+
+	//palette is 16 + 36R + 6G + B
+	//we want black -> B -> BG -> G -> GR -> R -> RB
+	static const uint8_t WFColorLookup[31] =
 	{
-		sprintf((char*)PointString, "\e[38;5;%dmA", 238 + (int)WFBuffer[i]);
-		strcat((char*)UartTXString, PointString);
-	}
+			16,
+			17, 18, 19, 20, 21,
+			27, 33, 39, 45, 51,
+			50, 49, 48, 47, 46,
+			82, 118, 154, 190, 226,
+			220, 214, 208, 202, 196,
+			197, 198, 199, 200, 201
+	};
+
+	int i, j;
+volatile	uint8_t BucketColor;
+volatile	float StrongestSignal, BigBucketValue;
+	sprintf((char*)UartTXString, "\e[11;1H");
 	PrintUI(UartTXString);
-	sprintf((char*)UartTXString, "\r");
+
+		for (i = 256; i >= 0; i -= 8)
+		{
+			StrongestSignal = 0;
+			for (j = 0; j < 8; j++)
+			{
+				if (StrongestSignal < WFBuffer[i + j])
+					StrongestSignal = WFBuffer[i + j];
+			}
+			BigBucketValue = 50 * log(StrongestSignal + 1.01);
+			if (BigBucketValue >30)
+				BigBucketValue =30;
+			BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
+			sprintf((char*)UartTXString, "\e[48;5;%dm ", BucketColor);
+			PrintUI(UartTXString);
+		}
+		for (i=FFTLEN-1; i>(FFTLEN-256); i -= 8)
+		{
+			StrongestSignal = 0;
+			for (j = 0; j < 8; j++)
+			{
+				if (StrongestSignal < WFBuffer[i - j])
+					StrongestSignal = WFBuffer[i - j];
+			}
+			BigBucketValue = 100 * log(StrongestSignal + 1);
+			if (BigBucketValue >30)
+				BigBucketValue =30;
+			BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
+			sprintf((char*)UartTXString, "\e[48;5;%dm ", BucketColor);
+			PrintUI(UartTXString);
+		}
+
+
+	sprintf((char*)UartTXString, "\e[48;5;16m"); // set black background
 	PrintUI(UartTXString);
 #endif
 
