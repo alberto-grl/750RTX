@@ -141,7 +141,7 @@ const uint16_t sine_wave_array[32] = {2047, 1648, 1264, 910, 600,  345,
 		4095, 4056, 3939, 3750, 3495, 3185,
 		2831, 2447};
 
-extern uint8_t UartTXString[256];
+extern uint8_t UartTXString[4096];
 extern uint8_t UartRXString[256];
 __IO ITStatus UartRXDataReady = RESET;
 __IO ITStatus UartTXFinished = RESET;
@@ -1279,12 +1279,16 @@ void DisplayCW(void)
 	{
 		PosColumn = 1;
 		PosRow++;
+		if (PosRow >= 13 + 4)
+		{
+			PosRow = 13;
+		}
+		//Clear line
+		sprintf((char*)UartTXString, "\e[%d;%dH                                                         ", PosRow, PosColumn);
+		PrintUI(UartTXString);
 	}
-	if (PosRow >= 13 + 4)
-	{
-		PosRow = 13;
-	}
-	sprintf((char*)UartTXString , "\e[%d;%dH%c        ", PosRow, PosColumn, DecodedCWChar);
+
+	sprintf((char*)UartTXString, "\e[%d;%dH%c", PosRow, PosColumn, DecodedCWChar);
 	PrintUI(UartTXString);
 
 	DecodedCWChar = 0;
@@ -1408,44 +1412,45 @@ void UserInput(void)
 	};
 
 	int i, j;
-volatile	uint8_t BucketColor;
-volatile	float StrongestSignal, BigBucketValue;
+	uint8_t BucketColor;
+	float StrongestSignal, BigBucketValue;
+	uint8_t WFString[20];
 	sprintf((char*)UartTXString, "\e[11;1H");
-	PrintUI(UartTXString);
 
-		for (i = 256; i >= 0; i -= 8)
+
+	for (i = 256; i >= 0; i -= 8)
+	{
+		StrongestSignal = 0;
+		for (j = 0; j < 8; j++)
 		{
-			StrongestSignal = 0;
-			for (j = 0; j < 8; j++)
-			{
-				if (StrongestSignal < WFBuffer[i + j])
-					StrongestSignal = WFBuffer[i + j];
-			}
-			BigBucketValue = 50 * log(StrongestSignal + 1.01);
-			if (BigBucketValue >30)
-				BigBucketValue =30;
-			BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
-			sprintf((char*)UartTXString, "\e[48;5;%dm ", BucketColor);
-			PrintUI(UartTXString);
+			if (StrongestSignal < WFBuffer[i + j])
+				StrongestSignal = WFBuffer[i + j];
 		}
-		for (i=FFTLEN-1; i>(FFTLEN-256); i -= 8)
+		BigBucketValue = 50 * log(StrongestSignal + 1.01);
+		if (BigBucketValue >30)
+			BigBucketValue =30;
+		BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
+		sprintf((char*)WFString, "\e[48;5;%dm ", BucketColor);
+		strcat(UartTXString, WFString);
+	}
+	for (i=FFTLEN-1; i>(FFTLEN-256); i -= 8)
+	{
+		StrongestSignal = 0;
+		for (j = 0; j < 8; j++)
 		{
-			StrongestSignal = 0;
-			for (j = 0; j < 8; j++)
-			{
-				if (StrongestSignal < WFBuffer[i - j])
-					StrongestSignal = WFBuffer[i - j];
-			}
-			BigBucketValue = 100 * log(StrongestSignal + 1);
-			if (BigBucketValue >30)
-				BigBucketValue =30;
-			BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
-			sprintf((char*)UartTXString, "\e[48;5;%dm ", BucketColor);
-			PrintUI(UartTXString);
+			if (StrongestSignal < WFBuffer[i - j])
+				StrongestSignal = WFBuffer[i - j];
 		}
+		BigBucketValue = 100 * log(StrongestSignal + 1);
+		if (BigBucketValue >30)
+			BigBucketValue =30;
+		BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
+		sprintf((char*)WFString, "\e[48;5;%dm ", BucketColor);
+		strcat(UartTXString, WFString);
+	}
 
-
-	sprintf((char*)UartTXString, "\e[48;5;16m"); // set black background
+	sprintf((char*)WFString, "\e[48;5;16m"); // set black background
+	strcat(UartTXString, WFString);
 	PrintUI(UartTXString);
 #endif
 
