@@ -328,7 +328,8 @@ int main(void)
 
 	// SamplingRate = SamplingRate * 4000000.f / 3999300.f; // Correct Xtal error
 
-	SamplingRate = SamplingRate * 4000000.f / 4000000.f; // Correct Xtal error
+	//SamplingRate = SamplingRate - 180; // Correct Xtal error
+	SamplingRate = SamplingRate * (7300000.f / (7300000.f + (150.f / 2.0f))); // Correct Xtal error. One half of the tuning error since sampling is twice
 
 	AudioRate = SamplingRate / 4 /16.f / 4.f; //First decimation was 16, now is 64
 	SDR_compute_IIR_parms();  // compute the IIR parms for the CW peak filter
@@ -414,6 +415,7 @@ while (1)
 		/* complete callback.*/
 
 		UserInput();
+		//	HAL_Delay(100);
 		HAL_Delay(100);
 		if (ubADCDualConversionComplete == RESET)
 		{
@@ -784,14 +786,14 @@ static void MX_TIM4_Init(void)
 	htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 	sConfig.EncoderMode = TIM_ENCODERMODE_TI1;
-	sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
+	sConfig.IC1Polarity = TIM_ICPOLARITY_FALLING;
 	sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
 	sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
-	sConfig.IC1Filter = 0;
-	sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
+	sConfig.IC1Filter = 8;
+	sConfig.IC2Polarity = TIM_ICPOLARITY_FALLING;
 	sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
 	sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
-	sConfig.IC2Filter = 0;
+	sConfig.IC2Filter = 8;
 	if (HAL_TIM_Encoder_Init(&htim4, &sConfig) != HAL_OK)
 	{
 		Error_Handler();
@@ -1321,9 +1323,9 @@ void UserInput(void)
 		switch (UartRXString[0])
 		{
 		case 49: //1
-			FminusClicked(1); break;
+			FminusClicked(2); break;
 		case 50: //2
-			FplusClicked(1); break;
+			FplusClicked(2); break;
 		case 51: //3
 			SetFstep(5);  break;
 		case 52: //4
@@ -1338,25 +1340,25 @@ void UserInput(void)
 			SetFstep(0); break;
 		case 57: //9
 			SetFstep(9); break;
-		case 108: //L
+		case 108: //l
 			SetMode((Mode)LSB); break;
-		case 117: //U
+		case 117: //u
 			SetMode((Mode)USB); break;
-		case 97: //A
+		case 97: //a
 			SetMode((Mode)AM); break;
-		case 99: //C
+		case 99: //c
 			SetMode((Mode)CW); break;
-		case 102: //F
+		case 102: //f
 			SetAGC((Agctype)Fast);  break;
-		case 114: //R
+		case 114: //r
 			TXSwitch(0);  break;
-		case 116: //T
+		case 116: //t
 			TXSwitch(1);  break;
-		case 115: //S
+		case 115: //s
 			SetAGC((Agctype)Slow);  break;
-		case 110: //N
+		case 110: //n
 			SetBW((Bwidth)Narrow);  break;
-		case 119: //W
+		case 119: //w
 			SetBW((Bwidth)Wide);  break;
 		case 45: //-
 			volume -= 0.1;
@@ -1368,25 +1370,39 @@ void UserInput(void)
 			if (volume > 1.0)
 				volume = 1.0;
 			break;
+		case 87: //W
+
+					if (ShowWF)
+						ShowWF=0;
+					else
+						ShowWF=1;
+
+					break;
 		}
 
 		DisplayStatus();
 	}
 
-	EncVal = TIM4->CNT;
-	if (EncVal > 0)
-	{
-		FplusClicked(EncVal/2); // One encoder click is two counts
-		DisplayStatus();
-	}
-	if (EncVal < 0)
-	{
-		FminusClicked(-EncVal/2); // One encoder click is two counts
-		DisplayStatus();
-	}
-	TIM4->CNT = 0;
+	int16_t DiffEncVal;
 
-	SValue = 10 / 3.01 * log10(PeakAudioValue * 2000.0);
+
+	EncVal = TIM4->CNT;
+	DiffEncVal = (int32_t) (EncVal - LastEncVal);
+	if (DiffEncVal > 0)
+	{
+		FplusClicked(DiffEncVal); // One encoder click is two counts
+		DisplayStatus();
+		LastEncVal = EncVal;
+	}
+	if (DiffEncVal < 0)
+	{
+		FminusClicked(-DiffEncVal); // One encoder click is two counts
+		DisplayStatus();
+		LastEncVal = EncVal;
+	}
+
+
+	SValue = 4 + 10 / 3.01 * log10(PeakAudioValue * 2000.0);
 	sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     \r", SValue);
 	PrintUI(UartTXString);
 
@@ -1415,43 +1431,46 @@ void UserInput(void)
 	uint8_t BucketColor;
 	float StrongestSignal, BigBucketValue;
 	uint8_t WFString[20];
-	sprintf((char*)UartTXString, "\e[11;1H");
 
+	if (ShowWF) {
 
-	for (i = 256; i >= 0; i -= 8)
-	{
-		StrongestSignal = 0;
-		for (j = 0; j < 8; j++)
+		sprintf((char*)UartTXString, "\e[11;1H");
+
+		for (i = 256; i >= 0; i -= 8)
 		{
-			if (StrongestSignal < WFBuffer[i + j])
-				StrongestSignal = WFBuffer[i + j];
+			StrongestSignal = 0;
+			for (j = 0; j < 8; j++)
+			{
+				if (StrongestSignal < WFBuffer[i + j])
+					StrongestSignal = WFBuffer[i + j];
+			}
+			BigBucketValue = 50 * log(StrongestSignal + 1.01);
+			if (BigBucketValue >30)
+				BigBucketValue =30;
+			BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
+			sprintf((char*)WFString, "\e[48;5;%dm ", BucketColor);
+			strcat(UartTXString, WFString);
 		}
-		BigBucketValue = 50 * log(StrongestSignal + 1.01);
-		if (BigBucketValue >30)
-			BigBucketValue =30;
-		BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
-		sprintf((char*)WFString, "\e[48;5;%dm ", BucketColor);
-		strcat(UartTXString, WFString);
-	}
-	for (i=FFTLEN-1; i>(FFTLEN-256); i -= 8)
-	{
-		StrongestSignal = 0;
-		for (j = 0; j < 8; j++)
+		for (i=FFTLEN-1; i>(FFTLEN-256); i -= 8)
 		{
-			if (StrongestSignal < WFBuffer[i - j])
-				StrongestSignal = WFBuffer[i - j];
+			StrongestSignal = 0;
+			for (j = 0; j < 8; j++)
+			{
+				if (StrongestSignal < WFBuffer[i - j])
+					StrongestSignal = WFBuffer[i - j];
+			}
+			BigBucketValue = 100 * log(StrongestSignal + 1);
+			if (BigBucketValue >30)
+				BigBucketValue =30;
+			BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
+			sprintf((char*)WFString, "\e[48;5;%dm ", BucketColor);
+			strcat(UartTXString, WFString);
 		}
-		BigBucketValue = 100 * log(StrongestSignal + 1);
-		if (BigBucketValue >30)
-			BigBucketValue =30;
-		BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
-		sprintf((char*)WFString, "\e[48;5;%dm ", BucketColor);
-		strcat(UartTXString, WFString);
-	}
 
-	sprintf((char*)WFString, "\e[48;5;16m"); // set black background
-	strcat(UartTXString, WFString);
-	PrintUI(UartTXString);
+		sprintf((char*)WFString, "\e[48;5;16m"); // set black background
+		strcat(UartTXString, WFString);
+		PrintUI(UartTXString);
+	}
 #endif
 
 	if (OVFDetected)

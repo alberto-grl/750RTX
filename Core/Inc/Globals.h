@@ -96,9 +96,10 @@ EXTERN uint8_t        Muted;
 EXTERN char      msg[32];
 EXTERN float SValue;
 EXTERN uint16_t OVFDetected;
-EXTERN int16_t EncVal;
+EXTERN uint16_t EncVal, LastEncVal ;
 
 EXTERN float WFBuffer[FFTLEN];
+EXTERN uint8_t ShowWF;
 
 #ifdef FAKE_RF_SIGNAL
 EXTERN uint16_t TestSignalData[BSIZE];

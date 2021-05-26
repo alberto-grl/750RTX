@@ -217,7 +217,7 @@ void SetFstep(int idx)
 // Increase the frequency by the value of the current step
 void FplusClicked(uint16_t Nsteps)
 {	
-	LOfreq += Fstep * Nsteps;
+	LOfreq += Fstep * (float)Nsteps / 2.0;
 	LOfreq  = min(LOfreq, 50000000.f);
 	psets[0].freq = LOfreq; psets[0].mode = CurrentMode;
 	psets[0].bw = bw[CurrentMode];
@@ -233,7 +233,7 @@ void FplusClicked(uint16_t Nsteps)
 // Decrease the frequency by the value of the current step
 void FminusClicked(uint16_t Nsteps)
 {	
-	LOfreq -= Fstep * Nsteps;
+	LOfreq -= Fstep * (float)Nsteps / 2.0;
 	LOfreq  = max(LOfreq, 8000.f);
 	psets[0].freq = LOfreq; psets[0].mode = CurrentMode;
 	psets[0].bw = bw[CurrentMode];
@@ -380,10 +380,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	if(CurrentMode == LSB) SDR_mirror_LSB(FFTbuf, FFTLEN);
 
 #ifdef TEST_WF
-	for (WFSample=0; WFSample<(FFTLEN * 2); WFSample += 2)
-	{
-		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
-		arm_sqrt_f32(tmp, &WFBuffer[WFSample >> 1]);
+	if (ShowWF) {
+		for (WFSample=0; WFSample<(FFTLEN * 2); WFSample += 2)
+		{
+			tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+			arm_sqrt_f32(tmp, &WFBuffer[WFSample >> 1]);
+		}
 	}
 #endif
 
@@ -393,7 +395,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	CWLevel = 0;
 	BaseNoiseLevel = 9999.f;
 	for (WFSample=48; WFSample<68; WFSample += 2)
-//	for (WFSample=64; WFSample<84; WFSample += 2)
+		//	for (WFSample=64; WFSample<84; WFSample += 2)
 		//		for (WFSample=2*FFTLEN -50; WFSample<(2*FFTLEN - 40); WFSample += 2)
 		//for (WFSample=46; WFSample<52; WFSample += 2)
 	{
@@ -411,8 +413,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	// This gives a 50% duty cycle for a square wave.
 	// Without filter a square wave would have an higher on time than off time.
 
-	//	if (CWLevel > (SignalAverage + CW_THRESHOLD))
+	//		if (CWLevel > (SignalAverage * CWThreshold))
 	if (CWLevel - BaseNoiseLevel > (CWThreshold))
+		//			if (CWLevel / BaseNoiseLevel > (CWThreshold))
 		//			if (!SW01_IN)
 		CWIn += 1; //TODO limit CW increase
 	else
