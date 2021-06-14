@@ -1401,6 +1401,29 @@ void UserInput(void)
 		LastEncVal = EncVal;
 	}
 
+	//TODO: Refactor this code. Move constants to main.h and choose better variable's names.
+	// Bandscope floor and range should be changed from UI
+
+	/* Console escape codes:
+	 *
+	 *
+	 *  \e[   equals ESC
+	 * ESC[{line};{column}H   moves cursor to line #, column #
+	 *
+	 * ESC[38;5;{ID}m 	Set foreground color.
+	 * ESC[48;5;{ID}m 	Set background color.
+	 *
+	 * Where {ID} should be replaced with the color index from 0 to 255 of the following color table:
+	 * The table starts with the original 16 colors (0-15).
+	 * The proceeding 216 colors (16-231) or formed by a 3bpc RGB value offset by 16, packed into a single value.
+	 * The final 24 colors (232-255) are grayscale starting from a shade slighly lighter than black,
+	 * ranging up to shade slightly darker than white.
+	 *
+	 * Only Putty seems to know about 256-color mode, minicom doesn't.
+	 * Android terminal emulators doesn't even move cursor, only exception is DroidTerm.
+	 *
+	 */
+
 
 	SValue = 4 + 10 / 3.01 * log10(PeakAudioValue * 2000.0);
 	sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     \r", SValue);
@@ -1413,7 +1436,7 @@ void UserInput(void)
 #endif
 
 #ifdef TEST_WF
-
+#ifdef COLOR_BANDSCOPE
 	//palette is 16 + 36R + 6G + B
 	//we want black -> B -> BG -> G -> GR -> R -> RB
 	static const uint8_t WFColorLookup[31] =
@@ -1426,7 +1449,14 @@ void UserInput(void)
 			220, 214, 208, 202, 196,
 			197, 198, 199, 200, 201
 	};
+#endif
+#ifdef ASCII_BANDSCOPE
 
+	static const uint8_t WFColorLookup[10] =
+	{
+			' ','.',':','-','=','+','*','#','%','@'
+	};
+#endif
 	int i, j;
 	uint8_t BucketColor;
 	float StrongestSignal, BigBucketValue;
@@ -1444,12 +1474,22 @@ void UserInput(void)
 				if (StrongestSignal < WFBuffer[i + j])
 					StrongestSignal = WFBuffer[i + j];
 			}
+#ifdef COLOR_BANDSCOPE
 			BigBucketValue = 50 * log(StrongestSignal + 1.01);
 			if (BigBucketValue >30)
 				BigBucketValue =30;
+
 			BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
 			sprintf((char*)WFString, "\e[48;5;%dm ", BucketColor);
-			strcat(UartTXString, WFString);
+#endif
+#ifdef ASCII_BANDSCOPE
+			BigBucketValue = 18 * log(StrongestSignal + 1.01);
+			if (BigBucketValue >9)
+				BigBucketValue =9;
+			BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
+			sprintf((char*)WFString, "%c", BucketColor);
+#endif
+			strcat(UartTXString, (int8_t *)WFString);
 		}
 		for (i=FFTLEN-1; i>(FFTLEN-256); i -= 8)
 		{
@@ -1462,13 +1502,22 @@ void UserInput(void)
 			BigBucketValue = 100 * log(StrongestSignal + 1);
 			if (BigBucketValue >30)
 				BigBucketValue =30;
+#ifdef COLOR_BANDSCOPE
 			BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
 			sprintf((char*)WFString, "\e[48;5;%dm ", BucketColor);
-			strcat(UartTXString, WFString);
+#endif
+#ifdef ASCII_BANDSCOPE
+			BigBucketValue = 18 * log(StrongestSignal + 1.01);
+			if (BigBucketValue >9)
+				BigBucketValue =9;
+			BucketColor = WFColorLookup[(uint8_t)BigBucketValue];
+			sprintf((char*)WFString, "%c", BucketColor);
+#endif
+			strcat(UartTXString, (int8_t *)WFString);
 		}
 
 		sprintf((char*)WFString, "\e[48;5;16m"); // set black background
-		strcat(UartTXString, WFString);
+		strcat(UartTXString, (int8_t *)WFString);
 		PrintUI(UartTXString);
 	}
 #endif

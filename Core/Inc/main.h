@@ -184,6 +184,11 @@ extern void SetTXPLL(float);
 //#define FAKE_RF_SIGNAL
 //#define DEBUG_TX_CW
 #define TEST_WF
+
+// Select only one of the following
+#define ASCII_BANDSCOPE
+//#define COLOR_BANDSCOPE
+
 #define CW_DECODER
 
 #define SIGNAL_AVERAGE_T_CONST 0.2
