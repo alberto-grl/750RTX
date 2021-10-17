@@ -212,7 +212,7 @@ extern void SetTXPLL(float);
 #define __FPU_PRESENT 1
 #define myPI         3.14159265358979f
 #define TWOPI        (2.f*myPI)
-#define CWPITCH      650.f
+#define CWPITCH      650.f /* was 650.f*/
 
 #define OVF_TIMEOUT 2
 

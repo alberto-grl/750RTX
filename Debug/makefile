@@ -41,8 +41,8 @@ $(wildcard ../makefile.targets) \
 
 BUILD_ARTIFACT_NAME := 750RTX
 BUILD_ARTIFACT_EXTENSION := elf
-BUILD_ARTIFACT_PREFIX := 
-BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME).$(BUILD_ARTIFACT_EXTENSION)
+BUILD_ARTIFACT_PREFIX :=
+BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
@@ -66,7 +66,7 @@ main-build: 750RTX.elf secondary-outputs
 
 # Tool invocations
 750RTX.elf: $(OBJS) $(USER_OBJS) G:\Il\ mio\ Drive\750RTX\STM32H750VBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "750RTX.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"G:\Il mio Drive\750RTX\STM32H750VBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="750RTX.map" -Wl,--gc-sections -static -Wl,--start-group -larm_cortexM7lfsp_math -Wl,--end-group -L"C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/Lib/GCC" -L"C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "750RTX.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"G:\Il mio Drive\750RTX\STM32H750VBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="750RTX.map" -Wl,--gc-sections -static -L"C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/Lib/GCC" -L"C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -87,7 +87,7 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 
 # Other Targets
 clean:
-	-$(RM) *
+	-$(RM) $(SIZE_OUTPUT)$(OBJDUMP_LIST)$(EXECUTABLES)$(OBJS)$(S_DEPS)$(S_UPPER_DEPS)$(C_DEPS)$(OBJCOPY_BIN) 750RTX.elf
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
@@ -100,6 +100,5 @@ warn-no-linker-script-specified:
 	@echo 'Warning: No linker script specified. Check the linker settings in the build configuration.'
 
 .PHONY: all clean dependents fail-specified-linker-script-missing warn-no-linker-script-specified
-.SECONDARY:
 
 -include ../makefile.targets

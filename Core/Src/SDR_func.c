@@ -169,34 +169,18 @@ void SetMode(/*WM_HWIN ptr,*/ Mode newmode)
 	{
 	case AM :
 		SetBW(/*ptr,*/ bw[AM]); SetAGC(/*ptr,*/ agc[AM]);
-		//      ChangeColor(ptr, hAM,  GUI_RED);
-		//      ChangeColor(ptr, hLSB, GUI_BLACK);
-		//      ChangeColor(ptr, hUSB, GUI_BLACK);
-		//      ChangeColor(ptr, hCW,  GUI_BLACK);
 		break;
 
 	case LSB :
 		SetBW(/*ptr,*/ bw[LSB]);  SetAGC(/*ptr,*/ agc[LSB]);
-		//      ChangeColor(ptr, hAM,  GUI_BLACK);
-		//      ChangeColor(ptr, hLSB, GUI_RED);
-		//      ChangeColor(ptr, hUSB, GUI_BLACK);
-		//      ChangeColor(ptr, hCW,  GUI_BLACK);
 		break;
 
 	case USB :
 		SetBW(/*ptr,*/ bw[USB]);  SetAGC(/*ptr,*/ agc[USB]);
-		//     ChangeColor(ptr, hAM,  GUI_BLACK);
-		//     ChangeColor(ptr, hLSB, GUI_BLACK);
-		//     ChangeColor(ptr, hUSB, GUI_RED);
-		//     ChangeColor(ptr, hCW,  GUI_BLACK);
 		break;
 
 	case CW  :
 		SetBW(/*ptr,*/ bw[CW]);  SetAGC(/*ptr,*/ agc[CW]);
-		//     ChangeColor(ptr, hAM,  GUI_BLACK);
-		//     ChangeColor(ptr, hLSB, GUI_BLACK);
-		//     ChangeColor(ptr, hUSB, GUI_BLACK);
-		//     ChangeColor(ptr, hCW,  GUI_RED);
 		break;
 
 	default :
@@ -375,9 +359,15 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 	// compute the direct FFT
 	arm_cfft_f32(&arm_cfft_sR_f32_len1024, FFTbuf, DIRECTFFT, NOREVERSE);
-
+/*
 	// if LSB, copy the LSB in the lower half (USB)
 	if(CurrentMode == LSB) SDR_mirror_LSB(FFTbuf, FFTLEN);
+*/
+
+// TODO: check why with the original code above LSB and USB are swapped
+
+ //if USB, copy the USB in the lower half (LSB)
+	if(CurrentMode == USB) SDR_mirror_LSB(FFTbuf, FFTLEN);
 
 #ifdef TEST_WF
 	if (ShowWF) {
@@ -637,7 +627,7 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 	// compute the new NCO buffer, with the CWpitch offset if receiving CW
 	if(CurrentMode == CW)
-		SDR_ComputeLO(LOfreq+cwpitch);  // prepare next LO buffer
+		SDR_ComputeLO(LOfreq + cwpitch);  // prepare next LO buffer
 	else
 		SDR_ComputeLO(LOfreq);          // prepare next LO buffer
 

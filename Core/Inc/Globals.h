@@ -121,6 +121,8 @@ EXTERN uint8_t TransmissionEnabled;
 EXTERN float XTalFreq;
 EXTERN float CWThreshold;
 
+EXTERN int TXFreqError;
+
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;
 //TODO EXTERN EXTI_InitTypeDef      EXTI_InitStructure;
 
