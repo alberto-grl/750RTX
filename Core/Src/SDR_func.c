@@ -384,7 +384,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 	CWLevel = 0;
 	BaseNoiseLevel = 9999.f;
-	for (WFSample=48; WFSample<68; WFSample += 2)
+	for (WFSample=22; WFSample<44; WFSample += 2)
 		//	for (WFSample=64; WFSample<84; WFSample += 2)
 		//		for (WFSample=2*FFTLEN -50; WFSample<(2*FFTLEN - 40); WFSample += 2)
 		//for (WFSample=46; WFSample<52; WFSample += 2)
@@ -658,13 +658,11 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 	ptDataR = ADC_Rdata;  ptDataI = ADC_Idata;
 
-#define DECIMATE_64
-	//#define DECIMATE_16
 
-#ifdef DECIMATE_64
+#ifdef CIC_DECIMATE_64
 
 	//-------------------------------------------------------------------------
-	// Now we decimate by 16 the input samples, using the CIC polyphase decomposition
+	// Now we decimate by 16 or 64 the input samples, using the CIC polyphase decomposition
 	// technique, which has the advantage of eliminating the recursive
 	// component, allowing the use of floating point, rather fast on a Cortex M4F
 	//
@@ -796,10 +794,10 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 #endif
 
-#ifdef DECIMATE_16
+#ifdef CIC_DECIMATE_16
 
 		//-------------------------------------------------------------------------
-		// Now we decimate by 16 the input samples, using the CIC polyphase decomposition
+		// Now we decimate by 16 or 64 the input samples, using the CIC polyphase decomposition
 		// technique, which has the advantage of eliminating the recursive
 		// component, allowing the use of floating point, rather fast on a Cortex M4F
 		//

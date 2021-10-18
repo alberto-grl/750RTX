@@ -330,8 +330,8 @@ int main(void)
 	// SamplingRate = SamplingRate * 4000000.f / 3999300.f; // Correct Xtal error
 
 	//SamplingRate = SamplingRate - 180; // Correct Xtal error
-	SamplingRate = SamplingRate * (7300000.f / (7300000.f + (150.f / 2.0f))); // Correct Xtal error. One half of the tuning error since sampling is twice
-
+	//SamplingRate = SamplingRate * (7300000.f / (7300000.f + (150.f / 2.0f))); // Correct Xtal error. One half of the tuning error since sampling is twice
+	SamplingRate += SamplingRate * XTAL_F_ERROR / 2.0;
 	AudioRate = SamplingRate / 4 /16.f / 4.f; //First decimation was 16, now is 64
 	SDR_compute_IIR_parms();  // compute the IIR parms for the CW peak filter
 
@@ -1121,6 +1121,9 @@ void SystemClock_Config_For_OC(void)
 	RCC_OscInitStruct.PLL.PLLN = 480;
 	XTalFreq = 25000000;
 #endif
+
+	XTalFreq += XTalFreq * XTAL_F_ERROR;
+
 	RCC_OscInitStruct.PLL.PLLP = 2;
 	RCC_OscInitStruct.PLL.PLLQ = 4;
 	RCC_OscInitStruct.PLL.PLLR = 2;

@@ -158,6 +158,15 @@ extern void SetTXPLL(float);
 
 //#define USE_EXTERNAL_MIXER
 
+//Example: actual signal F: 7000000. Tuned at 7000050. XTAL_F_ERROR = -1 + (7000000 / 7000050) = -7.142806e-6
+
+#define XTAL_F_ERROR -7.142806e-6
+
+
+
+//CIC decimation, followed by a 4 times FIR decimator, total will be 256 or 64
+#define CIC_DECIMATE_64
+//#define CIC_DECIMATE_16
 
 
 // Select CPU and ADC Clock. Uncomment only one at a time
