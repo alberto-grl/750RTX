@@ -198,7 +198,7 @@ extern void SetTXPLL(float);
 #define ASCII_BANDSCOPE
 //#define COLOR_BANDSCOPE
 
-#define CW_DECODER
+//#define CW_DECODER
 
 #define SIGNAL_AVERAGE_T_CONST 0.2
 

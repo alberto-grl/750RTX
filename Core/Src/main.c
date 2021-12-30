@@ -51,6 +51,7 @@
   RF Filters https://rf-tools.com/lc-filter/
   Only terminal for Android that supports escape codes is DroidTerm, AFAIK.
   Capacitors ESR: https://ds.murata.co.jp/simsurfing/index.html?lcid=en-us
+  DSP, FFT filters: https://www.analog.com/en/education/education-library/scientist_engineers_guide.html
 
   MCO2 output is pin PC9, CN8 pin 4.
  */

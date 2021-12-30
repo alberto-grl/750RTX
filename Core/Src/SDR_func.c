@@ -276,6 +276,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 		CarrierEnable(0);
 	}
 
+
 #ifdef TEST_NO_SDR
 	return;
 #endif
@@ -536,12 +537,19 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 		for (i=0; i<BSIZE; i++)
 		{
 			if (i % 64 > 31)
-				fAudio[i] = 0.1; //Volume
+				fAudio[i] = volume; //Volume
 			else
-				fAudio[i] = -0.1;
+				fAudio[i] = -volume;
 		}
+	else
+	{
+		if (TransmissionEnabled)
+			for (i=0; i<BSIZE; i++)
+					{
+							fAudio[i] = 0.;
+					}
 
-
+	}
 
 	// send the demodulated audio to the DMA buffer just emptied
 
