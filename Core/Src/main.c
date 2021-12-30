@@ -367,7 +367,7 @@ int main(void)
 	//Test for TX
 	HAL_SYSCFG_VREFBUF_VoltageScalingConfig(SYSCFG_VREFBUF_VOLTAGE_SCALE0);
 	HAL_DAC_Start(&hdac1, DAC_CHANNEL_2);
-	HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 4095);
+	HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 0); // TX gate bias
 
 	///////
 
@@ -1393,15 +1393,15 @@ void UserInput(void)
 
 	EncVal = TIM4->CNT;
 	DiffEncVal = (int32_t) (EncVal - LastEncVal);
-	if (DiffEncVal > 0)
+	if (DiffEncVal < 0)
 	{
-		FplusClicked(DiffEncVal); // One encoder click is two counts
+		FplusClicked(-DiffEncVal); // One encoder click is two counts
 		DisplayStatus();
 		LastEncVal = EncVal;
 	}
-	if (DiffEncVal < 0)
+	if (DiffEncVal > 0)
 	{
-		FminusClicked(-DiffEncVal); // One encoder click is two counts
+		FminusClicked(DiffEncVal); // One encoder click is two counts
 		DisplayStatus();
 		LastEncVal = EncVal;
 	}
@@ -1570,13 +1570,13 @@ void DisplayStatus(void)
 
 	switch(Fstep)
 	{
-	case 1: strcpy(StringStep,"   1"); break;
-	case 10: strcpy(StringStep,"  10"); break;
-	case 100: strcpy(StringStep," 100"); break;
-	case 1000: strcpy(StringStep,"  1K"); break;
-	case 9000: strcpy(StringStep,"   9K"); break;
-	case 10000: strcpy(StringStep," 10K"); break;
-	case 100000: strcpy(StringStep,"100K"); break;
+	case 1:			strcpy(StringStep,"   1 "); break;
+	case 10: 		strcpy(StringStep,"  10 "); break;
+	case 100: 		strcpy(StringStep," 100 "); break;
+	case 1000: 		strcpy(StringStep,"   1K"); break;
+	case 9000: 		strcpy(StringStep,"   9K"); break;
+	case 10000:		strcpy(StringStep,"  10K"); break;
+	case 100000: 	strcpy(StringStep," 100K"); break;
 	}
 
 	switch(CurrentMode)
@@ -1779,6 +1779,8 @@ void TXSwitch(uint8_t Status)
 		GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
 		HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 4095); // TX gate bias. TODO: Need ramping
+
 		RELAY_TX_ON;
 		TransmissionEnabled = 1;
 	}
@@ -1790,7 +1792,7 @@ void TXSwitch(uint8_t Status)
 		GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 		HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
+		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 0); // TX gate bias
 		RELAY_TX_OFF;
 		TransmissionEnabled = 0;
 
