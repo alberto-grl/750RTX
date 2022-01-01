@@ -1779,8 +1779,6 @@ void TXSwitch(uint8_t Status)
 		GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
 		HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 4095); // TX gate bias. TODO: Need ramping
-
 		RELAY_TX_ON;
 		TransmissionEnabled = 1;
 	}
@@ -1792,7 +1790,7 @@ void TXSwitch(uint8_t Status)
 		GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 		GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 		HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 0); // TX gate bias
+
 		RELAY_TX_OFF;
 		TransmissionEnabled = 0;
 
@@ -1807,11 +1805,13 @@ void CarrierEnable(uint8_t Status)
 	{
 		//TODO: Ramping
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
+		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 4095); // TX gate bias
 		TXCarrierEnabled = 1;
 	}
 	else
 	{
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
+		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 0); // TX gate bias. TODO: Need ramping
 		TXCarrierEnabled = 0;
 
 	}
