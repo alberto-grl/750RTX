@@ -1,22 +1,22 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.h
-  * @brief          : Header for main.c file.
-  *                   This file contains the common defines of the application.
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.h
+ * @brief          : Header for main.c file.
+ *                   This file contains the common defines of the application.
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under BSD 3-Clause license,
+ * the "License"; You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                        opensource.org/licenses/BSD-3-Clause
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
@@ -49,12 +49,12 @@ typedef enum {AM=0, LSB=1, USB=2, CW=3} Mode;
 typedef enum {Fast, Slow}   Agctype;
 typedef enum {Narrow, Wide} Bwidth;
 typedef struct
-        {
-          char   name[16];
-          float  freq;
-          Mode   mode;
-          Bwidth bw;
-        } Presets;
+{
+	char   name[16];
+	float  freq;
+	Mode   mode;
+	Bwidth bw;
+} Presets;
 
 /* USER CODE END ET */
 
@@ -66,15 +66,49 @@ typedef struct
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
 
+/* Board 1
 #define LED_YELLOW_OFF    HAL_GPIO_WritePin(GPIOE, GPIO_PIN_1, GPIO_PIN_RESET)
 #define LED_YELLOW_ON   HAL_GPIO_WritePin(GPIOE, GPIO_PIN_1, GPIO_PIN_SET)
 #define LED_RED_OFF  	 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET)
 #define LED_RED_ON  	 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET)
 #define LED_GREEN_OFF  	 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET)
 #define LED_GREEN_ON  	 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET)
+*/
+
+#define TX_DELAY
+#define SEMI_QSK
+
+#define LED_YELLOW_OFF    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET)
+#define LED_YELLOW_ON   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET)
+#define LED_RED_OFF  	 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET)
+#define LED_RED_ON  	 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET)
+#define LED_GREEN_OFF  	 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_RESET)
+#define LED_GREEN_ON  	 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_SET)
+
+
 #define RELAY_TX_OFF  	 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET)
 #define RELAY_TX_ON  	 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET)
 #define SW01_IN          !HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)
+#define KEYER_DASH    !HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_6)
+#define KEYER_DOT     !HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_7)
+
+// keyerControl bit definitions
+#define HIGH 1
+#define LOW 0
+#define DIT_L    0x01     // Dit latch
+#define DAH_L    0x02     // Dah latch
+#define DIT_PROC 0x04     // Dit is being processed
+#define PDLSWAP  0x08     // 0 for normal, 1 for swap
+#define IAMBICB  0x10     // 0 for Iambic A, 1 for Iambic B
+#define IAMBICA  0x00     // 0 for Iambic A, 1 for Iambic B
+#define SINGLE   2        // Keyer Mode 0 1 -> Iambic2  2 ->SINGLE
+
+
+
+extern void loadWPM (int);
+extern void update_PaddleLatch(void);
+extern void DoKeyer(void);
+
 
 /* USER CODE END EM */
 
@@ -143,6 +177,16 @@ extern void SetTXPLL(float);
 #define SwInt1_Pin GPIO_PIN_14
 #define SwInt1_GPIO_Port GPIOC
 #define SwInt1_EXTI_IRQn EXTI15_10_IRQn
+#define KEYER_DASH_Pin GPIO_PIN_6
+#define KEYER_DASH_GPIO_Port GPIOA
+#define KEYER_DOT_Pin GPIO_PIN_7
+#define KEYER_DOT_GPIO_Port GPIOA
+#define LedYellow_Pin GPIO_PIN_12
+#define LedYellow_GPIO_Port GPIOB
+#define LedGreen_Pin GPIO_PIN_13
+#define LedGreen_GPIO_Port GPIOB
+#define LedRed_Pin GPIO_PIN_14
+#define LedRed_GPIO_Port GPIOB
 #define RXTX_Pin GPIO_PIN_10
 #define RXTX_GPIO_Port GPIOD
 #define TX_ENA_Pin GPIO_PIN_11
@@ -199,7 +243,7 @@ extern void SetTXPLL(float);
 //#define COLOR_BANDSCOPE
 
 //#define CW_DECODER
-
+#define KEYER
 #define SIGNAL_AVERAGE_T_CONST 0.2
 
 
@@ -235,5 +279,3 @@ extern void SetTXPLL(float);
 #endif
 
 #endif /* __MAIN_H */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -123,6 +123,24 @@ EXTERN float CWThreshold;
 
 EXTERN int TXFreqError;
 
+EXTERN int keyer_speed;
+EXTERN unsigned long ditTime;                    // No. nseconds per dit
+EXTERN uint8_t keyerControl;
+EXTERN uint8_t keyerState;
+EXTERN uint8_t keyer_mode; //->  SINGLE
+EXTERN uint8_t keyer_swap; //->  DI/DAH
+
+EXTERN uint32_t ktimer;
+EXTERN int Key_state;
+EXTERN int debounce;
+EXTERN uint32_t semi_qsk_timeout;
+EXTERN uint8_t tx;
+EXTERN uint8_t txdelay;
+
+EXTERN enum KSTYPE {IDLE, CHK_DIT, CHK_DAH, KEYED_PREP, KEYED, INTER_ELEMENT }; // State machine states
+
+
+
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;
 //TODO EXTERN EXTI_InitTypeDef      EXTI_InitStructure;
 

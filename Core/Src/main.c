@@ -209,7 +209,7 @@ int main(void)
 	/* Configure the peripherals common clocks */
 	//PeriphCommonClock_Config();
 	//	 SystemClock_Config();
-	HAL_Delay(20);  //needed for USB setup. USB somentimes (and almost always oh an Android phone) does not initialize
+	HAL_Delay(20);  //needed for USB setup. USB somentimes (and almost always on an Android phone) does not initialize
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -248,7 +248,8 @@ int main(void)
 	}
 	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_1);
 	volume= 0.1;
-
+	LED_GREEN_ON;
+	LED_GREEN_OFF;
 
 	// Set now the default values for some variables
 	SetFstep(2);
@@ -346,6 +347,18 @@ int main(void)
 
 	Load_Presets();
 	Tune_Preset(1);      // Set the initial tuning to Preset 1
+
+
+#ifdef KEYER
+  keyerState = IDLE;
+  keyerControl = IAMBICB;      // Or 0 for IAMBICA
+  keyer_speed = 5;
+  loadWPM(keyer_speed);        // Fix speed at 15 WPM
+  keyer_mode = 1; //->  iambic
+  keyer_swap = 0; //->  DI/DAH
+  txdelay = 500;
+#endif //KEYER
+
 
 	DisplayStatus();    // Display status, it would not be shown until a user input was given
 	if (HAL_ADCEx_MultiModeStart_DMA(&hadc1,
@@ -501,9 +514,6 @@ void PeriphCommonClock_Config(void)
 {
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
-  /** Enables PLL2P clock output
-  */
-  __HAL_RCC_PLL2CLKOUT_ENABLE(RCC_PLL2_DIVP);
   /** Initializes the peripherals clock
   */
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADC|RCC_PERIPHCLK_LPTIM2;
@@ -934,6 +944,9 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, LedYellow_Pin|LedGreen_Pin|LedRed_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, RXTX_Pin|TX_ENA_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
@@ -950,6 +963,19 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(SwInt1_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : KEYER_DASH_Pin KEYER_DOT_Pin */
+  GPIO_InitStruct.Pin = KEYER_DASH_Pin|KEYER_DOT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LedYellow_Pin LedGreen_Pin LedRed_Pin */
+  GPIO_InitStruct.Pin = LedYellow_Pin|LedGreen_Pin|LedRed_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pins : RXTX_Pin TX_ENA_Pin */
   GPIO_InitStruct.Pin = RXTX_Pin|TX_ENA_Pin;
@@ -1780,6 +1806,7 @@ void TXSwitch(uint8_t Status)
 		HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 		RELAY_TX_ON;
+		LED_YELLOW_ON;
 		TransmissionEnabled = 1;
 	}
 	else
@@ -1792,6 +1819,7 @@ void TXSwitch(uint8_t Status)
 		HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 		RELAY_TX_OFF;
+		LED_YELLOW_OFF;
 		TransmissionEnabled = 0;
 
 	}
@@ -1805,15 +1833,16 @@ void CarrierEnable(uint8_t Status)
 	{
 		//TODO: Ramping
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
-		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 4095); // TX gate bias
+		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 0); // TX gate bias //RIMETTERE 4095
 		TXCarrierEnabled = 1;
+		LED_GREEN_ON;
 	}
 	else
 	{
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
 		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 0); // TX gate bias. TODO: Need ramping
 		TXCarrierEnabled = 0;
-
+		LED_GREEN_OFF;
 	}
 }
 /* USER CODE END 4 */
@@ -1852,4 +1881,3 @@ void assert_failed(uint8_t *file, uint32_t line)
 }
 #endif /* USE_FULL_ASSERT */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -266,7 +266,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	float BinValue;
 	int16_t i;
 
-
+/*
 	if (TransmissionEnabled && SW01_IN)
 	{
 		CarrierEnable(1);
@@ -275,6 +275,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	{
 		CarrierEnable(0);
 	}
+*/
+	DoKeyer();
 
 
 #ifdef TEST_NO_SDR
@@ -353,7 +355,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 	//FFT returns BUFLEN/2 bins, 1024. Each bin size is FADC/ decimation /FFT size
 	// eg (160 MHz ADC) 10000000 / 64 / 4 / 1024 = 38.14697 Hz
-	// eg (150 MHz ADC) 9375000 / 64 / 4 = 36.62109375 Hz
+	// eg (150 MHz ADC) 9375000 / 64 / 4 / 1024 = 36.62109375 Hz
 	// when NCO F is higher than signal then the highest elements are filled
 	//eg NCO 625381, signal 625000, FFTbuf elements filled are 2028 and 2029
 	//FFTBuf 1023 and 1025 are the farest from NCO freq.
