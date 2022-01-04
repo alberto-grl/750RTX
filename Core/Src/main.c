@@ -1791,8 +1791,12 @@ void TXSwitch(uint8_t Status)
 {
 	static float LastTXFreq;
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
+
 	if (Status)
 	{
+		TransmissionEnabled = 1;
+	//TODO: TXFreq should be calculated in a low priority task every time F is changed, during RX. In this way TX would start immediately and without
+	// audio noise caused by RX starving
 		if (LastTXFreq != LOfreq)
 		{
 			SetTXPLL(LOfreq);
@@ -1808,7 +1812,6 @@ void TXSwitch(uint8_t Status)
 
 		RELAY_TX_ON;
 		LED_YELLOW_ON;
-		TransmissionEnabled = 1;
 	}
 	else
 	{

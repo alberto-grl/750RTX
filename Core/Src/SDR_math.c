@@ -280,13 +280,13 @@ void SDR_CWPeak(float *buf, uint32_t blockSize)
    }
 }
 // ------------------------------------------------------
+
 // AM demodulation with AGC
 void SDR_demodAM_AGC(float32_t * tmpSamp, float32_t * fAudio)
 {
-	static float wold = 0.f, pk = 0.02f;
+	static float wold = 0.f;
 volatile 	float        w, tmp;
   int          k, j;
-	static int   hangcnt = 0;
 	
 // AM demodulation, compute the magnitude taking the data from the right edge
 // of the buffer after the inverse FFT and the overlap-and-discard algorithm

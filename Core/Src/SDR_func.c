@@ -278,6 +278,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 */
 	DoKeyer();
 
+//	if (TransmissionEnabled)
+//		return;
+
 
 #ifdef TEST_NO_SDR
 	return;

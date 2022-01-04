@@ -53,6 +53,9 @@ void switch_rxtx(uint8_t tx_enable){
 	if(!(semi_qsk_timeout))
 #endif
 		if((txdelay) && (tx_enable) && (!(tx))){  // key-up TX relay in advance before actual transmission
+			//Save AGC status
+					Saved_pk = pk;
+
 			TXSwitch(1);
 
 			// TODO mettere ritardo   delay(F_MCU / 16000000 * txdelay);
@@ -62,9 +65,6 @@ void switch_rxtx(uint8_t tx_enable){
 	tx = tx_enable;
 	if(tx_enable){  // tx
 
-	//Save AGC status
-		Saved_hangcnt = hangcnt;
-		Saved_pk = pk;
 
 #ifdef SEMI_QSK
 		semi_qsk_timeout = 0;
@@ -88,7 +88,6 @@ void switch_rxtx(uint8_t tx_enable){
 		} else {
 			// restore AGC setting
 
-			hangcnt = Saved_hangcnt;
 			pk = Saved_pk;
 #ifdef SEMI_QSK
 			semi_qsk_timeout = 0;
@@ -126,10 +125,16 @@ void DoKeyer(void)
 {
 
 #ifdef SEMI_QSK
-	if((semi_qsk_timeout) && (HAL_GetTick() > semi_qsk_timeout)){
+	if((semi_qsk_timeout) && (HAL_GetTick() > (semi_qsk_timeout - 100)))
+	{  // RX buffers need to be cleared before restoring AGC level
 		TXSwitch(0);
-		semi_qsk_timeout = 0;
+
 	}  // delayed QSK RX
+	if((semi_qsk_timeout) && (HAL_GetTick() > semi_qsk_timeout)){
+			TXSwitch(0);
+			semi_qsk_timeout = 0;
+						pk = Saved_pk;
+		}  // delayed QSK RX
 #endif
 
 	if(keyer_mode != SINGLE){  // check DIT/DAH keys for CW
