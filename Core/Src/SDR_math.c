@@ -320,10 +320,10 @@ volatile 	float        w, tmp;
 // SSB and CW demodulation with AGC
 void SDR_demodSSB_CW_AGC(float32_t * tmpSamp, float32_t * fAudio)
 {
-	static float pk = 0.02f, sav;
+	static float sav;
 	float        tmp;
   int          k, j;
-	static int   hangcnt = 0;
+
 	
 // SSB or CW demodulation, compute the audio taking the data from the real part of 
 // the right edge of the buffer after the inverse FFT and the overlap-and-discard algorithm

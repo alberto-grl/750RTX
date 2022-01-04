@@ -270,6 +270,7 @@ int main(void)
 	Hangcount[Fast] = 2;
 	Hangcount[Slow] = 30;
 	AgcThreshold    = 1.92e-4f;
+	pk = 0.02f;
 
 
 
@@ -352,11 +353,11 @@ int main(void)
 #ifdef KEYER
   keyerState = IDLE;
   keyerControl = IAMBICB;      // Or 0 for IAMBICA
-  keyer_speed = 5;
+  keyer_speed = 15;
   loadWPM(keyer_speed);        // Fix speed at 15 WPM
   keyer_mode = 1; //->  iambic
   keyer_swap = 0; //->  DI/DAH
-  txdelay = 500;
+  txdelay = 10;
 #endif //KEYER
 
 

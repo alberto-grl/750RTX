@@ -138,7 +138,8 @@ EXTERN uint8_t tx;
 EXTERN uint8_t txdelay;
 
 EXTERN enum KSTYPE {IDLE, CHK_DIT, CHK_DAH, KEYED_PREP, KEYED, INTER_ELEMENT }; // State machine states
-
+EXTERN int hangcnt, Saved_hangcnt;
+EXTERN float pk, Saved_pk;
 
 
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;

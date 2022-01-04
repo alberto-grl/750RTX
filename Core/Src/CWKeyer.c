@@ -1,8 +1,10 @@
 
 #include "globals.h"
 
-#pragma GCC push_options
-#pragma GCC optimize ("O0")
+//#pragma GCC push_options
+//#pragma GCC optimize ("O0")
+
+// TODO: refactor. Tested only with TX_DELAY and SEMI_QSK defined.
 
 //#ifdef KEYER
 // Iambic Morse Code Keyer Sketch, Contribution by Uli, DL2DBG. Copyright (c) 2009 Steven T. Elliott Source: http://openqrp.org/?p=343,  Trimmed by Bill Bishop - wrb[at]wrbishop.com.  This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details: Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
@@ -42,9 +44,7 @@ void loadWPM (int wpm) // Calculate new time constants based on wpm value
 }
 //#endif //KEYER
 
-//    if(semi_qsk) func_ptr = dummy; else func_ptr = sdr_rx_00;
-//  } else {
-//    centiGain = _centiGain;  // restore AGC setting
+
 
 void switch_rxtx(uint8_t tx_enable){
 
@@ -61,7 +61,11 @@ void switch_rxtx(uint8_t tx_enable){
 #endif //TX_DELAY
 	tx = tx_enable;
 	if(tx_enable){  // tx
-		//TODO: backup AGC    _centiGain = centiGain;  // backup AGC setting
+
+	//Save AGC status
+		Saved_hangcnt = hangcnt;
+		Saved_pk = pk;
+
 #ifdef SEMI_QSK
 		semi_qsk_timeout = 0;
 #endif
@@ -82,7 +86,10 @@ void switch_rxtx(uint8_t tx_enable){
 #endif //SEMI_QSK
 
 		} else {
-			//TODO: restore AGC     centiGain = _centiGain;  // restore AGC setting
+			// restore AGC setting
+
+			hangcnt = Saved_hangcnt;
+			pk = Saved_pk;
 #ifdef SEMI_QSK
 			semi_qsk_timeout = 0;
 #endif
@@ -120,8 +127,8 @@ void DoKeyer(void)
 
 #ifdef SEMI_QSK
 	if((semi_qsk_timeout) && (HAL_GetTick() > semi_qsk_timeout)){
-		//switch_rxtx(0);
 		TXSwitch(0);
+		semi_qsk_timeout = 0;
 	}  // delayed QSK RX
 #endif
 
@@ -190,4 +197,4 @@ void DoKeyer(void)
 		}
 	}
 }
-#pragma GCC pop_options
+//#pragma GCC pop_options
