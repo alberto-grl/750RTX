@@ -276,7 +276,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 		CarrierEnable(0);
 	}
 */
-	DoKeyer();
+
 
 //	if (TransmissionEnabled)
 //		return;
@@ -576,6 +576,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 // Frequency is FADC / bitsPerSampleADC / BSIZE/2
 // 150000000 /16 /512 = 18310,54688
 
+//#pragma GCC push_options
+//#pragma GCC optimize ("O0")
+
 void ADC_Stream0_Handler(uint8_t FullConversion)
 {
 	static int16_t k, idx = 0;
@@ -583,7 +586,7 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 	float sum;
 
-	register float *ptDataR, *ptDataI, inER, inOR, inEI, inOI, outR, outI, 
+	register float *ptDataR, *ptDataI, inER, inOR, inEI, inOI, outR, outI,
 	tmp1R, tmp1I, tmp2R, tmp2I, tmp3R, tmp3I,
 	tmp4R, tmp4I, tmp5R, tmp5I;
 
@@ -769,6 +772,8 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 		inE5Rold  = inER;                          inE5Iold  = inEI;
 		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
 
+
+
 		if((k & 0x10)) // skip the if block for k multiple of 10 (in base zero),
 			// else save the even element just produced and cycle the while loop...
 		{
@@ -790,6 +795,10 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 		inE6Rold = inER;                           inE6Iold = inEI;
 		inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
+
+
+
+
 
 		// at this point we have a single element (outR and its counterpart outI), produced
 		// with 2 of the previous element, i.e. with 16 input samples, totalling a decimation by 64
@@ -911,3 +920,4 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 	}
 	//-----------------------------------------------------------------------------
 
+//#pragma GCC pop_options

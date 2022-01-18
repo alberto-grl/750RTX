@@ -222,7 +222,9 @@ extern void SetTXPLL(float);
 //#define CLK_600M_CPU_60M_ADC
 //#define CLK_600M_CPU_160M_ADC /* new board */
 //#define CLK_600M_CPU_160M_ADC_XTAL25 /* new board */
-#define CLK_600M_CPU_150M_ADC_XTAL25 /* new board */
+#define CLK_600M_CPU_150M_ADC_XTAL25 /* new board seems the best */
+//#define CLK_600M_CPU_120M_ADC_XTAL25 /* new board */
+//#define CLK_600M_CPU_96M_ADC_XTAL25 /* new board */
 //#define CLK_620M_CPU_160M_ADC_XTAL25 /* new board Motorboat noise */
 //#define CLK_640M_CPU_160M_ADC_XTAL25 /*CPU Hangs - DO NOT USE. new board */
 
@@ -239,8 +241,8 @@ extern void SetTXPLL(float);
 #define TEST_WF
 
 // Select only one of the following
-#define ASCII_BANDSCOPE
-//#define COLOR_BANDSCOPE
+//#define ASCII_BANDSCOPE
+#define COLOR_BANDSCOPE
 
 //#define CW_DECODER
 #define KEYER

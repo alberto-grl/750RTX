@@ -73,7 +73,7 @@ void SDR_ComputeLO(float32_t freq)
     k--;
 	}
 // compute the gain to be applied to stabilize the level
-  gain = (8192.5f - (ypi * ypi + ypq * ypq))/8192.f;
+  gain = (8192.5f - (ypi * ypi + ypq * ypq))/8192.f; //was 8192.5
 }	
 //------------------------------------------------------------------------------
 // Combine two floating point real vectors into one complex vector 
