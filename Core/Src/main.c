@@ -279,9 +279,9 @@ int main(void)
 	AgcThreshold    = 1.92e-4f;
 	pk = 0.02f;
 
+//	DualADCGainCorrection = 2048.f;  //2048 nominal value for ADC with no error
 
-
-#ifdef FAKE_RF_SIGNAL
+#ifdef FAKE_SQUARE_RF_SIGNAL
 
 	uint16_t k;
 
@@ -300,6 +300,22 @@ int main(void)
 	}
 #endif
 
+
+#ifdef FAKE_SINE_RF_SIGNAL
+
+	uint16_t k;
+
+	// ARMRadio for M7 ADC 60 M: Generate a fake RF carrier at 3750.000 / 16 = 234.375 KHz
+	// ARMRadio for M7 ADC 150 M: Generate a fake RF carrier at 9375.000 / 16 = 585.9375 KHz
+	// ARMRadio for M7 ADC 160 M: Generate a fake RF carrier at 10000.000 / 16 = 625 KHz
+	// ARMRadio for M7 ADC 120 M : Generate a fake RF carrier at 7500.000 / 16 = 468.750 KHz
+	// ARMRadio for M4: Generate a fake RF carrier at 1.785714 / 16 = 111.607 KHz
+
+	for (k=0; k< BSIZE; k++)
+	{
+			TestSignalData[k] = 2048 + 100.0 * sin(PI * 128.f * (float)k / (float)BSIZE);
+	}
+#endif
 
 #ifdef CLK_600M_CPU_150M_ADC
 	SamplingRate = ((150000000) / 4) * 2 / 8.f;//ADC Clock /async div * 2 ADC channels /8 cycles for 12 bit ADC

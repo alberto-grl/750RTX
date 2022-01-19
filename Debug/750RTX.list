@@ -37,17 +37,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  00040bd7  00000000  00000000  000bd4e0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00041c0c  00000000  00000000  000fe0b7  2**0
+ 17 .debug_line   00041c10  00000000  00000000  000fe0b7  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00186555  00000000  00000000  0013fcc3  2**0
+ 18 .debug_str    00186555  00000000  00000000  0013fcc7  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      000000c8  00000000  00000000  002c6218  2**0
+ 19 .comment      000000c8  00000000  00000000  002c621c  2**0
                   CONTENTS, READONLY
- 20 .debug_loc    0002db78  00000000  00000000  002c62e0  2**0
+ 20 .debug_loc    0002db78  00000000  00000000  002c62e4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_ranges 00004d80  00000000  00000000  002f3e58  2**3
+ 21 .debug_ranges 00004d80  00000000  00000000  002f3e60  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_frame  000072fc  00000000  00000000  002f8bd8  2**2
+ 22 .debug_frame  000072fc  00000000  00000000  002f8be0  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -2071,8 +2071,8 @@ __STATIC_FORCEINLINE arm_status arm_sqrt_f32(
 void ADC_Stream0_Handler(uint8_t FullConversion)
 {
  8001140:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
-	pR=TestSignalData;
 #endif
+
 
 
 	// compute the new NCO buffer, with the CWpitch offset if receiving CW

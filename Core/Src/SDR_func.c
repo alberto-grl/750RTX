@@ -636,9 +636,14 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 
 
-#ifdef FAKE_RF_SIGNAL
+#ifdef FAKE_SINE_RF_SIGNAL
 	pR=TestSignalData;
 #endif
+
+#ifdef FAKE_SQUARE_RF_SIGNAL
+	pR=TestSignalData;
+#endif
+
 
 
 	// compute the new NCO buffer, with the CWpitch offset if receiving CW
@@ -904,7 +909,8 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 			Rbasedata[idx] = outR/32768.f;    Ibasedata[idx++] = outI/32768.f;
 
-			if(idx < BSIZE*4) continue;
+			if(idx < BSIZE*4)
+				continue;
 			idx = 0;
 
 

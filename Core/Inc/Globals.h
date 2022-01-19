@@ -101,7 +101,11 @@ EXTERN uint16_t EncVal, LastEncVal ;
 EXTERN float WFBuffer[FFTLEN];
 EXTERN uint8_t ShowWF;
 
-#ifdef FAKE_RF_SIGNAL
+#ifdef FAKE_SINE_RF_SIGNAL
+EXTERN uint16_t TestSignalData[BSIZE];
+#endif
+
+#ifdef FAKE_SQUARE_RF_SIGNAL
 EXTERN uint16_t TestSignalData[BSIZE];
 #endif
 

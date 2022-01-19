@@ -236,7 +236,10 @@ extern void SetTXPLL(float);
 
 //#define TEST_SINGLE_ADC
 //#define AG_TEST_AUDIO
-//#define FAKE_RF_SIGNAL
+
+//#define FAKE_SINE_RF_SIGNAL
+//#define FAKE_SQUARE_RF_SIGNAL
+
 //#define DEBUG_TX_CW
 #define TEST_WF
 

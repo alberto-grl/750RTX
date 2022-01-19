@@ -12014,53 +12014,53 @@ LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_macro   0x00000000000406e6       0x1c ./USB_DEVICE/App/usbd_desc.o
  .debug_macro   0x0000000000040702      0x4d5 ./USB_DEVICE/Target/usbd_conf.o
 
-.debug_line     0x0000000000000000    0x41c0c
+.debug_line     0x0000000000000000    0x41c10
  .debug_line    0x0000000000000000      0xbee ./Core/Src/CWDecoder.o
  .debug_line    0x0000000000000bee     0x12e4 ./Core/Src/CWKeyer.o
- .debug_line    0x0000000000001ed2     0x1768 ./Core/Src/SDR_func.o
- .debug_line    0x000000000000363a     0x1456 ./Core/Src/SDR_math.o
- .debug_line    0x0000000000004a90     0x2434 ./Core/Src/main.o
- .debug_line    0x0000000000006ec4     0x1161 ./Core/Src/stm32h7xx_hal_msp.o
- .debug_line    0x0000000000008025      0xb92 ./Core/Src/stm32h7xx_it.o
- .debug_line    0x0000000000008bb7      0x8ec ./Core/Src/syscalls.o
- .debug_line    0x00000000000094a3      0x53b ./Core/Src/sysmem.o
- .debug_line    0x00000000000099de      0xbc0 ./Core/Src/system_stm32h7xx.o
- .debug_line    0x000000000000a59e       0x87 ./Core/Startup/startup_stm32h750vbtx.o
- .debug_line    0x000000000000a625     0x10e0 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o
- .debug_line    0x000000000000b705     0x338d ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.o
- .debug_line    0x000000000000ea92     0x327b ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.o
- .debug_line    0x0000000000011d0d      0xf91 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.o
- .debug_line    0x0000000000012c9e     0x1156 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.o
- .debug_line    0x0000000000013df4     0x11a5 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac_ex.o
- .debug_line    0x0000000000014f99     0x2458 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.o
- .debug_line    0x00000000000173f1      0xef7 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.o
- .debug_line    0x00000000000182e8     0x20ed ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_lptim.o
- .debug_line    0x000000000001a3d5     0x1b3c ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.o
- .debug_line    0x000000000001bf11      0xcc0 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.o
- .debug_line    0x000000000001cbd1     0x1223 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.o
- .debug_line    0x000000000001ddf4     0x1d4f ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.o
- .debug_line    0x000000000001fb43     0x21d6 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.o
- .debug_line    0x0000000000021d19     0x6efc ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.o
- .debug_line    0x0000000000028c15     0x25f6 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.o
- .debug_line    0x000000000002b20b     0x70a6 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.o
- .debug_line    0x00000000000322b1     0x162a ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.o
- .debug_line    0x00000000000338db     0x3079 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.o
- .debug_line    0x0000000000036954     0x11ce ./Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.o
- .debug_line    0x0000000000037b22     0x1241 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o
- .debug_line    0x0000000000038d63     0x1413 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.o
- .debug_line    0x000000000003a176      0xcb1 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.o
- .debug_line    0x000000000003ae27      0xc41 ./USB_DEVICE/App/usb_device.o
- .debug_line    0x000000000003ba68      0xce0 ./USB_DEVICE/App/usbd_cdc_if.o
- .debug_line    0x000000000003c748      0xf2e ./USB_DEVICE/App/usbd_desc.o
- .debug_line    0x000000000003d676     0x128f ./USB_DEVICE/Target/usbd_conf.o
- .debug_line    0x000000000003e905      0x25a C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_const_structs.o)
- .debug_line    0x000000000003eb5f      0x243 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_common_tables.o)
- .debug_line    0x000000000003eda2      0xf9f C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cfft_f32.o)
- .debug_line    0x000000000003fd41      0x35c C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_bitreversal2.o)
- .debug_line    0x000000000004009d      0x2a6 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_fir_decimate_init_f32.o)
- .debug_line    0x0000000000040343      0x6e3 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_fir_decimate_f32.o)
- .debug_line    0x0000000000040a26      0x40a C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
- .debug_line    0x0000000000040e30      0xddc C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cfft_radix8_f32.o)
+ .debug_line    0x0000000000001ed2     0x176a ./Core/Src/SDR_func.o
+ .debug_line    0x000000000000363c     0x1456 ./Core/Src/SDR_math.o
+ .debug_line    0x0000000000004a92     0x2436 ./Core/Src/main.o
+ .debug_line    0x0000000000006ec8     0x1161 ./Core/Src/stm32h7xx_hal_msp.o
+ .debug_line    0x0000000000008029      0xb92 ./Core/Src/stm32h7xx_it.o
+ .debug_line    0x0000000000008bbb      0x8ec ./Core/Src/syscalls.o
+ .debug_line    0x00000000000094a7      0x53b ./Core/Src/sysmem.o
+ .debug_line    0x00000000000099e2      0xbc0 ./Core/Src/system_stm32h7xx.o
+ .debug_line    0x000000000000a5a2       0x87 ./Core/Startup/startup_stm32h750vbtx.o
+ .debug_line    0x000000000000a629     0x10e0 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o
+ .debug_line    0x000000000000b709     0x338d ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.o
+ .debug_line    0x000000000000ea96     0x327b ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.o
+ .debug_line    0x0000000000011d11      0xf91 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.o
+ .debug_line    0x0000000000012ca2     0x1156 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.o
+ .debug_line    0x0000000000013df8     0x11a5 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac_ex.o
+ .debug_line    0x0000000000014f9d     0x2458 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.o
+ .debug_line    0x00000000000173f5      0xef7 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.o
+ .debug_line    0x00000000000182ec     0x20ed ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_lptim.o
+ .debug_line    0x000000000001a3d9     0x1b3c ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.o
+ .debug_line    0x000000000001bf15      0xcc0 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.o
+ .debug_line    0x000000000001cbd5     0x1223 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.o
+ .debug_line    0x000000000001ddf8     0x1d4f ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.o
+ .debug_line    0x000000000001fb47     0x21d6 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.o
+ .debug_line    0x0000000000021d1d     0x6efc ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.o
+ .debug_line    0x0000000000028c19     0x25f6 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.o
+ .debug_line    0x000000000002b20f     0x70a6 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.o
+ .debug_line    0x00000000000322b5     0x162a ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.o
+ .debug_line    0x00000000000338df     0x3079 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.o
+ .debug_line    0x0000000000036958     0x11ce ./Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.o
+ .debug_line    0x0000000000037b26     0x1241 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o
+ .debug_line    0x0000000000038d67     0x1413 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.o
+ .debug_line    0x000000000003a17a      0xcb1 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.o
+ .debug_line    0x000000000003ae2b      0xc41 ./USB_DEVICE/App/usb_device.o
+ .debug_line    0x000000000003ba6c      0xce0 ./USB_DEVICE/App/usbd_cdc_if.o
+ .debug_line    0x000000000003c74c      0xf2e ./USB_DEVICE/App/usbd_desc.o
+ .debug_line    0x000000000003d67a     0x128f ./USB_DEVICE/Target/usbd_conf.o
+ .debug_line    0x000000000003e909      0x25a C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_const_structs.o)
+ .debug_line    0x000000000003eb63      0x243 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_common_tables.o)
+ .debug_line    0x000000000003eda6      0xf9f C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cfft_f32.o)
+ .debug_line    0x000000000003fd45      0x35c C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_bitreversal2.o)
+ .debug_line    0x00000000000400a1      0x2a6 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_fir_decimate_init_f32.o)
+ .debug_line    0x0000000000040347      0x6e3 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_fir_decimate_f32.o)
+ .debug_line    0x0000000000040a2a      0x40a C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
+ .debug_line    0x0000000000040e34      0xddc C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cfft_radix8_f32.o)
 
 .debug_str      0x0000000000000000   0x186555
  .debug_str     0x0000000000000000   0x179d94 ./Core/Src/CWDecoder.o
