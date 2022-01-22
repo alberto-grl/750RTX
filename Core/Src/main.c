@@ -350,6 +350,9 @@ int main(void)
 #ifdef CLK_600M_CPU_120M_ADC_XTAL25
 	SamplingRate = ((120000000) / 4) * 2 / 8.f;//ADC Clock /async div * 2 ADC channels /8 cycles for 12 bit ADC
 #endif
+#ifdef CLK_600M_CPU_128M_ADC_XTAL25
+	SamplingRate = ((128000000) / 4) * 2 / 8.f;//ADC Clock /async div * 2 ADC channels /8 cycles for 12 bit ADC
+#endif
 #ifdef CLK_600M_CPU_96M_ADC_XTAL25
 	SamplingRate = ((96000000) / 4) * 2 / 8.f;//ADC Clock /async div * 2 ADC channels /8 cycles for 12 bit ADC
 #endif
@@ -513,7 +516,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 10;
-  RCC_OscInitStruct.PLL.PLLN = 384;
+  RCC_OscInitStruct.PLL.PLLN = 380;
   RCC_OscInitStruct.PLL.PLLP = 2;
   RCC_OscInitStruct.PLL.PLLQ = 2;
   RCC_OscInitStruct.PLL.PLLR = 2;
@@ -563,12 +566,12 @@ void PeriphCommonClock_Config(void)
   PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_2;
   PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOMEDIUM;
   PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
-  PeriphClkInitStruct.PLL3.PLL3M = 5;
-  PeriphClkInitStruct.PLL3.PLL3N = 80;
+  PeriphClkInitStruct.PLL3.PLL3M = 25;
+  PeriphClkInitStruct.PLL3.PLL3N = 512;
   PeriphClkInitStruct.PLL3.PLL3P = 2;
   PeriphClkInitStruct.PLL3.PLL3Q = 8;
-  PeriphClkInitStruct.PLL3.PLL3R = 5;
-  PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_2;
+  PeriphClkInitStruct.PLL3.PLL3R = 4;
+  PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_0;
   PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
   PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
   PeriphClkInitStruct.Lptim2ClockSelection = RCC_LPTIM2CLKSOURCE_PLL2;
@@ -1273,6 +1276,12 @@ void SystemClock_Config_For_OC(void)
 	RCC_OscInitStruct.PLL.PLLN = 480;
 	XTalFreq = 25000000;
 #endif
+#ifdef CLK_600M_CPU_128M_ADC_XTAL25
+	RCC_OscInitStruct.PLL.PLLM = 10;
+	RCC_OscInitStruct.PLL.PLLN = 480;
+	XTalFreq = 25000000;
+#endif
+
 #ifdef CLK_600M_CPU_96M_ADC_XTAL25
 	RCC_OscInitStruct.PLL.PLLM = 10;
 	RCC_OscInitStruct.PLL.PLLN = 480;
@@ -1393,6 +1402,17 @@ void SystemClock_Config_For_OC(void)
 	PeriphClkInitStruct.PLL2.PLL2R = 2;
 	PeriphClkInitStruct.PLL3.PLL3M = 5;
 	PeriphClkInitStruct.PLL3.PLL3N = 120;
+	PeriphClkInitStruct.PLL3.PLL3R = 5;
+#endif
+#ifdef CLK_600M_CPU_128M_ADC_XTAL25
+
+	PeriphClkInitStruct.PLL2.PLL2M = 4;
+	PeriphClkInitStruct.PLL2.PLL2N = 38;
+	PeriphClkInitStruct.PLL2.PLL2P = 24;
+	PeriphClkInitStruct.PLL2.PLL2Q = 2;
+	PeriphClkInitStruct.PLL2.PLL2R = 2;
+	PeriphClkInitStruct.PLL3.PLL3M = 5;
+	PeriphClkInitStruct.PLL3.PLL3N = 128;
 	PeriphClkInitStruct.PLL3.PLL3R = 5;
 #endif
 #ifdef CLK_600M_CPU_96M_ADC_XTAL25
@@ -1849,6 +1869,9 @@ void MX_TIM6_Init_Custom_Rate(void)
 #endif
 #ifdef CLK_600M_CPU_120M_ADC_XTAL25
 	htim6.Init.Period = 10239; //was 8191
+#endif
+#ifdef CLK_600M_CPU_128M_ADC_XTAL25
+	htim6.Init.Period = 9599; //
 #endif
 #ifdef CLK_600M_CPU_96M_ADC_XTAL25
 	htim6.Init.Period = 12800; //was 8191

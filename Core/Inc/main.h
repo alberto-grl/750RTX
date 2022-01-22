@@ -212,6 +212,7 @@ extern void SetTXPLL(float);
 #define CIC_DECIMATE_64
 //#define CIC_DECIMATE_16
 
+//TODO CLK_600M_CPU_150M_ADC_XTAL25 should be best but needs more optimization of code. 128 MHz is OK but 40 m band is too close to sampling F of 8 MHz.
 
 // Select CPU and ADC Clock. Uncomment only one at a time
 //#define CLK_600M_CPU_150M_ADC
@@ -222,8 +223,9 @@ extern void SetTXPLL(float);
 //#define CLK_600M_CPU_60M_ADC
 //#define CLK_600M_CPU_160M_ADC /* new board */
 //#define CLK_600M_CPU_160M_ADC_XTAL25 /* new board */
-#define CLK_600M_CPU_150M_ADC_XTAL25 /* new board seems the best */
+//#define CLK_600M_CPU_150M_ADC_XTAL25 /* ADC sample rate too high for CPU to consume data. Popping noise  */
 //#define CLK_600M_CPU_120M_ADC_XTAL25 /* new board */
+#define CLK_600M_CPU_128M_ADC_XTAL25 /* new board */
 //#define CLK_600M_CPU_96M_ADC_XTAL25 /* new board */
 //#define CLK_620M_CPU_160M_ADC_XTAL25 /* new board Motorboat noise */
 //#define CLK_640M_CPU_160M_ADC_XTAL25 /*CPU Hangs - DO NOT USE. new board */
