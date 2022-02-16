@@ -109,6 +109,10 @@ EXTERN uint16_t TestSignalData[BSIZE];
 EXTERN uint16_t TestSignalData[BSIZE];
 #endif
 
+#ifdef FAKE_NO_RF_SIGNAL
+EXTERN uint16_t TestSignalData[BSIZE];
+#endif
+
 #ifdef CW_DECODER
 EXTERN float CWLevel, SignalAverage, OldSignalAverage, BaseNoiseLevel;
 EXTERN uint8_t CWIn;

@@ -241,6 +241,7 @@ extern void SetTXPLL(float);
 
 //#define FAKE_SINE_RF_SIGNAL
 //#define FAKE_SQUARE_RF_SIGNAL
+//#define FAKE_NO_RF_SIGNAL
 
 //#define DEBUG_TX_CW
 #define TEST_WF

@@ -645,6 +645,10 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 #endif
 
 
+#ifdef FAKE_NO_RF_SIGNAL
+	pR=TestSignalData;
+#endif
+
 
 	// compute the new NCO buffer, with the CWpitch offset if receiving CW
 	if(CurrentMode == CW)

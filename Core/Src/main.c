@@ -313,7 +313,21 @@ int main(void)
 
 	for (k=0; k< BSIZE; k++)
 	{
-			TestSignalData[k] = 2048 + 100.0 * sin(PI * 128.f * (float)k / (float)BSIZE);
+			TestSignalData[k] = 2048 + 100.0 * sin(PI * 256.f * (float)k / (float)BSIZE);
+	}
+#endif
+
+#ifdef FAKE_NO_RF_SIGNAL
+	uint16_t k;
+	// ARMRadio for M7 ADC 60 M: Generate a fake RF carrier at 3750.000 / 16 = 234.375 KHz
+	// ARMRadio for M7 ADC 150 M: Generate a fake RF carrier at 9375.000 / 16 = 585.9375 KHz
+	// ARMRadio for M7 ADC 160 M: Generate a fake RF carrier at 10000.000 / 16 = 625 KHz
+	// ARMRadio for M7 ADC 120 M : Generate a fake RF carrier at 7500.000 / 16 = 468.750 KHz
+	// ARMRadio for M4: Generate a fake RF carrier at 1.785714 / 16 = 111.607 KHz
+
+	for (k=0; k< BSIZE; k++)
+	{
+			TestSignalData[k] = 2048;
 	}
 #endif
 

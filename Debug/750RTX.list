@@ -2071,8 +2071,8 @@ __STATIC_FORCEINLINE arm_status arm_sqrt_f32(
 void ADC_Stream0_Handler(uint8_t FullConversion)
 {
  8001140:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+	pR=TestSignalData;
 #endif
-
 
 
 	// compute the new NCO buffer, with the CWpitch offset if receiving CW
