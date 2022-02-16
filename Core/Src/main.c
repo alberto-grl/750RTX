@@ -837,7 +837,7 @@ static void MX_TIM2_Init(void)
 {
 
   /* USER CODE BEGIN TIM2_Init 0 */
-
+//Init.Period should give 10 KHz
   /* USER CODE END TIM2_Init 0 */
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
@@ -849,7 +849,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 10000;
+  htim2.Init.Period = 15000;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -980,7 +980,7 @@ static void MX_TIM7_Init(void)
   htim7.Instance = TIM7;
   htim7.Init.Prescaler = 0;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim7.Init.Period = 8192;
+  htim7.Init.Period = 15000;
   htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
   {
@@ -1514,6 +1514,12 @@ void DisplayCW(void)
 }
 #endif
 
+void TXSCAMPString(void)
+{
+	uint8_t s[100] = "SSS SSS SSS DE I4NZX";
+	PrepareBits(s, & TXMessage);
+}
+
 void UserInput(void)
 {
 	volatile HAL_StatusTypeDef result;
@@ -1581,6 +1587,9 @@ void UserInput(void)
 			SetBW((Bwidth)Narrow);  break;
 		case 119: //w
 			SetBW((Bwidth)Wide);  break;
+		case 122: //z
+			TXSwitch(1);  //TX will be switched off at end of message
+			TXSCAMPString();  break;
 		case 45: //-
 			volume -= 0.1;
 			if (volume < 0)
@@ -2052,7 +2061,7 @@ void CarrierEnable(uint8_t Status)
 		//2048 13.1  3.4
 		//1024 7.5	 1.1
 		// 256 3.8   0.3
-		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 4095); // TX gate bias
+		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 1024); // TX gate bias
 		TXCarrierEnabled = 1;
 		LED_GREEN_ON;
 	}

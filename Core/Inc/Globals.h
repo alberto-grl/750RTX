@@ -123,6 +123,12 @@ EXTERN float LastPulsesRatio;
 EXTERN float LastDownTime;
 #endif
 
+#ifdef USE_SCAMP
+EXTERN uint8_t TXString[255];
+EXTERN OutData_t TXMessage;
+
+#endif
+
 EXTERN uint8_t TXCarrierEnabled;
 EXTERN uint8_t TransmissionEnabled;
 

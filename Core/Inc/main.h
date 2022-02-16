@@ -56,6 +56,14 @@ typedef struct
 	Bwidth bw;
 } Presets;
 
+
+typedef struct OutData_t
+{
+  uint32_t   OutCodes[100];
+  uint32_t   OutLength;
+} OutData_t;
+
+
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -108,6 +116,7 @@ typedef struct
 extern void loadWPM (int);
 extern void update_PaddleLatch(void);
 extern void DoKeyer(void);
+extern void PrepareBits(uint8_t *, OutData_t *);
 
 
 /* USER CODE END EM */
@@ -251,8 +260,13 @@ extern void SetTXPLL(float);
 #define COLOR_BANDSCOPE
 
 //#define CW_DECODER
+//TODO make KEYER disappear. Leave it always defined for now
 #define KEYER
+//#define USE_KEYER
+#define USE_SCAMP
 #define SIGNAL_AVERAGE_T_CONST 0.2
+
+
 
 
 

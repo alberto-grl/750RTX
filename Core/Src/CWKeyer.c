@@ -11,7 +11,7 @@
 
 /*
 int keyer_speed = 15;
-static unsigned long ditTime;                    // No. nseconds per dit
+static unsigned long ditTime;                    // No. mseconds per dit
 static uint8_t keyerControl;
 static uint8_t keyerState;
 static uint8_t keyer_mode = 1; //->  era 2:SINGLE
@@ -39,7 +39,7 @@ void update_PaddleLatch() // Latch dit and/or dah press, called by keyer routine
 void loadWPM (int wpm) // Calculate new time constants based on wpm value
 {
 
-	ditTime = (1200ULL)/wpm;   //ditTime = 1200/wpm;
+	ditTime = (1200ULL)/wpm;   //ditTime = 1200/wpm; time in msec
 
 }
 //#endif //KEYER
@@ -119,7 +119,13 @@ void switch_rxtx(uint8_t tx_enable){
 
 HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
+#ifdef USE_KEYER
 	DoKeyer();
+#endif
+#ifdef USE_SCAMP
+	TXScamp();
+#endif
+
 }
 
 

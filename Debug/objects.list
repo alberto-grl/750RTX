@@ -1,3 +1,4 @@
+"./Core/SCAMP.o"
 "./Core/Src/CWDecoder.o"
 "./Core/Src/CWKeyer.o"
 "./Core/Src/SDR_func.o"
