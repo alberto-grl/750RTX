@@ -160,7 +160,6 @@ void PrepareBits(uint8_t *s, OutData_t *TXMessage)
 
 	uint8_t l, i;
 	eccfr_code_word_put_mem_buf_struct ecwpmbs;
-
 	l = strlen((char*) s);
 
 	ecwpmbs.code_word_array = codes;

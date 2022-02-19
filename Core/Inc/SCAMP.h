@@ -9,7 +9,7 @@
 #define INC_SCAMP_H_
 
 //Bit period in usec / callback period in usec
-#define N_SAMPLES_PER_BIT (20000 / 100)
+#define N_SAMPLES_PER_BIT (40000 / 100)
 
 
 /* in memory buffer encoder / decoder callbacks */

@@ -1585,6 +1585,11 @@ void UserInput(void)
 			SetAGC((Agctype)Slow);  break;
 		case 110: //n
 			SetBW((Bwidth)Narrow);  break;
+		case 98: //b
+			SetFracPLL(0);
+			__HAL_RCC_PLL2FRACN_DISABLE();  break;
+		case 118: //v
+			SetFracPLL(20);  break;
 		case 119: //w
 			SetBW((Bwidth)Wide);  break;
 		case 122: //z
@@ -2021,6 +2026,7 @@ void TXSwitch(uint8_t Status)
 			SetTXPLL(LOfreq);
 			LastTXFreq = LOfreq;
 		}
+
 		/*Configure GPIO pin : PC9 */
 		GPIO_InitStruct.Pin = GPIO_PIN_9;
 		GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -2051,7 +2057,7 @@ void TXSwitch(uint8_t Status)
 
 void CarrierEnable(uint8_t Status)
 {
-
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
 	if (Status)
 	{
 		//TODO: Ramping
@@ -2061,7 +2067,15 @@ void CarrierEnable(uint8_t Status)
 		//2048 13.1  3.4
 		//1024 7.5	 1.1
 		// 256 3.8   0.3
-		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 1024); // TX gate bias
+		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 4095); // TX gate bias
+		/*Configure GPIO pin : PC9 */
+			GPIO_InitStruct.Pin = GPIO_PIN_9;
+			GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+			GPIO_InitStruct.Pull = GPIO_NOPULL;
+			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+			GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
+			HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
 		TXCarrierEnabled = 1;
 		LED_GREEN_ON;
 	}
@@ -2070,6 +2084,12 @@ void CarrierEnable(uint8_t Status)
 		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
 		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 0); // TX gate bias. TODO: Need ramping
 		TXCarrierEnabled = 0;
+		/*Configure GPIO pin : PC9 */
+			GPIO_InitStruct.Pin = GPIO_PIN_9;
+			GPIO_InitStruct.Mode =  GPIO_MODE_OUTPUT_PP;
+			GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+			GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+			HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 		LED_GREEN_OFF;
 	}
 }
