@@ -215,6 +215,9 @@ extern void SetTXPLL(float);
 
 #define XTAL_F_ERROR -7.142806e-6
 
+//#define USE_FRAC_TX
+//#define SCAMP_OOK
+#define SCAMP_FSK
 
 
 //CIC decimation, followed by a 4 times FIR decimator, total will be 256 or 64

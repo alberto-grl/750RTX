@@ -10,8 +10,8 @@
 #include "main.h"
 #include "Globals.h"
 
-#pragma GCC push_options
-#pragma GCC optimize ("O0")
+//#pragma GCC push_options
+//#pragma GCC optimize ("O0")
 
 const uint8_t ecc_6bit_codesymbols[60] = {'\0',   '\b',   '\r',    ' ',    '!',   0x22,   0x27,    '(',
 		')',    '*',    '+',    ',',    '-',    '.',    '/',    '0',
@@ -201,7 +201,7 @@ void TXScamp(void)
 	 */
 	static uint32_t i, j, k, TXBitN;
 	static uint32_t TXSamplesLeft;
-	static float TXLevel;
+	static float TXLevel, LastTXLevel;
 	uint8_t TXBit;
 
 	volatile static long testcount0, testcount1;
@@ -243,6 +243,7 @@ void TXScamp(void)
 		}
 	}
 
+#ifdef SCAMP_OOK
 	if (TXLevel > 0.5)
 	{
 		CarrierEnable(1);
@@ -253,9 +254,25 @@ void TXScamp(void)
 		CarrierEnable(0);
 		testcount0++;
 	}
+#endif
+#ifdef SCAMP_FSK
+	if (TXLevel > 0.5)
+	{
+		if (LastTXLevel < 0.5)
+			SetFracPLL(SpaceFracDiv);
+		testcount1++;
+	}
+	else
+	{
+		if (LastTXLevel > 0.5)
+		   SetFracPLL(MarkFracDiv);
+		testcount0++;
+	}
+	LastTXLevel = TXLevel;
+#endif
 	if(TXSamplesLeft > 0)
 		TXSamplesLeft--;
 
 }
 
-#pragma GCC pop_options
+//#pragma GCC pop_options

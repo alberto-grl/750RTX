@@ -472,6 +472,11 @@ while (1)
 
 	// Funziona? serve?		SET_BIT(hadc1.Instance->CFGR, ADC_CFGR_AWD1EN);
 
+#ifdef USE_FRAC_TX
+	__HAL_RCC_PLL2FRACN_CONFIG(0); // 0-8191, can be issued at any time
+	__HAL_RCC_PLL2FRACN_ENABLE();
+#endif
+
 	while (1)
 	{
     /* USER CODE END WHILE */
@@ -572,13 +577,13 @@ void PeriphCommonClock_Config(void)
   /** Initializes the peripherals clock
   */
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADC|RCC_PERIPHCLK_LPTIM2;
-  PeriphClkInitStruct.PLL2.PLL2M = 4;
-  PeriphClkInitStruct.PLL2.PLL2N = 26;
-  PeriphClkInitStruct.PLL2.PLL2P = 24;
+  PeriphClkInitStruct.PLL2.PLL2M = 14;
+  PeriphClkInitStruct.PLL2.PLL2N = 447;
+  PeriphClkInitStruct.PLL2.PLL2P = 114;
   PeriphClkInitStruct.PLL2.PLL2Q = 2;
   PeriphClkInitStruct.PLL2.PLL2R = 2;
-  PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_2;
-  PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOMEDIUM;
+  PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_0;
+  PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
   PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
   PeriphClkInitStruct.PLL3.PLL3M = 25;
   PeriphClkInitStruct.PLL3.PLL3N = 512;
@@ -849,7 +854,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 15000;
+  htim2.Init.Period = 10000;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -868,7 +873,27 @@ static void MX_TIM2_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN TIM2_Init 2 */
-
+  htim2.Instance = TIM2;
+    htim2.Init.Prescaler = 0;
+    htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+    htim2.Init.Period = 15000;
+    htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+    htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+    if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+    {
+      Error_Handler();
+    }
+    sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+    if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+    {
+      Error_Handler();
+    }
+    sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+    sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+    if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+    {
+      Error_Handler();
+    }
   /* USER CODE END TIM2_Init 2 */
 
 }
@@ -980,7 +1005,7 @@ static void MX_TIM7_Init(void)
   htim7.Instance = TIM7;
   htim7.Init.Prescaler = 0;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim7.Init.Period = 15000;
+  htim7.Init.Period = 8192;
   htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
   {
@@ -993,6 +1018,21 @@ static void MX_TIM7_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN TIM7_Init 2 */
+  htim7.Instance = TIM7;
+   htim7.Init.Prescaler = 0;
+   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
+   htim7.Init.Period = 15000; //SCAMP is called at Fclock / 2 / 30000 = 10 KHz
+   htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
+   {
+     Error_Handler();
+   }
+   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+   if (HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig) != HAL_OK)
+   {
+     Error_Handler();
+   }
   /* USER CODE END TIM7_Init 2 */
 
 }
@@ -1517,6 +1557,7 @@ void DisplayCW(void)
 void TXSCAMPString(void)
 {
 	uint8_t s[100] = "SSS SSS SSS DE I4NZX";
+	//uint8_t s[100] = "S";
 	PrepareBits(s, & TXMessage);
 }
 
@@ -1594,6 +1635,7 @@ void UserInput(void)
 			SetBW((Bwidth)Wide);  break;
 		case 122: //z
 			TXSwitch(1);  //TX will be switched off at end of message
+			CarrierEnable(1);
 			TXSCAMPString();  break;
 		case 45: //-
 			volume -= 0.1;
@@ -1966,12 +2008,43 @@ void SetFracPLL(uint32_t Coeff)
 	 * modulation results infrequency hopping between main integer dividers
 	 */
 	__HAL_RCC_PLL2FRACN_DISABLE();
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time  TODO: It seems necessary to issue the value several times
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
 	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
 	__HAL_RCC_PLL2FRACN_ENABLE();
 }
 
 void SetTXPLL(float TF)
 {
+#ifdef USE_FRAC_TX
+	static uint32_t fm, fn, fp, fd;
+	static float fdCalc;
+
+	fm = 14;
+	fn = 447;  // Can be used only from abt 7002 to 7017, for now
+	fp = 114;
+	fdCalc = 8192.f * (TF * (float)fm * (float)fp / XTalFreq -(float)fn);
+	fd = roundf(fdCalc);
+
+	__HAL_RCC_PLL2_DISABLE();
+	__HAL_RCC_PLL2_CONFIG(fm, fn, fp, 2, 1);
+	__HAL_RCC_PLL2_ENABLE();
+	SetFracPLL(fd);
+	SpaceFracDiv = fd; //will be used for FSK
+	MarkFracDiv = fd - 53; //see xls file for calculating this magic number
+#else
 
 	float OutF, MinDiff = 999999999;
 	uint32_t m, n, p, od;
@@ -2004,6 +2077,7 @@ void SetTXPLL(float TF)
 	__HAL_RCC_PLL2_DISABLE();
 	__HAL_RCC_PLL2_CONFIG(fm, fn, fp, 2, 1);
 	__HAL_RCC_PLL2_ENABLE();
+#endif
 
 }
 
