@@ -192,7 +192,7 @@ uint8_t GetTXBit(OutData_t* TXMessage, uint32_t n)
 
 }
 
-
+#ifdef USE_SCAMP
 void TXScamp(void)
 {
 	/*
@@ -242,6 +242,7 @@ void TXScamp(void)
 			TXSwitch(0);
 		}
 	}
+#endif
 
 #ifdef SCAMP_OOK
 	if (TXLevel > 0.5)
@@ -269,10 +270,10 @@ void TXScamp(void)
 		testcount0++;
 	}
 	LastTXLevel = TXLevel;
-#endif
+
 	if(TXSamplesLeft > 0)
 		TXSamplesLeft--;
 
 }
-
+#endif
 //#pragma GCC pop_options

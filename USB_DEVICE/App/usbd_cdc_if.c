@@ -24,6 +24,8 @@
 
 /* USER CODE BEGIN INCLUDE */
 
+#include "globals.h"
+
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/

@@ -89,7 +89,7 @@ EXTERN Mode      CurrentMode;
 EXTERN float32_t SamplingRate, AudioRate;
 
 EXTERN uint32_t  os_time, Fstep;
-EXTERN __IO uint32_t uwTick;
+//EXTERN __IO uint32_t uwTick;
 
 //EXTERN WM_HWIN   hWin, hItem;
 EXTERN uint8_t        Muted;
@@ -156,6 +156,13 @@ EXTERN uint32_t SpaceFracDiv, MarkFracDiv;
 EXTERN enum KSTYPE {IDLE, CHK_DIT, CHK_DAH, KEYED_PREP, KEYED, INTER_ELEMENT }; // State machine states
 EXTERN int hangcnt, Saved_hangcnt;
 EXTERN float pk, Saved_pk;
+
+EXTERN uint32_t TxPowerOut;
+
+EXTERN uint32_t USBRXLength;
+
+EXTERN uint8_t UartTXString[4096];
+EXTERN uint8_t UartRXString[256];
 
 
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;

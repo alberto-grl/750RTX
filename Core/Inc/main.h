@@ -177,6 +177,7 @@ extern void CarrierEnable(uint8_t);
 extern void TXSwitch(uint8_t);
 
 extern void SetTXPLL(float);
+extern void SetFracPLL(uint32_t);
 
 /* USER CODE END EFP */
 
@@ -217,7 +218,10 @@ extern void SetTXPLL(float);
 
 //#define USE_FRAC_TX
 //#define SCAMP_OOK
-#define SCAMP_FSK
+//#define SCAMP_FSK
+#ifdef SCAMP_FSK
+	#define USE_FRAC_TX
+#endif
 
 
 //CIC decimation, followed by a 4 times FIR decimator, total will be 256 or 64
@@ -265,11 +269,20 @@ extern void SetTXPLL(float);
 //#define CW_DECODER
 //TODO make KEYER disappear. Leave it always defined for now
 #define KEYER
-//#define USE_KEYER
-#define USE_SCAMP
+#define USE_KEYER
+//#define USE_SCAMP
 #define SIGNAL_AVERAGE_T_CONST 0.2
 
 
+//approx bias vs. VRMS 50 Ohm out vs power
+		//4095 17.1  5.8
+		//2048 13.1  3.4
+		//1024 7.5	 1.1
+		// 256 3.8   0.3
+
+#define LOW_POWER_OUT (1024)
+#define MID_POWER_OUT (2048)
+#define MAX_POWER_OUT (4095)
 
 
 

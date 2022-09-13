@@ -406,6 +406,7 @@ int main(void)
 	txdelay = 10;
 #endif //KEYER
 
+	TxPowerOut = MID_POWER_OUT;
 
 	DisplayStatus();    // Display status, it would not be shown until a user input was given
 	if (HAL_ADCEx_MultiModeStart_DMA(&hadc1,
@@ -1021,7 +1022,7 @@ static void MX_TIM7_Init(void)
   htim7.Instance = TIM7;
    htim7.Init.Prescaler = 0;
    htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-   htim7.Init.Period = 15000; //SCAMP is called at Fclock / 2 / 30000 = 10 KHz
+   htim7.Init.Period = 30000; //SCAMP is called at Fclock / 2 / 30000 = 10 KHz
    htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
    if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
    {
@@ -1554,12 +1555,14 @@ void DisplayCW(void)
 }
 #endif
 
+#ifdef USE_SCAMP
 void TXSCAMPString(void)
 {
 	uint8_t s[100] = "SSS SSS SSS DE I4NZX";
 	//uint8_t s[100] = "S";
 	PrepareBits(s, & TXMessage);
 }
+#endif
 
 void UserInput(void)
 {
@@ -1633,10 +1636,12 @@ void UserInput(void)
 			SetFracPLL(20);  break;
 		case 119: //w
 			SetBW((Bwidth)Wide);  break;
+#ifdef USE_SCAMP
 		case 122: //z
 			TXSwitch(1);  //TX will be switched off at end of message
 			CarrierEnable(1);
 			TXSCAMPString();  break;
+#endif
 		case 45: //-
 			volume -= 0.1;
 			if (volume < 0)
@@ -1667,6 +1672,15 @@ void UserInput(void)
 				ShowWF=1;
 
 			break;
+		case 74: //J
+					TxPowerOut = LOW_POWER_OUT;
+					break;
+		case 75: //K
+					TxPowerOut = MID_POWER_OUT;
+					break;
+		case 76: //L
+					TxPowerOut = MAX_POWER_OUT;
+					break;
 		}
 
 		DisplayStatus();
@@ -1850,6 +1864,7 @@ void DisplayStatus(void)
 	static char StringWidth[8];
 	static char StringAGC[8];
 	static char StringStep[8];
+	static char StringTxPower[8];
 
 
 	switch(Fstep)
@@ -1880,7 +1895,13 @@ void DisplayStatus(void)
 	case Narrow: strcpy(StringWidth,"Narrow"); break;
 	case Wide: strcpy(StringWidth,"Wide"); break;
 	}
-	sprintf((char *)UartTXString, "\e[3;1HFreq %5.3f  Step %s\e[5;1HMode %s BW %s AGG %s ERR %d WPM %d Volume %1.1f   \r", LOfreq/1000.f, StringStep, StringMode, StringWidth, StringAGC, TXFreqError, keyer_speed, volume);
+	switch (TxPowerOut)
+		{
+		case LOW_POWER_OUT: strcpy(StringTxPower,"Low"); break;
+		case MID_POWER_OUT: strcpy(StringTxPower,"Mid"); break;
+		case MAX_POWER_OUT: strcpy(StringTxPower,"Max"); break;
+		}
+	sprintf((char *)UartTXString, "\e[3;1HFreq %5.3f  Step %s\e[5;1HMode %s BW %s AGG %s ERR %d WPM %d PWR %s Volume %1.1f   \r", LOfreq/1000.f, StringStep, StringMode, StringWidth, StringAGC, TXFreqError, keyer_speed, StringTxPower, volume);
 	PrintUI(UartTXString);
 }
 
@@ -2004,9 +2025,7 @@ MCODIV = 1
 
 void SetFracPLL(uint32_t Coeff)
 {
-	/* Do not use as signal generator. PLL output voltage is not filtered and the sigma delta
-	 * modulation results infrequency hopping between main integer dividers
-	 */
+
 	__HAL_RCC_PLL2FRACN_DISABLE();
 	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time  TODO: It seems necessary to issue the value several times
 	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
@@ -2141,7 +2160,7 @@ void CarrierEnable(uint8_t Status)
 		//2048 13.1  3.4
 		//1024 7.5	 1.1
 		// 256 3.8   0.3
-		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 4095); // TX gate bias
+		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, TxPowerOut); // TX gate bias
 		/*Configure GPIO pin : PC9 */
 			GPIO_InitStruct.Pin = GPIO_PIN_9;
 			GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;

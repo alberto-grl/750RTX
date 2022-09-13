@@ -82,10 +82,7 @@
   */
 
 /* USER CODE BEGIN EXPORTED_MACRO */
-uint32_t USBRXLength;
 
-uint8_t UartTXString[4096];
-uint8_t UartRXString[256];
 /* USER CODE END EXPORTED_MACRO */
 
 /**

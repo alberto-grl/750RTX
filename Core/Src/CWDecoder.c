@@ -8,6 +8,7 @@
 
 #ifdef CW_DECODER
 
+
 int audio = 1;            // will store the value we read on this pin
 
 int LCDline = 1;          // keeps track of which line we're printing on
