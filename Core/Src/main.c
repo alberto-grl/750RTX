@@ -473,11 +473,6 @@ while (1)
 
 	// Funziona? serve?		SET_BIT(hadc1.Instance->CFGR, ADC_CFGR_AWD1EN);
 
-#ifdef USE_FRAC_TX
-	__HAL_RCC_PLL2FRACN_CONFIG(0); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_ENABLE();
-#endif
-
 	while (1)
 	{
     /* USER CODE END WHILE */
@@ -2047,9 +2042,9 @@ void SetFracPLL(uint32_t Coeff)
 
 void SetTXPLL(float TF)
 {
-#ifdef USE_FRAC_TX
-	static uint32_t fm, fn, fp, fd;
-	static float fdCalc;
+#ifdef SCAMP_FSK
+	uint32_t fm, fn, fp, fd;
+	float fdCalc;
 
 	fm = 14;
 	fn = 447;  // Can be used only from abt 7002 to 7017, for now
@@ -2065,14 +2060,14 @@ void SetTXPLL(float TF)
 	MarkFracDiv = fd - 53; //see xls file for calculating this magic number
 #else
 
-	float OutF, MinDiff = 999999999;
+	float OutFHigherStep, OutF, MinDiff = 999999999;
 	uint32_t m, n, p, od;
-	uint32_t fm, fn, fp, fdiff, fod, FMaxErr;
+	uint32_t fm, fn, fp, fdiff, fod, FMaxErr, FracDiv;
 
 
 	MinDiff = 999999999;
 	od = 1;
-
+//looking for coefficients just below the desired frequency. This is because the fractional divider generates lower frequencies with 0, and higher with 8191
 	for (m = 2; m <= 25; m++) //was 64
 	{
 		for (n = 2; n <= 512; n++) //was 1
@@ -2080,7 +2075,7 @@ void SetTXPLL(float TF)
 			for (p = 2; p <= 128; p+=2)
 			{
 				OutF = XTalFreq * n / m / p / od;
-				if ((abs(OutF - TF) < MinDiff) && ((XTalFreq * n / m)> 150000000.0) && ((XTalFreq * n / m)< 960000000.0))
+				if (((TF - OutF) < MinDiff) && ((TF - OutF) > 0) && ((XTalFreq * n / m)> 150000000.0) && ((XTalFreq * n / m)< 960000000.0))
 				{
 					MinDiff = abs(OutF - TF);
 
@@ -2092,10 +2087,23 @@ void SetTXPLL(float TF)
 			}
 		}
 	}
+	if (fn < 511)
+	{
+		OutF = XTalFreq * fn / fm / fp / fod;
+		OutFHigherStep = XTalFreq * (fn + 1) / fm / fp / fod;
+		FracDiv = (uint32_t) ((TF - OutF) / (OutFHigherStep - OutF)  * 8192);
+	}
+	else
+	{
+		FracDiv = 8191;
+	}
+
 	TXFreqError = MinDiff;
 	__HAL_RCC_PLL2_DISABLE();
 	__HAL_RCC_PLL2_CONFIG(fm, fn, fp, 2, 1);
 	__HAL_RCC_PLL2_ENABLE();
+
+	SetFracPLL(FracDiv);
 #endif
 
 }
