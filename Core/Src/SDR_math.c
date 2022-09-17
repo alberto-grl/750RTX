@@ -73,7 +73,7 @@ void SDR_ComputeLO(float32_t freq)
     k--;
 	}
 // compute the gain to be applied to stabilize the level
-  gain = (8192.5f - (ypi * ypi + ypq * ypq))/8192.f;
+  gain = (8192.5f - (ypi * ypi + ypq * ypq))/8192.f; //was (8192.5f - (ypi * ypi + ypq * ypq))/8192.f;
 }	
 //------------------------------------------------------------------------------
 // Combine two floating point real vectors into one complex vector 
@@ -102,26 +102,33 @@ void SDR_2R_toC_f32(float * pSrcA, float * pSrcB, float * pDst, uint32_t blockSi
 void SDR_downconvert_f32(uint16_t* signal, float offset, float* zeroIF_R, float* zeroIF_I)
 {
   uint32_t blkCnt;            // loop counter
-  float  tmp1, tmp2, tmp3, tmp4, *LOR=LO_R, *LOI=LO_I;
+  float  tmp1, tmp2, tmp3, tmp4, *LOI=LO_R, *LOR=LO_I;
 	uint16_t *pt = signal;
 	
 // loop Unrolling
   blkCnt = BSIZE >> 2u;   // loop unrolling.  Compute 4 outputs at a time
   while(blkCnt)
   {  // DMA Mode2, first ADC2 then ADC1...
-/*
+	  /*
      tmp1=((*(pt+1)-offset)) / 2048.f;
 		 tmp2=((*(pt)  -offset)) / 2048.f;
 		 tmp3=((*(pt+3)-offset)) / 2048.f;
 		 tmp4=((*(pt+2)-offset)) / 2048.f;
 */
+#ifdef TEST_SINGLE_ADC
+    tmp2=((*(pt+1)-offset)) / 2048.f;
+	tmp1 = tmp2;
+	tmp4=((*(pt+3)-offset)) / 2048.f;
+	tmp3 = tmp4;
+#else
+    tmp2=((*(pt+1)-offset)) / 2048.f;
+    tmp1=((*(pt)  -offset)) / 2048.f;
+	tmp4=((*(pt+3)-offset)) / 2048.f;
+	tmp3=((*(pt+2)-offset)) / 2048.f;
+#endif
 
-     tmp2=((*(pt+1)-offset)) / 2048.f;
-		 tmp1=((*(pt)  -offset)) / 2048.f;
-		 tmp4=((*(pt+3)-offset)) / 2048.f;
-		 tmp3=((*(pt+2)-offset)) / 2048.f;
 
-    *zeroIF_R++ = *LOR++ * tmp1;  *zeroIF_I++ = *LOI++ * tmp1;
+		 *zeroIF_R++ = *LOR++ * tmp1;  *zeroIF_I++ = *LOI++ * tmp1;
 		 *zeroIF_R++ = *LOR++ * tmp2;  *zeroIF_I++ = *LOI++ * tmp2;
 		 *zeroIF_R++ = *LOR++ * tmp3;  *zeroIF_I++ = *LOI++ * tmp3;
 		 *zeroIF_R++ = *LOR++ * tmp4;  *zeroIF_I++ = *LOI++ * tmp4;
@@ -205,8 +212,13 @@ void  SDR_mirror_LSB(float* buf, uint32_t blockSize)
 void SDR_compute_IIR_parms(void)
 {
    float r, r2, wr, cosw0;
-	 float rate = SamplingRate/256; //SamplingRate / decimation
 
+#ifdef CIC_DECIMATE_64
+	 float rate = SamplingRate/256; //SamplingRate / decimation
+#endif
+#ifdef CIC_DECIMATE_16
+	 float rate = SamplingRate/64; //SamplingRate / decimation
+#endif
    r = Qfactor;
 
    a1 = a2 = b0 = 0.f; 
@@ -268,13 +280,13 @@ void SDR_CWPeak(float *buf, uint32_t blockSize)
    }
 }
 // ------------------------------------------------------
+
 // AM demodulation with AGC
 void SDR_demodAM_AGC(float32_t * tmpSamp, float32_t * fAudio)
 {
-	static float wold = 0.f, pk = 0.02f;
+	static float wold = 0.f;
 volatile 	float        w, tmp;
   int          k, j;
-	static int   hangcnt = 0;
 	
 // AM demodulation, compute the magnitude taking the data from the right edge
 // of the buffer after the inverse FFT and the overlap-and-discard algorithm
@@ -308,10 +320,10 @@ volatile 	float        w, tmp;
 // SSB and CW demodulation with AGC
 void SDR_demodSSB_CW_AGC(float32_t * tmpSamp, float32_t * fAudio)
 {
-	static float pk = 0.02f, sav;
+	static float sav;
 	float        tmp;
   int          k, j;
-	static int   hangcnt = 0;
+
 	
 // SSB or CW demodulation, compute the audio taking the data from the real part of 
 // the right edge of the buffer after the inverse FFT and the overlap-and-discard algorithm
@@ -320,6 +332,12 @@ void SDR_demodSSB_CW_AGC(float32_t * tmpSamp, float32_t * fAudio)
 	{
 	  tmp = tmpSamp[k]*tmpSamp[k] + tmpSamp[k+1]*tmpSamp[k+1];
 	  arm_sqrt_f32(tmp, &sav);  
+
+#ifdef CW_DECODER
+	  if ((sav) > CWLevel)
+		  CWLevel= (sav);
+#endif
+
 
 	  if(pk < sav)
 	  {

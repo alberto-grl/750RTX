@@ -89,12 +89,81 @@ EXTERN Mode      CurrentMode;
 EXTERN float32_t SamplingRate, AudioRate;
 
 EXTERN uint32_t  os_time, Fstep;
-EXTERN __IO uint32_t uwTick;
+//EXTERN __IO uint32_t uwTick;
 
 //EXTERN WM_HWIN   hWin, hItem;
 EXTERN uint8_t        Muted;
 EXTERN char      msg[32];
 EXTERN float SValue;
+EXTERN uint16_t OVFDetected;
+EXTERN uint16_t EncVal, LastEncVal ;
+
+EXTERN float WFBuffer[FFTLEN];
+EXTERN uint8_t ShowWF;
+
+#ifdef FAKE_SINE_RF_SIGNAL
+EXTERN uint16_t TestSignalData[BSIZE];
+#endif
+
+#ifdef FAKE_SQUARE_RF_SIGNAL
+EXTERN uint16_t TestSignalData[BSIZE];
+#endif
+
+#ifdef FAKE_NO_RF_SIGNAL
+EXTERN uint16_t TestSignalData[BSIZE];
+#endif
+
+#ifdef CW_DECODER
+EXTERN float CWLevel, SignalAverage, OldSignalAverage, BaseNoiseLevel;
+EXTERN uint8_t CWIn;
+EXTERN char DecodedCWChar;
+EXTERN int NCharReceived;
+EXTERN int CurrentAverageDah;
+EXTERN float LastPulsesRatio;
+EXTERN float LastDownTime;
+#endif
+
+#ifdef USE_SCAMP
+EXTERN uint8_t TXString[255];
+EXTERN OutData_t TXMessage;
+
+#endif
+
+EXTERN uint8_t TXCarrierEnabled;
+EXTERN uint8_t TransmissionEnabled;
+
+EXTERN float XTalFreq;
+EXTERN float CWThreshold;
+
+EXTERN int TXFreqError;
+
+EXTERN int keyer_speed;
+EXTERN unsigned long ditTime;                    // No. nseconds per dit
+EXTERN uint8_t keyerControl;
+EXTERN uint8_t keyerState;
+EXTERN uint8_t keyer_mode; //->  SINGLE
+EXTERN uint8_t keyer_swap; //->  DI/DAH
+
+EXTERN uint32_t ktimer;
+EXTERN int Key_state;
+EXTERN int debounce;
+EXTERN uint32_t semi_qsk_timeout;
+EXTERN uint8_t tx;
+EXTERN uint8_t txdelay;
+
+EXTERN uint32_t SpaceFracDiv, MarkFracDiv;
+
+EXTERN enum KSTYPE {IDLE, CHK_DIT, CHK_DAH, KEYED_PREP, KEYED, INTER_ELEMENT }; // State machine states
+EXTERN int hangcnt, Saved_hangcnt;
+EXTERN float pk, Saved_pk;
+
+EXTERN uint32_t TxPowerOut;
+
+EXTERN uint32_t USBRXLength;
+
+EXTERN uint8_t UartTXString[4096];
+EXTERN uint8_t UartRXString[256];
+
 
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;
 //TODO EXTERN EXTI_InitTypeDef      EXTI_InitStructure;

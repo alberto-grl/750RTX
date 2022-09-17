@@ -95,30 +95,35 @@ void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 		break;
 
 	case LSB :
-		/* TODO rimettere
+
 		bw[LSB] = newbw;
 		LSBindex = (newbw == Narrow) ? 0 : 1;
+		AMindex = (newbw == Narrow) ? 0 : 1;
+		LSBindex = 0; // TODO toglimi
 		SDR_2R_toC_f32((float *)FFTmaskSSB_R[LSBindex],
 				(float *)FFTmaskSSB_I[LSBindex], FFTmask, FFTLEN);
-		*/
+
 		break;
 
 	case USB :
-		/* TODO rimettere
+
 		bw[USB] = newbw;
 		USBindex = (newbw == Narrow) ? 0 : 1;
+		AMindex = (newbw == Narrow) ? 0 : 1;
+		USBindex = 0; // TODO toglimi
 		SDR_2R_toC_f32((float *)FFTmaskSSB_R[USBindex],
 				(float *)FFTmaskSSB_I[USBindex], FFTmask, FFTLEN);
-		*/
+
 		break;
 
 	case CW  :
-		/* TODO rimettere
+
 		bw[CW] = newbw;
 		CWindex = (newbw == Narrow) ? 0 : 1;
+		CWindex = 0; // TODO toglimi
 		SDR_2R_toC_f32((float *)FFTmaskCW_R[CWindex],
 				(float *)FFTmaskCW_I[CWindex], FFTmask, FFTLEN);
-	*/
+
 		break;
 
 	default :
@@ -164,34 +169,18 @@ void SetMode(/*WM_HWIN ptr,*/ Mode newmode)
 	{
 	case AM :
 		SetBW(/*ptr,*/ bw[AM]); SetAGC(/*ptr,*/ agc[AM]);
-		//      ChangeColor(ptr, hAM,  GUI_RED);
-		//      ChangeColor(ptr, hLSB, GUI_BLACK);
-		//      ChangeColor(ptr, hUSB, GUI_BLACK);
-		//      ChangeColor(ptr, hCW,  GUI_BLACK);
 		break;
 
 	case LSB :
 		SetBW(/*ptr,*/ bw[LSB]);  SetAGC(/*ptr,*/ agc[LSB]);
-		//      ChangeColor(ptr, hAM,  GUI_BLACK);
-		//      ChangeColor(ptr, hLSB, GUI_RED);
-		//      ChangeColor(ptr, hUSB, GUI_BLACK);
-		//      ChangeColor(ptr, hCW,  GUI_BLACK);
 		break;
 
 	case USB :
 		SetBW(/*ptr,*/ bw[USB]);  SetAGC(/*ptr,*/ agc[USB]);
-		//     ChangeColor(ptr, hAM,  GUI_BLACK);
-		//     ChangeColor(ptr, hLSB, GUI_BLACK);
-		//     ChangeColor(ptr, hUSB, GUI_RED);
-		//     ChangeColor(ptr, hCW,  GUI_BLACK);
 		break;
 
 	case CW  :
 		SetBW(/*ptr,*/ bw[CW]);  SetAGC(/*ptr,*/ agc[CW]);
-		//     ChangeColor(ptr, hAM,  GUI_BLACK);
-		//     ChangeColor(ptr, hLSB, GUI_BLACK);
-		//     ChangeColor(ptr, hUSB, GUI_BLACK);
-		//     ChangeColor(ptr, hCW,  GUI_RED);
 		break;
 
 	default :
@@ -203,13 +192,16 @@ void SetMode(/*WM_HWIN ptr,*/ Mode newmode)
 // Set the frequency step according to the radio button pressed by the user
 void SetFstep(int idx)
 {
-	Fstep = pow(10, 5 - idx);
+	if (idx == 9)
+		Fstep = 9000;  // MW Channel for Europe
+	else
+		Fstep = pow(10, 5 - idx);
 }	
 //-----------------------------------------------------------------------------
 // Increase the frequency by the value of the current step
-void FplusClicked()
+void FplusClicked(uint16_t Nsteps)
 {	
-	LOfreq += Fstep;
+	LOfreq += Fstep * (float)Nsteps / 2.0;
 	LOfreq  = min(LOfreq, 50000000.f);
 	psets[0].freq = LOfreq; psets[0].mode = CurrentMode;
 	psets[0].bw = bw[CurrentMode];
@@ -223,9 +215,9 @@ void FplusClicked()
 }	
 //-----------------------------------------------------------------------------
 // Decrease the frequency by the value of the current step
-void FminusClicked()
+void FminusClicked(uint16_t Nsteps)
 {	
-	LOfreq -= Fstep;
+	LOfreq -= Fstep * (float)Nsteps / 2.0;
 	LOfreq  = max(LOfreq, 8000.f);
 	psets[0].freq = LOfreq; psets[0].mode = CurrentMode;
 	psets[0].bw = bw[CurrentMode];
@@ -268,8 +260,26 @@ void SysTick_Handler()
 //void EXTI1_IRQHandler()
 void HAL_GPIO_EXTI_Callback(uint16_t pin)
 {
-	short  *p;
-	static uint8_t Idx = 1;
+
+	volatile uint16_t WFSample;
+	volatile float tmp;
+	float BinValue;
+	int16_t i;
+
+/*
+	if (TransmissionEnabled && SW01_IN)
+	{
+		CarrierEnable(1);
+	}
+	else
+	{
+		CarrierEnable(0);
+	}
+*/
+
+
+//	if (TransmissionEnabled)
+//		return;
 
 
 #ifdef TEST_NO_SDR
@@ -289,11 +299,24 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	  return;
   }
 	 */
-//	#define AG_TEST_AUDIO
 
-#ifdef AG_TEST_AUDIO
-	int16_t i;
+#ifdef DEBUG_TX_CW
+	static int TX;
+	if (TX++ == 1)
+	{
+		TXEnable(0);
+	}
+	else
+	{
+		if (TX== 4)
+		{
+			TX = 0;
+			TXEnable(1);
+		}
+	}
 #endif
+
+
 
 #ifdef TEST_FRAC_DIV
 	int16_t i;
@@ -333,13 +356,139 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 
 
-
+	//FFT returns BUFLEN/2 bins, 1024. Each bin size is FADC/ decimation /FFT size
+	// eg (160 MHz ADC) 10000000 / 64 / 4 / 1024 = 38.14697 Hz
+	// eg (150 MHz ADC) 9375000 / 64 / 4 / 1024 = 36.62109375 Hz
+	// when NCO F is higher than signal then the highest elements are filled
+	//eg NCO 625381, signal 625000, FFTbuf elements filled are 2028 and 2029
+	//FFTBuf 1023 and 1025 are the farest from NCO freq.
 
 	// compute the direct FFT
 	arm_cfft_f32(&arm_cfft_sR_f32_len1024, FFTbuf, DIRECTFFT, NOREVERSE);
-
+/*
 	// if LSB, copy the LSB in the lower half (USB)
 	if(CurrentMode == LSB) SDR_mirror_LSB(FFTbuf, FFTLEN);
+*/
+
+// TODO: check why with the original code above LSB and USB are swapped
+
+ //if USB, copy the USB in the lower half (LSB)
+	if(CurrentMode == USB) SDR_mirror_LSB(FFTbuf, FFTLEN);
+
+#ifdef TEST_WF
+	if (ShowWF) {
+		for (WFSample=0; WFSample<(FFTLEN * 2); WFSample += 2)
+		{
+			tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+			arm_sqrt_f32(tmp, &WFBuffer[WFSample >> 1]);
+		}
+	}
+#endif
+
+
+#ifdef CW_DECODER
+
+	CWLevel = 0;
+	BaseNoiseLevel = 9999.f;
+	for (WFSample=22; WFSample<44; WFSample += 2)
+		//	for (WFSample=64; WFSample<84; WFSample += 2)
+		//		for (WFSample=2*FFTLEN -50; WFSample<(2*FFTLEN - 40); WFSample += 2)
+		//for (WFSample=46; WFSample<52; WFSample += 2)
+	{
+		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+		arm_sqrt_f32(tmp, &BinValue);
+		if (CWLevel < BinValue)
+			CWLevel = BinValue;
+		if (BaseNoiseLevel > BinValue)
+			BaseNoiseLevel = BinValue;
+	}
+	SignalAverage = SIGNAL_AVERAGE_T_CONST * CWLevel + (1 - SIGNAL_AVERAGE_T_CONST) * OldSignalAverage;
+	OldSignalAverage = SignalAverage;
+
+	//We shorten the pulse by filtering out the first sample at attack.
+	// This gives a 50% duty cycle for a square wave.
+	// Without filter a square wave would have an higher on time than off time.
+
+	//		if (CWLevel > (SignalAverage * CWThreshold))
+	if (CWLevel - BaseNoiseLevel > (CWThreshold))
+		//			if (CWLevel / BaseNoiseLevel > (CWThreshold))
+		//			if (!SW01_IN)
+		CWIn += 1; //TODO limit CW increase
+	else
+		CWIn = 0;
+
+	DecodeCW();
+
+#endif
+
+	/*
+#ifdef CW_DECODER
+
+	CWLevel = 0;
+	for (WFSample=2*FFTLEN -42; WFSample<(2*FFTLEN - 40); WFSample += 2)
+	//for (WFSample=46; WFSample<52; WFSample += 2)
+	{
+		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+		arm_sqrt_f32(tmp, &BinValue);
+		if (CWLevel < BinValue);
+			CWLevel = BinValue;
+	}
+	BaseNoiseLevel = 0;
+	for (WFSample=2*FFTLEN -62; WFSample<(2*FFTLEN - 50); WFSample += 2)
+	{
+		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+		arm_sqrt_f32(tmp, &BinValue);
+		BaseNoiseLevel += BinValue;
+	}
+	SignalAverage = SIGNAL_AVERAGE_T_CONST * CWLevel + (1 - SIGNAL_AVERAGE_T_CONST) * OldSignalAverage;
+	OldSignalAverage = SignalAverage;
+
+	if (CWLevel > (SignalAverage + CW_THRESHOLD))
+//	if (CWLevel - BaseNoiseLevel > (CW_THRESHOLD))
+//	if (SW01_IN)
+
+		CWIn = 1;
+	else
+		CWIn = 0;
+
+	DecodeCW();
+
+#endif
+
+/*
+#ifdef CW_DECODER
+
+	CWLevel = 0;
+	for (WFSample=2*FFTLEN -42; WFSample<(2*FFTLEN - 40); WFSample += 2)
+	//for (WFSample=46; WFSample<52; WFSample += 2)
+	{
+		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+		arm_sqrt_f32(tmp, &BinValue);
+		CWLevel += BinValue;
+	}
+	BaseNoiseLevel = 0;
+	for (WFSample=2*FFTLEN -62; WFSample<(2*FFTLEN - 50); WFSample += 2)
+	{
+		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+		arm_sqrt_f32(tmp, &BinValue);
+		BaseNoiseLevel += BinValue;
+	}
+	SignalAverage = SIGNAL_AVERAGE_T_CONST * CWLevel + (1 - SIGNAL_AVERAGE_T_CONST) * OldSignalAverage;
+	OldSignalAverage = SignalAverage;
+
+	if (CWLevel > (SignalAverage + CW_THRESHOLD))
+//	if (CWLevel - BaseNoiseLevel > (CW_THRESHOLD))
+//	if (SW01_IN)
+
+		CWIn = 1;
+	else
+		CWIn = 0;
+
+	DecodeCW();
+
+#endif
+	 */
+
 	// mult. by the fast convolution mask
 	arm_cmplx_mult_cmplx_f32(FFTbuf, FFTmask, FFTbuf2, FFTLEN);
 
@@ -387,7 +536,25 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 #endif
 
 
+	// CW tone while keying
+	//TODO: make it sine and with attack/decay
+	if (TXCarrierEnabled)
+		for (i=0; i<BSIZE; i++)
+		{
+			if (i % 64 > 31)
+				fAudio[i] = volume; //Volume
+			else
+				fAudio[i] = -volume;
+		}
+	else
+	{
+		if (TransmissionEnabled)
+			for (i=0; i<BSIZE; i++)
+					{
+							fAudio[i] = 0.;
+					}
 
+	}
 
 	// send the demodulated audio to the DMA buffer just emptied
 
@@ -406,6 +573,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 //-----------------------------------------------------------------------------  
 // This the handler of the highest priority task interrupts, those generated
 // by DMA2 Stream when a new ADC buffer is just filled
+// Frequency is FADC / bitsPerSampleADC / BSIZE/2
+// 150000000 /16 /512 = 18310,54688
+
+//#pragma GCC push_options
+//#pragma GCC optimize ("O0")
+
 void ADC_Stream0_Handler(uint8_t FullConversion)
 {
 	static int16_t k, idx = 0;
@@ -413,7 +586,7 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 	float sum;
 
-	register float *ptDataR, *ptDataI, inER, inOR, inEI, inOI, outR, outI, 
+	register float *ptDataR, *ptDataI, inER, inOR, inEI, inOI, outR, outI,
 	tmp1R, tmp1I, tmp2R, tmp2I, tmp3R, tmp3I,
 	tmp4R, tmp4I, tmp5R, tmp5I;
 
@@ -428,238 +601,93 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 
 	volatile uint16_t *pR;
-	static uint16_t IntCounter;
-
-	//#define AG_TEST_SIGNAL
-
-#ifdef AG_TEST_SIGNAL
-uint16_t test_data[BSIZE];
-#endif
 
 
-//LED_YELLOW_ON;
+	//LED_YELLOW_ON;
 
 #ifdef TEST_FRAC_DIV
 
-{
-	if (IntCounter++ % 16384  8191)
 	{
-		__HAL_RCC_PLL2FRACN_DISABLE();
-		__HAL_RCC_PLL2FRACN_CONFIG(0); // 0-8191, can be issued at any time
-		__HAL_RCC_PLL2FRACN_ENABLE();
-		LED_YELLOW_ON;
+		if (IntCounter++ % 16384  8191)
+		{
+			__HAL_RCC_PLL2FRACN_DISABLE();
+			__HAL_RCC_PLL2FRACN_CONFIG(0); // 0-8191, can be issued at any time
+			__HAL_RCC_PLL2FRACN_ENABLE();
+			LED_YELLOW_ON;
+		}
+		else
+		{
+			__HAL_RCC_PLL2FRACN_DISABLE();
+			__HAL_RCC_PLL2FRACN_CONFIG(256); // 0-8191, can be issued at any time
+			__HAL_RCC_PLL2FRACN_ENABLE();
+			LED_YELLOW_OFF;
+		}
 	}
+#endif
+
+
+
+
+	// process the data contained in the just filled buffer
+	if(FullConversion)
+		pR =(uint16_t *) &aADCDualConvertedValues[BSIZE/2];
 	else
-	{
-		__HAL_RCC_PLL2FRACN_DISABLE();
-		__HAL_RCC_PLL2FRACN_CONFIG(256); // 0-8191, can be issued at any time
-		__HAL_RCC_PLL2FRACN_ENABLE();
-		LED_YELLOW_OFF;
-	}
-}
+		pR = (uint16_t *) &aADCDualConvertedValues[0];
+
+
+
+#ifdef FAKE_SINE_RF_SIGNAL
+	pR=TestSignalData;
+#endif
+
+#ifdef FAKE_SQUARE_RF_SIGNAL
+	pR=TestSignalData;
 #endif
 
 
+#ifdef FAKE_NO_RF_SIGNAL
+	pR=TestSignalData;
+#endif
 
 
-// process the data contained in the just filled buffer
-if(FullConversion)
-	pR =(uint16_t *) &aADCDualConvertedValues[BSIZE/2];
-else
-	pR = (uint16_t *) &aADCDualConvertedValues[0];
-
-
-
-#ifdef AG_TEST_SIGNAL
-pR=test_data;
-
-// ARMRadio for M7 60 M: Generate a fake RF carrier at 3750.000 / 16 = 234.375 KHz
-// ARMRadio for M7 150 M: Generate a fake RF carrier at 9375.000 / 16 = 585.9375 KHz
-// ARMRadio for M7 120 M : Generate a fake RF carrier at 7500.000 / 16 = 468.750 KHz
-// ARMRadio for M4: Generate a fake RF carrier at 1.785714 / 16 = 111.607 KHz
-
-for (k=0; k< BSIZE; k++)
-{
-	if (k % 16 > 7)
-		pR[k] = 2048 + 10;
+	// compute the new NCO buffer, with the CWpitch offset if receiving CW
+	if(CurrentMode == CW)
+		SDR_ComputeLO(LOfreq + cwpitch);  // prepare next LO buffer
 	else
-		pR[k] = 2048 - 10;
-}
-#endif
+		SDR_ComputeLO(LOfreq);          // prepare next LO buffer
 
+	// compute the smoothed average value of the buffer, to be used as offset
+	// in the short words to floating point conversion routine
 
-// compute the new NCO buffer, with the CWpitch offset if receiving CW  
-if(CurrentMode == CW)
-	SDR_ComputeLO(LOfreq-cwpitch);  // prepare next LO buffer
-else
-	SDR_ComputeLO(LOfreq);          // prepare next LO buffer
+	//TODO Check if it should be BSIZE/2
 
-// compute the smoothed average value of the buffer, to be used as offset
-// in the short words to floating point conversion routine  
-sum = 0; k = BSIZE;
-while(k)
-{
-	sum += pR[k-1];
-	sum += pR[k-2];
-	sum += pR[k-3];
-	sum += pR[k-4];
-	k-=4;
-}
-
-TestSampledValue=pR[BSIZE/2];
-
-meanavg = sum/(float)BSIZE; //TODO was "mean". Seems to be a bug from original ArmRadio
-
-// downconvert to zero IF, by multiplication by the exp(-jwt) signal
-// generated by the NCO, and at the same time convert to floating point  
-SDR_downconvert_f32((uint16_t *)pR, meanavg, ADC_Rdata, ADC_Idata);
-
-
-
-ptDataR = ADC_Rdata;  ptDataI = ADC_Idata;
-
-#define DECIMATE_64
-//#define DECIMATE_16
-
-#ifdef DECIMATE_64
-
-//-------------------------------------------------------------------------
-// Now we decimate by 16 the input samples, using the CIC polyphase decomposition
-// technique, which has the advantage of eliminating the recursive
-// component, allowing the use of floating point, rather fast on a Cortex M4F
-//
-// A dividing by 16, order 4, CIC is used. Then a 4096-entry buffer is filled, and
-// passed to the baseband interrupt routine, where it is additionally filtered with a
-// sync-compensating FIR, which also adds further stop band rejection and a decimation by 4
-//-------------------------------------------------------------------------
-
-k=BSIZE/2;  // BSIZE/2 to process BSIZE entries, two at a time
-while(k--)
-{
-	// CIC, R=16, M=4, computed in four div_by_2 sections, using the polyphase decomposition
-	// H(z) = (1 + z^-1)(1 + z^-1)(1 + z^-1)(1 + z^-1) each section, which can be decomposed as follows :
-	// H(z) = 1 + 4z^-1 + 6z^-2 + 4z^-3 + z^-4
-	//        which being separated in even and odd samples in advance becomes
-	// (1 + 6z^-1 + z^-2) for odd samples and (4 + 4z^-1) for even samples, which, when summed, give :
-	// odd + 6odd_old + odd_old2 + 4even + 4even_old =	odd + 6odd_old + odd_old2 + 4(even + even_old)
-
-	inER=*ptDataR++; inOR=*ptDataR++;          inEI=*ptDataI++; inOI=*ptDataI++;
-	outR=(inOR+6.f*inO1Rold+inO1Rold2+4.f*(inER+inE1Rold)); outI=(inOI+6.f*inO1Iold+inO1Iold2+4.f*(inEI+inE1Iold));
-
-	inE1Rold = inER;                           inE1Iold = inEI;
-	inO1Rold2 = inO1Rold; inO1Rold = inOR;     inO1Iold2 = inO1Iold; inO1Iold = inOI;
-
-	if((k & 0x1))  // skip the if-block for k multiple of 2 (in base zero),
-		// else save the even element just produced and cycle the while loop...
-	{	 
-		tmp1R = outR; tmp1I = outI;  // save the even element produced
-		continue;
-	}
-
-	// at this point we have two elem. (tmp1R[even] and outR[odd] and also the I counterparts)
-	// produced using 4 input samples, totalling a decimation by 2
-	// now compute the couple of elements for the next step
-
-	inER=tmp1R;  inOR=outR;                    inEI=tmp1I;  inOI=outI;
-	outR=(inOR+6.f*inO2Rold+inO2Rold2+4.f*(inER+inE2Rold)); outI=(inOI+6.f*inO2Iold+inO2Iold2+4.f*(inEI+inE2Iold));
-
-	inE2Rold = inER;                           inE2Iold = inEI;
-	inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
-
-	if((k & 0x2)) // skip the if block for k multiple of 4 (in base zero),
-		// else save the even element just produced and cycle the while loop...
+	sum = 0; k = BSIZE;
+	while(k)
 	{
-		tmp2R = outR; tmp2I = outI;  // save the even element produced
-		continue;
+		sum += pR[k-1];
+		sum += pR[k-2];
+		sum += pR[k-3];
+		sum += pR[k-4];
+		k-=4;
 	}
 
-	// now we have the input samples decimated by 4, even element in tmp2R, tmp2I,
-	// and the odd element in outR, outI
-	// now compute the couple of elements for the next step
+	TestSampledValue=pR[BSIZE/2];
 
-	inER=tmp2R;  inOR=outR;                    inEI=tmp2I;  inOI=outI;
-	outR=(inOR+6.f*inO3Rold+inO3Rold2+4.f*(inER+inE3Rold)); outI=(inOI+6.f*inO3Iold+inO3Iold2+4.f*(inEI+inE3Iold));
+	meanavg = sum/(float)BSIZE; //TODO was "mean". Seems to be a bug from original ArmRadio
 
-	inE3Rold  = inER;                          inE3Iold  = inEI;
-	inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
-
-	if((k & 0x4)) // skip the if block for k multiple of 8 (in base zero),
-		// else save the even element just produced and cycle the while loop...
-	{
-		tmp3R = outR; tmp3I = outI;  // save the even element produced
-		continue;
-	}
-	/////////////////////////// Added two more sections of filter: decimation is now 2^6 = 64
-
-	// at this point we have two elem. (tmp1R[even] and outR[odd] and also the I counterparts)
-	// produced using 4 input samples, totalling a decimation by 8
-	// now compute the couple of elements for the next step
-
-	inER=tmp3R;  inOR=outR;                    inEI=tmp3I;  inOI=outI;
-	outR=(inOR+6.f*inO4Rold+inO4Rold2+4.f*(inER+inE4Rold)); outI=(inOI+6.f*inO4Iold+inO4Iold2+4.f*(inEI+inE4Iold));
-
-	inE4Rold = inER;                           inE4Iold = inEI;
-	inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
-
-	if((k & 0x8)) // skip the if block for k multiple of 8 (in base zero),
-		// else save the even element just produced and cycle the while loop...
-	{
-		tmp4R = outR; tmp4I = outI;  // save the even element produced
-		continue;
-	}
-
-	// now we have the input samples decimated by 8, even element in tmp2R, tmp2I,
-	// and the odd element in outR, outI
-	// now compute the couple of elements for the next step
-
-	inER=tmp4R;  inOR=outR;                    inEI=tmp4I;  inOI=outI;
-	outR=(inOR+6.f*inO5Rold+inO5Rold2+4.f*(inER+inE5Rold)); outI=(inOI+6.f*inO5Iold+inO5Iold2+4.f*(inEI+inE5Iold));
-
-	inE5Rold  = inER;                          inE5Iold  = inEI;
-	inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
-
-	if((k & 0x10)) // skip the if block for k multiple of 10 (in base zero),
-		// else save the even element just produced and cycle the while loop...
-	{
-		tmp5R = outR; tmp5I = outI;  // save the even element produced
-		continue;
-	}
-
-	///////////////////////////
+	// downconvert to zero IF, by multiplication by the exp(-jwt) signal
+	// generated by the NCO, and at the same time convert to floating point
+	SDR_downconvert_f32((uint16_t *)pR, meanavg, ADC_Rdata, ADC_Idata);
 
 
 
+	ptDataR = ADC_Rdata;  ptDataI = ADC_Idata;
 
-	// at this point we have two elem. (tmp3R[even] and outR[odd] and also the I counterparts)
-	// produced with 4 of the previous elem, i.e. with 16 input samples, totalling
-	// a decimation by 16. Now compute the couple of elements for the next step
 
-	inER=tmp5R;  inOR=outR;                    inEI=tmp5I;  inOI=outI;
-	outR=(inOR+6.f*inO6Rold+inO6Rold2+4.f*(inER+inE6Rold)); outI=(inOI+6.f*inO6Iold+inO6Iold2+4.f*(inEI+inE6Iold));
-
-	inE6Rold = inER;                           inE6Iold = inEI;
-	inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
-
-	// at this point we have a single element (outR and its counterpart outI), produced
-	// with 2 of the previous element, i.e. with 16 input samples, totalling a decimation by 64
-	// we downscale it with a factor of 8388608, i.e. the gain of the CIC, i.e.	R^M = 64^4 = 16777216
-	// divided by two, to compensate for the 3 dB loss caused by keeping just half of the band
-
-	// create a block of BSIZE*4 entries, which will be then decimated by 4
-
-	Rbasedata[idx] = outR/8388608.f;    Ibasedata[idx++] = outI/8388608.f;  //decimate by 64
-	//	  Rbasedata[idx] = outR/65536.f;    Ibasedata[idx++] = outI/65536.f; //decimate by 16
-
-	if(idx < BSIZE*4)
-		continue;
-	idx = 0;
-
-#endif
-
-#ifdef DECIMATE_16
+#ifdef CIC_DECIMATE_64
 
 	//-------------------------------------------------------------------------
-	// Now we decimate by 16 the input samples, using the CIC polyphase decomposition
+	// Now we decimate by 16 or 64 the input samples, using the CIC polyphase decomposition
 	// technique, which has the advantage of eliminating the recursive
 	// component, allowing the use of floating point, rather fast on a Cortex M4F
 	//
@@ -724,10 +752,11 @@ while(k--)
 			tmp3R = outR; tmp3I = outI;  // save the even element produced
 			continue;
 		}
+		/////////////////////////// Added two more sections of filter: decimation is now 2^6 = 64
 
-		// at this point we have two elem. (tmp3R[even] and outR[odd] and also the I counterparts)
-		// produced with 4 of the previous elem, i.e. with 16 input samples, totalling
-		// a decimation by 8. Now compute the couple of elements for the next step
+		// at this point we have two elem. (tmp1R[even] and outR[odd] and also the I counterparts)
+		// produced using 4 input samples, totalling a decimation by 8
+		// now compute the couple of elements for the next step
 
 		inER=tmp3R;  inOR=outR;                    inEI=tmp3I;  inOI=outI;
 		outR=(inOR+6.f*inO4Rold+inO4Rold2+4.f*(inER+inE4Rold)); outI=(inOI+6.f*inO4Iold+inO4Iold2+4.f*(inEI+inE4Iold));
@@ -735,28 +764,170 @@ while(k--)
 		inE4Rold = inER;                           inE4Iold = inEI;
 		inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
 
+		if((k & 0x8)) // skip the if block for k multiple of 8 (in base zero),
+			// else save the even element just produced and cycle the while loop...
+		{
+			tmp4R = outR; tmp4I = outI;  // save the even element produced
+			continue;
+		}
+
+		// now we have the input samples decimated by 8, even element in tmp2R, tmp2I,
+		// and the odd element in outR, outI
+		// now compute the couple of elements for the next step
+
+		inER=tmp4R;  inOR=outR;                    inEI=tmp4I;  inOI=outI;
+		outR=(inOR+6.f*inO5Rold+inO5Rold2+4.f*(inER+inE5Rold)); outI=(inOI+6.f*inO5Iold+inO5Iold2+4.f*(inEI+inE5Iold));
+
+		inE5Rold  = inER;                          inE5Iold  = inEI;
+		inO5Rold2 = inO5Rold; inO5Rold = inOR;     inO5Iold2 = inO5Iold; inO5Iold = inOI;
+
+
+
+		if((k & 0x10)) // skip the if block for k multiple of 10 (in base zero),
+			// else save the even element just produced and cycle the while loop...
+		{
+			tmp5R = outR; tmp5I = outI;  // save the even element produced
+			continue;
+		}
+
+		///////////////////////////
+
+
+
+
+		// at this point we have two elem. (tmp3R[even] and outR[odd] and also the I counterparts)
+		// produced with 4 of the previous elem, i.e. with 16 input samples, totalling
+		// a decimation by 16. Now compute the couple of elements for the next step
+
+		inER=tmp5R;  inOR=outR;                    inEI=tmp5I;  inOI=outI;
+		outR=(inOR+6.f*inO6Rold+inO6Rold2+4.f*(inER+inE6Rold)); outI=(inOI+6.f*inO6Iold+inO6Iold2+4.f*(inEI+inE6Iold));
+
+		inE6Rold = inER;                           inE6Iold = inEI;
+		inO6Rold2 = inO6Rold; inO6Rold = inOR;     inO6Iold2 = inO6Iold; inO6Iold = inOI;
+
+
+
+
+
 		// at this point we have a single element (outR and its counterpart outI), produced
-		// with 2 of the previous element, i.e. with 16 input samples, totalling a decimation by 16
-		// we downscale it with a factor of 32768, i.e. the gain of the CIC, i.e.	R^M = 16^4 = 65536
+		// with 2 of the previous element, i.e. with 16 input samples, totalling a decimation by 64
+		// we downscale it with a factor of 8388608, i.e. the gain of the CIC, i.e.	R^M = 64^4 = 16777216
 		// divided by two, to compensate for the 3 dB loss caused by keeping just half of the band
 
 		// create a block of BSIZE*4 entries, which will be then decimated by 4
 
-		Rbasedata[idx] = outR/32768.f;    Ibasedata[idx++] = outI/32768.f;
+		Rbasedata[idx] = outR/8388608.f;    Ibasedata[idx++] = outI/8388608.f;  //decimate by 64
+		//	  Rbasedata[idx] = outR/65536.f;    Ibasedata[idx++] = outI/65536.f; //decimate by 16
 
-		if(idx < BSIZE*4) continue;
+		if(idx < BSIZE*4)
+			continue;
 		idx = 0;
+
+#endif
+
+#ifdef CIC_DECIMATE_16
+
+		//-------------------------------------------------------------------------
+		// Now we decimate by 16 or 64 the input samples, using the CIC polyphase decomposition
+		// technique, which has the advantage of eliminating the recursive
+		// component, allowing the use of floating point, rather fast on a Cortex M4F
+		//
+		// A dividing by 16, order 4, CIC is used. Then a 4096-entry buffer is filled, and
+		// passed to the baseband interrupt routine, where it is additionally filtered with a
+		// sync-compensating FIR, which also adds further stop band rejection and a decimation by 4
+		//-------------------------------------------------------------------------
+
+		k=BSIZE/2;  // BSIZE/2 to process BSIZE entries, two at a time
+		while(k--)
+		{
+			// CIC, R=16, M=4, computed in four div_by_2 sections, using the polyphase decomposition
+			// H(z) = (1 + z^-1)(1 + z^-1)(1 + z^-1)(1 + z^-1) each section, which can be decomposed as follows :
+			// H(z) = 1 + 4z^-1 + 6z^-2 + 4z^-3 + z^-4
+			//        which being separated in even and odd samples in advance becomes
+			// (1 + 6z^-1 + z^-2) for odd samples and (4 + 4z^-1) for even samples, which, when summed, give :
+			// odd + 6odd_old + odd_old2 + 4even + 4even_old =	odd + 6odd_old + odd_old2 + 4(even + even_old)
+
+			inER=*ptDataR++; inOR=*ptDataR++;          inEI=*ptDataI++; inOI=*ptDataI++;
+			outR=(inOR+6.f*inO1Rold+inO1Rold2+4.f*(inER+inE1Rold)); outI=(inOI+6.f*inO1Iold+inO1Iold2+4.f*(inEI+inE1Iold));
+
+			inE1Rold = inER;                           inE1Iold = inEI;
+			inO1Rold2 = inO1Rold; inO1Rold = inOR;     inO1Iold2 = inO1Iold; inO1Iold = inOI;
+
+			if((k & 0x1))  // skip the if-block for k multiple of 2 (in base zero),
+				// else save the even element just produced and cycle the while loop...
+			{
+				tmp1R = outR; tmp1I = outI;  // save the even element produced
+				continue;
+			}
+
+			// at this point we have two elem. (tmp1R[even] and outR[odd] and also the I counterparts)
+			// produced using 4 input samples, totalling a decimation by 2
+			// now compute the couple of elements for the next step
+
+			inER=tmp1R;  inOR=outR;                    inEI=tmp1I;  inOI=outI;
+			outR=(inOR+6.f*inO2Rold+inO2Rold2+4.f*(inER+inE2Rold)); outI=(inOI+6.f*inO2Iold+inO2Iold2+4.f*(inEI+inE2Iold));
+
+			inE2Rold = inER;                           inE2Iold = inEI;
+			inO2Rold2 = inO2Rold; inO2Rold = inOR;     inO2Iold2 = inO2Iold; inO2Iold = inOI;
+
+			if((k & 0x2)) // skip the if block for k multiple of 4 (in base zero),
+				// else save the even element just produced and cycle the while loop...
+			{
+				tmp2R = outR; tmp2I = outI;  // save the even element produced
+				continue;
+			}
+
+			// now we have the input samples decimated by 4, even element in tmp2R, tmp2I,
+			// and the odd element in outR, outI
+			// now compute the couple of elements for the next step
+
+			inER=tmp2R;  inOR=outR;                    inEI=tmp2I;  inOI=outI;
+			outR=(inOR+6.f*inO3Rold+inO3Rold2+4.f*(inER+inE3Rold)); outI=(inOI+6.f*inO3Iold+inO3Iold2+4.f*(inEI+inE3Iold));
+
+			inE3Rold  = inER;                          inE3Iold  = inEI;
+			inO3Rold2 = inO3Rold; inO3Rold = inOR;     inO3Iold2 = inO3Iold; inO3Iold = inOI;
+
+			if((k & 0x4)) // skip the if block for k multiple of 8 (in base zero),
+				// else save the even element just produced and cycle the while loop...
+			{
+				tmp3R = outR; tmp3I = outI;  // save the even element produced
+				continue;
+			}
+
+			// at this point we have two elem. (tmp3R[even] and outR[odd] and also the I counterparts)
+			// produced with 4 of the previous elem, i.e. with 16 input samples, totalling
+			// a decimation by 8. Now compute the couple of elements for the next step
+
+			inER=tmp3R;  inOR=outR;                    inEI=tmp3I;  inOI=outI;
+			outR=(inOR+6.f*inO4Rold+inO4Rold2+4.f*(inER+inE4Rold)); outI=(inOI+6.f*inO4Iold+inO4Iold2+4.f*(inEI+inE4Iold));
+
+			inE4Rold = inER;                           inE4Iold = inEI;
+			inO4Rold2 = inO4Rold; inO4Rold = inOR;     inO4Iold2 = inO4Iold; inO4Iold = inOI;
+
+			// at this point we have a single element (outR and its counterpart outI), produced
+			// with 2 of the previous element, i.e. with 16 input samples, totalling a decimation by 16
+			// we downscale it with a factor of 32768, i.e. the gain of the CIC, i.e.	R^M = 16^4 = 65536
+			// divided by two, to compensate for the 3 dB loss caused by keeping just half of the band
+
+			// create a block of BSIZE*4 entries, which will be then decimated by 4
+
+			Rbasedata[idx] = outR/32768.f;    Ibasedata[idx++] = outI/32768.f;
+
+			if(idx < BSIZE*4)
+				continue;
+			idx = 0;
 
 
 #endif
 
-		// generate now an interrupt to signal the base band processing routine that it has a new buffer
+			// generate now an interrupt to signal the base band processing routine that it has a new buffer
 
-		EXTI->SWIER1 |= GPIO_PIN_14;
+			EXTI->SWIER1 |= GPIO_PIN_14;
+		}
+
+		// LED_YELLOW_OFF;
+
 	}
+	//-----------------------------------------------------------------------------
 
-	// LED_YELLOW_OFF;
-
-}
-//-----------------------------------------------------------------------------
-
+//#pragma GCC pop_options
