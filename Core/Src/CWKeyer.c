@@ -113,6 +113,9 @@ void switch_rxtx(uint8_t tx_enable){
 		{
 			TXSwitch(0);
 			semi_qsk_timeout = 0;
+			// restore AGC setting
+
+						pk = Saved_pk;
 		}
 	}
 }
