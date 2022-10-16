@@ -118,6 +118,8 @@ extern void update_PaddleLatch(void);
 extern void DoKeyer(void);
 extern void PrepareBits(uint8_t *, OutData_t *);
 
+extern int cw_tx(char*);
+
 
 /* USER CODE END EM */
 
