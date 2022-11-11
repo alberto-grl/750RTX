@@ -920,7 +920,7 @@ int cw_tx_char(char ch){    // Transmit message in CW
  80009b4:	085b      	lsrs	r3, r3, #1
  80009b6:	422b      	tst	r3, r5
  80009b8:	d0fb      	beq.n	80009b2 <cw_tx_char+0x26>
-      if(k == 0) delayWithKeySense(ditTime * 4); // space -> add word space
+      if(k == 0) delayWithKeySense(ditTime * 4); // space -> add word space (was 4)
  80009ba:	08b6      	lsrs	r6, r6, #2
  80009bc:	f000 80b2 	beq.w	8000b24 <cw_tx_char+0x198>
  80009c0:	f8df 91d8 	ldr.w	r9, [pc, #472]	; 8000b9c <cw_tx_char+0x210>
@@ -1037,13 +1037,13 @@ int cw_tx_char(char ch){    // Transmit message in CW
           switch_rxtx(0);  // key-off tx
           if(delayWithKeySense(ditTime)) return 1;   // add symbol space
         }
-        if(delayWithKeySense(ditTime * 2)) return 1; // add letter space
+        if(delayWithKeySense(ditTime * 2)) return 1; // add letter space (was 2)
  8000a88:	f8d9 6000 	ldr.w	r6, [r9]
   uint32_t event = HAL_GetTick() + ms;
  8000a8c:	f003 fdd6 	bl	800463c <HAL_GetTick>
     if(KEYER_DASH || KEYER_DOT){
  8000a90:	4c40      	ldr	r4, [pc, #256]	; (8000b94 <cw_tx_char+0x208>)
-        if(delayWithKeySense(ditTime * 2)) return 1; // add letter space
+        if(delayWithKeySense(ditTime * 2)) return 1; // add letter space (was 2)
  8000a92:	0076      	lsls	r6, r6, #1
   uint32_t event = HAL_GetTick() + ms;
  8000a94:	4406      	add	r6, r0
@@ -1135,15 +1135,15 @@ int cw_tx_char(char ch){    // Transmit message in CW
  8000b1c:	7818      	ldrb	r0, [r3, #0]
  8000b1e:	f003 fd93 	bl	8004648 <HAL_Delay>
  8000b22:	e75e      	b.n	80009e2 <cw_tx_char+0x56>
-      if(k == 0) delayWithKeySense(ditTime * 4); // space -> add word space
+      if(k == 0) delayWithKeySense(ditTime * 4); // space -> add word space (was 4)
  8000b24:	4b1d      	ldr	r3, [pc, #116]	; (8000b9c <cw_tx_char+0x210>)
     if(KEYER_DASH || KEYER_DOT){
  8000b26:	4c1b      	ldr	r4, [pc, #108]	; (8000b94 <cw_tx_char+0x208>)
-      if(k == 0) delayWithKeySense(ditTime * 4); // space -> add word space
+      if(k == 0) delayWithKeySense(ditTime * 4); // space -> add word space (was 4)
  8000b28:	681e      	ldr	r6, [r3, #0]
   uint32_t event = HAL_GetTick() + ms;
  8000b2a:	f003 fd87 	bl	800463c <HAL_GetTick>
-      if(k == 0) delayWithKeySense(ditTime * 4); // space -> add word space
+      if(k == 0) delayWithKeySense(ditTime * 4); // space -> add word space (was 4)
  8000b2e:	00b6      	lsls	r6, r6, #2
   uint32_t event = HAL_GetTick() + ms;
  8000b30:	4406      	add	r6, r0
@@ -6437,7 +6437,7 @@ void CarrierEnable(uint8_t Status)
  80033c4:	58000400 	.word	0x58000400
  80033c8:	58024400 	.word	0x58024400
  80033cc:	24009338 	.word	0x24009338
- 80033d0:	4bbebba1 	.word	0x4bbebba1
+ 80033d0:	4bbebb88 	.word	0x4bbebb88
  80033d4:	000c0042 	.word	0x000c0042
 
 080033d8 <MX_TIM6_Init_Custom_Rate>:
@@ -7666,8 +7666,8 @@ void CarrierEnable(uint8_t Status)
 		if (ubADCDualConversionComplete == RESET)
  8003d04:	e7f9      	b.n	8003cfa <main+0x8d2>
  8003d06:	bf00      	nop
- 8003d08:	5d4716d0 	.word	0x5d4716d0
- 8003d0c:	3feffff5 	.word	0x3feffff5
+ 8003d08:	446822b9 	.word	0x446822b9
+ 8003d0c:	3feffff3 	.word	0x3feffff3
  8003d10:	58020400 	.word	0x58020400
  8003d14:	24009b74 	.word	0x24009b74
  8003d18:	44228000 	.word	0x44228000

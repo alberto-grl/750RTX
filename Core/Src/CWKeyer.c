@@ -247,7 +247,7 @@ int cw_tx_char(char ch){    // Transmit message in CW
   for(uint8_t j = 0; (sym = (m2c[j])); j++){  // lookup msg[i] in m2c, skip if not found
     if(sym == ch){  // found -> transmit CW character j
       uint8_t k = 0x80; for(; !(j & k); k >>= 1); k >>= 1; // shift start of cw code to MSB
-      if(k == 0) delayWithKeySense(ditTime * 4); // space -> add word space
+      if(k == 0) delayWithKeySense(ditTime * 4); // space -> add word space (was 4)
       else {
         for(; k; k >>= 1){ // send dit/dah one by one, until everythng is sent
           switch_rxtx(1);  // key-on  tx
@@ -255,7 +255,7 @@ int cw_tx_char(char ch){    // Transmit message in CW
           switch_rxtx(0);  // key-off tx
           if(delayWithKeySense(ditTime)) return 1;   // add symbol space
         }
-        if(delayWithKeySense(ditTime * 2)) return 1; // add letter space
+        if(delayWithKeySense(ditTime * 2)) return 1; // add letter space (was 2)
       }
       break; // next character
     }
