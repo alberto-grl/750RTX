@@ -118,6 +118,8 @@ extern void update_PaddleLatch(void);
 extern void DoKeyer(void);
 extern void PrepareBits(uint8_t *, OutData_t *);
 
+extern int cw_tx(char*);
+
 
 /* USER CODE END EM */
 
@@ -214,7 +216,8 @@ extern void SetFracPLL(uint32_t);
 
 //Example: actual signal F: 7000000. Tuned at 7000050. XTAL_F_ERROR = -1 + (7000000 / 7000050) = -7.142806e-6
 
-#define XTAL_F_ERROR -10.142931e-6
+//#define XTAL_F_ERROR -10.142931e-6
+#define XTAL_F_ERROR -12.142931e-6
 
 //#define SCAMP_OOK
 //#define SCAMP_FSK

@@ -8,8 +8,13 @@
 
 //#ifdef KEYER
 // Iambic Morse Code Keyer Sketch, Contribution by Uli, DL2DBG. Copyright (c) 2009 Steven T. Elliott Source: http://openqrp.org/?p=343,  Trimmed by Bill Bishop - wrb[at]wrbishop.com.  This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details: Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
-
+//  QCX-SSB.ino - https://github.com/threeme3/QCX-SSB
+//
+//  Copyright 2019, 2020, 2021   Guido PE1NNZ <pe1nnz@amsat.org>
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /*
+ *
 int keyer_speed = 15;
 static unsigned long ditTime;                    // No. mseconds per dit
 static uint8_t keyerControl;
@@ -213,5 +218,61 @@ void DoKeyer(void)
 			break;
 		}
 	}
+}
+
+//Begin CWMessage
+
+const char m2c[] = "~ ETIANMSURWDKGOHVF*L*PJBXCYZQ**54S3***2**+***J16=/***H*7*G*8*90************?_****\"**.****@***'**-********;!*)*****,****:****";
+
+
+uint8_t delayWithKeySense(uint32_t ms){
+  uint32_t event = HAL_GetTick() + ms;
+  while(HAL_GetTick() < event){
+    if(KEYER_DASH || KEYER_DOT){
+      return 1;  // stop when button/key pressed
+    }
+  }
+  return 0;
+}
+
+char cw_msg[6][48] = { "CQ CQ CQ CQ DE I4NZX I4NZX I4NZX K", "CQ CQ DE PE1NNN PE1NNN +", "GE TKS 5NN 5NN NAME IS GUIDO GUIDO HW?", "FB RPTR TX 5W 5W ANT INV V 73 CUAGN", "73 TU E E", "PE1NNN" };
+
+
+uint8_t cw_msg_interval = 5; // number of seconds CW message is repeated
+uint32_t cw_msg_event = 0;
+uint8_t cw_msg_id = 0; // selected message
+
+int cw_tx_char(char ch){    // Transmit message in CW
+  char sym;
+  for(uint8_t j = 0; (sym = (m2c[j])); j++){  // lookup msg[i] in m2c, skip if not found
+    if(sym == ch){  // found -> transmit CW character j
+      uint8_t k = 0x80; for(; !(j & k); k >>= 1); k >>= 1; // shift start of cw code to MSB
+      if(k == 0) delayWithKeySense(ditTime * 4); // space -> add word space (was 4)
+      else {
+        for(; k; k >>= 1){ // send dit/dah one by one, until everythng is sent
+          switch_rxtx(1);  // key-on  tx
+          if(delayWithKeySense(ditTime * ((j & k) ? 3 : 1))){ switch_rxtx(0); return 1; } // symbol: dah or dih length
+          switch_rxtx(0);  // key-off tx
+          if(delayWithKeySense(ditTime)) return 1;   // add symbol space
+        }
+        if(delayWithKeySense(ditTime * 2)) return 1; // add letter space (was 2)
+      }
+      break; // next character
+    }
+  }
+  return 0;
+}
+
+int cw_tx(char* msg){
+  for(uint8_t i = 0; msg[i]; i++){  // loop over message
+    if(cw_tx_char(msg[i])) return 1;
+  }
+  return 0;
+}
+
+
+void SendCWMessage(uint8_t MessageNo)
+{
+	cw_tx(cw_msg[MessageNo]);
 }
 //#pragma GCC pop_options
