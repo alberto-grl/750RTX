@@ -266,6 +266,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	float BinValue;
 	int16_t i;
 
+
 /*
 	if (TransmissionEnabled && SW01_IN)
 	{
@@ -535,7 +536,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 #endif
 
-
+/*
 	// CW tone while keying
 	//TODO: make it sine and with attack/decay
 	if (TXCarrierEnabled)
@@ -555,6 +556,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 					}
 
 	}
+*/
 
 	// send the demodulated audio to the DMA buffer just emptied
 
@@ -604,7 +606,19 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 
 	//LED_YELLOW_ON;
-
+	static int16_t PLLDitherCounter;
+/*
+		if (PLLDitherCounter==3)
+		{
+			SetFracPLL(16);
+			PLLDitherCounter = 0;
+		}
+		else
+		{
+				SetFracPLL(15);
+				PLLDitherCounter++;
+		}
+*/
 #ifdef TEST_FRAC_DIV
 
 	{

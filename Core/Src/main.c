@@ -52,6 +52,7 @@
   Only terminal for Android that supports escape codes is DroidTerm, AFAIK.
   Capacitors ESR: https://ds.murata.co.jp/simsurfing/index.html?lcid=en-us
   DSP, FFT filters: https://www.analog.com/en/education/education-library/scientist_engineers_guide.html
+  FT8 FSK: 8 different tones spaced at 5.86 Hz (6.25 is reported elsewhere)
 
   MCO2 output is pin PC9, CN8 pin 4.
  */
@@ -1631,8 +1632,9 @@ void UserInput(void)
 			break;
 		case 98: //b
 			//Test for PLL
-			SetFracPLL(0);
-			__HAL_RCC_PLL2FRACN_DISABLE();  break;
+			SetFracPLL(21);
+			//__HAL_RCC_PLL2FRACN_DISABLE();
+			break;
 		case 108: //l
 			SetMode((Mode)LSB); break;
 		case 117: //u
@@ -2025,6 +2027,7 @@ MCODIV = 1
 	__HAL_RCC_PLL2_ENABLE();
 }
 
+/*
 void SetFracPLL(uint32_t Coeff)
 {
 
@@ -2046,6 +2049,23 @@ void SetFracPLL(uint32_t Coeff)
 	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
 	__HAL_RCC_PLL2FRACN_ENABLE();
 }
+*/
+
+void SetFracPLL(uint32_t Coeff)
+{
+	volatile uint32_t i;
+	__HAL_RCC_PLL2FRACN_DISABLE();
+	for (i=0; i< 50; i++)
+		{
+			 i++;
+			i--;
+		}
+	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time  TODO: It seems necessary to have a delay between disable and set new value
+	__HAL_RCC_PLL2FRACN_ENABLE();
+
+
+}
+
 
 void SetTXPLL(float TF)
 {
