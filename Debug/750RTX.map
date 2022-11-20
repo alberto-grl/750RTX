@@ -400,7 +400,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x1e6 ./Core/SCAMP.o
  .debug_macro   0x0000000000000000       0x10 ./Core/SCAMP.o
  .debug_line    0x0000000000000000     0x14c7 ./Core/SCAMP.o
- .debug_str     0x0000000000000000   0x177e47 ./Core/SCAMP.o
+ .debug_str     0x0000000000000000   0x177e46 ./Core/SCAMP.o
  .comment       0x0000000000000000       0x51 ./Core/SCAMP.o
  .debug_frame   0x0000000000000000      0x138 ./Core/SCAMP.o
  .ARM.attributes
@@ -612,7 +612,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x95 ./Core/Src/CWDecoder.o
  .debug_macro   0x0000000000000000       0x1c ./Core/Src/CWDecoder.o
  .debug_line    0x0000000000000000      0xbdb ./Core/Src/CWDecoder.o
- .debug_str     0x0000000000000000   0x178e81 ./Core/Src/CWDecoder.o
+ .debug_str     0x0000000000000000   0x178e80 ./Core/Src/CWDecoder.o
  .comment       0x0000000000000000       0x51 ./Core/Src/CWDecoder.o
  .ARM.attributes
                 0x0000000000000000       0x2e ./Core/Src/CWDecoder.o
@@ -12420,96 +12420,96 @@ LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_line    0x000000000003fee7      0x40a C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
  .debug_line    0x00000000000402f1      0xddc C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cfft_radix8_f32.o)
 
-.debug_str      0x0000000000000000   0x186486
- .debug_str     0x0000000000000000   0x176ca3 ./Core/Src/CWKeyer.o
-                                     0x1774d2 (size before relaxing)
- .debug_str     0x0000000000176ca3      0xbf4 ./Core/Src/SDR_func.o
-                                     0x1778ab (size before relaxing)
- .debug_str     0x0000000000177897      0x28a ./Core/Src/SDR_math.o
-                                     0x1770c4 (size before relaxing)
- .debug_str     0x0000000000177b21     0x3f05 ./Core/Src/main.o
-                                     0x17bae2 (size before relaxing)
- .debug_str     0x000000000017ba26      0x1e9 ./Core/Src/stm32h7xx_hal_msp.o
-                                     0x178b07 (size before relaxing)
- .debug_str     0x000000000017bc0f      0x57b ./Core/Src/stm32h7xx_it.o
-                                     0x177e9f (size before relaxing)
- .debug_str     0x000000000017c18a     0x1668 ./Core/Src/syscalls.o
+.debug_str      0x0000000000000000   0x186485
+ .debug_str     0x0000000000000000   0x176ca2 ./Core/Src/CWKeyer.o
+                                     0x1774d1 (size before relaxing)
+ .debug_str     0x0000000000176ca2      0xbf4 ./Core/Src/SDR_func.o
+                                     0x1778aa (size before relaxing)
+ .debug_str     0x0000000000177896      0x28a ./Core/Src/SDR_math.o
+                                     0x1770c3 (size before relaxing)
+ .debug_str     0x0000000000177b20     0x3f05 ./Core/Src/main.o
+                                     0x17bae1 (size before relaxing)
+ .debug_str     0x000000000017ba25      0x1e9 ./Core/Src/stm32h7xx_hal_msp.o
+                                     0x178b06 (size before relaxing)
+ .debug_str     0x000000000017bc0e      0x57b ./Core/Src/stm32h7xx_it.o
+                                     0x177e9e (size before relaxing)
+ .debug_str     0x000000000017c189     0x1668 ./Core/Src/syscalls.o
                                        0x8add (size before relaxing)
- .debug_str     0x000000000017d7f2       0x6b ./Core/Src/sysmem.o
+ .debug_str     0x000000000017d7f1       0x6b ./Core/Src/sysmem.o
                                        0x5e0f (size before relaxing)
- .debug_str     0x000000000017d85d      0x254 ./Core/Src/system_stm32h7xx.o
+ .debug_str     0x000000000017d85c      0x254 ./Core/Src/system_stm32h7xx.o
                                      0x175e7d (size before relaxing)
- .debug_str     0x000000000017dab1       0x36 ./Core/Startup/startup_stm32h750vbtx.o
+ .debug_str     0x000000000017dab0       0x36 ./Core/Startup/startup_stm32h750vbtx.o
                                          0x53 (size before relaxing)
- .debug_str     0x000000000017dae7      0x6bf ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o
+ .debug_str     0x000000000017dae6      0x6bf ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o
                                      0x176d85 (size before relaxing)
- .debug_str     0x000000000017e1a6      0xa44 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.o
+ .debug_str     0x000000000017e1a5      0xa44 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.o
                                      0x176beb (size before relaxing)
- .debug_str     0x000000000017ebea      0x78b ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.o
+ .debug_str     0x000000000017ebe9      0x78b ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.o
                                      0x176c3e (size before relaxing)
- .debug_str     0x000000000017f375      0x311 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.o
+ .debug_str     0x000000000017f374      0x311 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.o
                                      0x176788 (size before relaxing)
- .debug_str     0x000000000017f686      0x19e ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.o
+ .debug_str     0x000000000017f685      0x19e ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.o
                                      0x176104 (size before relaxing)
- .debug_str     0x000000000017f824      0x1e8 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac_ex.o
+ .debug_str     0x000000000017f823      0x1e8 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac_ex.o
                                      0x176113 (size before relaxing)
- .debug_str     0x000000000017fa0c      0x82d ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.o
+ .debug_str     0x000000000017fa0b      0x82d ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.o
                                      0x17659a (size before relaxing)
- .debug_str     0x0000000000180239       0xab ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.o
+ .debug_str     0x0000000000180238       0xab ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.o
                                      0x175e17 (size before relaxing)
- .debug_str     0x00000000001802e4      0x465 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_lptim.o
+ .debug_str     0x00000000001802e3      0x465 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_lptim.o
                                      0x17620a (size before relaxing)
- .debug_str     0x0000000000180749      0x820 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.o
+ .debug_str     0x0000000000180748      0x820 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.o
                                      0x176585 (size before relaxing)
- .debug_str     0x0000000000180f69      0x174 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.o
+ .debug_str     0x0000000000180f68      0x174 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.o
                                      0x175f24 (size before relaxing)
- .debug_str     0x00000000001810dd      0x601 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.o
+ .debug_str     0x00000000001810dc      0x601 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.o
                                      0x1762d8 (size before relaxing)
- .debug_str     0x00000000001816de      0x208 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.o
+ .debug_str     0x00000000001816dd      0x208 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.o
                                      0x1761fb (size before relaxing)
- .debug_str     0x00000000001818e6      0x630 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.o
+ .debug_str     0x00000000001818e5      0x630 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.o
                                      0x1766b3 (size before relaxing)
- .debug_str     0x0000000000181f16      0xcd8 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.o
+ .debug_str     0x0000000000181f15      0xcd8 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.o
                                      0x176f8a (size before relaxing)
- .debug_str     0x0000000000182bee      0x587 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.o
+ .debug_str     0x0000000000182bed      0x587 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.o
                                      0x1768c2 (size before relaxing)
- .debug_str     0x0000000000183175      0x9c3 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.o
+ .debug_str     0x0000000000183174      0x9c3 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.o
                                      0x176d25 (size before relaxing)
- .debug_str     0x0000000000183b38      0x24c ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.o
+ .debug_str     0x0000000000183b37      0x24c ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.o
                                      0x1762ba (size before relaxing)
- .debug_str     0x0000000000183d84      0x43f ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.o
+ .debug_str     0x0000000000183d83      0x43f ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.o
                                      0x17641a (size before relaxing)
- .debug_str     0x00000000001841c3      0x641 ./Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.o
-                                     0x179509 (size before relaxing)
- .debug_str     0x0000000000184804      0x281 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o
-                                     0x178d9d (size before relaxing)
- .debug_str     0x0000000000184a85      0x13e ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.o
-                                     0x178cef (size before relaxing)
- .debug_str     0x0000000000184bc3       0x51 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.o
-                                     0x178be4 (size before relaxing)
- .debug_str     0x0000000000184c14       0xc6 ./USB_DEVICE/App/usb_device.o
-                                     0x178fba (size before relaxing)
- .debug_str     0x0000000000184cda       0xa6 ./USB_DEVICE/App/usbd_cdc_if.o
-                                     0x179035 (size before relaxing)
- .debug_str     0x0000000000184d80      0x258 ./USB_DEVICE/App/usbd_desc.o
-                                     0x178af1 (size before relaxing)
- .debug_str     0x0000000000184fd8       0x68 ./USB_DEVICE/Target/usbd_conf.o
-                                     0x17a6a7 (size before relaxing)
- .debug_str     0x0000000000185040     0x116c C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_const_structs.o)
+ .debug_str     0x00000000001841c2      0x641 ./Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.o
+                                     0x179508 (size before relaxing)
+ .debug_str     0x0000000000184803      0x281 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o
+                                     0x178d9c (size before relaxing)
+ .debug_str     0x0000000000184a84      0x13e ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.o
+                                     0x178cee (size before relaxing)
+ .debug_str     0x0000000000184bc2       0x51 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.o
+                                     0x178be3 (size before relaxing)
+ .debug_str     0x0000000000184c13       0xc6 ./USB_DEVICE/App/usb_device.o
+                                     0x178fb9 (size before relaxing)
+ .debug_str     0x0000000000184cd9       0xa6 ./USB_DEVICE/App/usbd_cdc_if.o
+                                     0x179034 (size before relaxing)
+ .debug_str     0x0000000000184d7f      0x258 ./USB_DEVICE/App/usbd_desc.o
+                                     0x178af0 (size before relaxing)
+ .debug_str     0x0000000000184fd7       0x68 ./USB_DEVICE/Target/usbd_conf.o
+                                     0x17a6a6 (size before relaxing)
+ .debug_str     0x000000000018503f     0x116c C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_const_structs.o)
                                        0x135e (size before relaxing)
- .debug_str     0x00000000001861ac       0x2e C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_common_tables.o)
+ .debug_str     0x00000000001861ab       0x2e C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_common_tables.o)
                                         0xd1f (size before relaxing)
- .debug_str     0x00000000001861da      0x117 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cfft_f32.o)
+ .debug_str     0x00000000001861d9      0x117 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cfft_f32.o)
                                         0xe80 (size before relaxing)
- .debug_str     0x00000000001862f1       0x5b C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_bitreversal2.o)
+ .debug_str     0x00000000001862f0       0x5b C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_bitreversal2.o)
                                         0xd78 (size before relaxing)
- .debug_str     0x000000000018634c       0x3c C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_fir_decimate_init_f32.o)
+ .debug_str     0x000000000018634b       0x3c C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_fir_decimate_init_f32.o)
                                         0x78a (size before relaxing)
- .debug_str     0x0000000000186388       0x69 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_fir_decimate_f32.o)
+ .debug_str     0x0000000000186387       0x69 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_fir_decimate_f32.o)
                                         0x70b (size before relaxing)
- .debug_str     0x00000000001863f1       0x48 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
+ .debug_str     0x00000000001863f0       0x48 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
                                         0x690 (size before relaxing)
- .debug_str     0x0000000000186439       0x4d C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cfft_radix8_f32.o)
+ .debug_str     0x0000000000186438       0x4d C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cfft_radix8_f32.o)
                                         0x69d (size before relaxing)
 
 .comment        0x0000000000000000       0xc5
