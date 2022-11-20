@@ -1632,7 +1632,7 @@ void UserInput(void)
 			break;
 		case 98: //b
 			//Test for PLL
-			SetFracPLL(21);
+			SetFracPLL(220);
 			//__HAL_RCC_PLL2FRACN_DISABLE();
 			break;
 		case 108: //l

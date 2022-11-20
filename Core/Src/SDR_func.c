@@ -30,6 +30,11 @@
 
 extern uint32_t   aADCDualConvertedValues[BSIZE];
 
+
+#ifdef TEST_FRAC_DIV
+	static int16_t IntCounter, FracDutyCycle, SweepCounter;
+#endif
+
 //#include "Presets.h"
 
 //-----------------------------------------------------------------------------
@@ -319,9 +324,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 
 
-#ifdef TEST_FRAC_DIV
-	int16_t i;
-#endif
 
 
 	// HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET); // set bit 8 of GPIOF high, to be observed with an oscilloscope
@@ -622,20 +624,27 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 #ifdef TEST_FRAC_DIV
 
 	{
-		if (IntCounter++ % 16384  8191)
+		if (IntCounter++ < FracDutyCycle)
 		{
-			__HAL_RCC_PLL2FRACN_DISABLE();
-			__HAL_RCC_PLL2FRACN_CONFIG(0); // 0-8191, can be issued at any time
-			__HAL_RCC_PLL2FRACN_ENABLE();
+			SetFracPLL(15);
 			LED_YELLOW_ON;
 		}
 		else
 		{
-			__HAL_RCC_PLL2FRACN_DISABLE();
-			__HAL_RCC_PLL2FRACN_CONFIG(256); // 0-8191, can be issued at any time
-			__HAL_RCC_PLL2FRACN_ENABLE();
+			SetFracPLL(115);
 			LED_YELLOW_OFF;
 		}
+		if (IntCounter == 4)
+		{
+			IntCounter = 0;
+		}
+		if (SweepCounter++ == 10000)
+		{
+			SweepCounter = 0;
+		    FracDutyCycle++;
+		}
+			if (FracDutyCycle == 4)
+			FracDutyCycle = 0;
 	}
 #endif
 

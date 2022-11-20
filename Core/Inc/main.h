@@ -217,7 +217,8 @@ extern void SetFracPLL(uint32_t);
 //Example: actual signal F: 7000000. Tuned at 7000050. XTAL_F_ERROR = -1 + (7000000 / 7000050) = -7.142806e-6
 
 //#define XTAL_F_ERROR -10.142931e-6
-#define XTAL_F_ERROR -12.142931e-6
+//#define XTAL_F_ERROR -12.142931e-6
+#define XTAL_F_ERROR -6.142931e-6
 
 //#define SCAMP_OOK
 //#define SCAMP_FSK
@@ -247,7 +248,7 @@ extern void SetFracPLL(uint32_t);
 //#define CLK_640M_CPU_160M_ADC_XTAL25 /*CPU Hangs - DO NOT USE. new board */
 
 //#define TEST_NO_SDR
-//#define TEST_FRAC_DIV
+#define TEST_FRAC_DIV
 
 //#define UART_UI
 #define USB_UI
