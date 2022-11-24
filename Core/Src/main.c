@@ -1630,6 +1630,14 @@ void UserInput(void)
 			else
 				ShowWF=1;
 			break;
+		case 89: //Y
+			SetWSPRPLLCoeff((double)LOfreq, FracDivCoeff, FracPWMCoeff);
+			TransmittingWSPR = 1;
+			SendWSPR();
+			break;
+		case 90: //Z
+			uwTick = SystemSeconds = SystemMinutes = 0;
+					break;
 		case 98: //b
 			//Test for PLL
 			SetFracPLL(220);
@@ -1733,7 +1741,7 @@ void UserInput(void)
 
 
 	SValue = 4 + 10 / 3.01 * log10(PeakAudioValue * 2000.0);
-	sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     \r", SValue);
+	sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     T %d    %d  \r", SValue, SystemMinutes, SystemSeconds);
 	PrintUI(UartTXString);
 
 #ifdef CW_DECODER
@@ -1861,6 +1869,7 @@ void UserInput(void)
 #endif
 	 */
 }
+
 
 void DisplayStatus(void)
 {
@@ -2027,43 +2036,77 @@ MCODIV = 1
 	__HAL_RCC_PLL2_ENABLE();
 }
 
-/*
-void SetFracPLL(uint32_t Coeff)
-{
-
-	__HAL_RCC_PLL2FRACN_DISABLE();
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time  TODO: It seems necessary to issue the value several times
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time
-	__HAL_RCC_PLL2FRACN_ENABLE();
-}
-*/
 
 void SetFracPLL(uint32_t Coeff)
 {
 	volatile uint32_t i;
 	__HAL_RCC_PLL2FRACN_DISABLE();
 	for (i=0; i< 50; i++)
-		{
-			 i++;
-			i--;
-		}
+	{
+		i++;
+		i--;
+	}
 	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time  TODO: It seems necessary to have a delay between disable and set new value
 	__HAL_RCC_PLL2FRACN_ENABLE();
+}
 
 
+/*
+ * WSPR
+ * 40 m band 7040.0 - 7040.2 kHz
+ * 4 symbols spaced 1.4648 Hz
+ * for 7040.1 PLL coeffs are N 450, M 17, P 94, FracDiv 48
+ */
+
+
+void SetWSPRPLLCoeff(double TXFreq, uint16_t *FracDivCoeff, uint16_t *FracPWMCoeff)
+{
+
+	volatile double TF, OutFHigherStep, OutF, MinDiff = 999999999;
+	uint32_t m, n, p, od;
+	volatile uint32_t fm, fn, fp, fdiff, fod, FMaxErr, FracDiv, i;
+
+	for (i = 0; i < 4; i++) {
+		TF = TXFreq + i * 1.4648f; // WSPR shift
+		MinDiff = 999999999;
+		od = 1;
+		//looking for coefficients just below the desired frequency. This is because the fractional divider generates lower frequencies with 0, and higher with 8191
+		for (m = 2; m <= 25; m++) //was 64
+		{
+			for (n = 2; n <= 512; n++) //was 1
+			{
+				for (p = 2; p <= 128; p += 2) {
+					OutF = XTalFreq * n / m / p / od;
+					if (((TF - OutF) < MinDiff) && ((TF - OutF) > 0)
+							&& ((XTalFreq * n / m) > 150000000.0)
+							&& ((XTalFreq * n / m) < 960000000.0)) {
+						MinDiff = abs(OutF - TF);
+
+						fp = p;
+						fn = n;
+						fm = m;
+						fod = od;
+					}
+				}
+			}
+		}
+		if (fn < 511) {
+			OutF = XTalFreq * fn / fm / fp / fod;
+			OutFHigherStep = XTalFreq * (fn + 1) / fm / fp / fod;
+			FracDiv = (uint32_t) ((TF - OutF) / (OutFHigherStep - OutF)
+					* 8192 * 8); //FracDiv PWM has 8 levels
+		} else {
+			FracDiv = 8191 * 8;
+		}
+
+		FracDivPWM = LowestWSPRToneFracDivPWM = FracDiv & 0x07;
+		FracDiv >>= 0x03;
+		FracDivCoeff[i] = FracDiv;
+		FracPWMCoeff[i] = FracDivPWM;
+	}
+	__HAL_RCC_PLL2_DISABLE();
+	__HAL_RCC_PLL2_CONFIG(fm, fn, fp, 2, 1); //These parameters should stay the same for the 4 WSPR tones
+	__HAL_RCC_PLL2_ENABLE();
 }
 
 
@@ -2087,9 +2130,9 @@ void SetTXPLL(float TF)
 	MarkFracDiv = fd - 53; //see xls file for calculating this magic number
 #else
 
-	float OutFHigherStep, OutF, MinDiff = 999999999;
+	volatile float OutFHigherStep, OutF, MinDiff = 999999999;
 	uint32_t m, n, p, od;
-	uint32_t fm, fn, fp, fdiff, fod, FMaxErr, FracDiv;
+	volatile uint32_t fm, fn, fp, fdiff, fod, FMaxErr, FracDiv;
 
 
 	MinDiff = 999999999;
@@ -2114,29 +2157,15 @@ void SetTXPLL(float TF)
 			}
 		}
 	}
-	if (fn < 511)
-	{
-		OutF = XTalFreq * fn / fm / fp / fod;
-		OutFHigherStep = XTalFreq * (fn + 1) / fm / fp / fod;
-		FracDiv = (uint32_t) ((TF - OutF) / (OutFHigherStep - OutF)  * 8192);
-	}
-	else
-	{
-		FracDiv = 8191;
-	}
 
 	TXFreqError = MinDiff;
 	__HAL_RCC_PLL2_DISABLE();
 	__HAL_RCC_PLL2_CONFIG(fm, fn, fp, 2, 1);
 	__HAL_RCC_PLL2_ENABLE();
 
-	SetFracPLL(FracDiv);
 #endif
 
 }
-
-
-
 
 
 void TXSwitch(uint8_t Status)

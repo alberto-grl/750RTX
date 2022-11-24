@@ -3,6 +3,7 @@
 "./Core/Src/CWKeyer.o"
 "./Core/Src/SDR_func.o"
 "./Core/Src/SDR_math.o"
+"./Core/Src/WSPR.o"
 "./Core/Src/main.o"
 "./Core/Src/stm32h7xx_hal_msp.o"
 "./Core/Src/stm32h7xx_it.o"

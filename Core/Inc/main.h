@@ -181,6 +181,9 @@ extern void TXSwitch(uint8_t);
 extern void SetTXPLL(float);
 extern void SetFracPLL(uint32_t);
 
+extern void SendWSPR(void);
+extern void SetWSPRPLLCoeff(double, uint16_t *, uint16_t *);
+
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

@@ -164,6 +164,15 @@ EXTERN uint32_t USBRXLength;
 EXTERN uint8_t UartTXString[4096];
 EXTERN uint8_t UartRXString[256];
 
+EXTERN uint16_t FracDivPWM;
+EXTERN uint16_t LowestWSPRToneFracDivPWM;
+
+EXTERN uint16_t FracDivCoeff[4];
+EXTERN uint16_t FracPWMCoeff[4];
+EXTERN uint32_t SystemSeconds, SystemMinutes;
+
+EXTERN uint8_t TransmittingWSPR;
+EXTERN uint8_t WSPRTone;
 
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;
 //TODO EXTERN EXTI_InitTypeDef      EXTI_InitStructure;
