@@ -928,7 +928,7 @@ if (TransmittingWSPR)
 		}
 		else
 		{
-			__HAL_RCC_PLL2FRACN_CONFIG(FracDivCoeff[WSPRTone] + 100); //rimettere 1
+			__HAL_RCC_PLL2FRACN_CONFIG(FracDivCoeff[WSPRTone] + 1); //rimettere 1
 		}
 		if (IntCounter == 8)
 		{

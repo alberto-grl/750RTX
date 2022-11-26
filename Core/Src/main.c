@@ -2065,9 +2065,10 @@ void SetWSPRPLLCoeff(double TXFreq, uint16_t *FracDivCoeff, uint16_t *FracPWMCoe
 	volatile double TF, OutFHigherStep, OutF, MinDiff = 999999999;
 	uint32_t m, n, p, od;
 	volatile uint32_t fm, fn, fp, fdiff, fod, FMaxErr, FracDiv, i;
-
+	LastTXFreq = (float)TXFreq;
+#define TEST_COEFF 50
 	for (i = 0; i < 4; i++) {
-		TF = TXFreq + i * 1.4648f; // WSPR shift
+		TF = TXFreq + i * 1.4648f * TEST_COEFF; // WSPR shift
 		MinDiff = 999999999;
 		od = 1;
 		//looking for coefficients just below the desired frequency. This is because the fractional divider generates lower frequencies with 0, and higher with 8191
@@ -2130,9 +2131,9 @@ void SetTXPLL(float TF)
 	MarkFracDiv = fd - 53; //see xls file for calculating this magic number
 #else
 
-	volatile float OutFHigherStep, OutF, MinDiff = 999999999;
+	volatile float OutF, MinDiff = 999999999;
 	uint32_t m, n, p, od;
-	volatile uint32_t fm, fn, fp, fdiff, fod, FMaxErr, FracDiv;
+	volatile uint32_t fm, fn, fp, fod, FMaxErr, FracDiv;
 
 
 	MinDiff = 999999999;
@@ -2170,7 +2171,7 @@ void SetTXPLL(float TF)
 
 void TXSwitch(uint8_t Status)
 {
-	static float LastTXFreq;
+
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
 	if (Status)
