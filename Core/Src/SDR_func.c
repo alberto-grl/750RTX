@@ -34,7 +34,7 @@ extern uint16_t LowestWSPRToneFracDivPWM;
 
 
 #ifdef TEST_FRAC_DIV
-	static int16_t IntCounter, FracDutyCycle, SweepCounter;
+static int16_t IntCounter, FracDutyCycle, SweepCounter;
 #endif
 
 //#include "Presets.h"
@@ -264,7 +264,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	int16_t i;
 
 
-/*
+	/*
 	if (TransmissionEnabled && SW01_IN)
 	{
 		CarrierEnable(1);
@@ -273,11 +273,11 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	{
 		CarrierEnable(0);
 	}
-*/
+	 */
 
 
-//	if (TransmissionEnabled)
-//		return;
+	//	if (TransmissionEnabled)
+	//		return;
 
 
 #ifdef TEST_NO_SDR
@@ -360,14 +360,14 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 	// compute the direct FFT
 	arm_cfft_f32(&arm_cfft_sR_f32_len1024, FFTbuf, DIRECTFFT, NOREVERSE);
-/*
+	/*
 	// if LSB, copy the LSB in the lower half (USB)
 	if(CurrentMode == LSB) SDR_mirror_LSB(FFTbuf, FFTLEN);
-*/
+	 */
 
-// TODO: check why with the original code above LSB and USB are swapped
+	// TODO: check why with the original code above LSB and USB are swapped
 
- //if USB, copy the USB in the lower half (LSB)
+	//if USB, copy the USB in the lower half (LSB)
 	if(CurrentMode == USB) SDR_mirror_LSB(FFTbuf, FFTLEN);
 
 #ifdef TEST_WF
@@ -530,7 +530,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 #endif
 
-/*
+	/*
 	// CW tone while keying
 	//TODO: make it sine and with attack/decay
 	if (TXCarrierEnabled)
@@ -550,7 +550,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 					}
 
 	}
-*/
+	 */
 
 	// send the demodulated audio to the DMA buffer just emptied
 
@@ -601,7 +601,7 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 	//LED_YELLOW_ON;
 	static int16_t PLLDitherCounter;
-/*
+	/*
 		if (PLLDitherCounter==3)
 		{
 			SetFracPLL(16);
@@ -612,16 +612,16 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 				SetFracPLL(15);
 				PLLDitherCounter++;
 		}
-*/
+	 */
 
-/* It needs a delay between fract div disable and parameter setting.
- * Reference manual says otherwise.
- * So we disable at the top of the ISR and set the parameter near the bottom.
- */
-if (TransmittingWSPR)
-{
-	__HAL_RCC_PLL2FRACN_DISABLE();
-}
+	/* It needs a delay between fract div disable and parameter setting.
+	 * Reference manual says otherwise.
+	 * So we disable at the top of the ISR and set the parameter near the bottom.
+	 */
+	if (TransmittingWSPR)
+	{
+		__HAL_RCC_PLL2FRACN_DISABLE();
+	}
 
 
 
@@ -681,6 +681,23 @@ if (TransmittingWSPR)
 
 	ptDataR = ADC_Rdata;  ptDataI = ADC_Idata;
 
+
+	if (TransmittingWSPR)
+	{
+		if (IntCounter++ < FracPWMCoeff[WSPRTone])
+		{
+			__HAL_RCC_PLL2FRACN_CONFIG(FracDivCoeff[WSPRTone] + 1);
+		}
+		else
+		{
+			__HAL_RCC_PLL2FRACN_CONFIG(FracDivCoeff[WSPRTone] );
+		}
+		if (IntCounter == 8)
+		{
+			IntCounter = 0;
+		}
+		__HAL_RCC_PLL2FRACN_ENABLE();
+	}
 
 #ifdef CIC_DECIMATE_64
 
@@ -918,25 +935,6 @@ if (TransmittingWSPR)
 
 #endif
 
-			if (TransmittingWSPR)
-	{
-
-
-		if (IntCounter++ < FracPWMCoeff[WSPRTone])
-		{
-			__HAL_RCC_PLL2FRACN_CONFIG(FracDivCoeff[WSPRTone]);
-		}
-		else
-		{
-			__HAL_RCC_PLL2FRACN_CONFIG(FracDivCoeff[WSPRTone] + 1); //rimettere 1
-		}
-		if (IntCounter == 8)
-		{
-			IntCounter = 0;
-		}
-		__HAL_RCC_PLL2FRACN_ENABLE();
-
-	}
 
 			// generate now an interrupt to signal the base band processing routine that it has a new buffer
 
@@ -948,4 +946,4 @@ if (TransmittingWSPR)
 	}
 	//-----------------------------------------------------------------------------
 
-//#pragma GCC pop_options
+	//#pragma GCC pop_options

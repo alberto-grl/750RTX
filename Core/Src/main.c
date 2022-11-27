@@ -2066,7 +2066,7 @@ void SetWSPRPLLCoeff(double TXFreq, uint16_t *FracDivCoeff, uint16_t *FracPWMCoe
 	uint32_t m, n, p, od;
 	volatile uint32_t fm, fn, fp, fdiff, fod, FMaxErr, FracDiv, i;
 	LastTXFreq = (float)TXFreq;
-#define TEST_COEFF 50
+#define TEST_COEFF 1
 	for (i = 0; i < 4; i++) {
 		TF = TXFreq + i * 1.4648f * TEST_COEFF; // WSPR shift
 		MinDiff = 999999999;
@@ -2131,7 +2131,7 @@ void SetTXPLL(float TF)
 	MarkFracDiv = fd - 53; //see xls file for calculating this magic number
 #else
 
-	volatile float OutF, MinDiff = 999999999;
+	volatile float OutFHigherStep, OutF, MinDiff = 999999999;
 	uint32_t m, n, p, od;
 	volatile uint32_t fm, fn, fp, fod, FMaxErr, FracDiv;
 
@@ -2158,12 +2158,23 @@ void SetTXPLL(float TF)
 			}
 		}
 	}
+	if (fn < 511)
+	{
+		OutF = XTalFreq * fn / fm / fp / fod;
+		OutFHigherStep = XTalFreq * (fn + 1) / fm / fp / fod;
+		FracDiv = (uint32_t) ((TF - OutF) / (OutFHigherStep - OutF)  * 8192);
+	}
+	else
+	{
+		FracDiv = 8191;
+	}
 
 	TXFreqError = MinDiff;
 	__HAL_RCC_PLL2_DISABLE();
 	__HAL_RCC_PLL2_CONFIG(fm, fn, fp, 2, 1);
 	__HAL_RCC_PLL2_ENABLE();
 
+	SetFracPLL(FracDiv);
 #endif
 
 }
