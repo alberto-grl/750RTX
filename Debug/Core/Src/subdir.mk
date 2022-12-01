@@ -7,6 +7,7 @@
 C_SRCS += \
 ../Core/Src/CWDecoder.c \
 ../Core/Src/CWKeyer.c \
+../Core/Src/DCF77.c \
 ../Core/Src/SDR_func.c \
 ../Core/Src/SDR_math.c \
 ../Core/Src/WSPR.c \
@@ -20,6 +21,7 @@ C_SRCS += \
 OBJS += \
 ./Core/Src/CWDecoder.o \
 ./Core/Src/CWKeyer.o \
+./Core/Src/DCF77.o \
 ./Core/Src/SDR_func.o \
 ./Core/Src/SDR_math.o \
 ./Core/Src/WSPR.o \
@@ -33,6 +35,7 @@ OBJS += \
 C_DEPS += \
 ./Core/Src/CWDecoder.d \
 ./Core/Src/CWKeyer.d \
+./Core/Src/DCF77.d \
 ./Core/Src/SDR_func.d \
 ./Core/Src/SDR_math.d \
 ./Core/Src/WSPR.d \
@@ -51,7 +54,7 @@ Core/Src/%.o Core/Src/%.su: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/CWDecoder.d ./Core/Src/CWDecoder.o ./Core/Src/CWDecoder.su ./Core/Src/CWKeyer.d ./Core/Src/CWKeyer.o ./Core/Src/CWKeyer.su ./Core/Src/SDR_func.d ./Core/Src/SDR_func.o ./Core/Src/SDR_func.su ./Core/Src/SDR_math.d ./Core/Src/SDR_math.o ./Core/Src/SDR_math.su ./Core/Src/WSPR.d ./Core/Src/WSPR.o ./Core/Src/WSPR.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32h7xx_hal_msp.d ./Core/Src/stm32h7xx_hal_msp.o ./Core/Src/stm32h7xx_hal_msp.su ./Core/Src/stm32h7xx_it.d ./Core/Src/stm32h7xx_it.o ./Core/Src/stm32h7xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32h7xx.d ./Core/Src/system_stm32h7xx.o ./Core/Src/system_stm32h7xx.su
+	-$(RM) ./Core/Src/CWDecoder.d ./Core/Src/CWDecoder.o ./Core/Src/CWDecoder.su ./Core/Src/CWKeyer.d ./Core/Src/CWKeyer.o ./Core/Src/CWKeyer.su ./Core/Src/DCF77.d ./Core/Src/DCF77.o ./Core/Src/DCF77.su ./Core/Src/SDR_func.d ./Core/Src/SDR_func.o ./Core/Src/SDR_func.su ./Core/Src/SDR_math.d ./Core/Src/SDR_math.o ./Core/Src/SDR_math.su ./Core/Src/WSPR.d ./Core/Src/WSPR.o ./Core/Src/WSPR.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32h7xx_hal_msp.d ./Core/Src/stm32h7xx_hal_msp.o ./Core/Src/stm32h7xx_hal_msp.su ./Core/Src/stm32h7xx_it.d ./Core/Src/stm32h7xx_it.o ./Core/Src/stm32h7xx_it.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32h7xx.d ./Core/Src/system_stm32h7xx.o ./Core/Src/system_stm32h7xx.su
 
 .PHONY: clean-Core-2f-Src
 

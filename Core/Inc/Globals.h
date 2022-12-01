@@ -123,6 +123,17 @@ EXTERN float LastPulsesRatio;
 EXTERN float LastDownTime;
 #endif
 
+
+#ifdef DCF77_DECODER
+EXTERN float CWLevel, SignalAverage, OldSignalAverage, BaseNoiseLevel;
+EXTERN uint8_t CWIn;
+EXTERN char DecodedCWChar;
+EXTERN int NCharReceived;
+EXTERN int CurrentAverageDah;
+EXTERN float LastPulsesRatio;
+EXTERN float LastDownTime;
+#endif
+
 #ifdef USE_SCAMP
 EXTERN uint8_t TXString[255];
 EXTERN OutData_t TXMessage;
@@ -174,6 +185,8 @@ EXTERN uint32_t SystemSeconds, SystemMinutes;
 EXTERN uint8_t TransmittingWSPR;
 EXTERN uint8_t WSPRTone;
 EXTERN float LastTXFreq;
+
+EXTERN uint8_t DCF77Min, DCF77Hour;
 
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;
 //TODO EXTERN EXTI_InitTypeDef      EXTI_InitStructure;

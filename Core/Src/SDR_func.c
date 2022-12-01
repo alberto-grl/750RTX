@@ -381,8 +381,41 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 #endif
 
 
-#ifdef CW_DECODER
+#ifdef DCF77_DECODER
 
+	CWLevel = 0;
+	BaseNoiseLevel = 9999.f;
+	for (WFSample=22; WFSample<44; WFSample += 2)
+		//	for (WFSample=64; WFSample<84; WFSample += 2)
+		//		for (WFSample=2*FFTLEN -50; WFSample<(2*FFTLEN - 40); WFSample += 2)
+		//for (WFSample=46; WFSample<52; WFSample += 2)
+	{
+		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+		arm_sqrt_f32(tmp, &BinValue);
+		if (CWLevel < BinValue)
+			CWLevel = BinValue;
+		if (BaseNoiseLevel > BinValue)
+			BaseNoiseLevel = BinValue;
+	}
+	SignalAverage = SIGNAL_AVERAGE_T_CONST * CWLevel + (1 - SIGNAL_AVERAGE_T_CONST) * OldSignalAverage;
+	OldSignalAverage = SignalAverage;
+	//We shorten the pulse by filtering out the first sample at attack.
+	// This gives a 50% duty cycle for a square wave.
+	// Without filter a square wave would have an higher on time than off time.
+
+	//		if (CWLevel > (SignalAverage * CWThreshold))
+	if (CWLevel - BaseNoiseLevel  > (CWThreshold))
+		//			if (CWLevel / BaseNoiseLevel > (CWThreshold))
+		//			if (!SW01_IN)
+		CWIn += 1; //TODO limit CW increase
+	else
+		CWIn = 0;
+
+ DoDCF77(CWIn);
+#endif
+
+#ifdef CW_DECODER
+	volatile static int16_t DecodedTestBuffer[256], Test_i;
 	CWLevel = 0;
 	BaseNoiseLevel = 9999.f;
 	for (WFSample=22; WFSample<44; WFSample += 2)
@@ -411,6 +444,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 		CWIn += 1; //TODO limit CW increase
 	else
 		CWIn = 0;
+
 
 	DecodeCW();
 
@@ -720,6 +754,7 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 		//        which being separated in even and odd samples in advance becomes
 		// (1 + 6z^-1 + z^-2) for odd samples and (4 + 4z^-1) for even samples, which, when summed, give :
 		// odd + 6odd_old + odd_old2 + 4even + 4even_old =	odd + 6odd_old + odd_old2 + 4(even + even_old)
+
 
 		inER=*ptDataR++; inOR=*ptDataR++;          inEI=*ptDataI++; inOI=*ptDataI++;
 		outR=(inOR+6.f*inO1Rold+inO1Rold2+4.f*(inER+inE1Rold)); outI=(inOI+6.f*inO1Iold+inO1Iold2+4.f*(inEI+inE1Iold));

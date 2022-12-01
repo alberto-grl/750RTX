@@ -271,6 +271,8 @@ extern void SetWSPRPLLCoeff(double, uint16_t *, uint16_t *);
 #define COLOR_BANDSCOPE
 
 //#define CW_DECODER
+#define DCF77_DECODER
+
 //TODO make KEYER disappear. Leave it always defined for now
 #define KEYER
 #define USE_KEYER

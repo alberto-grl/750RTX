@@ -214,7 +214,7 @@ int main(void)
 	/* Configure the peripherals common clocks */
 	//PeriphCommonClock_Config();
 	//	 SystemClock_Config();
-	HAL_Delay(20);  //needed for USB setup. USB somentimes (and almost always on an Android phone) does not initialize
+	HAL_Delay(20);  //needed for USB setup. USB sometimes (and almost always on an Android phone) does not initialize
 	/* USER CODE END SysInit */
 
 	/* Initialize all configured peripherals */
@@ -375,7 +375,7 @@ int main(void)
 	TXSwitch(0);
 	SetFOut(7000000);
 
-	CWThreshold = 0.1;
+	CWThreshold = 0.01;
 
 	// SamplingRate = SamplingRate * 4000000.f / 3999300.f; // Correct Xtal error
 
@@ -2046,6 +2046,11 @@ void SetFracPLL(uint32_t Coeff)
 		i++;
 		i--;
 	}
+//	i = READ_REG(RCC->PLLCFGR);
+/*	__DMB(); //Memory barrier protection does not solve the delay issue
+	__ISB();
+	__DSB();
+*/
 	__HAL_RCC_PLL2FRACN_CONFIG(Coeff); // 0-8191, can be issued at any time  TODO: It seems necessary to have a delay between disable and set new value
 	__HAL_RCC_PLL2FRACN_ENABLE();
 }
