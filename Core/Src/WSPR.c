@@ -58,7 +58,7 @@ void SendWSPR(void)
 
 //	(void) get_wspr_channel_symbols("<I4NZX> JN62KS 30", syms);
 
-	(void) get_wspr_channel_symbols("I4NZX JN62 30", syms);
+	(void) get_wspr_channel_symbols("I4NZX JN54 30", syms);
 
 /*		for (i=0;i<162;i++)
 		{

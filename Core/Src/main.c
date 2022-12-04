@@ -299,6 +299,7 @@ int main(void)
 		else
 			TestSignalData[k] = 2048 - 100;
 	}
+
 #endif
 
 
@@ -1741,7 +1742,7 @@ void UserInput(void)
 
 
 	SValue = 4 + 10 / 3.01 * log10(PeakAudioValue * 2000.0);
-	sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     T %d    %d  \r", SValue, SystemMinutes, SystemSeconds);
+	sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     T %d:%2d:%2d  \r", SValue, DCF77Hour, SystemMinutes, SystemSeconds);
 	PrintUI(UartTXString);
 
 #ifdef CW_DECODER

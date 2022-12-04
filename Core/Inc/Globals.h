@@ -125,8 +125,10 @@ EXTERN float LastDownTime;
 
 
 #ifdef DCF77_DECODER
-EXTERN float CWLevel, SignalAverage, OldSignalAverage, BaseNoiseLevel;
+EXTERN float CWLevel, SignalAverage, OldSignalAverage, BaseNoiseLevel, CWLevelAverage, OldCWLevelAverage, BaseNoiseLevelAverage;
+EXTERN float CWLevelFiltered, BaseNoiseLevelFiltered, OldCWLevelAverage, OldBaseNoiseAverage, MediumLevelFiltered, OldMediumLevelAverage;
 EXTERN uint8_t CWIn;
+EXTERN uint16_t DCF77In, LastDCF77In;
 EXTERN char DecodedCWChar;
 EXTERN int NCharReceived;
 EXTERN int CurrentAverageDah;

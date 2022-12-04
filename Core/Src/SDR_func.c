@@ -381,39 +381,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 #endif
 
 
-#ifdef DCF77_DECODER
-
-	CWLevel = 0;
-	BaseNoiseLevel = 9999.f;
-	for (WFSample=22; WFSample<44; WFSample += 2)
-		//	for (WFSample=64; WFSample<84; WFSample += 2)
-		//		for (WFSample=2*FFTLEN -50; WFSample<(2*FFTLEN - 40); WFSample += 2)
-		//for (WFSample=46; WFSample<52; WFSample += 2)
-	{
-		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
-		arm_sqrt_f32(tmp, &BinValue);
-		if (CWLevel < BinValue)
-			CWLevel = BinValue;
-		if (BaseNoiseLevel > BinValue)
-			BaseNoiseLevel = BinValue;
-	}
-	SignalAverage = SIGNAL_AVERAGE_T_CONST * CWLevel + (1 - SIGNAL_AVERAGE_T_CONST) * OldSignalAverage;
-	OldSignalAverage = SignalAverage;
-	//We shorten the pulse by filtering out the first sample at attack.
-	// This gives a 50% duty cycle for a square wave.
-	// Without filter a square wave would have an higher on time than off time.
-
-	//		if (CWLevel > (SignalAverage * CWThreshold))
-	if (CWLevel - BaseNoiseLevel  > (CWThreshold))
-		//			if (CWLevel / BaseNoiseLevel > (CWThreshold))
-		//			if (!SW01_IN)
-		CWIn += 1; //TODO limit CW increase
-	else
-		CWIn = 0;
-
- DoDCF77(CWIn);
-#endif
-
 #ifdef CW_DECODER
 	volatile static int16_t DecodedTestBuffer[256], Test_i;
 	CWLevel = 0;
@@ -548,6 +515,30 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	}
 
 
+#ifdef DCF77_DECODER
+
+	CWLevel = 0;
+	BaseNoiseLevel = 9999.f;
+//	uint16_t i;
+
+	for (i = 0; i < BSIZE; i++)
+	{
+		CWLevel = fabs(fAudio[i]);
+		CWLevelFiltered = CW_LEVEL_AVERAGE_T_CONST * CWLevel + (1 - CW_LEVEL_AVERAGE_T_CONST) * OldCWLevelAverage;
+		OldCWLevelAverage = CWLevelFiltered;
+
+		MediumLevelFiltered = MEDIUM_LEVEL_AVERAGE_T_CONST * CWLevel + (1 - MEDIUM_LEVEL_AVERAGE_T_CONST) * OldMediumLevelAverage;
+			OldMediumLevelAverage = MediumLevelFiltered;
+		//		if (CWLevel > (SignalAverage * CWThreshold))
+		if ( MediumLevelFiltered - CWLevelFiltered  > CWThreshold)
+			DCF77In = 0;
+		else
+			DCF77In += 1; //TODO limit CW increase
+		DumpTrace();
+		DoDCF77(DCF77In);
+	}
+#endif
+
 
 #ifdef AG_TEST_AUDIO
 	//TODO correct comment
@@ -564,7 +555,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 #endif
 
-	/*
+#ifdef CW_TX_SIDETONE
 	// CW tone while keying
 	//TODO: make it sine and with attack/decay
 	if (TXCarrierEnabled)
@@ -584,7 +575,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 					}
 
 	}
-	 */
+#endif
 
 	// send the demodulated audio to the DMA buffer just emptied
 

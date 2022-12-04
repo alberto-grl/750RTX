@@ -18,9 +18,9 @@
 #pragma GCC push_options
 #pragma GCC optimize ("O0")
 
-volatile static int16_t DecodedTestBuffer[256], Test_i;
+volatile static int16_t DecodedTestBuffer[16384], Test_i;
 static uint8_t LastCWIn, RisingEdge, FallingEdge, DCF77Message[60];
-volatile static uint16_t DCF77HighSampleCounter, DCF77LowSampleCounter, DCF77BitCounter;
+volatile static uint32_t DCF77HighSampleCounter, DCF77LowSampleCounter, DCF77BitCounter;
 static uint8_t MinParity, HourParity;
 
 void DecodeDCF77(void)
@@ -48,28 +48,30 @@ void DecodeDCF77(void)
 			DCF77Hour += (DCF77Message[29+i] << i);
 		for (i = 0 ; i < 2; i++)
 				DCF77Hour += 10 * (DCF77Message[33+i] << i);
+		SystemMinutes = DCF77Min;
+		SystemSeconds = 0;
 }
 
-void DoDCF77(uint8_t CWIn)
+void DoDCF77(uint16_t DCF77In)
 {
 
-	DecodedTestBuffer[Test_i++] = CWIn;
-	if (Test_i == 256)
+	DecodedTestBuffer[Test_i++] = DCF77In;
+	if (Test_i == 16384)
 		Test_i = 0;
 
-	if (CWIn && !LastCWIn)
+	if (DCF77In && !LastDCF77In)
 		RisingEdge = 1;
 	else
 		RisingEdge = 0;
 
-	if (!CWIn && LastCWIn)
+	if (!DCF77In && LastDCF77In)
 		FallingEdge = 1;
 	else
 		FallingEdge = 0;
 
 	if (FallingEdge)
 	{
-		if (DCF77HighSampleCounter > 90 && DCF77HighSampleCounter < 120)
+		if (DCF77HighSampleCounter > 40000 && DCF77HighSampleCounter < 90000)
 		{
 			if (DCF77BitCounter == 59)
 				DecodeDCF77();
@@ -80,22 +82,22 @@ void DoDCF77(uint8_t CWIn)
 
 	if (RisingEdge)
 	{
-		if (DCF77LowSampleCounter > 2 && DCF77LowSampleCounter < 8)
+		if (DCF77LowSampleCounter > 3000 && DCF77LowSampleCounter < 6000)
 			DCF77Message[DCF77BitCounter++] = 0;
 		else
-			if (DCF77LowSampleCounter > 8 && DCF77LowSampleCounter < 15)
+			if (DCF77LowSampleCounter > 6000 && DCF77LowSampleCounter < 12000)
 				DCF77Message[DCF77BitCounter++] = 1;
 		DCF77HighSampleCounter = 0;
 	}
-	if (CWIn && DCF77HighSampleCounter < 100)
+	if (DCF77In && DCF77HighSampleCounter < 100000)
 		DCF77HighSampleCounter++;
 
-	if (!CWIn && DCF77LowSampleCounter < 100)
+	if (!DCF77In && DCF77LowSampleCounter < 100000)
 		DCF77LowSampleCounter++;
 
 	if (DCF77BitCounter > 59)
 		DCF77BitCounter = 59;
-	LastCWIn = CWIn;
+	LastDCF77In = DCF77In;
 }
 #pragma GCC pop_options
 #endif

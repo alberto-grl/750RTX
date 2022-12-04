@@ -270,6 +270,8 @@ extern void SetWSPRPLLCoeff(double, uint16_t *, uint16_t *);
 //#define ASCII_BANDSCOPE
 #define COLOR_BANDSCOPE
 
+//#define CW_TX_SIDETONE
+
 //#define CW_DECODER
 #define DCF77_DECODER
 
@@ -278,6 +280,10 @@ extern void SetWSPRPLLCoeff(double, uint16_t *, uint16_t *);
 #define USE_KEYER
 //#define USE_SCAMP
 #define SIGNAL_AVERAGE_T_CONST 0.2
+
+#define CW_LEVEL_AVERAGE_T_CONST 0.001
+#define MEDIUM_LEVEL_AVERAGE_T_CONST 0.00001
+#define BASE_NOISE_AVERAGE_T_CONST 0.001
 
 
 //approx bias vs. VRMS 50 Ohm out vs power
