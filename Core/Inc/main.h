@@ -184,6 +184,12 @@ extern void SetFracPLL(uint32_t);
 extern void SendWSPR(void);
 extern void SetWSPRPLLCoeff(double, uint16_t *, uint16_t *);
 
+extern
+void SendCWMessage(uint8_t);
+
+extern int get_wspr_channel_symbols(char *, uint8_t *);
+extern void DoDCF77(uint16_t);
+
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
@@ -264,16 +270,20 @@ extern void SetWSPRPLLCoeff(double, uint16_t *, uint16_t *);
 //#define FAKE_NO_RF_SIGNAL
 
 //#define DEBUG_TX_CW
-#define TEST_WF
+//#define TEST_WF
 
 // Select only one of the following
 //#define ASCII_BANDSCOPE
-#define COLOR_BANDSCOPE
+//#define COLOR_BANDSCOPE
 
 //#define CW_TX_SIDETONE
 
 //#define CW_DECODER
 #define DCF77_DECODER
+
+//At power on listens to DCF77, waits for two fixes with reasonable content, starts WSPR beacon
+#define WSPR_BEACON_MODE
+#define WSPR_FREQ 7040135.f
 
 //TODO make KEYER disappear. Leave it always defined for now
 #define KEYER

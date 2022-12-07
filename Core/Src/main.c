@@ -440,38 +440,10 @@ int main(void)
 	HAL_DAC_Start(&hdac1, DAC_CHANNEL_2);
 	HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, 0); // TX gate bias
 
-	///////
 
-	/*		 __HAL_RCC_PLL2_DISABLE();
-		__HAL_RCC_PLL2_CONFIG(4, 144, 24, 2, 2);
-		 __HAL_RCC_PLL2_ENABLE();
-		 __HAL_RCC_PLL2FRACN_CONFIG(1013); // 0-8191, can be issued at any time
-	 */
-	/* USER CODE END 2 */
-
-	/* Infinite loop */
-	/* USER CODE BEGIN WHILE */
-	//	 SetFOut(20700000);
-
-	/* Enable PLL2FRACN . */
-	//	__HAL_RCC_PLL2FRACN_ENABLE();
-
-
-	/*
-
-while (1)
-{
- __HAL_RCC_PLL2FRACN_DISABLE();
-	 __HAL_RCC_PLL2FRACN_CONFIG(8191); // 0-8191, can be issued at any time
-	 __HAL_RCC_PLL2FRACN_ENABLE();
-	  HAL_Delay(20);
-	 __HAL_RCC_PLL2FRACN_DISABLE();
-	 __HAL_RCC_PLL2FRACN_CONFIG(0); // 0-8191, can be issued at any time
-	 __HAL_RCC_PLL2FRACN_ENABLE();
-	  HAL_Delay(20);
-}
-
-	 */
+#ifdef  WSPR_BEACON_MODE
+	WSPRBeaconState = NO_FIX;
+#endif
 
 	// Funziona? serve?		SET_BIT(hadc1.Instance->CFGR, ADC_CFGR_AWD1EN);
 
@@ -1565,8 +1537,13 @@ void UserInput(void)
 {
 	volatile HAL_StatusTypeDef result;
 
-
-
+	if (WSPRBeaconState == SEND_WSPR)
+	{
+		SendWSPR(); //endless loop, can exit and continue only keying.
+		TXSwitch(0);
+		CarrierEnable(0);
+		WSPRBeaconState = NO_FIX;
+	}
 #ifdef UART_UI
 	__HAL_UART_SEND_REQ (&huart3, UART_RXDATA_FLUSH_REQUEST);
 	__HAL_UART_CLEAR_OREFLAG (&huart3);
@@ -1742,7 +1719,7 @@ void UserInput(void)
 
 
 	SValue = 4 + 10 / 3.01 * log10(PeakAudioValue * 2000.0);
-	sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     T %d:%2d:%2d  \r", SValue, DCF77Hour, SystemMinutes, SystemSeconds);
+	sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     T %d:%2d:%2d  \r", SValue, DCF77Hour, (int)SystemMinutes, (int)SystemSeconds);
 	PrintUI(UartTXString);
 
 #ifdef CW_DECODER

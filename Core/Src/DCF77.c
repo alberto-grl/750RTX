@@ -6,6 +6,7 @@
  */
 
 #include "stdio.h"
+#include "stdlib.h"
 #include "main.h"
 #include "Globals.h"
 
@@ -15,13 +16,12 @@
 
 
 
-#pragma GCC push_options
-#pragma GCC optimize ("O0")
+//#pragma GCC push_options
+//#pragma GCC optimize ("O0")
 
 volatile static int16_t DecodedTestBuffer[16384], Test_i;
 static uint8_t LastCWIn, RisingEdge, FallingEdge, DCF77Message[60];
-volatile static uint32_t DCF77HighSampleCounter, DCF77LowSampleCounter, DCF77BitCounter;
-static uint8_t MinParity, HourParity;
+static uint32_t DCF77HighSampleCounter, DCF77LowSampleCounter, DCF77BitCounter;
 
 void DecodeDCF77(void)
 {
@@ -32,8 +32,8 @@ void DecodeDCF77(void)
 		if (DCF77Message[i])
 			MinParity ^= 1;
 	for (i = 29 ; i < 35; i++)
-			if (DCF77Message[i])
-				HourParity ^= 1;
+		if (DCF77Message[i])
+			HourParity ^= 1;
 
 	if (MinParity != DCF77Message[28] && HourParity != DCF77Message[35])
 		return;
@@ -41,23 +41,46 @@ void DecodeDCF77(void)
 	for (i = 0 ; i < 4; i++)
 		DCF77Min += DCF77Message[21+i] << i;
 	for (i = 0 ; i < 3; i++)
-			DCF77Min += 10 * (DCF77Message[25+i] << i);
+		DCF77Min += 10 * (DCF77Message[25+i] << i);
 
 	DCF77Hour = 0;
-		for (i = 0 ; i < 4; i++)
-			DCF77Hour += (DCF77Message[29+i] << i);
-		for (i = 0 ; i < 2; i++)
-				DCF77Hour += 10 * (DCF77Message[33+i] << i);
+	for (i = 0 ; i < 4; i++)
+		DCF77Hour += (DCF77Message[29+i] << i);
+	for (i = 0 ; i < 2; i++)
+		DCF77Hour += 10 * (DCF77Message[33+i] << i);
+
+	switch (WSPRBeaconState)
+	{
+	case NO_FIX:
 		SystemMinutes = DCF77Min;
 		SystemSeconds = 0;
+		WSPRBeaconState = FIRST_FIX;
+		break;
+	case FIRST_FIX:
+		if (SystemMinutes == DCF77Min)
+		{
+			SystemSeconds = 0;
+			srand((unsigned) HAL_GetTick());
+			TransmittingWSPR = 1;
+			WSPRBeaconState = SEND_WSPR;
+		}
+		else
+		{
+			SystemMinutes = DCF77Min;
+			SystemSeconds = 0;
+			WSPRBeaconState = FIRST_FIX;
+		}
+		break;
+	}
 }
 
 void DoDCF77(uint16_t DCF77In)
 {
+//This routine is called eg (128 MHz ADC); 128000000 / 16 / 64 / 4 = 32000 Hz
+//100 mSec (DCF77 0) is 3200 samples
+//200 mSec (DCF77 1) is 6400 samples
+//2 Sec (DCF77 Sync) is 64000 samples
 
-	DecodedTestBuffer[Test_i++] = DCF77In;
-	if (Test_i == 16384)
-		Test_i = 0;
 
 	if (DCF77In && !LastDCF77In)
 		RisingEdge = 1;
@@ -99,5 +122,5 @@ void DoDCF77(uint16_t DCF77In)
 		DCF77BitCounter = 59;
 	LastDCF77In = DCF77In;
 }
-#pragma GCC pop_options
+//#pragma GCC pop_options
 #endif

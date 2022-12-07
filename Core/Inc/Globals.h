@@ -185,10 +185,12 @@ EXTERN uint16_t FracPWMCoeff[4];
 EXTERN uint32_t SystemSeconds, SystemMinutes;
 
 EXTERN uint8_t TransmittingWSPR;
-EXTERN uint8_t WSPRTone;
+EXTERN uint8_t WSPRTone, WSPRTXFraction;
 EXTERN float LastTXFreq;
 
 EXTERN uint8_t DCF77Min, DCF77Hour;
+
+EXTERN enum WSPR_BEACON_STATE {NO_FIX, FIRST_FIX, SEND_WSPR} WSPRBeaconState;
 
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;
 //TODO EXTERN EXTI_InitTypeDef      EXTI_InitStructure;

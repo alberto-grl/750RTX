@@ -27,6 +27,7 @@
 #include "fftmask.h"
 #include "Presets.h"
 #include "Globals.h"
+#include "dataAcq.h"
 
 extern uint32_t   aADCDualConvertedValues[BSIZE];
 extern uint16_t FracDivPWM;
@@ -34,7 +35,7 @@ extern uint16_t LowestWSPRToneFracDivPWM;
 
 
 #ifdef TEST_FRAC_DIV
-static int16_t IntCounter, FracDutyCycle, SweepCounter;
+static int16_t IntCounter, FracDutyCycle;
 #endif
 
 //#include "Presets.h"
@@ -352,8 +353,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 
 	//FFT returns BUFLEN/2 bins, 1024. Each bin size is FADC/ decimation /FFT size
+	//ADC requires 16 clock cycles per sample, as it is set now
 	// eg (160 MHz ADC) 10000000 / 64 / 4 / 1024 = 38.14697 Hz
 	// eg (150 MHz ADC) 9375000 / 64 / 4 / 1024 = 36.62109375 Hz
+	// eg (128 MHz ADC) 9375000 / 64 / 4 / 1024 = 31.250 Hz
 	// when NCO F is higher than signal then the highest elements are filled
 	//eg NCO 625381, signal 625000, FFTbuf elements filled are 2028 and 2029
 	//FFTBuf 1023 and 1025 are the farest from NCO freq.
@@ -450,7 +453,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	DecodeCW();
 
 #endif
-
+*/
 /*
 #ifdef CW_DECODER
 
@@ -596,6 +599,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 // by DMA2 Stream when a new ADC buffer is just filled
 // Frequency is FADC / bitsPerSampleADC / BSIZE/2
 // 150000000 /16 /512 = 18310,54688
+// 128000000 / 16 / 512 = 15625
 
 //#pragma GCC push_options
 //#pragma GCC optimize ("O0")
@@ -625,7 +629,7 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 
 
 	//LED_YELLOW_ON;
-	static int16_t PLLDitherCounter;
+
 	/*
 		if (PLLDitherCounter==3)
 		{

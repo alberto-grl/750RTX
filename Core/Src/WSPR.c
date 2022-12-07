@@ -54,13 +54,13 @@ void SendWSPR(void)
 	static uint32_t WSPRStartTick;
 	static uint8_t syms[162];
 
-	volatile uint32_t toglimi, i;
 
-//	(void) get_wspr_channel_symbols("<I4NZX> JN62KS 30", syms);
+
+	//	(void) get_wspr_channel_symbols("<I4NZX> JN54DT 30", syms);
 
 	(void) get_wspr_channel_symbols("I4NZX JN54 30", syms);
 
-/*		for (i=0;i<162;i++)
+	/*		for (i=0;i<162;i++)
 		{
 			if ((i % 3) == 1)
 			{
@@ -69,23 +69,19 @@ void SendWSPR(void)
 			else
 				syms[i] =1;
 		}
-*/
+	 */
+
+
+	LOfreq = (double)WSPR_FREQ;
+	LastTXFreq = LOfreq;
+	SetWSPRPLLCoeff((double)WSPR_FREQ, FracDivCoeff, FracPWMCoeff);
+	WSPRTXFraction = 20; //percentage
+
 
 	/* send frame */
-	while (true) {
+	while (true)
+	{
 		txIndex = 0;
-
-		/*
-		 * XXX: do limited duty-cycle here
-		 */
-		/*     do {
-	            taskYIELD();
-	            time(&now);
-	            gmtime_r(&now, &timeinfo);
-	        } while ((timeinfo.tm_sec != 0) || ((timeinfo.tm_min % 2) != 0));
-	        printf("start: %d:%d\n", timeinfo.tm_min, timeinfo.tm_sec);
-		 */
-
 		while ((SystemSeconds != 0) || ((SystemMinutes % 2) != 0))
 		{
 			if(KEYER_DASH || KEYER_DOT)
@@ -93,16 +89,30 @@ void SendWSPR(void)
 				return;  // stop when button/key pressed;  //TODO a delay is needed in this loop.
 			}
 		}
-		TXSwitch(1);
-		CarrierEnable(1);
-		/* delat 1 second into the frame */
-		while (SystemSeconds != 1)
+		if ((rand() % 101) > WSPRTXFraction)
 		{
-			if(KEYER_DASH || KEYER_DOT)
+			while (SystemSeconds != 1)
 			{
-				return;  // stop when button/key pressed;  //TODO a delay is needed in this loop.
+				//wait until we are out of second 0, or TX would begin even when TX lottery was lost
+				if(KEYER_DASH || KEYER_DOT)
+				{
+					return;  // stop when button/key pressed;  //TODO a delay is needed in this loop.
+				}
 			}
 		}
+		else
+		{
+
+			TXSwitch(1);
+			CarrierEnable(1);
+			/* delay 1 second into the frame */
+			while (SystemSeconds != 1)
+			{
+				if(KEYER_DASH || KEYER_DOT)
+				{
+					return;  // stop when button/key pressed;  //TODO a delay is needed in this loop.
+				}
+			}
 			/* start first baud */
 			WSPRTone = syms[txIndex++];
 
@@ -112,18 +122,16 @@ void SendWSPR(void)
 			while (txIndex < 162) {
 				/* wait for a baud clock
 				 * period is 8192 / 12000, rounded to 683
-				 * TODO avoid rouding error
 				 */
 				while ((HAL_GetTick() - WSPRStartTick) < ((uint32_t)txIndex * 8192L / 12L) )
 				{
-					toglimi = HAL_GetTick() - WSPRStartTick;
 				}
 				WSPRTone = syms[txIndex++];
 			}
 
 			TXSwitch(0);
 			CarrierEnable(0);
-
+		}
 
 		/*
 		 * we never get here

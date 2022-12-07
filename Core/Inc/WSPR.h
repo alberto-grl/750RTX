@@ -35,7 +35,6 @@
 #ifndef WSPR_H_
 #define WSPR_H_
 
-int get_wspr_channel_symbols(char *, uint8_t *);
 
 #endif /* WSPR_H_ */
 
