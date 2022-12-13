@@ -181,6 +181,15 @@ extern void TXSwitch(uint8_t);
 extern void SetTXPLL(float);
 extern void SetFracPLL(uint32_t);
 
+extern void SendWSPR(void);
+extern void SetWSPRPLLCoeff(double, uint16_t *, uint16_t *);
+
+extern
+void SendCWMessage(uint8_t);
+
+extern int get_wspr_channel_symbols(char *, uint8_t *);
+extern void DoDCF77(uint16_t);
+
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
@@ -249,7 +258,7 @@ extern void SetFracPLL(uint32_t);
 //#define CLK_640M_CPU_160M_ADC_XTAL25 /*CPU Hangs - DO NOT USE. new board */
 
 //#define TEST_NO_SDR
-//#define TEST_FRAC_DIV
+#define TEST_FRAC_DIV
 
 //#define UART_UI
 #define USB_UI
@@ -262,18 +271,34 @@ extern void SetFracPLL(uint32_t);
 //#define FAKE_NO_RF_SIGNAL
 
 //#define DEBUG_TX_CW
-#define TEST_WF
+//#define TEST_WF
 
 // Select only one of the following
 //#define ASCII_BANDSCOPE
-#define COLOR_BANDSCOPE
+//#define COLOR_BANDSCOPE
+
+//#define CW_TX_SIDETONE
 
 //#define CW_DECODER
+//#define DCF77_DECODER
+
+//At power on listens to DCF77, waits for two fixes with reasonable content, starts WSPR beacon
+//#define WSPR_BEACON_MODE
+#define WSPR_FREQ 7040135.f
+
+#ifdef WSPR_BEACON_MODE
+#define DCF77_DECODER
+#endif
+
 //TODO make KEYER disappear. Leave it always defined for now
 #define KEYER
 #define USE_KEYER
 //#define USE_SCAMP
 #define SIGNAL_AVERAGE_T_CONST 0.2
+
+#define CW_LEVEL_AVERAGE_T_CONST 0.001
+#define MEDIUM_LEVEL_AVERAGE_T_CONST 0.00001
+#define BASE_NOISE_AVERAGE_T_CONST 0.001
 
 
 //approx bias vs. VRMS 50 Ohm out vs power

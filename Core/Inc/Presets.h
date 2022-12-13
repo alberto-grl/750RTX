@@ -37,20 +37,27 @@ static float pFreqs[MAXPRESETS] =
 */
 
 /* RAI Siziano, PLA Pula, GAZ Gazoldo, COD Codogno, VIC Vicenza, LNE Linate */
+/*
 static float pFreqs[MAXPRESETS] =
  {0.f, 7010000.f, 352500.f, 383000.f, 387000.f, 401500.f, 418000.f, 558000.f, 474000.f, 472400.f,
   594000.f, 472000.f, 610000.f, 617000.f};
   static Mode pModes[MAXPRESETS] =
  {AM, LSB, CW, CW, CW, CW, AM, CW, CW, CW, CW, CW, AM, AM};
+*/
 
-
-/*
-  {0.f, 17200.f, 18300.f, 60000.f, 77500.f, 147300.f, 153000.f, 162000.f, 183000.f, 198000.f,
-  216000.f, 225000.f, 476180.f, 900000.f};
- 
-static Mode pModes[MAXPRESETS] =
- {AM, AM,AM, AM, AM, AM, AM, CW, CW, CW, AM, CW, AM, AM};
- */
+#ifdef DCF77_DECODER
+  static float pFreqs[MAXPRESETS] =
+   {0.f, 77500.f, 352500.f, 383000.f, 387000.f, 401500.f, 418000.f, 558000.f, 474000.f, 472400.f,
+    594000.f, 472000.f, 610000.f, 617000.f};
+    static Mode pModes[MAXPRESETS] =
+   {AM, CW, CW, CW, CW, CW, AM, CW, CW, CW, CW, CW, AM, AM};
+#else
+    static float pFreqs[MAXPRESETS] =
+     {0.f, 7038600.f, 352500.f, 383000.f, 387000.f, 401500.f, 418000.f, 558000.f, 474000.f, 472400.f,
+      594000.f, 472000.f, 610000.f, 617000.f};
+      static Mode pModes[MAXPRESETS] =
+     {AM, USB, CW, CW, CW, CW, AM, CW, CW, CW, CW, CW, AM, AM};
+#endif
 
 static Bwidth pBws[MAXPRESETS] =
  {Narrow, Narrow, Narrow, Narrow, Narrow, Narrow, Narrow, Narrow, Narrow, Narrow, Narrow, Narrow,
