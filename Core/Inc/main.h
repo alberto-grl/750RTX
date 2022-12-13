@@ -279,11 +279,15 @@ extern void DoDCF77(uint16_t);
 //#define CW_TX_SIDETONE
 
 //#define CW_DECODER
-#define DCF77_DECODER
+//#define DCF77_DECODER
 
 //At power on listens to DCF77, waits for two fixes with reasonable content, starts WSPR beacon
-#define WSPR_BEACON_MODE
+//#define WSPR_BEACON_MODE
 #define WSPR_FREQ 7040135.f
+
+#ifdef WSPR_BEACON_MODE
+#define DCF77_DECODER
+#endif
 
 //TODO make KEYER disappear. Leave it always defined for now
 #define KEYER

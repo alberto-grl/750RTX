@@ -1191,20 +1191,12 @@ void HAL_DAC_ConvCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	ValidAudioHalf = &AudioOut[BSIZE];
 	LED_RED_ON;
-
-	//	 __HAL_RCC_PLL2_DISABLE();
-	//	__HAL_RCC_PLL2_CONFIG(4, 240, 16, 2, 2);
-	//	 __HAL_RCC_PLL2_ENABLE();
-
 }
 
 void HAL_DAC_ConvHalfCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	ValidAudioHalf = &AudioOut[0];
 	LED_RED_OFF;
-	//	 __HAL_RCC_PLL2_DISABLE();
-	//	 __HAL_RCC_PLL2_CONFIG(4, 120, 16, 2, 2);
-	//	 __HAL_RCC_PLL2_ENABLE();
 }
 
 void SystemClock_Config_For_OC(void)
