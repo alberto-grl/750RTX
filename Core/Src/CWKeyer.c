@@ -235,7 +235,7 @@ uint8_t delayWithKeySense(uint32_t ms){
   return 0;
 }
 
-char cw_msg[6][48] = { "CQ CQ CQ CQ DE I4NZX I4NZX I4NZX K", "CQ CQ DE PE1NNN PE1NNN +", "GE TKS 5NN 5NN NAME IS GUIDO GUIDO HW?", "FB RPTR TX 5W 5W ANT INV V 73 CUAGN", "73 TU E E", "PE1NNN" };
+char cw_msg[6][48] = { "CQ CQ CQ CQ DE I4NZX I4NZX I4NZX K", "CQ TEST CQ OQRP DE I4NZX I4NZX K", "GE TKS 5NN 5NN NAME IS GUIDO GUIDO HW?", "FB RPTR TX 5W 5W ANT INV V 73 CUAGN", "73 TU E E", "PE1NNN" };
 
 
 uint8_t cw_msg_interval = 5; // number of seconds CW message is repeated

@@ -1585,6 +1585,8 @@ void UserInput(void)
 			SetFstep(9); break;
 		case 67: //C
 			SendCWMessage(0); break;
+		case 68: //D
+			SendCWMessage(1); break;
 		case 74: //J
 			TxPowerOut = LOW_POWER_OUT;
 			break;
@@ -1711,7 +1713,11 @@ void UserInput(void)
 
 
 	SValue = 4 + 10 / 3.01 * log10(PeakAudioValue * 2000.0);
+#ifdef WSPR_BEACON_MODE
 	sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     T %d:%2d:%2d  \r", SValue, DCF77Hour, (int)SystemMinutes, (int)SystemSeconds);
+#else
+	sprintf((char*)UartTXString, "\e[1;1HS %-4.1f       \r", SValue);
+#endif
 	PrintUI(UartTXString);
 
 #ifdef CW_DECODER

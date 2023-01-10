@@ -277,10 +277,14 @@ extern void DoDCF77(uint16_t);
 //#define ASCII_BANDSCOPE
 //#define COLOR_BANDSCOPE
 
-//#define CW_TX_SIDETONE
+#define CW_TX_SIDETONE
+#define SIDETONE_VOLUME (0.1f)
 
 //#define CW_DECODER
 //#define DCF77_DECODER
+
+//for debugging with STMStudio
+//#define SNAPSHOT_ACQUISITION_DBG
 
 //At power on listens to DCF77, waits for two fixes with reasonable content, starts WSPR beacon
 //#define WSPR_BEACON_MODE

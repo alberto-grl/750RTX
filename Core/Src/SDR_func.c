@@ -537,7 +537,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 			DCF77In = 0;
 		else
 			DCF77In += 1; //TODO limit CW increase
+#ifdef SNAPSHOT_ACQUISITION_DBG
 		DumpTrace();
+#endif
 		DoDCF77(DCF77In);
 	}
 #endif
@@ -565,9 +567,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 		for (i=0; i<BSIZE; i++)
 		{
 			if (i % 64 > 31)
-				fAudio[i] = volume; //Volume
+				fAudio[i] = volume * SIDETONE_VOLUME; //Volume
 			else
-				fAudio[i] = -volume;
+				fAudio[i] = -volume * SIDETONE_VOLUME;
 		}
 	else
 	{

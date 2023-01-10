@@ -46,18 +46,25 @@ static float pFreqs[MAXPRESETS] =
 */
 
 #ifdef DCF77_DECODER
-  static float pFreqs[MAXPRESETS] =
-   {0.f, 77500.f, 352500.f, 383000.f, 387000.f, 401500.f, 418000.f, 558000.f, 474000.f, 472400.f,
-    594000.f, 472000.f, 610000.f, 617000.f};
-    static Mode pModes[MAXPRESETS] =
-   {AM, CW, CW, CW, CW, CW, AM, CW, CW, CW, CW, CW, AM, AM};
+static float pFreqs[MAXPRESETS] =
+{0.f, 77500.f, 352500.f, 383000.f, 387000.f, 401500.f, 418000.f, 558000.f, 474000.f, 472400.f,
+		594000.f, 472000.f, 610000.f, 617000.f};
+static Mode pModes[MAXPRESETS] =
+{AM, CW, CW, CW, CW, CW, AM, CW, CW, CW, CW, CW, AM, AM};
+#elif WSPR_BEACON_MODE
+static float pFreqs[MAXPRESETS] =
+{0.f, 7038600.f, 352500.f, 383000.f, 387000.f, 401500.f, 418000.f, 558000.f, 474000.f, 472400.f,
+		594000.f, 472000.f, 610000.f, 617000.f};
+static Mode pModes[MAXPRESETS] =
+{AM, USB, CW, CW, CW, CW, AM, CW, CW, CW, CW, CW, AM, AM};
 #else
-    static float pFreqs[MAXPRESETS] =
-     {0.f, 7038600.f, 352500.f, 383000.f, 387000.f, 401500.f, 418000.f, 558000.f, 474000.f, 472400.f,
-      594000.f, 472000.f, 610000.f, 617000.f};
-      static Mode pModes[MAXPRESETS] =
-     {AM, USB, CW, CW, CW, CW, AM, CW, CW, CW, CW, CW, AM, AM};
+static float pFreqs[MAXPRESETS] =
+{0.f, 7030000.f, 352500.f, 383000.f, 387000.f, 401500.f, 418000.f, 558000.f, 474000.f, 472400.f,
+		594000.f, 472000.f, 610000.f, 617000.f};
+static Mode pModes[MAXPRESETS] =
+{AM, CW, CW, CW, CW, CW, AM, CW, CW, CW, CW, CW, AM, AM};
 #endif
+
 
 static Bwidth pBws[MAXPRESETS] =
  {Narrow, Narrow, Narrow, Narrow, Narrow, Narrow, Narrow, Narrow, Narrow, Narrow, Narrow, Narrow,
