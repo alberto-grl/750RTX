@@ -536,9 +536,15 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 			OldMediumLevelAverage = MediumLevelFiltered;
 			//		if (CWLevel > (SignalAverage * CWThreshold))
 			if ( MediumLevelFiltered - CWLevelFiltered  > CWThreshold)
+			{
 				DCF77In = 0;
+				LED_RED_OFF;
+			}
 			else
+			{
 				DCF77In += 1; //TODO limit CW increase
+				LED_RED_ON;
+			}
 #ifdef SNAPSHOT_ACQUISITION_DBG
 			DumpTrace();
 #endif

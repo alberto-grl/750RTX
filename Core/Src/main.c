@@ -449,36 +449,33 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+#ifdef WSPR_BEACON_MODE
+//Pressing the encoder knob during startup enters DCF77 sync and WSPR beacon mode
   if (ENC_BUTTON)
   {
 	  SetMode((Mode)CW);
 	  LOfreq = DCF77_FREQ;
 	  WSPRBeaconMode = 1;
   }
+#endif
+
 	  while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		/* Turn-on/off LED1 in function of ADC conversion result */
-		/*  - Turn-off if ADC conversions buffer is not complete */
-		/*  - Turn-on if ADC conversions buffer is complete */
+
 
 		/* ADC conversion buffer complete variable is updated into ADC conversions*/
 		/* complete callback.*/
 
 		UserInput();
+#ifdef WSPR_BEACON_MODE
+		DCF77StatusDisplay();
+#endif
 		//	HAL_Delay(100);
 		HAL_Delay(200);
-		if (ubADCDualConversionComplete == RESET)
-		{
-			//	    	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_SET);
-		}
-		else
-		{
-			//	    	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, GPIO_PIN_RESET);
-		}
-
 
 	}
   /* USER CODE END 3 */
@@ -1194,13 +1191,13 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 void HAL_DAC_ConvCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	ValidAudioHalf = &AudioOut[BSIZE];
-	LED_RED_ON;
+//	LED_RED_ON;
 }
 
 void HAL_DAC_ConvHalfCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	ValidAudioHalf = &AudioOut[0];
-	LED_RED_OFF;
+//	LED_RED_OFF;
 }
 
 void SystemClock_Config_For_OC(void)
@@ -1535,7 +1532,7 @@ void UserInput(void)
 
 	if (WSPRBeaconState == SEND_WSPR)
 	{
-		SendWSPR(); //endless loop, can exit and continue only keying.
+		SendWSPR(); //endless loop, only way to exit is by CW keying.
 		TXSwitch(0);
 		CarrierEnable(0);
 		WSPRBeaconState = NO_FIX;

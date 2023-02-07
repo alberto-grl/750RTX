@@ -53,6 +53,7 @@ void SendWSPR(void)
 
 	static uint32_t WSPRStartTick;
 	static uint8_t syms[162];
+	static uint8_t WSPRFirstTime = 1;
 
 
 
@@ -84,13 +85,19 @@ void SendWSPR(void)
 		txIndex = 0;
 		while ((SystemSeconds != 0) || ((SystemMinutes % 2) != 0))
 		{
+			if (SystemSeconds % 2 == 0)
+				LED_GREEN_ON;
+			else
+				LED_GREEN_OFF;
+
 			if(KEYER_DASH || KEYER_DOT)
 			{
 				return;  // stop when button/key pressed;  //TODO a delay is needed in this loop.
 			}
 		}
-		if ((rand() % 101) > WSPRTXFraction)
+		if (((rand() % 101) > WSPRTXFraction) && (!WSPRFirstTime))
 		{
+
 			while (SystemSeconds != 1)
 			{
 				//wait until we are out of second 0, or TX would begin even when TX lottery was lost
@@ -102,7 +109,7 @@ void SendWSPR(void)
 		}
 		else
 		{
-
+			WSPRFirstTime = 0;
 			TXSwitch(1);
 			CarrierEnable(1);
 			/* delay 1 second into the frame */
@@ -116,6 +123,8 @@ void SendWSPR(void)
 			/* start first baud */
 			WSPRTone = syms[txIndex++];
 
+
+
 			/*  start baud timer */
 			WSPRStartTick = HAL_GetTick();
 			/* bang out the rest of the frame under timer control */
@@ -125,6 +134,10 @@ void SendWSPR(void)
 				 */
 				while ((HAL_GetTick() - WSPRStartTick) < ((uint32_t)txIndex * 8192L / 12L) )
 				{
+					if (txIndex % 2 == 0)
+						LED_GREEN_ON;
+					else
+						LED_GREEN_OFF;
 				}
 				WSPRTone = syms[txIndex++];
 			}

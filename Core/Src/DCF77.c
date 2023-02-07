@@ -122,5 +122,29 @@ void DoDCF77(uint16_t DCF77In)
 		DCF77BitCounter = 59;
 	LastDCF77In = DCF77In;
 }
+
+void DCF77StatusDisplay(void)
+{
+	static uint16_t DCF77DisplayCounter, DCF77DisplayPrescaler;
+
+	if (DCF77DisplayPrescaler++ == 1)
+	{
+		DCF77DisplayPrescaler = 0;
+		DCF77DisplayCounter++;
+	}
+	if (DCF77DisplayCounter % 2 == 0)
+		LED_GREEN_OFF;
+	else
+	{
+		if (DCF77DisplayCounter <= (WSPRBeaconState + 1) * 2 )
+			LED_GREEN_ON;
+		else
+			LED_GREEN_OFF;
+		if (DCF77DisplayCounter > (WSPRBeaconState + 3) * 2 )
+			DCF77DisplayCounter = 0;
+	}
+
+}
+
 //#pragma GCC pop_options
 #endif
