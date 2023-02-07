@@ -192,6 +192,8 @@ EXTERN uint8_t DCF77Min, DCF77Hour;
 
 EXTERN enum WSPR_BEACON_STATE {NO_FIX, FIRST_FIX, SEND_WSPR} WSPRBeaconState;
 
+EXTERN uint8_t DisableDisplay;
+EXTERN uint8_t WSPRBeaconMode;
 // TODO EXTERN NVIC_InitTypeDef      NVIC_InitStructure;
 //TODO EXTERN EXTI_InitTypeDef      EXTI_InitStructure;
 

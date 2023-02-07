@@ -97,9 +97,9 @@ typedef struct OutData_t
 #define RELAY_TX_OFF  	 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_RESET)
 #define RELAY_TX_ON  	 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_10, GPIO_PIN_SET)
 #define SW01_IN          !HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13)
-#define KEYER_DASH    !HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_6)
-#define KEYER_DOT     !HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_7)
-
+#define KEYER_DASH    	 !HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_6)
+#define KEYER_DOT    	 !HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_7)
+#define ENC_BUTTON		 !HAL_GPIO_ReadPin(ENC_BUTTON_GPIO_Port, ENC_BUTTON_Pin)
 // keyerControl bit definitions
 #define HIGH 1
 #define LOW 0
@@ -212,8 +212,8 @@ extern void DoDCF77(uint16_t);
 #define RXTX_GPIO_Port GPIOD
 #define TX_ENA_Pin GPIO_PIN_11
 #define TX_ENA_GPIO_Port GPIOD
-#define LED_GREEN_Pin GPIO_PIN_8
-#define LED_GREEN_GPIO_Port GPIOA
+#define ENC_BUTTON_Pin GPIO_PIN_14
+#define ENC_BUTTON_GPIO_Port GPIOD
 /* USER CODE BEGIN Private defines */
 
 #define USE_DCACHE
@@ -278,7 +278,7 @@ extern void DoDCF77(uint16_t);
 //#define COLOR_BANDSCOPE
 
 #define CW_TX_SIDETONE
-#define SIDETONE_VOLUME (0.1f)
+#define SIDETONE_VOLUME (0.2f)
 
 //#define CW_DECODER
 //#define DCF77_DECODER
@@ -287,8 +287,13 @@ extern void DoDCF77(uint16_t);
 //#define SNAPSHOT_ACQUISITION_DBG
 
 //At power on listens to DCF77, waits for two fixes with reasonable content, starts WSPR beacon
-//#define WSPR_BEACON_MODE
+#define WSPR_BEACON_MODE
 #define WSPR_FREQ 7040135.f
+
+//this is the frequency for RX in USB
+#define WSPR_RX_FREQ 7038600.f
+
+#define DCF77_FREQ 77500.f
 
 #ifdef WSPR_BEACON_MODE
 #define DCF77_DECODER

@@ -453,8 +453,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	DecodeCW();
 
 #endif
-*/
-/*
+	 */
+	/*
 #ifdef CW_DECODER
 
 	CWLevel = 0;
@@ -520,27 +520,30 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 #ifdef DCF77_DECODER
 
-	CWLevel = 0;
-	BaseNoiseLevel = 9999.f;
-//	uint16_t i;
-
-	for (i = 0; i < BSIZE; i++)
+	if (WSPRBeaconMode == 1)
 	{
-		CWLevel = fabs(fAudio[i]);
-		CWLevelFiltered = CW_LEVEL_AVERAGE_T_CONST * CWLevel + (1 - CW_LEVEL_AVERAGE_T_CONST) * OldCWLevelAverage;
-		OldCWLevelAverage = CWLevelFiltered;
+		CWLevel = 0;
+		BaseNoiseLevel = 9999.f;
+		//	uint16_t i;
 
-		MediumLevelFiltered = MEDIUM_LEVEL_AVERAGE_T_CONST * CWLevel + (1 - MEDIUM_LEVEL_AVERAGE_T_CONST) * OldMediumLevelAverage;
+		for (i = 0; i < BSIZE; i++)
+		{
+			CWLevel = fabs(fAudio[i]);
+			CWLevelFiltered = CW_LEVEL_AVERAGE_T_CONST * CWLevel + (1 - CW_LEVEL_AVERAGE_T_CONST) * OldCWLevelAverage;
+			OldCWLevelAverage = CWLevelFiltered;
+
+			MediumLevelFiltered = MEDIUM_LEVEL_AVERAGE_T_CONST * CWLevel + (1 - MEDIUM_LEVEL_AVERAGE_T_CONST) * OldMediumLevelAverage;
 			OldMediumLevelAverage = MediumLevelFiltered;
-		//		if (CWLevel > (SignalAverage * CWThreshold))
-		if ( MediumLevelFiltered - CWLevelFiltered  > CWThreshold)
-			DCF77In = 0;
-		else
-			DCF77In += 1; //TODO limit CW increase
+			//		if (CWLevel > (SignalAverage * CWThreshold))
+			if ( MediumLevelFiltered - CWLevelFiltered  > CWThreshold)
+				DCF77In = 0;
+			else
+				DCF77In += 1; //TODO limit CW increase
 #ifdef SNAPSHOT_ACQUISITION_DBG
-		DumpTrace();
+			DumpTrace();
 #endif
-		DoDCF77(DCF77In);
+			DoDCF77(DCF77In);
+		}
 	}
 #endif
 
@@ -575,9 +578,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	{
 		if (TransmissionEnabled)
 			for (i=0; i<BSIZE; i++)
-					{
-							fAudio[i] = 0.;
-					}
+			{
+				fAudio[i] = 0.;
+			}
 
 	}
 #endif
