@@ -67,6 +67,10 @@ EXTERN float LO_R[BSIZE], LO_I[BSIZE];    // LO is a complex signal
 EXTERN float fAudio[BSIZE];
 EXTERN __IO short* ValidAudioHalf;
 
+EXTERN  ADC_HandleTypeDef *HAdc1;
+EXTERN ALIGN_32BYTES(__IO uint32_t   aADCDualConvertedValues[BSIZE]);    /* ADC dual mode interleaved conversion results (ADC master and ADC slave results concatenated on data register 32 bits of ADC master). */
+
+
 EXTERN float FIRstate1R[NUMFIRCOEFS + BSIZE*4 - 1];
 EXTERN float FIRstate1I[NUMFIRCOEFS + BSIZE*4 - 1];
 EXTERN Agctype agc[4];

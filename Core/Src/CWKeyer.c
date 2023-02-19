@@ -125,7 +125,7 @@ void switch_rxtx(uint8_t tx_enable){
 	}
 }
 
-HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
 #ifdef USE_KEYER
 	DoKeyer();

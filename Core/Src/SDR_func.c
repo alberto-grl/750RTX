@@ -29,7 +29,6 @@
 #include "Globals.h"
 #include "dataAcq.h"
 
-extern uint32_t   aADCDualConvertedValues[BSIZE];
 extern uint16_t FracDivPWM;
 extern uint16_t LowestWSPRToneFracDivPWM;
 

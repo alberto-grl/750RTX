@@ -108,7 +108,20 @@ void SendWSPR(void)
 			}
 		}
 		else
-		{
+		{	/*
+			DMA interrupt must be active during transmission
+			because PLL dithering is performed in its isr.
+			It should be called by a timer, but for now leave it this way.
+			*/
+			if (HAL_ADCEx_MultiModeStart_DMA(HAdc1,
+					(uint32_t *)aADCDualConvertedValues,
+					BSIZE   //Source code says transfer size is in bytes, but it is in number of transfers
+					//We transfer BSIZE * 4 bytes, it equals 2 * BSIZE samples (1024) because we have full and half interrupts
+			) != HAL_OK)
+			{
+				/* Start Error */
+				Error_Handler();
+			}
 			WSPRFirstTime = 0;
 			TXSwitch(1);
 			CarrierEnable(1);
@@ -144,6 +157,7 @@ void SendWSPR(void)
 
 			TXSwitch(0);
 			CarrierEnable(0);
+			HAL_ADCEx_MultiModeStop_DMA(HAdc1);
 		}
 
 		/*
@@ -870,7 +884,7 @@ get_wspr_channel_symbols(char* rawmessage, uint8_t* symbols)
 		if( power < 0 ) power=0;
 		if( power > 60 ) power=60;
 		power=power+nu[power%10];
-		int n1, ng, nadd;
+		uint32_t n1, ng, nadd;
 		pack_prefix(callsign, &n1, &ng, &nadd);
 		ntype=power + 1 + nadd;
 		m=128*ng+ntype+64;
