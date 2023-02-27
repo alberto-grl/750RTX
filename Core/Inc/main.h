@@ -215,6 +215,7 @@ extern void DCF77StatusDisplay(void);
 #define TX_ENA_GPIO_Port GPIOD
 #define ENC_BUTTON_Pin GPIO_PIN_14
 #define ENC_BUTTON_GPIO_Port GPIOD
+
 /* USER CODE BEGIN Private defines */
 
 #define USE_DCACHE
