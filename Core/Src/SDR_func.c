@@ -361,7 +361,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	//FFTBuf 1023 and 1025 are the farest from NCO freq.
 
 	// compute the direct FFT
-	arm_cfft_f32(&arm_cfft_sR_f32_len1024, FFTbuf, DIRECTFFT, NOREVERSE);
+	My_arm_cfft_f32(&arm_cfft_sR_f32_len1024, FFTbuf, DIRECTFFT, NOREVERSE);
 	/*
 	// if LSB, copy the LSB in the lower half (USB)
 	if(CurrentMode == LSB) SDR_mirror_LSB(FFTbuf, FFTLEN);

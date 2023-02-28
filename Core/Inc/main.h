@@ -190,6 +190,11 @@ void SendCWMessage(uint8_t);
 extern int get_wspr_channel_symbols(char *, uint8_t *);
 extern void DoDCF77(uint16_t);
 extern void DCF77StatusDisplay(void);
+extern void My_arm_cfft_f32(
+				const arm_cfft_instance_f32 *,
+		        float32_t *,
+		        uint8_t,
+		        uint8_t);
 
 /* USER CODE END EFP */
 
