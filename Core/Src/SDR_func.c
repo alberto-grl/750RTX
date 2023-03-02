@@ -264,39 +264,11 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	int16_t i;
 
 
-	/*
-	if (TransmissionEnabled && SW01_IN)
-	{
-		CarrierEnable(1);
-	}
-	else
-	{
-		CarrierEnable(0);
-	}
-	 */
-
-
-	//	if (TransmissionEnabled)
-	//		return;
-
 
 #ifdef TEST_NO_SDR
 	return;
 #endif
 
-	/*
-
-  if (pin == USER_Btn_Pin)
-  {
-//	  if(EXTI_GetITStatus(EXTI_Line0) != RESET)
-	  {
-	// User button pressed, cycle through all the presets
-	    Idx++; if(Idx >= MAXPRESETS) Idx = 1;
-	    Tune_Preset(Idx);
-	  }
-	  return;
-  }
-	 */
 
 #ifdef DEBUG_TX_CW
 	static int TX;
