@@ -54,16 +54,17 @@ EXTERN float FFTbuf[FFTLEN*2]   __attribute__ ((section (".dtcm")));
 EXTERN float FFTbuf2[FFTLEN*2]  __attribute__ ((section (".dtcm")));
 // end of dtcm placing --------------------------------------------------------
 
-EXTERN volatile uint16_t ADC_Data0[BSIZE];
-EXTERN volatile uint16_t ADC_Data1[BSIZE];
+EXTERN volatile uint16_t ADC_Data0[BSIZE] __attribute__ ((section (".dtcm")));
+EXTERN volatile uint16_t ADC_Data1[BSIZE] __attribute__ ((section (".dtcm")));
 
 #pragma pack(16)
-EXTERN float ADC_Rdata[BSIZE];
-EXTERN float ADC_Idata[BSIZE];
-EXTERN float IQdata[BSIZE*2];             // IQdata  is a complex signal
-EXTERN float fCbase[FFTLEN*2];            // fCbase  is a complex signal
-EXTERN float tmpSamp[BSIZE*2+12];         // tmpSamp is a complex signal
-EXTERN float LO_R[BSIZE], LO_I[BSIZE];    // LO is a complex signal
+EXTERN float ADC_Rdata[BSIZE] __attribute__ ((section (".dtcm")));
+EXTERN float ADC_Idata[BSIZE] __attribute__ ((section (".dtcm")));
+EXTERN float IQdata[BSIZE*2] ;__attribute__ ((section (".dtcm")));    // IQdata  is a complex signal
+EXTERN float fCbase[FFTLEN*2] ;//__attribute__ ((section (".dtcm")));   //TODO: when in DTCIM RX works only after a debugger reset. No working after power up           // fCbase  is a complex signal
+EXTERN float tmpSamp[BSIZE*2+12] ;//__attribute__ ((section (".dtcm")));         // tmpSamp is a complex signal
+EXTERN float LO_R[BSIZE] ;//__attribute__ ((section (".dtcm")));
+EXTERN float LO_I[BSIZE] ;//__attribute__ ((section (".dtcm")));    // LO is a complex signal
 EXTERN float fAudio[BSIZE];
 EXTERN __IO short* ValidAudioHalf;
 
