@@ -179,217 +179,6 @@ Discarded input sections
  .ARM.exidx     0x0000000000000000       0x10 c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/crt0.o
  .ARM.attributes
                 0x0000000000000000       0x1c c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/crt0.o
- .data          0x0000000000000000        0x0 ./Core/CMSIS/arm_bitreversal2.o
- .bss           0x0000000000000000        0x0 ./Core/CMSIS/arm_bitreversal2.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_f32.o
- .text          0x0000000000000000        0x0 ./Core/CMSIS/arm_cfft_f32.o
- .data          0x0000000000000000        0x0 ./Core/CMSIS/arm_cfft_f32.o
- .bss           0x0000000000000000        0x0 ./Core/CMSIS/arm_cfft_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_cfft_radix8_f32.o
- .text          0x0000000000000000        0x0 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .data          0x0000000000000000        0x0 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .bss           0x0000000000000000        0x0 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000      0xaa2 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x22 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x8e ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x51 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000      0x103 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x6a ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000      0x1df ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0xfb ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x52 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x1d ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x3c ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x34 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000      0x174 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x16 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x43 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x34 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x10 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x58 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x71 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x1c ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000      0x12a ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000      0x341 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x10 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x35 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0x20 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000      0x19b ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000      0x201 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x0000000000000000       0xc8 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_f32.o
- .text          0x0000000000000000        0x0 ./Core/CMSIS/arm_fir_decimate_f32.o
- .data          0x0000000000000000        0x0 ./Core/CMSIS/arm_fir_decimate_f32.o
- .bss           0x0000000000000000        0x0 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000      0xaa2 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x22 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x8e ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x51 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000      0x103 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x6a ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000      0x1df ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0xfb ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x52 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x1d ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x3c ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x34 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000      0x174 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x16 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x43 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x34 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x10 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x58 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x71 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x1c ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000      0x12a ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000      0x341 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x10 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x35 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0x20 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000      0x19b ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000      0x201 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000000000       0xc8 ./Core/CMSIS/arm_fir_decimate_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .group         0x0000000000000000        0xc ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .text          0x0000000000000000        0x0 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .data          0x0000000000000000        0x0 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .bss           0x0000000000000000        0x0 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000      0xaa2 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x22 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x8e ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x51 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000      0x103 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x6a ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000      0x1df ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0xfb ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x52 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x1d ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x3c ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x34 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000      0x174 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x16 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x43 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x34 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x10 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x58 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x71 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x1c ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000      0x12a ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000      0x341 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x10 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x35 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0x20 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000      0x19b ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000      0x201 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000000000       0xc8 ./Core/CMSIS/arm_fir_decimate_init_f32.o
  .group         0x0000000000000000        0xc ./Core/SCAMP.o
  .group         0x0000000000000000        0xc ./Core/SCAMP.o
  .group         0x0000000000000000        0xc ./Core/SCAMP.o
@@ -614,6 +403,240 @@ Discarded input sections
  .debug_frame   0x0000000000000000      0x138 ./Core/SCAMP.o
  .ARM.attributes
                 0x0000000000000000       0x2e ./Core/SCAMP.o
+ .data          0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_bitreversal2.o
+ .bss           0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_bitreversal2.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_f32.o
+ .text          0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .data          0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .bss           0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000      0xaa2 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x22 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000      0x103 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x6a ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000      0x1df ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0xfb ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x1d ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x3c ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x34 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x16 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x43 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x34 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x10 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x58 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x71 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x1c ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000      0x12a ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000      0x341 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x35 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0x20 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000      0x19b ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000      0x201 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000000       0xc8 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .text          0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .data          0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .bss           0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000      0xaa2 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x22 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x8e ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x51 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000      0x103 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x6a ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000      0x1df ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0xfb ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x52 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x1d ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x3c ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x34 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000      0x174 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x16 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x43 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x34 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x10 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x58 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x71 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x1c ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000      0x12a ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000      0x341 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x10 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x35 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0x20 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000      0x19b ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000      0x201 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x0000000000000000       0xc8 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .text          0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .data          0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .bss           0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000      0xaa2 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x22 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x8e ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x51 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000      0x103 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x6a ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000      0x1df ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0xfb ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x52 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x1d ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x3c ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x34 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000      0x174 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x16 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x43 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x34 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x10 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x58 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x71 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x1c ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000      0x12a ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000      0x341 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x10 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x35 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0x20 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000      0x19b ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000      0x201 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x0000000000000000       0xc8 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .group         0x0000000000000000        0xc ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .text          0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .data          0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .bss           0x0000000000000000        0x0 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000      0xaa2 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x22 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x8e ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x51 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000      0x103 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x6a ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000      0x1df ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0xfb ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x52 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x1d ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x3c ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x34 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000      0x174 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x16 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x43 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x34 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x10 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x58 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x71 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x1c ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000      0x12a ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000      0x341 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x10 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x35 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0x20 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000      0x19b ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000      0x201 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000000       0xc8 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
  .group         0x0000000000000000        0xc ./Core/Src/CWDecoder.o
  .group         0x0000000000000000        0xc ./Core/Src/CWDecoder.o
  .group         0x0000000000000000        0xc ./Core/Src/CWDecoder.o
@@ -10573,12 +10596,12 @@ Linker script and memory map
 LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+dp/hard/crti.o
 LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+dp/hard/crtbegin.o
 LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard/crt0.o
-LOAD ./Core/CMSIS/arm_bitreversal2.o
-LOAD ./Core/CMSIS/arm_cfft_f32.o
-LOAD ./Core/CMSIS/arm_cfft_radix8_f32.o
-LOAD ./Core/CMSIS/arm_fir_decimate_f32.o
-LOAD ./Core/CMSIS/arm_fir_decimate_init_f32.o
 LOAD ./Core/SCAMP.o
+LOAD ./Core/Src/CMSIS/arm_bitreversal2.o
+LOAD ./Core/Src/CMSIS/arm_cfft_f32.o
+LOAD ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+LOAD ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+LOAD ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
 LOAD ./Core/Src/CWDecoder.o
 LOAD ./Core/Src/CWKeyer.o
 LOAD ./Core/Src/DCF77.o
@@ -10667,7 +10690,7 @@ LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x00000000080002a0                . = ALIGN (0x4)
  *(.text)
  .text          0x00000000080002a0       0x40 c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+dp/hard/crtbegin.o
- .text          0x00000000080002e0       0xc0 ./Core/CMSIS/arm_bitreversal2.o
+ .text          0x00000000080002e0       0xc0 ./Core/Src/CMSIS/arm_bitreversal2.o
                 0x00000000080002e0                arm_bitreversal_32
                 0x000000000800034a                arm_bitreversal_16
  .text          0x00000000080003a0       0x10 c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libc_nano.a(lib_a-strlen.o)
@@ -10683,22 +10706,22 @@ LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
                 0x0000000008000750                __aeabi_ldiv0
  *(.text*)
  .text.arm_cfft_radix8by2_f32
-                0x0000000008000754      0x198 ./Core/CMSIS/arm_cfft_f32.o
+                0x0000000008000754      0x198 ./Core/Src/CMSIS/arm_cfft_f32.o
                 0x0000000008000754                arm_cfft_radix8by2_f32
  .text.arm_cfft_radix8by4_f32
-                0x00000000080008ec      0x498 ./Core/CMSIS/arm_cfft_f32.o
+                0x00000000080008ec      0x498 ./Core/Src/CMSIS/arm_cfft_f32.o
                 0x00000000080008ec                arm_cfft_radix8by4_f32
  .text.arm_cfft_f32
-                0x0000000008000d84       0xec ./Core/CMSIS/arm_cfft_f32.o
+                0x0000000008000d84       0xec ./Core/Src/CMSIS/arm_cfft_f32.o
                 0x0000000008000d84                arm_cfft_f32
  .text.arm_radix8_butterfly_f32
-                0x0000000008000e70      0x574 ./Core/CMSIS/arm_cfft_radix8_f32.o
+                0x0000000008000e70      0x574 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
                 0x0000000008000e70                arm_radix8_butterfly_f32
  .text.arm_fir_decimate_f32
-                0x00000000080013e4       0x94 ./Core/CMSIS/arm_fir_decimate_f32.o
+                0x00000000080013e4       0x94 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
                 0x00000000080013e4                arm_fir_decimate_f32
  .text.arm_fir_decimate_init_f32
-                0x0000000008001478       0x34 ./Core/CMSIS/arm_fir_decimate_init_f32.o
+                0x0000000008001478       0x34 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
                 0x0000000008001478                arm_fir_decimate_init_f32
  .text.loadWPM  0x00000000080014ac       0x1c ./Core/Src/CWKeyer.o
                 0x00000000080014ac                loadWPM
@@ -12897,15 +12920,15 @@ LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .ARM.attributes
                 0x000000000000001e       0x32 c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+dp/hard/crtbegin.o
  .ARM.attributes
-                0x0000000000000050       0x1e ./Core/CMSIS/arm_bitreversal2.o
+                0x0000000000000050       0x1e ./Core/Src/CMSIS/arm_bitreversal2.o
  .ARM.attributes
-                0x000000000000006e       0x2e ./Core/CMSIS/arm_cfft_f32.o
+                0x000000000000006e       0x2e ./Core/Src/CMSIS/arm_cfft_f32.o
  .ARM.attributes
-                0x000000000000009c       0x2e ./Core/CMSIS/arm_cfft_radix8_f32.o
+                0x000000000000009c       0x2e ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
  .ARM.attributes
-                0x00000000000000ca       0x2e ./Core/CMSIS/arm_fir_decimate_f32.o
+                0x00000000000000ca       0x2e ./Core/Src/CMSIS/arm_fir_decimate_f32.o
  .ARM.attributes
-                0x00000000000000f8       0x2e ./Core/CMSIS/arm_fir_decimate_init_f32.o
+                0x00000000000000f8       0x2e ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
  .ARM.attributes
                 0x0000000000000126       0x2e ./Core/Src/CWKeyer.o
  .ARM.attributes
@@ -13148,61 +13171,61 @@ LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
 LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+dp/hard\libm.a
 LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.10.3-2021.10.win32_1.0.200.202301161003/tools/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7e-m+dp/hard\libgcc.a
 
-.debug_line     0x0000000000000000    0x46147
- .debug_line    0x0000000000000000       0x90 ./Core/CMSIS/arm_bitreversal2.o
- .debug_line    0x0000000000000090     0x1409 ./Core/CMSIS/arm_cfft_f32.o
- .debug_line    0x0000000000001499     0x116c ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_line    0x0000000000002605      0x70c ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_line    0x0000000000002d11      0x628 ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_line    0x0000000000003339     0x17ab ./Core/Src/CWKeyer.o
- .debug_line    0x0000000000004ae4      0xfbe ./Core/Src/DCF77.o
- .debug_line    0x0000000000005aa2     0x1850 ./Core/Src/SDR_func.o
- .debug_line    0x00000000000072f2     0x1419 ./Core/Src/SDR_math.o
- .debug_line    0x000000000000870b     0x1da2 ./Core/Src/WSPR.o
- .debug_line    0x000000000000a4ad     0x2af0 ./Core/Src/main.o
- .debug_line    0x000000000000cf9d     0x111f ./Core/Src/stm32h7xx_hal_msp.o
- .debug_line    0x000000000000e0bc      0xbd6 ./Core/Src/stm32h7xx_it.o
- .debug_line    0x000000000000ec92      0x8e3 ./Core/Src/syscalls.o
- .debug_line    0x000000000000f575      0x533 ./Core/Src/sysmem.o
- .debug_line    0x000000000000faa8      0xbb5 ./Core/Src/system_stm32h7xx.o
- .debug_line    0x000000000001065d       0x87 ./Core/Startup/startup_stm32h750vbtx.o
- .debug_line    0x00000000000106e4     0x10c2 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o
- .debug_line    0x00000000000117a6     0x3384 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.o
- .debug_line    0x0000000000014b2a     0x3208 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.o
- .debug_line    0x0000000000017d32      0xf65 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.o
- .debug_line    0x0000000000018c97     0x11a1 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.o
- .debug_line    0x0000000000019e38     0x119f ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac_ex.o
- .debug_line    0x000000000001afd7     0x2352 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.o
- .debug_line    0x000000000001d329      0xf1d ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.o
- .debug_line    0x000000000001e246     0x1fe8 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_lptim.o
- .debug_line    0x000000000002022e     0x25c2 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.o
- .debug_line    0x00000000000227f0      0xc95 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.o
- .debug_line    0x0000000000023485     0x11ee ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.o
- .debug_line    0x0000000000024673     0x1d6a ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.o
- .debug_line    0x00000000000263dd     0x2498 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.o
- .debug_line    0x0000000000028875     0x6e65 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.o
- .debug_line    0x000000000002f6da     0x2546 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.o
- .debug_line    0x0000000000031c20     0x73d3 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.o
- .debug_line    0x0000000000038ff3     0x159c ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.o
- .debug_line    0x000000000003a58f     0x307d ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.o
- .debug_line    0x000000000003d60c     0x12da ./Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.o
- .debug_line    0x000000000003e8e6     0x138e ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o
- .debug_line    0x000000000003fc74     0x14bb ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.o
- .debug_line    0x000000000004112f      0xcba ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.o
- .debug_line    0x0000000000041de9      0xc38 ./USB_DEVICE/App/usb_device.o
- .debug_line    0x0000000000042a21      0xcda ./USB_DEVICE/App/usbd_cdc_if.o
- .debug_line    0x00000000000436fb      0xf0c ./USB_DEVICE/App/usbd_desc.o
- .debug_line    0x0000000000044607     0x1299 ./USB_DEVICE/Target/usbd_conf.o
- .debug_line    0x00000000000458a0      0x25a C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_const_structs.o)
- .debug_line    0x0000000000045afa      0x243 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_common_tables.o)
- .debug_line    0x0000000000045d3d      0x40a C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
+.debug_line     0x0000000000000000    0x4615b
+ .debug_line    0x0000000000000000       0x94 ./Core/Src/CMSIS/arm_bitreversal2.o
+ .debug_line    0x0000000000000094     0x140d ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_line    0x00000000000014a1     0x1170 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_line    0x0000000000002611      0x710 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_line    0x0000000000002d21      0x62c ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_line    0x000000000000334d     0x17ab ./Core/Src/CWKeyer.o
+ .debug_line    0x0000000000004af8      0xfbe ./Core/Src/DCF77.o
+ .debug_line    0x0000000000005ab6     0x1850 ./Core/Src/SDR_func.o
+ .debug_line    0x0000000000007306     0x1419 ./Core/Src/SDR_math.o
+ .debug_line    0x000000000000871f     0x1da2 ./Core/Src/WSPR.o
+ .debug_line    0x000000000000a4c1     0x2af0 ./Core/Src/main.o
+ .debug_line    0x000000000000cfb1     0x111f ./Core/Src/stm32h7xx_hal_msp.o
+ .debug_line    0x000000000000e0d0      0xbd6 ./Core/Src/stm32h7xx_it.o
+ .debug_line    0x000000000000eca6      0x8e3 ./Core/Src/syscalls.o
+ .debug_line    0x000000000000f589      0x533 ./Core/Src/sysmem.o
+ .debug_line    0x000000000000fabc      0xbb5 ./Core/Src/system_stm32h7xx.o
+ .debug_line    0x0000000000010671       0x87 ./Core/Startup/startup_stm32h750vbtx.o
+ .debug_line    0x00000000000106f8     0x10c2 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o
+ .debug_line    0x00000000000117ba     0x3384 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.o
+ .debug_line    0x0000000000014b3e     0x3208 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.o
+ .debug_line    0x0000000000017d46      0xf65 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.o
+ .debug_line    0x0000000000018cab     0x11a1 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.o
+ .debug_line    0x0000000000019e4c     0x119f ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac_ex.o
+ .debug_line    0x000000000001afeb     0x2352 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.o
+ .debug_line    0x000000000001d33d      0xf1d ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.o
+ .debug_line    0x000000000001e25a     0x1fe8 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_lptim.o
+ .debug_line    0x0000000000020242     0x25c2 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.o
+ .debug_line    0x0000000000022804      0xc95 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.o
+ .debug_line    0x0000000000023499     0x11ee ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.o
+ .debug_line    0x0000000000024687     0x1d6a ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.o
+ .debug_line    0x00000000000263f1     0x2498 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.o
+ .debug_line    0x0000000000028889     0x6e65 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.o
+ .debug_line    0x000000000002f6ee     0x2546 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.o
+ .debug_line    0x0000000000031c34     0x73d3 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.o
+ .debug_line    0x0000000000039007     0x159c ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.o
+ .debug_line    0x000000000003a5a3     0x307d ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.o
+ .debug_line    0x000000000003d620     0x12da ./Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.o
+ .debug_line    0x000000000003e8fa     0x138e ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o
+ .debug_line    0x000000000003fc88     0x14bb ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.o
+ .debug_line    0x0000000000041143      0xcba ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.o
+ .debug_line    0x0000000000041dfd      0xc38 ./USB_DEVICE/App/usb_device.o
+ .debug_line    0x0000000000042a35      0xcda ./USB_DEVICE/App/usbd_cdc_if.o
+ .debug_line    0x000000000004370f      0xf0c ./USB_DEVICE/App/usbd_desc.o
+ .debug_line    0x000000000004461b     0x1299 ./USB_DEVICE/Target/usbd_conf.o
+ .debug_line    0x00000000000458b4      0x25a C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_const_structs.o)
+ .debug_line    0x0000000000045b0e      0x243 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_common_tables.o)
+ .debug_line    0x0000000000045d51      0x40a C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
 
 .debug_info     0x0000000000000000    0x48306
- .debug_info    0x0000000000000000       0x26 ./Core/CMSIS/arm_bitreversal2.o
- .debug_info    0x0000000000000026      0x7ce ./Core/CMSIS/arm_cfft_f32.o
- .debug_info    0x00000000000007f4      0x53f ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_info    0x0000000000000d33      0x2c1 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_info    0x0000000000000ff4      0x27f ./Core/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_info    0x0000000000000000       0x26 ./Core/Src/CMSIS/arm_bitreversal2.o
+ .debug_info    0x0000000000000026      0x7ce ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_info    0x00000000000007f4      0x53f ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_info    0x0000000000000d33      0x2c1 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_info    0x0000000000000ff4      0x27f ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
  .debug_info    0x0000000000001273     0x1558 ./Core/Src/CWKeyer.o
  .debug_info    0x00000000000027cb      0x47c ./Core/Src/DCF77.o
  .debug_info    0x0000000000002c47     0x1d56 ./Core/Src/SDR_func.o
@@ -13247,11 +13270,11 @@ LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_info    0x00000000000477ca      0xb3c C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
 
 .debug_abbrev   0x0000000000000000     0x830b
- .debug_abbrev  0x0000000000000000       0x14 ./Core/CMSIS/arm_bitreversal2.o
- .debug_abbrev  0x0000000000000014      0x1ae ./Core/CMSIS/arm_cfft_f32.o
- .debug_abbrev  0x00000000000001c2       0xbd ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_abbrev  0x000000000000027f       0xf8 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_abbrev  0x0000000000000377      0x158 ./Core/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_abbrev  0x0000000000000000       0x14 ./Core/Src/CMSIS/arm_bitreversal2.o
+ .debug_abbrev  0x0000000000000014      0x1ae ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_abbrev  0x00000000000001c2       0xbd ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_abbrev  0x000000000000027f       0xf8 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_abbrev  0x0000000000000377      0x158 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
  .debug_abbrev  0x00000000000004cf      0x44c ./Core/Src/CWKeyer.o
  .debug_abbrev  0x000000000000091b      0x20e ./Core/Src/DCF77.o
  .debug_abbrev  0x0000000000000b29      0x4aa ./Core/Src/SDR_func.o
@@ -13297,15 +13320,15 @@ LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
 
 .debug_aranges  0x0000000000000000     0x1bd0
  .debug_aranges
-                0x0000000000000000       0x20 ./Core/CMSIS/arm_bitreversal2.o
+                0x0000000000000000       0x20 ./Core/Src/CMSIS/arm_bitreversal2.o
  .debug_aranges
-                0x0000000000000020       0x30 ./Core/CMSIS/arm_cfft_f32.o
+                0x0000000000000020       0x30 ./Core/Src/CMSIS/arm_cfft_f32.o
  .debug_aranges
-                0x0000000000000050       0x20 ./Core/CMSIS/arm_cfft_radix8_f32.o
+                0x0000000000000050       0x20 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
  .debug_aranges
-                0x0000000000000070       0x20 ./Core/CMSIS/arm_fir_decimate_f32.o
+                0x0000000000000070       0x20 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
  .debug_aranges
-                0x0000000000000090       0x20 ./Core/CMSIS/arm_fir_decimate_init_f32.o
+                0x0000000000000090       0x20 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
  .debug_aranges
                 0x00000000000000b0       0x60 ./Core/Src/CWKeyer.o
  .debug_aranges
@@ -13391,106 +13414,106 @@ LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_aranges
                 0x0000000000001bb0       0x20 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
 
-.debug_str      0x0000000000000000   0x187803
- .debug_str     0x0000000000000000       0x4c ./Core/CMSIS/arm_bitreversal2.o
- .debug_str     0x000000000000004c     0x8ccd ./Core/CMSIS/arm_cfft_f32.o
-                                       0x8fc4 (size before relaxing)
- .debug_str     0x0000000000008d19       0x3b ./Core/CMSIS/arm_cfft_radix8_f32.o
-                                       0x8a99 (size before relaxing)
- .debug_str     0x0000000000008d54       0xa8 ./Core/CMSIS/arm_fir_decimate_f32.o
-                                       0x8af8 (size before relaxing)
- .debug_str     0x0000000000008dfc       0xee ./Core/CMSIS/arm_fir_decimate_init_f32.o
-                                       0x8b8d (size before relaxing)
- .debug_str     0x0000000000008eea   0x16e311 ./Core/Src/CWKeyer.o
+.debug_str      0x0000000000000000   0x187817
+ .debug_str     0x0000000000000000       0x50 ./Core/Src/CMSIS/arm_bitreversal2.o
+ .debug_str     0x0000000000000050     0x8cd1 ./Core/Src/CMSIS/arm_cfft_f32.o
+                                       0x8fc8 (size before relaxing)
+ .debug_str     0x0000000000008d21       0x3f ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+                                       0x8a9d (size before relaxing)
+ .debug_str     0x0000000000008d60       0xac ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+                                       0x8afc (size before relaxing)
+ .debug_str     0x0000000000008e0c       0xf2 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+                                       0x8b91 (size before relaxing)
+ .debug_str     0x0000000000008efe   0x16e311 ./Core/Src/CWKeyer.o
                                      0x1772c6 (size before relaxing)
- .debug_str     0x00000000001771fb     0x122f ./Core/Src/DCF77.o
+ .debug_str     0x000000000017720f     0x122f ./Core/Src/DCF77.o
                                      0x177cff (size before relaxing)
- .debug_str     0x000000000017842a      0xd7f ./Core/Src/SDR_func.o
+ .debug_str     0x000000000017843e      0xd7f ./Core/Src/SDR_func.o
                                      0x177d9c (size before relaxing)
- .debug_str     0x00000000001791a9      0x273 ./Core/Src/SDR_math.o
+ .debug_str     0x00000000001791bd      0x273 ./Core/Src/SDR_math.o
                                      0x176eb8 (size before relaxing)
- .debug_str     0x000000000017941c      0xf7c ./Core/Src/WSPR.o
+ .debug_str     0x0000000000179430      0xf7c ./Core/Src/WSPR.o
                                      0x178fb4 (size before relaxing)
- .debug_str     0x000000000017a398     0x2ac4 ./Core/Src/main.o
+ .debug_str     0x000000000017a3ac     0x2ac4 ./Core/Src/main.o
                                      0x17bb72 (size before relaxing)
- .debug_str     0x000000000017ce5c      0x1e9 ./Core/Src/stm32h7xx_hal_msp.o
+ .debug_str     0x000000000017ce70      0x1e9 ./Core/Src/stm32h7xx_hal_msp.o
                                      0x178937 (size before relaxing)
- .debug_str     0x000000000017d045      0x5c0 ./Core/Src/stm32h7xx_it.o
+ .debug_str     0x000000000017d059      0x5c0 ./Core/Src/stm32h7xx_it.o
                                      0x177d23 (size before relaxing)
- .debug_str     0x000000000017d605     0x1668 ./Core/Src/syscalls.o
+ .debug_str     0x000000000017d619     0x1668 ./Core/Src/syscalls.o
                                        0x8af5 (size before relaxing)
- .debug_str     0x000000000017ec6d       0x6b ./Core/Src/sysmem.o
+ .debug_str     0x000000000017ec81       0x6b ./Core/Src/sysmem.o
                                        0x5e27 (size before relaxing)
- .debug_str     0x000000000017ecd8      0x254 ./Core/Src/system_stm32h7xx.o
+ .debug_str     0x000000000017ecec      0x254 ./Core/Src/system_stm32h7xx.o
                                      0x175b4c (size before relaxing)
- .debug_str     0x000000000017ef2c       0x28 ./Core/Startup/startup_stm32h750vbtx.o
+ .debug_str     0x000000000017ef40       0x28 ./Core/Startup/startup_stm32h750vbtx.o
                                          0x53 (size before relaxing)
- .debug_str     0x000000000017ef54      0x6b8 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o
+ .debug_str     0x000000000017ef68      0x6b8 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o
                                      0x176a54 (size before relaxing)
- .debug_str     0x000000000017f60c      0xa3a ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.o
+ .debug_str     0x000000000017f620      0xa3a ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.o
                                      0x1768ce (size before relaxing)
- .debug_str     0x0000000000180046      0x76f ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.o
+ .debug_str     0x000000000018005a      0x76f ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.o
                                      0x17690d (size before relaxing)
- .debug_str     0x00000000001807b5      0x311 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.o
+ .debug_str     0x00000000001807c9      0x311 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.o
                                      0x176457 (size before relaxing)
- .debug_str     0x0000000000180ac6      0x19e ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.o
+ .debug_str     0x0000000000180ada      0x19e ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.o
                                      0x175dd3 (size before relaxing)
- .debug_str     0x0000000000180c64      0x1e8 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac_ex.o
+ .debug_str     0x0000000000180c78      0x1e8 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac_ex.o
                                      0x175de2 (size before relaxing)
- .debug_str     0x0000000000180e4c      0x82d ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.o
+ .debug_str     0x0000000000180e60      0x82d ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.o
                                      0x176269 (size before relaxing)
- .debug_str     0x0000000000181679       0xab ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.o
+ .debug_str     0x000000000018168d       0xab ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.o
                                      0x175ae6 (size before relaxing)
- .debug_str     0x0000000000181724      0x465 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_lptim.o
+ .debug_str     0x0000000000181738      0x465 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_lptim.o
                                      0x175ed9 (size before relaxing)
- .debug_str     0x0000000000181b89      0x826 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.o
+ .debug_str     0x0000000000181b9d      0x826 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.o
                                      0x17629a (size before relaxing)
- .debug_str     0x00000000001823af      0x174 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.o
+ .debug_str     0x00000000001823c3      0x174 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.o
                                      0x175c38 (size before relaxing)
- .debug_str     0x0000000000182523      0x601 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.o
+ .debug_str     0x0000000000182537      0x601 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.o
                                      0x175fa7 (size before relaxing)
- .debug_str     0x0000000000182b24      0x208 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.o
+ .debug_str     0x0000000000182b38      0x208 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.o
                                      0x175eca (size before relaxing)
- .debug_str     0x0000000000182d2c      0x630 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.o
+ .debug_str     0x0000000000182d40      0x630 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.o
                                      0x1763ab (size before relaxing)
- .debug_str     0x000000000018335c      0xcd8 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.o
+ .debug_str     0x0000000000183370      0xcd8 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.o
                                      0x176c59 (size before relaxing)
- .debug_str     0x0000000000184034      0x587 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.o
+ .debug_str     0x0000000000184048      0x587 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.o
                                      0x176591 (size before relaxing)
- .debug_str     0x00000000001845bb      0x9c3 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.o
+ .debug_str     0x00000000001845cf      0x9c3 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.o
                                      0x176a1c (size before relaxing)
- .debug_str     0x0000000000184f7e      0x266 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.o
+ .debug_str     0x0000000000184f92      0x266 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.o
                                      0x175fcb (size before relaxing)
- .debug_str     0x00000000001851e4      0x461 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.o
+ .debug_str     0x00000000001851f8      0x461 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.o
                                      0x176143 (size before relaxing)
- .debug_str     0x0000000000185645      0x6e1 ./Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.o
+ .debug_str     0x0000000000185659      0x6e1 ./Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.o
                                      0x179453 (size before relaxing)
- .debug_str     0x0000000000185d26      0x356 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o
+ .debug_str     0x0000000000185d3a      0x356 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o
                                      0x178d50 (size before relaxing)
- .debug_str     0x000000000018607c      0x139 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.o
+ .debug_str     0x0000000000186090      0x139 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.o
                                      0x178b7b (size before relaxing)
- .debug_str     0x00000000001861b5       0x51 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.o
+ .debug_str     0x00000000001861c9       0x51 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.o
                                      0x178a50 (size before relaxing)
- .debug_str     0x0000000000186206       0xc6 ./USB_DEVICE/App/usb_device.o
+ .debug_str     0x000000000018621a       0xc6 ./USB_DEVICE/App/usb_device.o
                                      0x178e26 (size before relaxing)
- .debug_str     0x00000000001862cc       0x95 ./USB_DEVICE/App/usbd_cdc_if.o
+ .debug_str     0x00000000001862e0       0x95 ./USB_DEVICE/App/usbd_cdc_if.o
                                      0x178ea1 (size before relaxing)
- .debug_str     0x0000000000186361      0x258 ./USB_DEVICE/App/usbd_desc.o
+ .debug_str     0x0000000000186375      0x258 ./USB_DEVICE/App/usbd_desc.o
                                      0x17893a (size before relaxing)
- .debug_str     0x00000000001865b9       0x68 ./USB_DEVICE/Target/usbd_conf.o
+ .debug_str     0x00000000001865cd       0x68 ./USB_DEVICE/Target/usbd_conf.o
                                      0x17a56c (size before relaxing)
- .debug_str     0x0000000000186621     0x116c C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_const_structs.o)
+ .debug_str     0x0000000000186635     0x116c C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_const_structs.o)
                                        0x135e (size before relaxing)
- .debug_str     0x000000000018778d       0x2e C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_common_tables.o)
+ .debug_str     0x00000000001877a1       0x2e C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_common_tables.o)
                                         0xd1f (size before relaxing)
- .debug_str     0x00000000001877bb       0x48 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
+ .debug_str     0x00000000001877cf       0x48 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
                                         0x690 (size before relaxing)
 
 .debug_loc      0x0000000000000000    0x3164a
- .debug_loc     0x0000000000000000     0x1691 ./Core/CMSIS/arm_cfft_f32.o
- .debug_loc     0x0000000000001691      0xb32 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_loc     0x00000000000021c3      0x402 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_loc     0x00000000000025c5      0x16a ./Core/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_loc     0x0000000000000000     0x1691 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_loc     0x0000000000001691      0xb32 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_loc     0x00000000000021c3      0x402 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_loc     0x00000000000025c5      0x16a ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
  .debug_loc     0x000000000000272f      0x4f0 ./Core/Src/CWKeyer.o
  .debug_loc     0x0000000000002c1f      0x26c ./Core/Src/DCF77.o
  .debug_loc     0x0000000000002e8b      0xc79 ./Core/Src/SDR_func.o
@@ -13530,10 +13553,10 @@ LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_loc     0x00000000000310c0      0x58a C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
 
 .debug_ranges   0x0000000000000000     0x54c8
- .debug_ranges  0x0000000000000000       0x20 ./Core/CMSIS/arm_cfft_f32.o
- .debug_ranges  0x0000000000000020       0x10 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_ranges  0x0000000000000030       0x10 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_ranges  0x0000000000000040       0x10 ./Core/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_ranges  0x0000000000000000       0x20 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_ranges  0x0000000000000020       0x10 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_ranges  0x0000000000000030       0x10 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_ranges  0x0000000000000040       0x10 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
  .debug_ranges  0x0000000000000050      0x260 ./Core/Src/CWKeyer.o
  .debug_ranges  0x00000000000002b0       0x40 ./Core/Src/DCF77.o
  .debug_ranges  0x00000000000002f0      0x1e8 ./Core/Src/SDR_func.o
@@ -13575,106 +13598,83 @@ LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_ranges  0x0000000000005258      0x260 ./USB_DEVICE/Target/usbd_conf.o
  .debug_ranges  0x00000000000054b8       0x10 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
 
-.debug_macro    0x0000000000000000     0xba16
- .debug_macro   0x0000000000000000      0x191 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000000191      0xaa2 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000000c33       0x22 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000000c55       0x8e ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000000ce3       0x51 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000000d34      0x103 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000000e37       0x6a ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000000ea1      0x1df ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000001080       0xfb ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x000000000000117b       0x52 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x00000000000011cd       0x1d ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x00000000000011ea       0x3c ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000001226       0x34 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x000000000000125a      0x174 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x00000000000013ce       0x16 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x00000000000013e4       0x43 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000001427       0x34 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x000000000000145b       0x10 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x000000000000146b       0x58 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x00000000000014c3       0x71 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000001534       0x1c ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000001550      0x12a ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x000000000000167a      0x341 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x00000000000019bb       0x10 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x00000000000019cb       0x35 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000001a00       0x20 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000001a20      0x19b ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000001bbb      0x201 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000001dbc       0xc8 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000001e84       0x88 ./Core/CMSIS/arm_cfft_f32.o
- .debug_macro   0x0000000000001f0c      0x17e ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_macro   0x000000000000208a      0x17e ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_macro   0x0000000000002208      0x17e ./Core/CMSIS/arm_fir_decimate_init_f32.o
- .debug_macro   0x0000000000002386      0x38d ./Core/Src/CWKeyer.o
- .debug_macro   0x0000000000002713       0x10 ./Core/Src/CWKeyer.o
- .debug_macro   0x0000000000002723      0x482 ./Core/Src/DCF77.o
- .debug_macro   0x0000000000002ba5      0x3bb ./Core/Src/SDR_func.o
- .debug_macro   0x0000000000002f60      0x102 ./Core/Src/SDR_func.o
- .debug_macro   0x0000000000003062      0x38d ./Core/Src/SDR_math.o
- .debug_macro   0x00000000000033ef      0x4ca ./Core/Src/WSPR.o
- .debug_macro   0x00000000000038b9      0x11f ./Core/Src/WSPR.o
- .debug_macro   0x00000000000039d8      0x516 ./Core/Src/main.o
- .debug_macro   0x0000000000003eee       0x10 ./Core/Src/main.o
- .debug_macro   0x0000000000003efe       0x11 ./Core/Src/main.o
- .debug_macro   0x0000000000003f0f      0x384 ./Core/Src/stm32h7xx_hal_msp.o
- .debug_macro   0x0000000000004293      0x38e ./Core/Src/stm32h7xx_it.o
- .debug_macro   0x0000000000004621      0x24c ./Core/Src/syscalls.o
- .debug_macro   0x000000000000486d       0x10 ./Core/Src/syscalls.o
- .debug_macro   0x000000000000487d       0x10 ./Core/Src/syscalls.o
- .debug_macro   0x000000000000488d       0x10 ./Core/Src/syscalls.o
- .debug_macro   0x000000000000489d       0x35 ./Core/Src/syscalls.o
- .debug_macro   0x00000000000048d2      0x12c ./Core/Src/syscalls.o
- .debug_macro   0x00000000000049fe       0x10 ./Core/Src/syscalls.o
- .debug_macro   0x0000000000004a0e      0x241 ./Core/Src/syscalls.o
- .debug_macro   0x0000000000004c4f       0x10 ./Core/Src/syscalls.o
- .debug_macro   0x0000000000004c5f      0x189 ./Core/Src/syscalls.o
- .debug_macro   0x0000000000004de8       0x16 ./Core/Src/syscalls.o
- .debug_macro   0x0000000000004dfe       0xce ./Core/Src/syscalls.o
- .debug_macro   0x0000000000004ecc       0xff ./Core/Src/sysmem.o
- .debug_macro   0x0000000000004fcb      0x23b ./Core/Src/sysmem.o
- .debug_macro   0x0000000000005206      0x318 ./Core/Src/system_stm32h7xx.o
- .debug_macro   0x000000000000551e      0x33c ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o
- .debug_macro   0x000000000000585a      0x336 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.o
- .debug_macro   0x0000000000005b90      0x31e ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.o
- .debug_macro   0x0000000000005eae      0x312 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.o
- .debug_macro   0x00000000000061c0      0x31a ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.o
- .debug_macro   0x00000000000064da      0x312 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac_ex.o
- .debug_macro   0x00000000000067ec      0x366 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.o
- .debug_macro   0x0000000000006b52      0x319 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.o
- .debug_macro   0x0000000000006e6b      0x31a ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_lptim.o
- .debug_macro   0x0000000000007185      0x31e ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.o
- .debug_macro   0x00000000000074a3      0x312 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.o
- .debug_macro   0x00000000000077b5      0x34b ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.o
- .debug_macro   0x0000000000007b00      0x336 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.o
- .debug_macro   0x0000000000007e36      0x330 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.o
- .debug_macro   0x0000000000008166      0x313 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.o
- .debug_macro   0x0000000000008479      0x312 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.o
- .debug_macro   0x000000000000878b      0x33d ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.o
- .debug_macro   0x0000000000008ac8      0x31e ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.o
- .debug_macro   0x0000000000008de6      0x312 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.o
- .debug_macro   0x00000000000090f8      0x4d1 ./Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.o
- .debug_macro   0x00000000000095c9      0x4b8 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o
- .debug_macro   0x0000000000009a81      0x215 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o
- .debug_macro   0x0000000000009c96      0x4c2 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.o
- .debug_macro   0x000000000000a158      0x4be ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.o
- .debug_macro   0x000000000000a616      0x4f1 ./USB_DEVICE/App/usb_device.o
- .debug_macro   0x000000000000ab07       0x22 ./USB_DEVICE/App/usb_device.o
- .debug_macro   0x000000000000ab29       0x22 ./USB_DEVICE/App/usb_device.o
- .debug_macro   0x000000000000ab4b      0x4e5 ./USB_DEVICE/App/usbd_cdc_if.o
- .debug_macro   0x000000000000b030      0x4f5 ./USB_DEVICE/App/usbd_desc.o
- .debug_macro   0x000000000000b525       0x1c ./USB_DEVICE/App/usbd_desc.o
- .debug_macro   0x000000000000b541      0x4d5 ./USB_DEVICE/Target/usbd_conf.o
+.debug_macro    0x0000000000000000     0x9fd8
+ .debug_macro   0x0000000000000000      0x191 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000191       0x8e ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x000000000000021f       0x51 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000270       0x52 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x00000000000002c2      0x174 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000436       0x10 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x0000000000000446       0x88 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_macro   0x00000000000004ce      0x17e ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_macro   0x000000000000064c      0x17e ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_macro   0x00000000000007ca      0x17e ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_macro   0x0000000000000948      0x38d ./Core/Src/CWKeyer.o
+ .debug_macro   0x0000000000000cd5       0x10 ./Core/Src/CWKeyer.o
+ .debug_macro   0x0000000000000ce5      0x482 ./Core/Src/DCF77.o
+ .debug_macro   0x0000000000001167      0x3bb ./Core/Src/SDR_func.o
+ .debug_macro   0x0000000000001522      0x102 ./Core/Src/SDR_func.o
+ .debug_macro   0x0000000000001624      0x38d ./Core/Src/SDR_math.o
+ .debug_macro   0x00000000000019b1      0x4ca ./Core/Src/WSPR.o
+ .debug_macro   0x0000000000001e7b      0x11f ./Core/Src/WSPR.o
+ .debug_macro   0x0000000000001f9a      0x516 ./Core/Src/main.o
+ .debug_macro   0x00000000000024b0       0x10 ./Core/Src/main.o
+ .debug_macro   0x00000000000024c0       0x11 ./Core/Src/main.o
+ .debug_macro   0x00000000000024d1      0x384 ./Core/Src/stm32h7xx_hal_msp.o
+ .debug_macro   0x0000000000002855      0x38e ./Core/Src/stm32h7xx_it.o
+ .debug_macro   0x0000000000002be3      0x24c ./Core/Src/syscalls.o
+ .debug_macro   0x0000000000002e2f       0x10 ./Core/Src/syscalls.o
+ .debug_macro   0x0000000000002e3f       0x10 ./Core/Src/syscalls.o
+ .debug_macro   0x0000000000002e4f       0x10 ./Core/Src/syscalls.o
+ .debug_macro   0x0000000000002e5f       0x35 ./Core/Src/syscalls.o
+ .debug_macro   0x0000000000002e94      0x12c ./Core/Src/syscalls.o
+ .debug_macro   0x0000000000002fc0       0x10 ./Core/Src/syscalls.o
+ .debug_macro   0x0000000000002fd0      0x241 ./Core/Src/syscalls.o
+ .debug_macro   0x0000000000003211       0x10 ./Core/Src/syscalls.o
+ .debug_macro   0x0000000000003221      0x189 ./Core/Src/syscalls.o
+ .debug_macro   0x00000000000033aa       0x16 ./Core/Src/syscalls.o
+ .debug_macro   0x00000000000033c0       0xce ./Core/Src/syscalls.o
+ .debug_macro   0x000000000000348e       0xff ./Core/Src/sysmem.o
+ .debug_macro   0x000000000000358d      0x23b ./Core/Src/sysmem.o
+ .debug_macro   0x00000000000037c8      0x318 ./Core/Src/system_stm32h7xx.o
+ .debug_macro   0x0000000000003ae0      0x33c ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.o
+ .debug_macro   0x0000000000003e1c      0x336 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.o
+ .debug_macro   0x0000000000004152      0x31e ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.o
+ .debug_macro   0x0000000000004470      0x312 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.o
+ .debug_macro   0x0000000000004782      0x31a ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.o
+ .debug_macro   0x0000000000004a9c      0x312 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac_ex.o
+ .debug_macro   0x0000000000004dae      0x366 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.o
+ .debug_macro   0x0000000000005114      0x319 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.o
+ .debug_macro   0x000000000000542d      0x31a ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_lptim.o
+ .debug_macro   0x0000000000005747      0x31e ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.o
+ .debug_macro   0x0000000000005a65      0x312 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.o
+ .debug_macro   0x0000000000005d77      0x34b ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.o
+ .debug_macro   0x00000000000060c2      0x336 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.o
+ .debug_macro   0x00000000000063f8      0x330 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.o
+ .debug_macro   0x0000000000006728      0x313 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.o
+ .debug_macro   0x0000000000006a3b      0x312 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.o
+ .debug_macro   0x0000000000006d4d      0x33d ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.o
+ .debug_macro   0x000000000000708a      0x31e ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.o
+ .debug_macro   0x00000000000073a8      0x312 ./Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.o
+ .debug_macro   0x00000000000076ba      0x4d1 ./Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.o
+ .debug_macro   0x0000000000007b8b      0x4b8 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o
+ .debug_macro   0x0000000000008043      0x215 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.o
+ .debug_macro   0x0000000000008258      0x4c2 ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.o
+ .debug_macro   0x000000000000871a      0x4be ./Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.o
+ .debug_macro   0x0000000000008bd8      0x4f1 ./USB_DEVICE/App/usb_device.o
+ .debug_macro   0x00000000000090c9       0x22 ./USB_DEVICE/App/usb_device.o
+ .debug_macro   0x00000000000090eb       0x22 ./USB_DEVICE/App/usb_device.o
+ .debug_macro   0x000000000000910d      0x4e5 ./USB_DEVICE/App/usbd_cdc_if.o
+ .debug_macro   0x00000000000095f2      0x4f5 ./USB_DEVICE/App/usbd_desc.o
+ .debug_macro   0x0000000000009ae7       0x1c ./USB_DEVICE/App/usbd_desc.o
+ .debug_macro   0x0000000000009b03      0x4d5 ./USB_DEVICE/Target/usbd_conf.o
 
 .comment        0x0000000000000000       0xc5
- .comment       0x0000000000000000       0x50 ./Core/CMSIS/arm_cfft_f32.o
+ .comment       0x0000000000000000       0x50 ./Core/Src/CMSIS/arm_cfft_f32.o
                                          0x51 (size before relaxing)
- .comment       0x0000000000000050       0x51 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .comment       0x0000000000000050       0x51 ./Core/CMSIS/arm_fir_decimate_f32.o
- .comment       0x0000000000000050       0x51 ./Core/CMSIS/arm_fir_decimate_init_f32.o
+ .comment       0x0000000000000050       0x51 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .comment       0x0000000000000050       0x51 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .comment       0x0000000000000050       0x51 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
  .comment       0x0000000000000050       0x51 ./Core/Src/CWKeyer.o
  .comment       0x0000000000000050       0x51 ./Core/Src/DCF77.o
  .comment       0x0000000000000050       0x51 ./Core/Src/SDR_func.o
@@ -13719,10 +13719,10 @@ LOAD c:/st/stm32cubeide_1.3.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .comment       0x00000000000000c5       0x76 C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC\libarm_cortexM7lfsp_math.a(arm_cmplx_mult_cmplx_f32.o)
 
 .debug_frame    0x0000000000000000     0x7170
- .debug_frame   0x0000000000000000       0xf0 ./Core/CMSIS/arm_cfft_f32.o
- .debug_frame   0x00000000000000f0       0x94 ./Core/CMSIS/arm_cfft_radix8_f32.o
- .debug_frame   0x0000000000000184       0x38 ./Core/CMSIS/arm_fir_decimate_f32.o
- .debug_frame   0x00000000000001bc       0x30 ./Core/CMSIS/arm_fir_decimate_init_f32.o
+ .debug_frame   0x0000000000000000       0xf0 ./Core/Src/CMSIS/arm_cfft_f32.o
+ .debug_frame   0x00000000000000f0       0x94 ./Core/Src/CMSIS/arm_cfft_radix8_f32.o
+ .debug_frame   0x0000000000000184       0x38 ./Core/Src/CMSIS/arm_fir_decimate_f32.o
+ .debug_frame   0x00000000000001bc       0x30 ./Core/Src/CMSIS/arm_fir_decimate_init_f32.o
  .debug_frame   0x00000000000001ec      0x130 ./Core/Src/CWKeyer.o
  .debug_frame   0x000000000000031c       0x98 ./Core/Src/DCF77.o
  .debug_frame   0x00000000000003b4      0x25c ./Core/Src/SDR_func.o
