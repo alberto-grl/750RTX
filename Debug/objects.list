@@ -1,3 +1,8 @@
+"./Core/CMSIS/arm_bitreversal2.o"
+"./Core/CMSIS/arm_cfft_f32.o"
+"./Core/CMSIS/arm_cfft_radix8_f32.o"
+"./Core/CMSIS/arm_fir_decimate_f32.o"
+"./Core/CMSIS/arm_fir_decimate_init_f32.o"
 "./Core/SCAMP.o"
 "./Core/Src/CWDecoder.o"
 "./Core/Src/CWKeyer.o"
