@@ -38,7 +38,9 @@ extern void  SDR_memcpy_f32(float* pDst, float* pSrc, uint32_t blockSize);
 extern void  SDR_mirror_LSB(float* buf, uint32_t blockSize);
 extern void  SDR_compute_IIR_parms(void);
 extern void  SDR_CWPeak(float *buf, uint32_t blockSize);
+#ifdef RECEIVE_AM
 extern void  SDR_demodAM_AGC(float32_t * tmpSamp, float32_t * fAudio);
+#endif
 extern void  SDR_demodSSB_CW_AGC(float32_t * tmpSamp, float32_t * fAudio);
 extern void  SDR_ComputeLO(float freq);
 

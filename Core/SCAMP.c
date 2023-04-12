@@ -13,6 +13,7 @@
 //#pragma GCC push_options
 //#pragma GCC optimize ("O0")
 
+#ifdef USE_SCAMP
 const uint8_t ecc_6bit_codesymbols[60] = {'\0',   '\b',   '\r',    ' ',    '!',   0x22,   0x27,    '(',
 		')',    '*',    '+',    ',',    '-',    '.',    '/',    '0',
 		'1',    '2',    '3',    '4',    '5',    '6',    '7',    '8',
@@ -192,7 +193,7 @@ uint8_t GetTXBit(OutData_t* TXMessage, uint32_t n)
 
 }
 
-#ifdef USE_SCAMP
+
 void TXScamp(void)
 {
 	/*

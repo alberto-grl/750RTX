@@ -94,13 +94,14 @@ void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 	switch(CurrentMode)
 	{
 	case AM :
+#ifdef RECEIVE_AM
 		bw[AM] = newbw;
 		AMindex = (newbw == Narrow) ? 0 : 1;
 		AMindex = 0; // TODO toglimi
 		SDR_2R_toC_f32((float *)FFTmaskAM_R[AMindex],
 				(float *)FFTmaskAM_I[AMindex], FFTmask, FFTLEN);
 		break;
-
+#endif
 	case LSB :
 
 		bw[LSB] = newbw;
@@ -472,8 +473,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	switch(CurrentMode)
 	{	
 	case AM :
+#ifdef RECEIVE_AM
 		SDR_demodAM_AGC(tmpSamp, fAudio);  break;
-
+#endif
 	case LSB :
 	case USB :
 		SDR_demodSSB_CW_AGC(tmpSamp, fAudio); break;

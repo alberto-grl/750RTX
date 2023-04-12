@@ -270,6 +270,7 @@ extern void My_arm_cfft_f32(
 //#define UART_UI
 #define USB_UI
 
+#define RECEIVE_AM
 //#define TEST_SINGLE_ADC
 //#define AG_TEST_AUDIO
 

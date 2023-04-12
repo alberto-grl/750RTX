@@ -281,6 +281,8 @@ void SDR_CWPeak(float *buf, uint32_t blockSize)
 }
 // ------------------------------------------------------
 
+#ifdef RECEIVE_AM
+
 // AM demodulation with AGC
 void SDR_demodAM_AGC(float32_t * tmpSamp, float32_t * fAudio)
 {
@@ -316,6 +318,9 @@ void SDR_demodAM_AGC(float32_t * tmpSamp, float32_t * fAudio)
 	PeakAudioValue=pk;
 	if(hangcnt > 0)  hangcnt--;
 }
+
+#endif
+
 //---------------------------------------------------------------------------
 // SSB and CW demodulation with AGC
 void SDR_demodSSB_CW_AGC(float32_t * tmpSamp, float32_t * fAudio)

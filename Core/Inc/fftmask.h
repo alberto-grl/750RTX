@@ -603,6 +603,7 @@ const float FFTmaskSSB_I[1][1024] =
 };
 #endif
 
+#ifdef RECEIVE_AM
 const float FFTmaskAM_R[1][1024] =
 {
 		// AM_R PB width 3000 Hz
@@ -879,6 +880,6 @@ const float FFTmaskAM_I[1][1024] =
 		-0.0000000000f, -1.0244371285f,  0.0000000000f,  0.9821456130f,  0.0000000000f, -1.0108759818f,  0.0000000000f,  0.9963470772f,
 		}
 };
-
+#endif
 
 #endif
