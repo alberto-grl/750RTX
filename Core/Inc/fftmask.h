@@ -3,7 +3,7 @@
                    fftmask.h module of the program ARM_Radio
 						                          
 						                          Copyright 2015 by Alberto I2PHD, June 2015
-						                                      
+						 					Heavy remix by Alberto I4NZX
     This file is part of ARM_Radio.
 
     ARM_Radio is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@
 //                                Alberto I2PHD,  May 2015
 //
 
-
+#ifdef PRECALC_MASKS
 
 const float FFTmaskCW_R[1][1024] =
 {
@@ -319,7 +319,6 @@ const float FFTmaskCW_I[1][1024] =
 };
 
 
-#ifdef NEW_MASK
 
 const float FFTmaskSSB_R[1][1024] =
 {
@@ -599,10 +598,10 @@ const float FFTmaskSSB_I[1][1024] =
 		-0.0000058047f, -0.0000000467f, -0.0000056539f, -0.0000001219f, -0.0000051708f, -0.0000002098f, -0.0000041613f, -0.0000002991f,
 		-0.0000022342f, -0.0000003615f,  0.0000009985f, -0.0000003104f,  0.0000050130f,  0.0000000425f,  0.0000028282f,  0.0000001493f,
 }
-
 };
-#endif
 
+
+#ifdef RECEIVE_AM
 const float FFTmaskAM_R[1][1024] =
 {
 		// AM_R PB width 3000 Hz
@@ -879,6 +878,6 @@ const float FFTmaskAM_I[1][1024] =
 		-0.0000000000f, -1.0244371285f,  0.0000000000f,  0.9821456130f,  0.0000000000f, -1.0108759818f,  0.0000000000f,  0.9963470772f,
 		}
 };
-
-
+#endif
+#endif
 #endif

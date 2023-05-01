@@ -5,6 +5,7 @@
                    main.c module of the program ARM_Radio
 
                                                   Copyright 2015 by Alberto I2PHD, June 2015
+					Heavy remix by Alberto I4NZX
 
     This file is part of ARM_Radio.
 
@@ -39,6 +40,14 @@
  *
  * CW Decoder based on WB7FHC's Morse Code Decoder v1.1
  * https://github.com/kareiva/wb7fhc-cw-decoder
+ *
+ * On-demand filter generator based on Phil Karn KA9Q code, https://github.com/ka9q/ka9q-radio
+ * Simplified Linux test project is at https://github.com/alberto-grl/ka9q-filters
+ *
+ * SCAMP protocol by Daniel Marks, KW4TI https://github.com/profdc9/RFBitBanger/blob/main/Docs/SCAMP-Digital-Mode-Proposal-v0.6.pdf
+ * https://github.com/profdc9/RFBitBanger/blob/main/Code/RFBitBanger/scamp.c
+ * Linux SCAMP terminal and test code at https://github.com/alberto-grl/SCAMP_TERM
+ *
  *
  ******************************************************************************
   FAQ about cache https://community.st.com/s/article/FAQ-DMA-is-not-working-on-STM32H7-devices
@@ -132,9 +141,6 @@ UART_HandleTypeDef huart3;
 /* USER CODE BEGIN PV */
 
 /* Variable containing ADC conversions results */
-ALIGN_32BYTES(__IO uint32_t   aADCDualConvertedValues[BSIZE]);    /* ADC dual mode interleaved conversion results (ADC master and ADC slave results concatenated on data register 32 bits of ADC master). */
-//ALIGN_32BYTES(__IO uint16_t   aADCxConvertedValues[BSIZE]);       /* For the purpose of this example, dispatch dual conversion values into arrays corresponding to each ADC conversion values. */
-//ALIGN_32BYTES(__IO uint16_t   aADCyConvertedValues[BSIZE]);       /* For the purpose of this example, dispatch dual conversion values into arrays corresponding to each ADC conversion values. */
 ALIGN_32BYTES(__IO short AudioOut[BSIZE*2]);			  // A single array because we are using the half/full complete irq to switch between the two halves
 
 uint8_t         ubADCDualConversionComplete = RESET;                        /* Set into ADC conversion complete callback */
@@ -254,8 +260,8 @@ int main(void)
 	HAL_Delay(1);
 	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_1);
 	volume= 0.1;
-//	LED_GREEN_ON;
-//	LED_GREEN_OFF;
+	//	LED_GREEN_ON;
+	//	LED_GREEN_OFF;
 
 	// Set now the default values for some variables
 	SetFstep(2);
@@ -280,6 +286,7 @@ int main(void)
 
 	//	DualADCGainCorrection = 2048.f;  //2048 nominal value for ADC with no error
 
+	HAdc1 = &hadc1;
 #ifdef FAKE_SQUARE_RF_SIGNAL
 
 	uint16_t k;
@@ -451,17 +458,17 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
 #ifdef WSPR_BEACON_MODE
-//Pressing the encoder knob during startup enters DCF77 sync and WSPR beacon mode
-  if (ENC_BUTTON)
-  {
-	  SetMode((Mode)CW);
-	  LOfreq = DCF77_FREQ;
-	  WSPRBeaconMode = 1;
-  }
+	//Pressing the encoder knob during startup enters DCF77 sync and WSPR beacon mode
+	if (ENC_BUTTON)
+	{
+		SetMode((Mode)CW);
+		LOfreq = DCF77_FREQ;
+		WSPRBeaconMode = 1;
+	}
 #endif
 
-	  while (1)
-  {
+	while (1)
+	{
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -493,14 +500,17 @@ void SystemClock_Config(void)
   /** Supply configuration update enable
   */
   HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
+
   /** Configure the main internal regulator output voltage
   */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
 
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
+
   /** Macro to configure the PLL clock source
   */
   __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
+
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
@@ -510,8 +520,8 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 10;
-  RCC_OscInitStruct.PLL.PLLN = 380;
-  RCC_OscInitStruct.PLL.PLLP = 2;
+  RCC_OscInitStruct.PLL.PLLN = 81;
+  RCC_OscInitStruct.PLL.PLLP = 16;
   RCC_OscInitStruct.PLL.PLLQ = 2;
   RCC_OscInitStruct.PLL.PLLR = 2;
   RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_1;
@@ -521,6 +531,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -534,7 +545,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
   RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
   {
     Error_Handler();
   }
@@ -564,7 +575,7 @@ void PeriphCommonClock_Config(void)
   PeriphClkInitStruct.PLL3.PLL3N = 512;
   PeriphClkInitStruct.PLL3.PLL3P = 2;
   PeriphClkInitStruct.PLL3.PLL3Q = 8;
-  PeriphClkInitStruct.PLL3.PLL3R = 4;
+  PeriphClkInitStruct.PLL3.PLL3R = 16;
   PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_0;
   PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
   PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
@@ -595,6 +606,7 @@ static void MX_ADC1_Init(void)
   /* USER CODE BEGIN ADC1_Init 1 */
 
   /* USER CODE END ADC1_Init 1 */
+
   /** Common config
   */
   hadc1.Instance = ADC1;
@@ -616,6 +628,7 @@ static void MX_ADC1_Init(void)
   {
     Error_Handler();
   }
+
   /** Configure the ADC multi-mode
   */
   multimode.Mode = ADC_DUALMODE_INTERL;
@@ -625,6 +638,7 @@ static void MX_ADC1_Init(void)
   {
     Error_Handler();
   }
+
   /** Configure Analog WatchDog 1
   */
   AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
@@ -637,6 +651,7 @@ static void MX_ADC1_Init(void)
   {
     Error_Handler();
   }
+
   /** Configure Regular Channel
   */
   sConfig.Channel = ADC_CHANNEL_5;
@@ -674,6 +689,7 @@ static void MX_ADC2_Init(void)
   /* USER CODE BEGIN ADC2_Init 1 */
 
   /* USER CODE END ADC2_Init 1 */
+
   /** Common config
   */
   hadc2.Instance = ADC2;
@@ -693,6 +709,7 @@ static void MX_ADC2_Init(void)
   {
     Error_Handler();
   }
+
   /** Configure Analog WatchDog 1
   */
   AnalogWDGConfig.WatchdogNumber = ADC_ANALOGWATCHDOG_1;
@@ -705,6 +722,7 @@ static void MX_ADC2_Init(void)
   {
     Error_Handler();
   }
+
   /** Configure Regular Channel
   */
   sConfig.Channel = ADC_CHANNEL_5;
@@ -741,6 +759,7 @@ static void MX_DAC1_Init(void)
   /* USER CODE BEGIN DAC1_Init 1 */
 
   /* USER CODE END DAC1_Init 1 */
+
   /** DAC Initialization
   */
   hdac1.Instance = DAC1;
@@ -748,6 +767,7 @@ static void MX_DAC1_Init(void)
   {
     Error_Handler();
   }
+
   /** DAC channel OUT1 config
   */
   sConfig.DAC_SampleAndHold = DAC_SAMPLEANDHOLD_DISABLE;
@@ -759,6 +779,7 @@ static void MX_DAC1_Init(void)
   {
     Error_Handler();
   }
+
   /** DAC channel OUT2 config
   */
   sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
@@ -1191,13 +1212,13 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 void HAL_DAC_ConvCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	ValidAudioHalf = &AudioOut[BSIZE];
-//	LED_RED_ON;
+	//	LED_RED_ON;
 }
 
 void HAL_DAC_ConvHalfCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	ValidAudioHalf = &AudioOut[0];
-//	LED_RED_OFF;
+	//	LED_RED_OFF;
 }
 
 void SystemClock_Config_For_OC(void)
@@ -1532,7 +1553,19 @@ void UserInput(void)
 
 	if (WSPRBeaconState == SEND_WSPR)
 	{
+		HAL_ADCEx_MultiModeStop_DMA(&hadc1);
+
+//		HAL_Delay(100);
 		SendWSPR(); //endless loop, only way to exit is by CW keying.
+		if (HAL_ADCEx_MultiModeStart_DMA(&hadc1,
+				(uint32_t *)aADCDualConvertedValues,
+				BSIZE   //Source code says transfer size is in bytes, but it is in number of transfers
+				//We transfer BSIZE * 4 bytes, it equals 2 * BSIZE samples (1024) because we have full and half interrupts
+		) != HAL_OK)
+		{
+			/* Start Error */
+			Error_Handler();
+		}
 		TXSwitch(0);
 		CarrierEnable(0);
 		WSPRBeaconState = NO_FIX;
@@ -2049,7 +2082,7 @@ void SetWSPRPLLCoeff(double TXFreq, uint16_t *FracDivCoeff, uint16_t *FracPWMCoe
 
 	volatile double TF, OutFHigherStep, OutF, MinDiff = 999999999;
 	uint32_t m, n, p, od;
-	volatile uint32_t fm, fn, fp, fdiff, fod, FMaxErr, FracDiv, i;
+	volatile uint32_t fm, fn, fp, fod, FracDiv, i;
 	LastTXFreq = (float)TXFreq;
 #define TEST_COEFF 1
 	for (i = 0; i < 4; i++) {
@@ -2118,7 +2151,7 @@ void SetTXPLL(float TF)
 
 	volatile float OutFHigherStep, OutF, MinDiff = 999999999;
 	uint32_t m, n, p, od;
-	volatile uint32_t fm, fn, fp, fod, FMaxErr, FracDiv;
+	volatile uint32_t fm, fn, fp, fod, FracDiv;
 
 
 	MinDiff = 999999999;
@@ -2282,4 +2315,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-

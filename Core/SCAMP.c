@@ -2,7 +2,9 @@
  * SCAMP.c
  *
  *  Created on: 16 feb 2022
- *      Author: albytest
+ * SCAMP protocol by Daniel Marks, KW4TI https://github.com/profdc9/RFBitBanger/blob/main/Docs/SCAMP-Digital-Mode-Proposal-v0.6.pdf
+ * https://github.com/profdc9/RFBitBanger/blob/main/Code/RFBitBanger/scamp.c
+ * Linux SCAMP terminal and test code at https://github.com/alberto-grl/SCAMP_TERM
  */
 
 #include "stdio.h"
@@ -13,6 +15,7 @@
 //#pragma GCC push_options
 //#pragma GCC optimize ("O0")
 
+#ifdef USE_SCAMP
 const uint8_t ecc_6bit_codesymbols[60] = {'\0',   '\b',   '\r',    ' ',    '!',   0x22,   0x27,    '(',
 		')',    '*',    '+',    ',',    '-',    '.',    '/',    '0',
 		'1',    '2',    '3',    '4',    '5',    '6',    '7',    '8',
@@ -192,7 +195,7 @@ uint8_t GetTXBit(OutData_t* TXMessage, uint32_t n)
 
 }
 
-#ifdef USE_SCAMP
+
 void TXScamp(void)
 {
 	/*

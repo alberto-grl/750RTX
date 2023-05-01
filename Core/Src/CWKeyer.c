@@ -12,6 +12,7 @@
 //
 //  Copyright 2019, 2020, 2021   Guido PE1NNZ <pe1nnz@amsat.org>
 //
+// Adapted by Alberto I4NZX
 //  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /*
  *
@@ -125,7 +126,7 @@ void switch_rxtx(uint8_t tx_enable){
 	}
 }
 
-HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
 #ifdef USE_KEYER
 	DoKeyer();
@@ -235,7 +236,7 @@ uint8_t delayWithKeySense(uint32_t ms){
   return 0;
 }
 
-char cw_msg[6][48] = { "CQ CQ CQ CQ DE I4NZX I4NZX I4NZX K", "CQ TEST CQ OQRP DE I4NZX I4NZX K", "GE TKS 5NN 5NN NAME IS GUIDO GUIDO HW?", "FB RPTR TX 5W 5W ANT INV V 73 CUAGN", "73 TU E E", "PE1NNN" };
+char cw_msg[6][48] = { "CQ CQ CQ CQ DE I4NZX I4NZX I4NZX K", "CQ SOTA DE I4NZX/P I4NZX/P K", "GE TKS 5NN 5NN NAME IS GUIDO GUIDO HW?", "FB RPTR TX 5W 5W ANT INV V 73 CUAGN", "73 TU E E", "PE1NNN" };
 
 
 uint8_t cw_msg_interval = 5; // number of seconds CW message is repeated

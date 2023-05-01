@@ -1,5 +1,6 @@
-
-
+/* CW Decoder based on WB7FHC's Morse Code Decoder v1.1
+ * https://github.com/kareiva/wb7fhc-cw-decoder
+*/
 #include "main.h"
 #include <arm_const_structs.h>
 #include "Presets.h"
