@@ -5,6 +5,7 @@
                    main.c module of the program ARM_Radio
 
                                                   Copyright 2015 by Alberto I2PHD, June 2015
+					Heavy remix by Alberto I4NZX
 
     This file is part of ARM_Radio.
 
@@ -39,6 +40,14 @@
  *
  * CW Decoder based on WB7FHC's Morse Code Decoder v1.1
  * https://github.com/kareiva/wb7fhc-cw-decoder
+ *
+ * On-demand filter generator based on Phil Karn KA9Q code, https://github.com/ka9q/ka9q-radio
+ * Simplified Linux test project is at https://github.com/alberto-grl/ka9q-filters
+ *
+ * SCAMP protocol by Daniel Marks, KW4TI https://github.com/profdc9/RFBitBanger/blob/main/Docs/SCAMP-Digital-Mode-Proposal-v0.6.pdf
+ * https://github.com/profdc9/RFBitBanger/blob/main/Code/RFBitBanger/scamp.c
+ * Linux SCAMP terminal and test code at https://github.com/alberto-grl/SCAMP_TERM
+ *
  *
  ******************************************************************************
   FAQ about cache https://community.st.com/s/article/FAQ-DMA-is-not-working-on-STM32H7-devices
@@ -2073,7 +2082,7 @@ void SetWSPRPLLCoeff(double TXFreq, uint16_t *FracDivCoeff, uint16_t *FracPWMCoe
 
 	volatile double TF, OutFHigherStep, OutF, MinDiff = 999999999;
 	uint32_t m, n, p, od;
-	volatile uint32_t fm, fn, fp, fdiff, fod, FMaxErr, FracDiv, i;
+	volatile uint32_t fm, fn, fp, fod, FracDiv, i;
 	LastTXFreq = (float)TXFreq;
 #define TEST_COEFF 1
 	for (i = 0; i < 4; i++) {
@@ -2142,7 +2151,7 @@ void SetTXPLL(float TF)
 
 	volatile float OutFHigherStep, OutF, MinDiff = 999999999;
 	uint32_t m, n, p, od;
-	volatile uint32_t fm, fn, fp, fod, FMaxErr, FracDiv;
+	volatile uint32_t fm, fn, fp, fod, FracDiv;
 
 
 	MinDiff = 999999999;

@@ -2,7 +2,7 @@
  * WSPR.c
  *
  *  Created on: 22 nov 2022
- *      Author: alberto
+ *    Heavy remix by Alberto I4NZX
  */
 
 /*

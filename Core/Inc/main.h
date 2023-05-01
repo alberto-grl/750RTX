@@ -174,6 +174,7 @@ extern void sendToLCD(void);
 extern void printCharacter(void);
 extern void shiftBits(void);
 extern void PrintUI(uint8_t*);
+extern void SDR_demodAM_AGC(float32_t *, float32_t *);
 
 extern void CarrierEnable(uint8_t);
 extern void TXSwitch(uint8_t);
@@ -195,6 +196,10 @@ extern void My_arm_cfft_f32(
 		        float32_t *,
 		        uint8_t,
 		        uint8_t);
+
+extern void SetMask(float, float);
+extern int make_kaiser(float *,unsigned int, float);
+extern float i0(float);
 
 /* USER CODE END EFP */
 
@@ -259,7 +264,7 @@ extern void My_arm_cfft_f32(
 //#define CLK_600M_CPU_160M_ADC_XTAL25 /* new board */
 //#define CLK_600M_CPU_150M_ADC_XTAL25 /* ADC sample rate too high for CPU to consume data. Popping noise  */
 //#define CLK_600M_CPU_120M_ADC_XTAL25 /* new board */
-#define CLK_600M_CPU_128M_ADC_XTAL25 /* new board */
+#define CLK_600M_CPU_128M_ADC_XTAL25 /* new board USE THIS*/
 //#define CLK_600M_CPU_96M_ADC_XTAL25 /* new board */
 //#define CLK_620M_CPU_160M_ADC_XTAL25 /* new board Motorboat noise */
 //#define CLK_640M_CPU_160M_ADC_XTAL25 /*CPU Hangs - DO NOT USE. new board */
@@ -270,6 +275,13 @@ extern void My_arm_cfft_f32(
 //#define UART_UI
 #define USB_UI
 
+//FFT masks are precalculated with Remez exchange in Octave and Matlab, or on demand with window fast convolution
+//Shape of the filter from the former method is somewhat better but uses more flash storage, about 23 KB for three filters.
+//It is possible to mantain Remez and save memory by dropping AM filter (disable RECEIVE_AM)
+//FFT masks are calculated with the scripts in the "FFT Mask generators" folder
+//
+#define PRECALC_MASKS
+//save memory by commenting out
 #define RECEIVE_AM
 //#define TEST_SINGLE_ADC
 //#define AG_TEST_AUDIO
@@ -328,11 +340,6 @@ extern void My_arm_cfft_f32(
 #define MID_POWER_OUT (2048)
 #define MAX_POWER_OUT (4095)
 
-
-
-//FFT filter test
-#define NEW_MASK
-//#define OLD_MASK
 
 
 #define BSIZE        (512)

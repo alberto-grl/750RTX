@@ -3,7 +3,7 @@
                    SDR_func.c module of the program ARM_Radio
 
 						                          Copyright 2015 by Alberto I2PHD, June 2015
-
+					Heavy remix by Alberto I4NZX
     This file is part of ARM_Radio.
 
     ARM_Radio is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ extern uint16_t LowestWSPRToneFracDivPWM;
 
 
 #ifdef TEST_FRAC_DIV
-static int16_t IntCounter, FracDutyCycle;
+static int16_t IntCounter;
 #endif
 
 //#include "Presets.h"
@@ -90,6 +90,9 @@ void Tune_Preset(uint8_t Idx)
 // and change the color of the buttons to indicate the active bandwidth
 void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 {
+	if (newbw == CurrentBW)
+		return;
+
 	CurrentBW = newbw;
 	switch(CurrentMode)
 	{
@@ -98,8 +101,13 @@ void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 		bw[AM] = newbw;
 		AMindex = (newbw == Narrow) ? 0 : 1;
 		AMindex = 0; // TODO toglimi
+#ifdef PRECALC_MASKS
 		SDR_2R_toC_f32((float *)FFTmaskAM_R[AMindex],
 				(float *)FFTmaskAM_I[AMindex], FFTmask, FFTLEN);
+#else
+
+		SetMask(-3000.0f, 3000.0f);
+#endif
 		break;
 #endif
 	case LSB :
@@ -108,8 +116,12 @@ void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 		LSBindex = (newbw == Narrow) ? 0 : 1;
 		AMindex = (newbw == Narrow) ? 0 : 1;
 		LSBindex = 0; // TODO toglimi
+#ifdef PRECALC_MASKS
 		SDR_2R_toC_f32((float *)FFTmaskSSB_R[LSBindex],
 				(float *)FFTmaskSSB_I[LSBindex], FFTmask, FFTLEN);
+#else
+		SetMask(300.0f, 2500.0f);
+#endif
 
 		break;
 
@@ -119,9 +131,12 @@ void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 		USBindex = (newbw == Narrow) ? 0 : 1;
 		AMindex = (newbw == Narrow) ? 0 : 1;
 		USBindex = 0; // TODO toglimi
+#ifdef PRECALC_MASKS
 		SDR_2R_toC_f32((float *)FFTmaskSSB_R[USBindex],
 				(float *)FFTmaskSSB_I[USBindex], FFTmask, FFTLEN);
-
+#else
+		SetMask(300.0f, 2500.0f);
+#endif
 		break;
 
 	case CW  :
@@ -129,9 +144,12 @@ void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 		bw[CW] = newbw;
 		CWindex = (newbw == Narrow) ? 0 : 1;
 		CWindex = 0; // TODO toglimi
+#ifdef PRECALC_MASKS
 		SDR_2R_toC_f32((float *)FFTmaskCW_R[CWindex],
 				(float *)FFTmaskCW_I[CWindex], FFTmask, FFTLEN);
-
+#else
+		SetMask(500.0f, 800.0f); //CWPITCH is 650
+#endif
 		break;
 
 	default :
@@ -171,6 +189,9 @@ void SetAGC(/*WM_HWIN ptr,*/ Agctype newAGC)
 
 void SetMode(/*WM_HWIN ptr,*/ Mode newmode)
 {
+	if (CurrentMode == newmode)
+		return;
+
 	CurrentMode = newmode;
 
 	switch(CurrentMode)
@@ -258,11 +279,12 @@ void LED_switch()
 //void EXTI1_IRQHandler()
 void HAL_GPIO_EXTI_Callback(uint16_t pin)
 {
-
+#ifdef CW_DECODER
 	volatile uint16_t WFSample;
 	volatile float tmp;
 	float BinValue;
 	int16_t i;
+#endif
 
 
 
@@ -499,7 +521,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 		BaseNoiseLevel = 9999.f;
 		//	uint16_t i;
 
-		for (i = 0; i < BSIZE; i++)
+		for (int i = 0; i < BSIZE; i++)
 		{
 			CWLevel = fabs(fAudio[i]);
 			CWLevelFiltered = CW_LEVEL_AVERAGE_T_CONST * CWLevel + (1 - CW_LEVEL_AVERAGE_T_CONST) * OldCWLevelAverage;
@@ -546,7 +568,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	// CW tone while keying
 	//TODO: make it sine and with attack/decay
 	if (TXCarrierEnabled)
-		for (i=0; i<BSIZE; i++)
+		for (int i=0; i<BSIZE; i++)
 		{
 			if (i % 64 > 31)
 				fAudio[i] = volume * SIDETONE_VOLUME; //Volume
@@ -556,7 +578,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	else
 	{
 		if (TransmissionEnabled)
-			for (i=0; i<BSIZE; i++)
+			for (int i=0; i<BSIZE; i++)
 			{
 				fAudio[i] = 0.;
 			}

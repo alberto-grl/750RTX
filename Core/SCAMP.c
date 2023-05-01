@@ -2,7 +2,9 @@
  * SCAMP.c
  *
  *  Created on: 16 feb 2022
- *      Author: albytest
+ * SCAMP protocol by Daniel Marks, KW4TI https://github.com/profdc9/RFBitBanger/blob/main/Docs/SCAMP-Digital-Mode-Proposal-v0.6.pdf
+ * https://github.com/profdc9/RFBitBanger/blob/main/Code/RFBitBanger/scamp.c
+ * Linux SCAMP terminal and test code at https://github.com/alberto-grl/SCAMP_TERM
  */
 
 #include "stdio.h"
