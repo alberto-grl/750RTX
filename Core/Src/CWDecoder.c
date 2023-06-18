@@ -5,7 +5,7 @@
 #include <arm_const_structs.h>
 #include "Presets.h"
 #include "Globals.h"
-#include "usbd_cdc_if.h"
+//#include "usbd_cdc_if.h"
 
 #ifdef CW_DECODER
 

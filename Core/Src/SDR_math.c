@@ -152,10 +152,10 @@ void SDR_float_to_DAC_audio(float *pSrc, short *pDst, uint16_t blockSize)
 	blkCnt = blockSize >> 2u;   // loop unrolling.  Compute 4 outputs at a time
 	while(blkCnt--)
 	{
-		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * volume);
-		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * volume);
-		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * volume);
-		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * volume);
+		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * RXVolume);
+		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * RXVolume);
+		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * RXVolume);
+		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * RXVolume);
 	}	
 
 	// SCB_Clean because is from RAM to DMA. Invalidate is for DMA to RAM

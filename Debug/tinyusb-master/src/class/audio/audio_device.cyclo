@@ -1,0 +1,16 @@
+audio_device.c:848:13:audiod_tx_done_cb.constprop	12
+audio_device.c:460:6:tud_audio_n_mounted	3
+audio_device.c:490:10:tud_audio_n_available	3
+audio_device.c:496:10:tud_audio_n_read	3
+audio_device.c:502:6:tud_audio_n_clear_ep_out_ff	3
+audio_device.c:508:12:tud_audio_n_get_ep_out_ff	2
+audio_device.c:764:10:tud_audio_n_write	3
+audio_device.c:770:6:tud_audio_n_clear_ep_in_ff	3
+audio_device.c:776:12:tud_audio_n_get_ep_in_ff	2
+audio_device.c:1088:6:audiod_init	1
+audio_device.c:1401:6:audiod_reset	1
+audio_device.c:1434:10:audiod_open	8
+audio_device.c:2049:6:audiod_control_xfer_cb	94
+audio_device.c:2063:6:audiod_xfer_cb	20
+audio_device.c:2215:24:audiod_sof_isr	1
+audio_device.c:2246:6:tud_audio_buffer_and_schedule_control_xfer	22

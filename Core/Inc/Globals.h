@@ -87,7 +87,7 @@ EXTERN arm_fir_decimate_instance_f32 SfirI;
 
 EXTERN float TestSampledValue;
 
-EXTERN float     volume, Qfactor, a1, a2, b0, cwpitch, audiotmp,
+EXTERN float     RXVolume, Qfactor, a1, a2, b0, cwpitch, audiotmp,
 	               AgcThreshold, AGC_decay[2], LOfreq, mean, meanavg, Decay[4];
 EXTERN uint16_t  Hangcount[2], AMindex, LSBindex, USBindex, CWindex, Hcount[4];    
 EXTERN Mode      CurrentMode;

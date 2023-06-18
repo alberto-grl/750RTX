@@ -9,10 +9,53 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include USB_DEVICE/Target/subdir.mk
--include USB_DEVICE/App/subdir.mk
--include Middlewares/ST/STM32_USB_Device_Library/Core/Src/subdir.mk
--include Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/subdir.mk
+-include tinyusb-master/src/portable/wch/ch32v307/subdir.mk
+-include tinyusb-master/src/portable/valentyusb/eptri/subdir.mk
+-include tinyusb-master/src/portable/ti/msp430x5xx/subdir.mk
+-include tinyusb-master/src/portable/template/subdir.mk
+-include tinyusb-master/src/portable/sunxi/subdir.mk
+-include tinyusb-master/src/portable/st/synopsys/subdir.mk
+-include tinyusb-master/src/portable/st/stm32_fsdev/subdir.mk
+-include tinyusb-master/src/portable/sony/cxd56/subdir.mk
+-include tinyusb-master/src/portable/renesas/rusb2/subdir.mk
+-include tinyusb-master/src/portable/raspberrypi/rp2040/subdir.mk
+-include tinyusb-master/src/portable/raspberrypi/pio_usb/subdir.mk
+-include tinyusb-master/src/portable/ohci/subdir.mk
+-include tinyusb-master/src/portable/nxp/transdimension/subdir.mk
+-include tinyusb-master/src/portable/nxp/lpc_ip3511/subdir.mk
+-include tinyusb-master/src/portable/nxp/lpc17_40/subdir.mk
+-include tinyusb-master/src/portable/nxp/khci/subdir.mk
+-include tinyusb-master/src/portable/nuvoton/nuc505/subdir.mk
+-include tinyusb-master/src/portable/nuvoton/nuc121/subdir.mk
+-include tinyusb-master/src/portable/nuvoton/nuc120/subdir.mk
+-include tinyusb-master/src/portable/nordic/nrf5x/subdir.mk
+-include tinyusb-master/src/portable/mindmotion/mm32/subdir.mk
+-include tinyusb-master/src/portable/microchip/samx7x/subdir.mk
+-include tinyusb-master/src/portable/microchip/samg/subdir.mk
+-include tinyusb-master/src/portable/microchip/samd/subdir.mk
+-include tinyusb-master/src/portable/microchip/pic32mz/subdir.mk
+-include tinyusb-master/src/portable/microchip/pic/subdir.mk
+-include tinyusb-master/src/portable/mentor/musb/subdir.mk
+-include tinyusb-master/src/portable/espressif/esp32sx/subdir.mk
+-include tinyusb-master/src/portable/ehci/subdir.mk
+-include tinyusb-master/src/portable/dialog/da146xx/subdir.mk
+-include tinyusb-master/src/portable/chipidea/ci_hs/subdir.mk
+-include tinyusb-master/src/portable/bridgetek/ft9xx/subdir.mk
+-include tinyusb-master/src/host/subdir.mk
+-include tinyusb-master/src/device/subdir.mk
+-include tinyusb-master/src/common/subdir.mk
+-include tinyusb-master/src/class/video/subdir.mk
+-include tinyusb-master/src/class/vendor/subdir.mk
+-include tinyusb-master/src/class/usbtmc/subdir.mk
+-include tinyusb-master/src/class/net/subdir.mk
+-include tinyusb-master/src/class/msc/subdir.mk
+-include tinyusb-master/src/class/midi/subdir.mk
+-include tinyusb-master/src/class/hid/subdir.mk
+-include tinyusb-master/src/class/dfu/subdir.mk
+-include tinyusb-master/src/class/cdc/subdir.mk
+-include tinyusb-master/src/class/bth/subdir.mk
+-include tinyusb-master/src/class/audio/subdir.mk
+-include tinyusb-master/src/subdir.mk
 -include Drivers/STM32H7xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/CMSIS/subdir.mk
@@ -67,7 +110,7 @@ main-build: 750RTX.elf secondary-outputs
 
 # Tool invocations
 750RTX.elf 750RTX.map: $(OBJS) $(USER_OBJS) G:\Il\ mio\ Drive\750RTX\STM32H750VBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "750RTX.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"G:\Il mio Drive\750RTX\STM32H750VBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="750RTX.map" -Wl,--gc-sections -static -L"C:\Users\alberto\STM32Cube\Repository\STM32Cube_FW_H7_V1.9.0\Drivers\CMSIS/DSP/Lib/GCC" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "750RTX.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"G:\Il mio Drive\750RTX\STM32H750VBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="750RTX.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
