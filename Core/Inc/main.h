@@ -307,7 +307,7 @@ extern float i0(float);
 //#define SNAPSHOT_ACQUISITION_DBG
 
 //At power on listens to DCF77, waits for two fixes with reasonable content, starts WSPR beacon
-#define WSPR_BEACON_MODE
+//#define WSPR_BEACON_MODE
 #define WSPR_FREQ 7040135.f
 
 //this is the frequency for RX in USB

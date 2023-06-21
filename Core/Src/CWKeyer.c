@@ -126,6 +126,7 @@ void switch_rxtx(uint8_t tx_enable){
 	}
 }
 
+#if 0
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
 #ifdef USE_KEYER
@@ -134,10 +135,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 #ifdef USE_SCAMP
 	TXScamp();
 #endif
-
 }
-
-
+#endif
 
 void DoKeyer(void)
 {

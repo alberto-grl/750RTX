@@ -36,7 +36,7 @@ _estack = ORIGIN(RAM_D1) + LENGTH(RAM_D1);	/* end of "RAM_D1" Ram type memory */
 /*_estack = ORIGIN(DTCMRAM) + LENGTH(DTCMRAM);*/	/*Sprintf dosn't work in DTCM, for now end of "DTCMRAM" Ram type memory */
 
 _Min_Heap_Size = 0x220;	/* required amount of heap  */
-_Min_Stack_Size = 0x420;	/* required amount of stack */
+_Min_Stack_Size = 0x620;	/* required amount of stack */
 
 /* Memories definition */
 MEMORY
