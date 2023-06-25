@@ -256,7 +256,7 @@ extern float i0(float);
 // Select CPU and ADC Clock. Uncomment only one at a time
 //#define CLK_600M_CPU_150M_ADC
 //TODO 500 128 seems to be bad
-//#define CLK_500M_CPU_120M_ADC
+//#define CLK_500M_CPU_120M_ADC /*Works but check the tim6 DAC setting*/
 //#define CLK_500M_CPU_128M_ADC
 //#define CLK_480M_CPU_120M_ADC /*old board*/
 //#define CLK_600M_CPU_60M_ADC
@@ -264,7 +264,7 @@ extern float i0(float);
 //#define CLK_600M_CPU_160M_ADC_XTAL25 /* new board */
 //#define CLK_600M_CPU_150M_ADC_XTAL25 /* ADC sample rate too high for CPU to consume data. Popping noise  */
 //#define CLK_600M_CPU_120M_ADC_XTAL25 /* new board */
-#define CLK_600M_CPU_128M_ADC_XTAL25 /* new board USE THIS*/
+  #define CLK_600M_CPU_128M_ADC_XTAL25 /* new board USE THIS*/
 //#define CLK_600M_CPU_96M_ADC_XTAL25 /* new board */
 //#define CLK_620M_CPU_160M_ADC_XTAL25 /* new board Motorboat noise */
 //#define CLK_640M_CPU_160M_ADC_XTAL25 /*CPU Hangs - DO NOT USE. new board */

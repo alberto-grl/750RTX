@@ -64,6 +64,16 @@
   FT8 FSK: 8 different tones spaced at 5.86 Hz (6.25 is reported elsewhere)
 
   MCO2 output is pin PC9, CN8 pin 4.
+
+
+  TIM4 - Encoder
+  TIM6 - DMA trigger for audio DAC
+  TIM7 - CW Keyer
+  TIM13 - TinyUSB periodic call
+  TIM7 - CW Keyer
+
+  PA6 - Keyer Dash
+  PA7 - Keyer Dot
  */
 
 #define IN_MAIN
@@ -166,6 +176,7 @@ enum
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
 ADC_HandleTypeDef hadc2;
+ADC_HandleTypeDef hadc3;
 DMA_HandleTypeDef hdma_adc1;
 
 DAC_HandleTypeDef hdac1;
@@ -246,6 +257,7 @@ static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
 static void MX_TIM13_Init(void);
+static void MX_ADC3_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -676,24 +688,46 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
 	if (htim->Instance == TIM13)
 	{
-	tud_task();
-	//		audio_task(); //not needed anymore
-	MainLoopCounter++;  //used with debugger to check frequency of main loop
-	//        cdc_task(); //not needed anymore
-//	led_blinking_task();
+		tud_task();
+		//		audio_task(); //not needed anymore
+		MainLoopCounter++;  //used with debugger to check frequency of main loop
+		//        cdc_task(); //not needed anymore
+		//	led_blinking_task();
 	}
 
 	if (htim->Instance == TIM7)
 	{
 #ifdef USE_KEYER
-	DoKeyer();
+		DoKeyer();
 #endif
 #ifdef USE_SCAMP
-	TXScamp();
+		TXScamp();
 #endif
 	}
 }
 
+int32_t adc_ReadInternalTemp(void)
+
+{
+
+   int32_t Temp;
+   uint32_t adcTempVal;
+   uint32_t adcVRefVal;
+   uint32_t T1_30;
+   uint32_t T2_110;
+   uint32_t VRefMilliVoltsValue;
+   HAL_ADC_PollForConversion(&hadc3, 100);
+   adcVRefVal = HAL_ADC_GetValue(&hadc3);
+   HAL_ADC_PollForConversion(&hadc3, 100);
+   adcTempVal = HAL_ADC_GetValue(&hadc3);
+
+   // Calculating VRef voltage
+   	VRefMilliVoltsValue = __HAL_ADC_CALC_VREFANALOG_VOLTAGE(adcVRefVal, ADC_RESOLUTION_16B);
+   	Temp = __HAL_ADC_CALC_TEMPERATURE(VRefMilliVoltsValue, adcTempVal, ADC_RESOLUTION_16B);
+
+   return Temp; // 55-59 °C at startup, 80°C after warming up
+
+}
 
 /* USER CODE END 0 */
 
@@ -754,6 +788,7 @@ int main(void)
   MX_TIM3_Init();
   MX_USB_OTG_FS_PCD_Init();
   MX_TIM13_Init();
+  MX_ADC3_Init();
   /* USER CODE BEGIN 2 */
 	/* Enable D-Cache---------------------------------------------------------*/
 #ifdef USE_DCACHE
@@ -762,6 +797,11 @@ int main(void)
 	TU_ASSERT(tusb_init());
 	// Initialise again so we can change divider with a #define in main.h
 	MX_TIM6_Init_Custom_Rate();
+	//used for MPU temperature reading
+	if( HAL_OK != HAL_ADC_Start(&hadc3))
+	{
+		Error_Handler();
+	}
 
 	/* Run the ADC calibration in single-ended mode */
 	if (HAL_ADCEx_Calibration_Start(&hadc1, ADC_CALIB_OFFSET_LINEARITY, ADC_SINGLE_ENDED) != HAL_OK)
@@ -775,6 +815,11 @@ int main(void)
 		// Calibration Error
 		Error_Handler();
 	}
+	if (HAL_ADCEx_Calibration_Start(&hadc3, ADC_CALIB_OFFSET_LINEARITY, ADC_SINGLE_ENDED) != HAL_OK)
+		{
+			// Calibration Error
+			Error_Handler();
+		}
 	HAL_Delay(1);
 	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_1);
 	RXVolume= 0.1;
@@ -984,10 +1029,14 @@ int main(void)
 		WSPRBeaconMode = 1;
 	}
 #endif
+
+#if 1
 	if (HAL_TIM_Base_Start_IT(&htim13) != HAL_OK)
-		{
-			Error_Handler();
-		}
+	{
+		Error_Handler();
+	}
+#endif
+
 	while (1)
 	{
     /* USER CODE END WHILE */
@@ -1024,7 +1073,12 @@ void SystemClock_Config(void)
 
   /** Configure the main internal regulator output voltage
   */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
+  while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
+
+  __HAL_RCC_SYSCFG_CLK_ENABLE();
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
 
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
 
@@ -1032,16 +1086,16 @@ void SystemClock_Config(void)
   * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
   RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 10;
-  RCC_OscInitStruct.PLL.PLLN = 81;
-  RCC_OscInitStruct.PLL.PLLP = 16;
+  RCC_OscInitStruct.PLL.PLLM = 5;
+  RCC_OscInitStruct.PLL.PLLN = 192;
+  RCC_OscInitStruct.PLL.PLLP = 2;
   RCC_OscInitStruct.PLL.PLLQ = 2;
   RCC_OscInitStruct.PLL.PLLR = 2;
-  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_1;
+  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_2;
   RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
   RCC_OscInitStruct.PLL.PLLFRACN = 0;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -1062,7 +1116,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
   RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
   {
     Error_Handler();
   }
@@ -1080,21 +1134,21 @@ void PeriphCommonClock_Config(void)
   /** Initializes the peripherals clock
   */
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADC|RCC_PERIPHCLK_LPTIM2;
-  PeriphClkInitStruct.PLL2.PLL2M = 14;
-  PeriphClkInitStruct.PLL2.PLL2N = 447;
-  PeriphClkInitStruct.PLL2.PLL2P = 114;
+  PeriphClkInitStruct.PLL2.PLL2M = 2;
+  PeriphClkInitStruct.PLL2.PLL2N = 12;
+  PeriphClkInitStruct.PLL2.PLL2P = 3;
   PeriphClkInitStruct.PLL2.PLL2Q = 2;
   PeriphClkInitStruct.PLL2.PLL2R = 2;
-  PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_0;
-  PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
+  PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_3;
+  PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOMEDIUM;
   PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
-  PeriphClkInitStruct.PLL3.PLL3M = 25;
-  PeriphClkInitStruct.PLL3.PLL3N = 512;
+  PeriphClkInitStruct.PLL3.PLL3M = 2;
+  PeriphClkInitStruct.PLL3.PLL3N = 12;
   PeriphClkInitStruct.PLL3.PLL3P = 2;
   PeriphClkInitStruct.PLL3.PLL3Q = 8;
-  PeriphClkInitStruct.PLL3.PLL3R = 16;
-  PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_0;
-  PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
+  PeriphClkInitStruct.PLL3.PLL3R = 4;
+  PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_3;
+  PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOMEDIUM;
   PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
   PeriphClkInitStruct.Lptim2ClockSelection = RCC_LPTIM2CLKSOURCE_PLL2;
   PeriphClkInitStruct.AdcClockSelection = RCC_ADCCLKSOURCE_PLL3;
@@ -1256,6 +1310,77 @@ static void MX_ADC2_Init(void)
   /* USER CODE BEGIN ADC2_Init 2 */
 
   /* USER CODE END ADC2_Init 2 */
+
+}
+
+/**
+  * @brief ADC3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC3_Init(void)
+{
+
+  /* USER CODE BEGIN ADC3_Init 0 */
+
+  /* USER CODE END ADC3_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC3_Init 1 */
+
+  /* USER CODE END ADC3_Init 1 */
+
+  /** Common config
+  */
+  hadc3.Instance = ADC3;
+  hadc3.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc3.Init.ScanConvMode = ADC_SCAN_ENABLE;
+  hadc3.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  hadc3.Init.LowPowerAutoWait = DISABLE;
+  hadc3.Init.ContinuousConvMode = ENABLE;
+  hadc3.Init.NbrOfConversion = 2;
+  hadc3.Init.DiscontinuousConvMode = DISABLE;
+  hadc3.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc3.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc3.Init.ConversionDataManagement = ADC_CONVERSIONDATA_DR;
+  hadc3.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
+  hadc3.Init.LeftBitShift = ADC_LEFTBITSHIFT_4;
+  hadc3.Init.OversamplingMode = ENABLE;
+  hadc3.Init.Oversampling.Ratio = 8;
+  hadc3.Init.Oversampling.RightBitShift = ADC_RIGHTBITSHIFT_3;
+  hadc3.Init.Oversampling.TriggeredMode = ADC_TRIGGEREDMODE_SINGLE_TRIGGER;
+  hadc3.Init.Oversampling.OversamplingStopReset = ADC_REGOVERSAMPLING_CONTINUED_MODE;
+  if (HAL_ADC_Init(&hadc3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_VREFINT;
+  sConfig.Rank = ADC_REGULAR_RANK_1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_387CYCLES_5;
+  sConfig.SingleDiff = ADC_SINGLE_ENDED;
+  sConfig.OffsetNumber = ADC_OFFSET_NONE;
+  sConfig.Offset = 0;
+  sConfig.OffsetSignedSaturation = DISABLE;
+  if (HAL_ADC_ConfigChannel(&hadc3, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
+  sConfig.Rank = ADC_REGULAR_RANK_2;
+  if (HAL_ADC_ConfigChannel(&hadc3, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC3_Init 2 */
+
+  /* USER CODE END ADC3_Init 2 */
 
 }
 
@@ -1921,7 +2046,10 @@ void SystemClock_Config_For_OC(void)
 	RCC_OscInitStruct.PLL.PLLN = 300;
 #endif
 #ifdef CLK_500M_CPU_120M_ADC
-	RCC_OscInitStruct.PLL.PLLN = 250;
+	//RCC_OscInitStruct.PLL.PLLN = 250;
+	RCC_OscInitStruct.PLL.PLLM = 10;
+	RCC_OscInitStruct.PLL.PLLN = 400;
+	XTalFreq = 25000000;
 #endif
 #ifdef CLK_500M_CPU_128M_ADC
 	RCC_OscInitStruct.PLL.PLLN = 250;
@@ -1997,7 +2125,7 @@ void SystemClock_Config_For_OC(void)
 	RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
 	RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
-	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK) //was FLASH_LATENCY_4
 	{
 		Error_Handler();
 	}
@@ -2019,7 +2147,16 @@ void SystemClock_Config_For_OC(void)
 	PeriphClkInitStruct.PLL3.PLL3N = 300;
 #endif
 #ifdef CLK_500M_CPU_120M_ADC
-	PeriphClkInitStruct.PLL3.PLL3N = 240;
+
+	PeriphClkInitStruct.PLL2.PLL2M = 4;
+	PeriphClkInitStruct.PLL2.PLL2N = 38;
+	PeriphClkInitStruct.PLL2.PLL2P = 24;
+	PeriphClkInitStruct.PLL2.PLL2Q = 2;
+	PeriphClkInitStruct.PLL2.PLL2R = 2;
+	PeriphClkInitStruct.PLL3.PLL3M = 5;
+	PeriphClkInitStruct.PLL3.PLL3N = 120;
+	PeriphClkInitStruct.PLL3.PLL3R = 5;
+
 #endif
 #ifdef CLK_500M_CPU_128M_ADC
 	PeriphClkInitStruct.PLL3.PLL3N = 256;
@@ -2151,6 +2288,7 @@ void PrintUI(uint8_t* UartTXString)
 #endif
 #ifdef USB_UI
 	//	CDC_Transmit_FS(UartTXString, strlen((char *)UartTXString));
+
 	tud_cdc_write(UartTXString, strlen((char *)UartTXString));
 	tud_cdc_write_flush();
 	HAL_Delay(1);
@@ -2233,16 +2371,16 @@ void UserInput(void)
 		result = HAL_ERROR;
 	}
 	if ( tud_cdc_connected() )
+	{
+		// connected and there are data available
+		if ( tud_cdc_available() )
 		{
-			// connected and there are data available
-			if ( tud_cdc_available() )
-			{
-				// read data
-				char buf[64];
-				uint32_t count = tud_cdc_read(UartRXString, sizeof(UartRXString));
-				result = HAL_OK;
-			}
+			// read data
+			char buf[64];
+			uint32_t count = tud_cdc_read(UartRXString, sizeof(UartRXString));
+			result = HAL_OK;
 		}
+	}
 	else
 		result = HAL_ERROR;
 
@@ -2262,10 +2400,11 @@ void UserInput(void)
 			if (RXVolume < 0)
 				RXVolume = 0;
 			break;
+			//Keyboard and encoder F step is 1/2 because most QSO are at freq. multiple of 500 Hz
 		case 49: //1
-			FminusClicked(2); break;
+			FminusClicked(1); break; //change to 2 for step equal to selection
 		case 50: //2
-			FplusClicked(2); break;
+			FplusClicked(1); break;  //change to 2 for step equal to selection
 		case 51: //3
 			SetFstep(5);  break;
 		case 52: //4
@@ -2589,7 +2728,14 @@ void DisplayStatus(void)
 		case MID_POWER_OUT: strcpy(StringTxPower,"Mid"); break;
 		case MAX_POWER_OUT: strcpy(StringTxPower,"Max"); break;
 		}
-		sprintf((char *)UartTXString, "\e[3;1HFreq %5.3f  Step %s\e[5;1HMode %s BW %s AGG %s ERR %d WPM %d PWR %s Volume %1.1f   \r", LOfreq/1000.f, StringStep, StringMode, StringWidth, StringAGC, TXFreqError, keyer_speed, StringTxPower, RXVolume);
+		//		sprintf((char *)UartTXString, "\e[3;1HFreq %5.3f  Step %s\e[5;1HMode %s BW %s AGGprovaprova %s ERR %d WPM %d PWR %s Volume %1.1f   \r", LOfreq/1000.f, StringStep, StringMode, StringWidth, StringAGC, TXFreqError, keyer_speed, StringTxPower, RXVolume);
+		//sprintf((char *)UartTXString, "\e[6;1H123456789012345678901234567890123456789012345678901234567890\r");
+		//TODO: TinyUSB seems to have a 64 byte limit in USB out buffer. For now we split the string.
+		//		Best solution would be to have an auto split write function
+		int32_t Temp = adc_ReadInternalTemp();
+		sprintf((char *)UartTXString, "\e[3;1HFreq %5.3f  Step %s\e[5;1HMode %s BW %s Temp %d    \r", LOfreq/1000.f, StringStep, StringMode, StringWidth, Temp);
+		PrintUI(UartTXString);
+		sprintf((char *)UartTXString, "\e[6;1HAGC %s ERR %d WPM %d PWR %s Volume %1.1f   \r", StringAGC, TXFreqError, keyer_speed, StringTxPower, RXVolume);
 		PrintUI(UartTXString);
 	}
 }
@@ -2621,7 +2767,7 @@ void MX_TIM6_Init_Custom_Rate(void)
 	htim6.Init.Period = 8191;
 #endif
 #ifdef CLK_500M_CPU_120M_ADC
-	htim6.Init.Period = 8541;
+	htim6.Init.Period = 8532; //was 8541;
 #endif
 #ifdef CLK_500M_CPU_128M_ADC
 	htim6.Init.Period = 7999;
