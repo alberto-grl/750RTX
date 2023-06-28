@@ -706,20 +706,37 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 	}
 }
 
+
 int32_t adc_ReadInternalTemp(void)
 
 {
 
+//https://github.com/sweesineng/STM32_ADC_MultiCh_SingleConv_Polling/blob/main/Core/Src/main.c
    int32_t Temp;
    uint32_t adcTempVal;
    uint32_t adcVRefVal;
-   uint32_t T1_30;
-   uint32_t T2_110;
    uint32_t VRefMilliVoltsValue;
-   HAL_ADC_PollForConversion(&hadc3, 100);
-   adcVRefVal = HAL_ADC_GetValue(&hadc3);
-   HAL_ADC_PollForConversion(&hadc3, 100);
+   //used for MPU temperature reading
+   	if( HAL_OK != HAL_ADC_Start(&hadc3))
+   	{
+ //  		Error_Handler();
+   	}
+
+	if( HAL_OK != HAL_ADC_PollForConversion(&hadc3, 100))
+  	{
+//  		Error_Handler();
+  	}
    adcTempVal = HAL_ADC_GetValue(&hadc3);
+
+   if( HAL_OK != HAL_ADC_PollForConversion(&hadc3, 100))
+     	{
+ //    		Error_Handler();
+     	}
+   adcVRefVal = HAL_ADC_GetValue(&hadc3);
+
+   HAL_ADC_Stop(&hadc3);
+
+
 
    // Calculating VRef voltage
    	VRefMilliVoltsValue = __HAL_ADC_CALC_VREFANALOG_VOLTAGE(adcVRefVal, ADC_RESOLUTION_16B);
@@ -797,11 +814,7 @@ int main(void)
 	TU_ASSERT(tusb_init());
 	// Initialise again so we can change divider with a #define in main.h
 	MX_TIM6_Init_Custom_Rate();
-	//used for MPU temperature reading
-	if( HAL_OK != HAL_ADC_Start(&hadc3))
-	{
-		Error_Handler();
-	}
+
 
 	/* Run the ADC calibration in single-ended mode */
 	if (HAL_ADCEx_Calibration_Start(&hadc1, ADC_CALIB_OFFSET_LINEARITY, ADC_SINGLE_ENDED) != HAL_OK)
@@ -815,11 +828,13 @@ int main(void)
 		// Calibration Error
 		Error_Handler();
 	}
+
 	if (HAL_ADCEx_Calibration_Start(&hadc3, ADC_CALIB_OFFSET_LINEARITY, ADC_SINGLE_ENDED) != HAL_OK)
 		{
 			// Calibration Error
 			Error_Handler();
 		}
+
 	HAL_Delay(1);
 	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_1);
 	RXVolume= 0.1;
@@ -1329,28 +1344,25 @@ static void MX_ADC3_Init(void)
 
   /* USER CODE BEGIN ADC3_Init 1 */
 
+  hadc3.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV64; //TODO: the MX code generator does not generate this line for ADC3?
   /* USER CODE END ADC3_Init 1 */
 
   /** Common config
   */
   hadc3.Instance = ADC3;
-  hadc3.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc3.Init.Resolution = ADC_RESOLUTION_16B;
   hadc3.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc3.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   hadc3.Init.LowPowerAutoWait = DISABLE;
-  hadc3.Init.ContinuousConvMode = ENABLE;
+  hadc3.Init.ContinuousConvMode = DISABLE;
   hadc3.Init.NbrOfConversion = 2;
   hadc3.Init.DiscontinuousConvMode = DISABLE;
   hadc3.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc3.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
   hadc3.Init.ConversionDataManagement = ADC_CONVERSIONDATA_DR;
   hadc3.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
-  hadc3.Init.LeftBitShift = ADC_LEFTBITSHIFT_4;
-  hadc3.Init.OversamplingMode = ENABLE;
-  hadc3.Init.Oversampling.Ratio = 8;
-  hadc3.Init.Oversampling.RightBitShift = ADC_RIGHTBITSHIFT_3;
-  hadc3.Init.Oversampling.TriggeredMode = ADC_TRIGGEREDMODE_SINGLE_TRIGGER;
-  hadc3.Init.Oversampling.OversamplingStopReset = ADC_REGOVERSAMPLING_CONTINUED_MODE;
+  hadc3.Init.LeftBitShift = ADC_LEFTBITSHIFT_NONE;
+  hadc3.Init.OversamplingMode = DISABLE;
   if (HAL_ADC_Init(&hadc3) != HAL_OK)
   {
     Error_Handler();
@@ -1358,9 +1370,9 @@ static void MX_ADC3_Init(void)
 
   /** Configure Regular Channel
   */
-  sConfig.Channel = ADC_CHANNEL_VREFINT;
+  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
   sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_387CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_810CYCLES_5;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
@@ -1372,8 +1384,9 @@ static void MX_ADC3_Init(void)
 
   /** Configure Regular Channel
   */
-  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
+  sConfig.Channel = ADC_CHANNEL_VREFINT;
   sConfig.Rank = ADC_REGULAR_RANK_2;
+  sConfig.SamplingTime = ADC_SAMPLETIME_810CYCLES_5;
   if (HAL_ADC_ConfigChannel(&hadc3, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -2548,11 +2561,12 @@ void UserInput(void)
 
 	if (!DisableDisplay)
 	{
+		int32_t Temp = adc_ReadInternalTemp();
 		SValue = 4 + 10 / 3.01 * log10(PeakAudioValue * 2000.0);
 #ifdef WSPR_BEACON_MODE
 		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     T %d:%2d:%2d  \r", SValue, DCF77Hour, (int)SystemMinutes, (int)SystemSeconds);
 #else
-		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f       \r", SValue);
+		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f TEMP %d      \r", SValue, Temp);
 #endif
 		PrintUI(UartTXString);
 
@@ -2730,10 +2744,10 @@ void DisplayStatus(void)
 		}
 		//		sprintf((char *)UartTXString, "\e[3;1HFreq %5.3f  Step %s\e[5;1HMode %s BW %s AGGprovaprova %s ERR %d WPM %d PWR %s Volume %1.1f   \r", LOfreq/1000.f, StringStep, StringMode, StringWidth, StringAGC, TXFreqError, keyer_speed, StringTxPower, RXVolume);
 		//sprintf((char *)UartTXString, "\e[6;1H123456789012345678901234567890123456789012345678901234567890\r");
+		sprintf((char *)UartTXString, "\e[3;1HFreq %5.3f  Step %s\e[5;1HMode %s BW %s    \r", LOfreq/1000.f, StringStep, StringMode, StringWidth);
 		//TODO: TinyUSB seems to have a 64 byte limit in USB out buffer. For now we split the string.
 		//		Best solution would be to have an auto split write function
-		int32_t Temp = adc_ReadInternalTemp();
-		sprintf((char *)UartTXString, "\e[3;1HFreq %5.3f  Step %s\e[5;1HMode %s BW %s Temp %d    \r", LOfreq/1000.f, StringStep, StringMode, StringWidth, Temp);
+
 		PrintUI(UartTXString);
 		sprintf((char *)UartTXString, "\e[6;1HAGC %s ERR %d WPM %d PWR %s Volume %1.1f   \r", StringAGC, TXFreqError, keyer_speed, StringTxPower, RXVolume);
 		PrintUI(UartTXString);
