@@ -545,7 +545,7 @@ bool tud_audio_tx_done_post_load_cb(uint8_t rhport, uint16_t n_bytes_copied, uin
 		LastBytesCopied = n_bytes_copied;
 	}
 #endif
-#if 0
+#if 1
 	for (uint16_t i = 0; i < 48000/1000; i++ )
 	{
 		//		*dst ++ = (int16_t)(20000.0f * arm_sinf32((float)(432.0f * 6.28f * AudioCounter++ / 48000)));
@@ -755,17 +755,17 @@ int32_t adc_ReadInternalTemp(void)
 	uint32_t adcVRefVal;
 	uint32_t VRefMilliVoltsValue;
 	//used for MPU temperature reading
-	HAL_OK != HAL_ADC_Start(&hadc3);
-	HAL_OK != HAL_ADC_PollForConversion(&hadc3, 100);
+	HAL_ADC_Start(&hadc3);
+	HAL_ADC_PollForConversion(&hadc3, 100);
 	adcTempVal = HAL_ADC_GetValue(&hadc3);
 
-	HAL_OK != HAL_ADC_PollForConversion(&hadc3, 100);
-		   adcVRefVal = HAL_ADC_GetValue(&hadc3);
+	HAL_ADC_PollForConversion(&hadc3, 100);
+	adcVRefVal = HAL_ADC_GetValue(&hadc3);
 
 	HAL_ADC_Stop(&hadc3);
 	//used for MPU temperature reading.
 	//Start ADC and let it sample while doing other things. First reading after power up will be wrong.
-	HAL_OK != HAL_ADC_Start(&hadc3);
+	HAL_ADC_Start(&hadc3);
 
 
 	// Calculating VRef voltage
@@ -2596,7 +2596,7 @@ void UserInput(void)
 #ifdef WSPR_BEACON_MODE
 		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     T %d:%2d:%2d  \r", SValue, DCF77Hour, (int)SystemMinutes, (int)SystemSeconds);
 #else
-		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f TEMP %d      \r", SValue, Temp);
+		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f TEMP %d      \r", SValue, (int)Temp);
 #endif
 		PrintUI(UartTXString);
 
@@ -2952,7 +2952,7 @@ void SetWSPRPLLCoeff(double TXFreq, uint16_t *FracDivCoeff, uint16_t *FracPWMCoe
 					if (((TF - OutF) < MinDiff) && ((TF - OutF) > 0)
 							&& ((XTalFreq * n / m) > 150000000.0)
 							&& ((XTalFreq * n / m) < 960000000.0)) {
-						MinDiff = abs(OutF - TF);
+						MinDiff = fabs(OutF - TF);
 
 						fp = p;
 						fn = n;
@@ -3019,7 +3019,7 @@ void SetTXPLL(float TF)
 				OutF = XTalFreq * n / m / p / od;
 				if (((TF - OutF) < MinDiff) && ((TF - OutF) > 0) && ((XTalFreq * n / m)> 150000000.0) && ((XTalFreq * n / m)< 960000000.0))
 				{
-					MinDiff = abs(OutF - TF);
+					MinDiff = fabs(OutF - TF);
 
 					fp = p;
 					fn = n;
