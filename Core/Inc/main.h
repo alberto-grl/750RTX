@@ -264,7 +264,7 @@ extern float i0(float);
 //#define CLK_600M_CPU_160M_ADC_XTAL25 /* new board */
 //#define CLK_600M_CPU_150M_ADC_XTAL25 /* ADC sample rate too high for CPU to consume data. Popping noise  */
 //#define CLK_600M_CPU_120M_ADC_XTAL25 /* new board */
-  #define CLK_600M_CPU_128M_ADC_XTAL25 /* new board USE THIS*/
+#define CLK_600M_CPU_128M_ADC_XTAL25 /* new board USE THIS*/
 //#define CLK_600M_CPU_96M_ADC_XTAL25 /* new board */
 //#define CLK_620M_CPU_160M_ADC_XTAL25 /* new board Motorboat noise */
 //#define CLK_640M_CPU_160M_ADC_XTAL25 /*CPU Hangs - DO NOT USE. new board */
@@ -280,9 +280,9 @@ extern float i0(float);
 //It is possible to mantain Remez and save memory by dropping AM filter (disable RECEIVE_AM)
 //FFT masks are calculated with the scripts in the "FFT Mask generators" folder
 //
-//#define PRECALC_MASKS
+#define PRECALC_MASKS
 //save memory by commenting out
-#define RECEIVE_AM
+//#define RECEIVE_AM
 //#define TEST_SINGLE_ADC
 //#define AG_TEST_AUDIO
 
