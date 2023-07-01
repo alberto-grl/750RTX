@@ -58,7 +58,7 @@ tusb_desc_device_t const desc_device =
 		.idProduct          = USB_PID,
 		.bcdDevice          = 0x0100,
 		// Change serial number when testing a new USB configuration, or Windows will use the old cached version and there will be a mismatch
-		.iManufacturer      = 0x0B,
+		.iManufacturer      = 0x10,
 		.iProduct           = 0x08,
 		.iSerialNumber      = 0x07,
 

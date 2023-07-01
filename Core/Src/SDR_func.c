@@ -279,6 +279,8 @@ void LED_switch()
 //void EXTI1_IRQHandler()
 void HAL_GPIO_EXTI_Callback(uint16_t pin)
 {
+
+
 #ifdef CW_DECODER
 	volatile uint16_t WFSample;
 	volatile float tmp;
@@ -747,6 +749,7 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 	//-------------------------------------------------------------------------
 
 	k=BSIZE/2;  // BSIZE/2 to process BSIZE entries, two at a time
+	asm("nop");
 	while(k--)
 	{
 		// CIC, R=16, M=4, computed in four div_by_2 sections, using the polyphase decomposition

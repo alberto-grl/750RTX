@@ -102,7 +102,7 @@ SNP_TRC_MICRO_SECONDS, SNP_TRC_NANO_SECONDS */
 
 /* The data trace buffer that will be read by the host */
 _NEAR_DATA_ static TraceBufferField_t g_dataTraceBuffer[SNP_TRC_BUFFER_SIZE];
-_NEAR_DATA_ static __IO DataTraceHeader_t g_traceHeader =
+_NEAR_DATA_ static __IO DataTraceHeader_t g_traceHeader __attribute__ ((section (".dtcm"))) =
 {
   /* Static fields (affected at compilation time) */
   { 0xA7, 0x25, 0x8F},                          /* startMark[3]: Unchanging marker used for robustness */
