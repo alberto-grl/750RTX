@@ -225,6 +225,9 @@ extern float i0(float);
 #define TX_ENA_GPIO_Port GPIOD
 #define ENC_BUTTON_Pin GPIO_PIN_14
 #define ENC_BUTTON_GPIO_Port GPIOD
+#define TinyUSB_Pin GPIO_PIN_0
+#define TinyUSB_GPIO_Port GPIOD
+#define TinyUSB_EXTI_IRQn EXTI0_IRQn
 
 /* USER CODE BEGIN Private defines */
 

@@ -545,7 +545,7 @@ bool tud_audio_tx_done_post_load_cb(uint8_t rhport, uint16_t n_bytes_copied, uin
 		LastBytesCopied = n_bytes_copied;
 	}
 #endif
-#if 1
+#if 0
 	for (uint16_t i = 0; i < 48000/1000; i++ )
 	{
 		//		*dst ++ = (int16_t)(20000.0f * arm_sinf32((float)(432.0f * 6.28f * AudioCounter++ / 48000)));
@@ -668,7 +668,7 @@ void cdc_task(void)
 
 void audio_task(void)
 {
-	// #define LOOPBACK_EXAMPLE
+	 #define LOOPBACK_EXAMPLE
 #ifdef LOOPBACK_EXAMPLE
 
 	// When new data arrived, copy data from speaker buffer, to microphone buffer
@@ -726,7 +726,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
 	if (htim->Instance == TIM13)
 	{
-		tud_task();
+//		tud_task();
 		//		audio_task(); //not needed anymore
 		MainLoopCounter++;  //used with debugger to check frequency of main loop
 		//        cdc_task(); //not needed anymore
@@ -1979,7 +1979,16 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : TinyUSB_Pin */
+  GPIO_InitStruct.Pin = TinyUSB_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(TinyUSB_GPIO_Port, &GPIO_InitStruct);
+
   /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 2, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 4, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
