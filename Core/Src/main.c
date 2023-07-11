@@ -69,8 +69,7 @@
   TIM4 - Encoder
   TIM6 - DMA trigger for audio DAC
   TIM7 - CW Keyer
-  TIM13 - TinyUSB periodic call
-  TIM7 - CW Keyer
+
 
   PA6 - Keyer Dash
   PA7 - Keyer Dot
@@ -189,7 +188,6 @@ TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim7;
-TIM_HandleTypeDef htim13;
 
 UART_HandleTypeDef huart3;
 
@@ -256,7 +254,6 @@ static void MX_TIM7_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
-static void MX_TIM13_Init(void);
 static void MX_ADC3_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -668,7 +665,30 @@ void cdc_task(void)
 
 void audio_task(void)
 {
-	 #define LOOPBACK_EXAMPLE
+
+#if 1
+
+	//TODO: better resampling  by  interpolation
+	int16_t *dst = (int16_t*)mic_buf;
+	for (uint16_t i = 0; i < 48000/1000; i++ )
+	{
+		SDRAudioPtr = (USBAudioPtr++ * 15625 + 24000)/ 48000;
+//		*dst ++ = (int16_t)ValidAudioHalf[SDRAudioPtr];
+		*dst ++ = (int16_t)(-10000 + (AudioCounter+=500) % 20000); if (AudioCounter > 20000) AudioCounter-= 20000;
+
+	}
+	if (AudioCounter++ == 1000)
+				AudioCounter = 0;
+
+	/* There seems to be no advantage in deferring tud_audio_write to tud_audio_tx_done_pre_load_cb
+	 * as in the 4 mic example.
+	 * Also, a delay in this callback has the same effect of a delay in the main loop.
+	 */
+	tud_audio_write((uint8_t *)mic_buf, (uint16_t) (2 * 48000 /1000));
+
+#endif
+
+//	 #define LOOPBACK_EXAMPLE
 #ifdef LOOPBACK_EXAMPLE
 
 	// When new data arrived, copy data from speaker buffer, to microphone buffer
@@ -724,14 +744,6 @@ void audio_task(void)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
-	if (htim->Instance == TIM13)
-	{
-//		tud_task();
-		//		audio_task(); //not needed anymore
-		MainLoopCounter++;  //used with debugger to check frequency of main loop
-		//        cdc_task(); //not needed anymore
-		//	led_blinking_task();
-	}
 
 	if (htim->Instance == TIM7)
 	{
@@ -834,7 +846,6 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_USB_OTG_FS_PCD_Init();
-  MX_TIM13_Init();
   MX_ADC3_Init();
   /* USER CODE BEGIN 2 */
 	/* Enable D-Cache---------------------------------------------------------*/
@@ -1075,12 +1086,6 @@ int main(void)
 	}
 #endif
 
-#if 1
-	if (HAL_TIM_Base_Start_IT(&htim13) != HAL_OK)
-	{
-		Error_Handler();
-	}
-#endif
 
 	while (1)
 	{
@@ -1776,37 +1781,6 @@ static void MX_TIM7_Init(void)
 }
 
 /**
-  * @brief TIM13 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM13_Init(void)
-{
-
-  /* USER CODE BEGIN TIM13_Init 0 */
-
-  /* USER CODE END TIM13_Init 0 */
-
-  /* USER CODE BEGIN TIM13_Init 1 */
-
-  /* USER CODE END TIM13_Init 1 */
-  htim13.Instance = TIM13;
-  htim13.Init.Prescaler = 250;
-  htim13.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim13.Init.Period = 500;
-  htim13.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim13.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
-  if (HAL_TIM_Base_Init(&htim13) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM13_Init 2 */
-
-  /* USER CODE END TIM13_Init 2 */
-
-}
-
-/**
   * @brief USART3 Initialization Function
   * @param None
   * @retval None
@@ -1986,7 +1960,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(TinyUSB_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI0_IRQn, 2, 0);
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 4, 0);
@@ -2034,12 +2008,14 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 void HAL_DAC_ConvCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	ValidAudioHalf = &AudioOut[BSIZE];
+	USBAudioPtr = 0;
 	//	LED_RED_ON;
 }
 
 void HAL_DAC_ConvHalfCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	ValidAudioHalf = &AudioOut[0];
+	USBAudioPtr = 0;
 	//	LED_RED_OFF;
 }
 
@@ -2604,7 +2580,7 @@ void UserInput(void)
 #ifdef WSPR_BEACON_MODE
 		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     T %d:%2d:%2d  \r", SValue, DCF77Hour, (int)SystemMinutes, (int)SystemSeconds);
 #else
-		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f TEMP %d      \r", SValue, (int)Temp);
+		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f TEMP %d %d     \r", SValue, (int)Temp, AudioCounter);
 #endif
 		PrintUI(UartTXString);
 

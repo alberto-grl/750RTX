@@ -204,6 +204,9 @@ EXTERN uint8_t WSPRBeaconMode;
 
 EXTERN float PeakAudioValue;
 
+EXTERN uint32_t USBAudioPtr;
+EXTERN uint32_t SDRAudioPtr;
+
 //EXTERN WM_MESSAGE *GlobalMsgPtr;
 
 #endif /* __GLOBALS_H */

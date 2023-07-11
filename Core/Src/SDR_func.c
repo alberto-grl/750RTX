@@ -282,13 +282,14 @@ void LED_switch()
 //void EXTI1_IRQHandler()
 void HAL_GPIO_EXTI_Callback(uint16_t pin)
 {
+#if 0
 	if (pin == GPIO_PIN_0) {
 		tud_task();
 		audio_task(); //not needed anymore
 //		MainLoopCounter++;  //used with debugger to check frequency of main loop
 	cdc_task();
 	}
-
+#endif
 	if (pin == GPIO_PIN_14) {
 
 #ifdef CW_DECODER
@@ -566,7 +567,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 		// Sample rate of DAC is 27901.786 Hz set from timer 6 (TIM_TimeBaseInit)
 		// Soft interrupt handler is at 27901.786 / 512 = 54.496 Hz
 		// Generate test square wave with a period of 64 samples = 436 Hz. (32 On 32 Off)
-		for (i=0; i<BSIZE; i++)
+		for (uint32_t i=0; i<BSIZE; i++)
 		{
 			if (i % 64 > 31)
 				fAudio[i] = 0.1; //Volume
