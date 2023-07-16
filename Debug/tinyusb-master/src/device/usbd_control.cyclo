@@ -1,6 +1,6 @@
-usbd_control.c:77:6:tud_control_status	1
-usbd_control.c:109:6:tud_control_xfer	10
-usbd_control.c:146:6:usbd_control_reset	1
-usbd_control.c:152:6:usbd_control_set_complete_callback	1
-usbd_control.c:158:6:usbd_control_set_request	1
-usbd_control.c:169:6:usbd_control_xfer_cb	18
+../tinyusb-master/src/device/usbd_control.c:77:6:tud_control_status	1
+../tinyusb-master/src/device/usbd_control.c:109:6:tud_control_xfer	10
+../tinyusb-master/src/device/usbd_control.c:146:6:usbd_control_reset	1
+../tinyusb-master/src/device/usbd_control.c:152:6:usbd_control_set_complete_callback	1
+../tinyusb-master/src/device/usbd_control.c:158:6:usbd_control_set_request	1
+../tinyusb-master/src/device/usbd_control.c:169:6:usbd_control_xfer_cb	18

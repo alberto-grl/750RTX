@@ -535,6 +535,31 @@ bool tud_audio_tx_done_post_load_cb(uint8_t rhport, uint16_t n_bytes_copied, uin
 	(void)cur_alt_setting;
 	int16_t *dst = (int16_t*)mic_buf;
 
+#if 1
+	LED_RED_ON;
+	//TODO: better resampling  by  interpolation
+	*dst = (int16_t*)mic_buf;
+	for (uint16_t i = 0; i < 48000/1000; i++ )
+	{
+		SDRAudioPtr = (USBAudioPtr * 15625 + 24000)/ 48000;
+		*dst ++ = (int16_t)ValidAudioHalf[SDRAudioPtr];
+	//	*dst ++ = (int16_t)(-10000 + (AudioCounter+=500) % 20000); if (AudioCounter > 20000) AudioCounter-= 20000;
+		USBAudioPtr++;
+	}
+// USBAudioPtr is reset in ISR, when a new frame is available
+
+
+	/* There seems to be no advantage in deferring tud_audio_write to tud_audio_tx_done_pre_load_cb
+	 * as in the 4 mic example.
+	 * Also, a delay in this callback has the same effect of a delay in the main loop.
+	 */
+	tud_audio_write((uint8_t *)mic_buf, (uint16_t) (2 * 48000 /1000));
+	LED_RED_OFF;
+
+#endif
+
+
+
 #if 0
 	static uint16_t LastBytesCopied; //used to check for partial writes, but it seems this never happens
 	if (n_bytes_copied != 96 && n_bytes_copied != 0)
@@ -665,28 +690,6 @@ void cdc_task(void)
 
 void audio_task(void)
 {
-
-#if 1
-
-	//TODO: better resampling  by  interpolation
-	int16_t *dst = (int16_t*)mic_buf;
-	for (uint16_t i = 0; i < 48000/1000; i++ )
-	{
-		SDRAudioPtr = (USBAudioPtr++ * 15625 + 24000)/ 48000;
-//		*dst ++ = (int16_t)ValidAudioHalf[SDRAudioPtr];
-		*dst ++ = (int16_t)(-10000 + (AudioCounter+=500) % 20000); if (AudioCounter > 20000) AudioCounter-= 20000;
-
-	}
-	if (AudioCounter++ == 1000)
-				AudioCounter = 0;
-
-	/* There seems to be no advantage in deferring tud_audio_write to tud_audio_tx_done_pre_load_cb
-	 * as in the 4 mic example.
-	 * Also, a delay in this callback has the same effect of a delay in the main loop.
-	 */
-	tud_audio_write((uint8_t *)mic_buf, (uint16_t) (2 * 48000 /1000));
-
-#endif
 
 //	 #define LOOPBACK_EXAMPLE
 #ifdef LOOPBACK_EXAMPLE
@@ -2015,6 +2018,7 @@ void HAL_DAC_ConvCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 void HAL_DAC_ConvHalfCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	ValidAudioHalf = &AudioOut[0];
+	DebugAudioPtr = USBAudioPtr;
 	USBAudioPtr = 0;
 	//	LED_RED_OFF;
 }
