@@ -267,7 +267,7 @@ encode(
 		uint8_t *data,		// Input buffer, nbytes
 		size_t nbytes)		// Number of bytes in data
 {
-	ulong encstate;
+	uint32_t encstate;
 	int sym;
 	int i;
 

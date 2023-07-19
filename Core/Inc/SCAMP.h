@@ -8,6 +8,8 @@
 #ifndef INC_SCAMP_H_
 #define INC_SCAMP_H_
 
+#include <stdint.h>
+
 //Bit period in usec / callback period in usec
 #define N_SAMPLES_PER_BIT (40000 / 100)
 

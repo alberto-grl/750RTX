@@ -289,7 +289,7 @@ extern void My_arm_cfft_f32(
 #define SIDETONE_VOLUME (0.2f)
 
 //#define CW_DECODER
-//#define DCF77_DECODER
+#define DCF77_DECODER
 
 //for debugging with STMStudio
 //#define SNAPSHOT_ACQUISITION_DBG
