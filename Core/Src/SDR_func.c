@@ -570,9 +570,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 		for (uint32_t i=0; i<BSIZE; i++)
 		{
 			if (i % 64 > 31)
-				fAudio[i] = 0.1; //Volume
+				fAudio[i] = 1; //Volume
 			else
-				fAudio[i] = -0.1;
+				fAudio[i] = -1;
 		}
 
 #endif

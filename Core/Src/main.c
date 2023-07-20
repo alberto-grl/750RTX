@@ -526,6 +526,7 @@ bool tud_audio_tx_done_pre_load_cb(uint8_t rhport, uint8_t itf, uint8_t ep_in, u
 	return true;
 }
 
+//bool __attribute__ ((optimize(3))) tud_audio_tx_done_post_load_cb(uint8_t rhport, uint16_t n_bytes_copied, uint8_t itf, uint8_t ep_in, uint8_t cur_alt_setting)
 
 bool tud_audio_tx_done_post_load_cb(uint8_t rhport, uint16_t n_bytes_copied, uint8_t itf, uint8_t ep_in, uint8_t cur_alt_setting)
 {
@@ -533,28 +534,33 @@ bool tud_audio_tx_done_post_load_cb(uint8_t rhport, uint16_t n_bytes_copied, uin
 	(void)itf;
 	(void)ep_in;
 	(void)cur_alt_setting;
-	int16_t *dst = (int16_t*)mic_buf;
+	int16_t* dst = (int16_t*)mic_buf;
 
 #if 1
-	LED_RED_ON;
+	//LED_RED_ON;
 	//TODO: better resampling  by  interpolation
 	*dst = (int16_t*)mic_buf;
 	for (uint16_t i = 0; i < 48000/1000; i++ )
 	{
-		SDRAudioPtr = (USBAudioPtr * 15625 + 24000)/ 48000;
-		*dst ++ = (int16_t)ValidAudioHalf[SDRAudioPtr];
+		SDRAudioPtr = (USBAudioPtr * 2 * 15625 + 24000)/ 48000;
+		if (SDRAudioPtr == 2 * BSIZE){
+			USBAudioPtr = 0;
+			SDRAudioPtr = 0;
+//			*dst ++ = 4 * (int16_t)2048;
+		}
+//		else
+		//*dst ++ = 4 * (int16_t)ValidAudioHalf[SDRAudioPtr]; //DAC out is 12 bit, USB 16
+		*dst ++ =  4 * ((int16_t)AudioOut[SDRAudioPtr]); //DAC out is 12 bit, USB 16
 	//	*dst ++ = (int16_t)(-10000 + (AudioCounter+=500) % 20000); if (AudioCounter > 20000) AudioCounter-= 20000;
 		USBAudioPtr++;
 	}
-// USBAudioPtr is reset in ISR, when a new frame is available
-
 
 	/* There seems to be no advantage in deferring tud_audio_write to tud_audio_tx_done_pre_load_cb
 	 * as in the 4 mic example.
 	 * Also, a delay in this callback has the same effect of a delay in the main loop.
 	 */
 	tud_audio_write((uint8_t *)mic_buf, (uint16_t) (2 * 48000 /1000));
-	LED_RED_OFF;
+	//LED_RED_OFF;
 
 #endif
 
@@ -909,6 +915,9 @@ int main(void)
 	//	DualADCGainCorrection = 2048.f;  //2048 nominal value for ADC with no error
 
 	HAdc1 = &hadc1;
+
+	SDRAudioPtr = 256;
+
 #ifdef FAKE_SQUARE_RF_SIGNAL
 
 	uint16_t k;
@@ -2011,16 +2020,17 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 void HAL_DAC_ConvCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	ValidAudioHalf = &AudioOut[BSIZE];
-	USBAudioPtr = 0;
-	//	LED_RED_ON;
+	DebugAudioPtr = USBAudioPtr;
+//	USBAudioPtr = 0;
+		LED_RED_ON;
 }
 
 void HAL_DAC_ConvHalfCpltCallbackCh1(DAC_HandleTypeDef *hdac)
 {
 	ValidAudioHalf = &AudioOut[0];
-	DebugAudioPtr = USBAudioPtr;
-	USBAudioPtr = 0;
-	//	LED_RED_OFF;
+
+//	USBAudioPtr = 0;
+		LED_RED_OFF;
 }
 
 void SystemClock_Config_For_OC(void)
