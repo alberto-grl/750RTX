@@ -284,9 +284,9 @@ extern float i0(float);
 //It is possible to mantain Remez and save memory by dropping AM filter (disable RECEIVE_AM)
 //FFT masks are calculated with the scripts in the "FFT Mask generators" folder
 //
-#define PRECALC_MASKS
+//#define PRECALC_MASKS
 //save memory by commenting out
-//#define RECEIVE_AM
+#define RECEIVE_AM
 //#define TEST_SINGLE_ADC
 //#define AG_TEST_AUDIO
 

@@ -207,7 +207,8 @@ EXTERN float PeakAudioValue;
 EXTERN uint32_t USBAudioPtr;
 EXTERN uint32_t SDRAudioPtr;
 
-EXTERN volatile uint32_t DebugAudioPtr;
+EXTERN volatile int16_t ConvCompleteAudioPtr;
+EXTERN uint8_t ConvComplete;
 
 //EXTERN WM_MESSAGE *GlobalMsgPtr;
 
