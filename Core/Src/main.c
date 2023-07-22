@@ -232,7 +232,7 @@ const uint8_t resolutions_per_format[CFG_TUD_AUDIO_FUNC_1_N_FORMATS] = {CFG_TUD_
 		CFG_TUD_AUDIO_FUNC_1_FORMAT_2_RESOLUTION_RX};
 // Current resolution, update on format change
 uint8_t current_resolution;
-volatile uint32_t AudioCounter;
+volatile uint32_t AudioInCounter;
 uint8_t BufferFillRequired = 1;
 uint8_t SendGreetings = 1;
 
@@ -552,13 +552,13 @@ bool tud_audio_tx_done_post_load_cb(uint8_t rhport, uint16_t n_bytes_copied, uin
 		*dst ++ =  4 * ((int16_t)AudioOut[SDRAudioPtr]); //DAC out is 12 bit, USB 16
 		//	*dst ++ = (int16_t)(-10000 + (AudioCounter+=500) % 20000); if (AudioCounter > 20000) AudioCounter-= 20000;
 
-/*
- * PLL that keeps the resampling syncronized. At the conversion complete event we want to have
- * SDRAudioPointer (freezed in ConCompleteAudioPointer) always at the same point in buffer.
- * When it is about 500 new data overwrites old data still to be read and audio gets damaged.
- * Executed at 30.51 Hz, it corrects 1 part in 48000.
- * TODO: introduce a new counter to have a gentler correction every Nth time. Not sure it's needed.
- */
+		/*
+		 * PLL that keeps the resampling syncronized. At the conversion complete event we want to have
+		 * SDRAudioPointer (freezed in ConCompleteAudioPointer) always at the same point in buffer.
+		 * When it is about 500 new data overwrites old data still to be read and audio gets damaged.
+		 * Executed at 30.51 Hz, it corrects 1 part in 48000.
+		 * TODO: introduce a new counter to have a gentler correction every Nth time. Not sure it's needed.
+		 */
 		if (ConvComplete)
 		{
 			ConvComplete = 0;
@@ -711,6 +711,38 @@ void cdc_task(void)
 
 void audio_task(void)
 {
+#define USB_FREQ_FILTER_COEFF 10
+	int16_t AudioUSBIn;
+	static int16_t LastAudioUSBIn;
+	static uint32_t LastAudioInCounter;
+#if 1
+	if (spk_data_size)
+	{
+		int16_t *src = (int16_t*)spk_buf;
+		int16_t *limit = (int16_t*)spk_buf + spk_data_size / 2;
+		int16_t *dst = (int16_t*)mic_buf;
+		while (src < limit)
+		{
+			// Combine two channels into one
+			int32_t left = *src++;
+			int32_t right = *src++;
+			AudioUSBIn = (int16_t) ((left >> 1) + (right >> 1));
+			if ((AudioUSBIn >= 0) && (LastAudioUSBIn < 0))
+			{
+				if (AudioInCounter != LastAudioInCounter)
+				{
+					USBFreq_milliHz = 48000000 / (AudioInCounter - LastAudioInCounter);
+					//TODO: use difference in value of samples at zero crossing to interpolate frequency
+					USBFreq_milliHz_Filtered = (USBFreq_milliHz + (USB_FREQ_FILTER_COEFF - 1) * USBFreq_milliHz_Filtered) / USB_FREQ_FILTER_COEFF;
+					LastAudioInCounter = AudioInCounter;
+				}
+			}
+			LastAudioUSBIn = AudioUSBIn;
+			AudioInCounter++;
+		}
+		spk_data_size = 0;
+	}
+#endif
 
 	//	 #define LOOPBACK_EXAMPLE
 #ifdef LOOPBACK_EXAMPLE
@@ -2611,7 +2643,7 @@ void UserInput(void)
 #ifdef WSPR_BEACON_MODE
 		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     T %d:%2d:%2d  \r", SValue, DCF77Hour, (int)SystemMinutes, (int)SystemSeconds);
 #else
-		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f TEMP %d %d     \r", SValue, (int)Temp, AudioCounter);
+		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f TEMP %d     \r", SValue, (int)Temp);
 #endif
 		PrintUI(UartTXString);
 
