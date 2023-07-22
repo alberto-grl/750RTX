@@ -711,10 +711,10 @@ void cdc_task(void)
 
 void audio_task(void)
 {
-#define USB_FREQ_FILTER_COEFF 10
+#define USB_FREQ_FILTER_COEFF 50
 	int16_t AudioUSBIn;
 	static int16_t LastAudioUSBIn;
-	static uint32_t LastAudioInCounter;
+	static float LastAudioInCounter;
 #if 1
 	if (spk_data_size)
 	{
@@ -729,16 +729,16 @@ void audio_task(void)
 			AudioUSBIn = (int16_t) ((left >> 1) + (right >> 1));
 			if ((AudioUSBIn >= 0) && (LastAudioUSBIn < 0))
 			{
-				if (AudioInCounter != LastAudioInCounter)
-				{
-					USBFreq_milliHz = 48000000 / (AudioInCounter - LastAudioInCounter);
-					//TODO: use difference in value of samples at zero crossing to interpolate frequency
-					USBFreq_milliHz_Filtered = (USBFreq_milliHz + (USB_FREQ_FILTER_COEFF - 1) * USBFreq_milliHz_Filtered) / USB_FREQ_FILTER_COEFF;
-					LastAudioInCounter = AudioInCounter;
-				}
+
+					USBFreq = 48000.0 / (AudioInCounter - LastAudioInCounter -  (float)AudioUSBIn / (float)(AudioUSBIn - LastAudioUSBIn));
+
+					USBFreqFiltered = (USBFreq + (USB_FREQ_FILTER_COEFF - 1) * USBFreqFiltered) / USB_FREQ_FILTER_COEFF;
+					LastAudioInCounter = - (float)AudioUSBIn / (float)(AudioUSBIn - LastAudioUSBIn);
+					AudioInCounter = 0;
+
 			}
-			LastAudioUSBIn = AudioUSBIn;
 			AudioInCounter++;
+			LastAudioUSBIn = AudioUSBIn;
 		}
 		spk_data_size = 0;
 	}

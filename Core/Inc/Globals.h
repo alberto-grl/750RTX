@@ -210,7 +210,7 @@ EXTERN uint32_t SDRAudioPtr;
 EXTERN volatile int16_t ConvCompleteAudioPtr;
 EXTERN uint8_t ConvComplete;
 
-EXTERN volatile uint32_t USBFreq_milliHz, USBFreq_milliHz_Filtered;
+EXTERN volatile float USBFreq, USBFreqFiltered;
 
 //EXTERN WM_MESSAGE *GlobalMsgPtr;
 
