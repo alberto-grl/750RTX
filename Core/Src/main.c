@@ -61,7 +61,7 @@
   Only terminal for Android that supports escape codes is DroidTerm, AFAIK.
   Capacitors ESR: https://ds.murata.co.jp/simsurfing/index.html?lcid=en-us
   DSP, FFT filters: https://www.analog.com/en/education/education-library/scientist_engineers_guide.html
-  FT8 FSK: 8 different tones spaced at 5.86 Hz (6.25 is reported elsewhere)
+  FT8 FSK: 8 different tones spaced at 6.25
 
   MCO2 output is pin PC9, CN8 pin 4.
 
@@ -86,6 +86,7 @@
 #include "stdio.h"
 #include "Globals.h"
 #include "FIRcoefs.h"
+#include "stdlib.h"
 #include "tusb.h"
 //#include "board.h"
 #include "usb_descriptors.h"
@@ -712,9 +713,12 @@ void cdc_task(void)
 void audio_task(void)
 {
 #define USB_FREQ_FILTER_COEFF 50
+#define USB_LEVEL_FILTER_COEFF 100
+#define USB_IN_TX_THRESHOLD 1000
 	int16_t AudioUSBIn;
 	static int16_t LastAudioUSBIn;
 	static float LastAudioInCounter;
+
 #if 1
 	if (spk_data_size)
 	{
@@ -727,14 +731,28 @@ void audio_task(void)
 			int32_t left = *src++;
 			int32_t right = *src++;
 			AudioUSBIn = (int16_t) ((left >> 1) + (right >> 1));
+			//			USBAudioLevelFiltered = (abs(AudioUSBIn) + (USB_LEVEL_FILTER_COEFF - 1) * USBAudioLevelFiltered) / USB_LEVEL_FILTER_COEFF;
+			if (AudioUSBIn > USB_IN_TX_THRESHOLD)
+			{
+				if (FSKAudioPresent < 1000)
+				{
+					FSKAudioPresent += 16;
+				}
+			}
+			else
+				if (FSKAudioPresent > 0)
+				{
+					FSKAudioPresent--;
+				}
+
 			if ((AudioUSBIn >= 0) && (LastAudioUSBIn < 0))
 			{
 
-					USBFreq = 48000.0 / (AudioInCounter - LastAudioInCounter -  (float)AudioUSBIn / (float)(AudioUSBIn - LastAudioUSBIn));
+				USBFreq = 48000.0 / (AudioInCounter - LastAudioInCounter -  (float)AudioUSBIn / (float)(AudioUSBIn - LastAudioUSBIn));
 
-					USBFreqFiltered = (USBFreq + (USB_FREQ_FILTER_COEFF - 1) * USBFreqFiltered) / USB_FREQ_FILTER_COEFF;
-					LastAudioInCounter = - (float)AudioUSBIn / (float)(AudioUSBIn - LastAudioUSBIn);
-					AudioInCounter = 0;
+				USBFreqFiltered = (USBFreq + (USB_FREQ_FILTER_COEFF - 1) * USBFreqFiltered) / USB_FREQ_FILTER_COEFF;
+				LastAudioInCounter = - (float)AudioUSBIn / (float)(AudioUSBIn - LastAudioUSBIn);
+				AudioInCounter = 0;
 
 			}
 			AudioInCounter++;
@@ -1144,6 +1162,47 @@ int main(void)
 		LOfreq = DCF77_FREQ;
 		WSPRBeaconMode = 1;
 	}
+#endif
+
+#ifdef FT8_USB_MODE
+	//Similar to WSPR, but for WSPR we precalculate the four set of parameters of the four FSK tones
+	//Here we set the base PLL coefficients, fractional divider and its PWM will be set by the detected audio tone.
+	volatile double TF, TXFreq, MinDiff = 999999999;
+	uint32_t m, n, p, od = 1;
+	volatile uint32_t fm, fn, fp, fod, FracDiv, i;
+	TXFreq = FT8_FREQ;
+	TF = TXFreq; //TODO: check for beginning and end of subband
+	LastTXFreq = (float)TXFreq;
+
+	//looking for coefficients just below the desired frequency. This is because the fractional divider generates lower frequencies with 0, and higher with 8191
+	for (m = 2; m <= 25; m++) //was 64
+	{
+		for (n = 2; n <= 512; n++) //was 1
+		{
+			for (p = 2; p <= 128; p += 2) {
+				FT8_OutF = XTalFreq * n / m / p / od;
+				if (((TF - FT8_OutF) < MinDiff) && ((TF - FT8_OutF) > 0)
+						&& ((XTalFreq * n / m) > 150000000.0)
+						&& ((XTalFreq * n / m) < 960000000.0)) {
+					MinDiff = fabs(FT8_OutF - TF);
+
+					fp = p;
+					fn = n;
+					fm = m;
+					fod = od;
+				}
+			}
+		}
+
+
+		FT8_OutF = XTalFreq * fn / fm / fp / fod;
+		FT8_OutFHigherStep = XTalFreq * (fn + 1) / fm / fp / fod;
+
+		__HAL_RCC_PLL2_DISABLE();
+		__HAL_RCC_PLL2_CONFIG(fm, fn, fp, 2, 1); //These parameters should stay the whole 3 KHz FT8 subband
+		__HAL_RCC_PLL2_ENABLE();
+	}
+
 #endif
 
 
@@ -2531,6 +2590,7 @@ void UserInput(void)
 				ShowWF=1;
 			break;
 		case 89: //Y
+
 			SetWSPRPLLCoeff((double)LOfreq, FracDivCoeff, FracPWMCoeff);
 			TransmittingWSPR = 1;
 			SendWSPR();
