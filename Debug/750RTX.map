@@ -14398,8 +14398,8 @@ LOAD C:/ST/STM32CubeIDE_1.3.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_line    0x0000000000005ce4     0x1cae ./Core/Src/SDR_func.o
  .debug_line    0x0000000000007992     0x17fa ./Core/Src/SDR_math.o
  .debug_line    0x000000000000918c     0x1dae ./Core/Src/WSPR.o
- .debug_line    0x000000000000af3a     0x3be7 ./Core/Src/main.o
- .debug_line    0x000000000000eb21     0x1326 ./Core/Src/stm32h7xx_hal_msp.o
+ .debug_line    0x000000000000af3a     0x3beb ./Core/Src/main.o
+ .debug_line    0x000000000000eb25     0x1322 ./Core/Src/stm32h7xx_hal_msp.o
  .debug_line    0x000000000000fe47      0xe75 ./Core/Src/stm32h7xx_it.o
  .debug_line    0x0000000000010cbc      0x97d ./Core/Src/syscalls.o
  .debug_line    0x0000000000011639      0x5b8 ./Core/Src/sysmem.o
