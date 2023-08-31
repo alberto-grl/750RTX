@@ -8,6 +8,7 @@ C_SRCS += \
 ../Core/Src/CWDecoder.c \
 ../Core/Src/CWKeyer.c \
 ../Core/Src/DCF77.c \
+../Core/Src/FT8.c \
 ../Core/Src/MyFFT.c \
 ../Core/Src/SDR_func.c \
 ../Core/Src/SDR_math.c \
@@ -26,6 +27,7 @@ OBJS += \
 ./Core/Src/CWDecoder.o \
 ./Core/Src/CWKeyer.o \
 ./Core/Src/DCF77.o \
+./Core/Src/FT8.o \
 ./Core/Src/MyFFT.o \
 ./Core/Src/SDR_func.o \
 ./Core/Src/SDR_math.o \
@@ -44,6 +46,7 @@ C_DEPS += \
 ./Core/Src/CWDecoder.d \
 ./Core/Src/CWKeyer.d \
 ./Core/Src/DCF77.d \
+./Core/Src/FT8.d \
 ./Core/Src/MyFFT.d \
 ./Core/Src/SDR_func.d \
 ./Core/Src/SDR_math.d \
@@ -66,7 +69,7 @@ Core/Src/%.o Core/Src/%.su Core/Src/%.cyclo: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/CWDecoder.cyclo ./Core/Src/CWDecoder.d ./Core/Src/CWDecoder.o ./Core/Src/CWDecoder.su ./Core/Src/CWKeyer.cyclo ./Core/Src/CWKeyer.d ./Core/Src/CWKeyer.o ./Core/Src/CWKeyer.su ./Core/Src/DCF77.cyclo ./Core/Src/DCF77.d ./Core/Src/DCF77.o ./Core/Src/DCF77.su ./Core/Src/MyFFT.cyclo ./Core/Src/MyFFT.d ./Core/Src/MyFFT.o ./Core/Src/MyFFT.su ./Core/Src/SDR_func.cyclo ./Core/Src/SDR_func.d ./Core/Src/SDR_func.o ./Core/Src/SDR_func.su ./Core/Src/SDR_math.cyclo ./Core/Src/SDR_math.d ./Core/Src/SDR_math.o ./Core/Src/SDR_math.su ./Core/Src/WSPR.cyclo ./Core/Src/WSPR.d ./Core/Src/WSPR.o ./Core/Src/WSPR.su ./Core/Src/acqTrigger.cyclo ./Core/Src/acqTrigger.d ./Core/Src/acqTrigger.o ./Core/Src/acqTrigger.su ./Core/Src/dataAcq.cyclo ./Core/Src/dataAcq.d ./Core/Src/dataAcq.o ./Core/Src/dataAcq.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32h7xx_hal_msp.cyclo ./Core/Src/stm32h7xx_hal_msp.d ./Core/Src/stm32h7xx_hal_msp.o ./Core/Src/stm32h7xx_hal_msp.su ./Core/Src/stm32h7xx_it.cyclo ./Core/Src/stm32h7xx_it.d ./Core/Src/stm32h7xx_it.o ./Core/Src/stm32h7xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32h7xx.cyclo ./Core/Src/system_stm32h7xx.d ./Core/Src/system_stm32h7xx.o ./Core/Src/system_stm32h7xx.su ./Core/Src/usb_descriptors.cyclo ./Core/Src/usb_descriptors.d ./Core/Src/usb_descriptors.o ./Core/Src/usb_descriptors.su
+	-$(RM) ./Core/Src/CWDecoder.cyclo ./Core/Src/CWDecoder.d ./Core/Src/CWDecoder.o ./Core/Src/CWDecoder.su ./Core/Src/CWKeyer.cyclo ./Core/Src/CWKeyer.d ./Core/Src/CWKeyer.o ./Core/Src/CWKeyer.su ./Core/Src/DCF77.cyclo ./Core/Src/DCF77.d ./Core/Src/DCF77.o ./Core/Src/DCF77.su ./Core/Src/FT8.cyclo ./Core/Src/FT8.d ./Core/Src/FT8.o ./Core/Src/FT8.su ./Core/Src/MyFFT.cyclo ./Core/Src/MyFFT.d ./Core/Src/MyFFT.o ./Core/Src/MyFFT.su ./Core/Src/SDR_func.cyclo ./Core/Src/SDR_func.d ./Core/Src/SDR_func.o ./Core/Src/SDR_func.su ./Core/Src/SDR_math.cyclo ./Core/Src/SDR_math.d ./Core/Src/SDR_math.o ./Core/Src/SDR_math.su ./Core/Src/WSPR.cyclo ./Core/Src/WSPR.d ./Core/Src/WSPR.o ./Core/Src/WSPR.su ./Core/Src/acqTrigger.cyclo ./Core/Src/acqTrigger.d ./Core/Src/acqTrigger.o ./Core/Src/acqTrigger.su ./Core/Src/dataAcq.cyclo ./Core/Src/dataAcq.d ./Core/Src/dataAcq.o ./Core/Src/dataAcq.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32h7xx_hal_msp.cyclo ./Core/Src/stm32h7xx_hal_msp.d ./Core/Src/stm32h7xx_hal_msp.o ./Core/Src/stm32h7xx_hal_msp.su ./Core/Src/stm32h7xx_it.cyclo ./Core/Src/stm32h7xx_it.d ./Core/Src/stm32h7xx_it.o ./Core/Src/stm32h7xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32h7xx.cyclo ./Core/Src/system_stm32h7xx.d ./Core/Src/system_stm32h7xx.o ./Core/Src/system_stm32h7xx.su ./Core/Src/usb_descriptors.cyclo ./Core/Src/usb_descriptors.d ./Core/Src/usb_descriptors.o ./Core/Src/usb_descriptors.su
 
 .PHONY: clean-Core-2f-Src
 

@@ -189,6 +189,7 @@ EXTERN uint16_t FracDivCoeff[4];
 EXTERN uint16_t FracPWMCoeff[4];
 EXTERN uint32_t SystemSeconds, SystemMinutes;
 
+
 EXTERN uint8_t TransmittingWSPR;
 EXTERN uint8_t WSPRTone, WSPRTXFraction;
 EXTERN float LastTXFreq;
@@ -213,6 +214,9 @@ EXTERN uint8_t ConvComplete;
 EXTERN volatile float USBFreq, USBFreqFiltered, USBAudioLevelFiltered;
 
 EXTERN volatile double FT8_OutF, FT8_OutFHigherStep;
+EXTERN uint16_t FT8FracDivCoeff;
+EXTERN uint16_t FT8FracPWMCoeff;
+EXTERN uint8_t TransmittingFT8;
 
 EXTERN volatile uint32_t FSKAudioPresent;
 

@@ -667,7 +667,7 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 	 * Reference manual says otherwise.
 	 * So we disable at the top of the ISR and set the parameter near the bottom.
 	 */
-	if (TransmittingWSPR)
+	if (TransmittingWSPR || TransmittingFT8)
 	{
 		__HAL_RCC_PLL2FRACN_DISABLE();
 	}
@@ -747,6 +747,23 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 		}
 		__HAL_RCC_PLL2FRACN_ENABLE();
 	}
+
+	if (TransmittingFT8)
+		{
+			if (IntCounter++ < FT8FracPWMCoeff)
+			{
+				__HAL_RCC_PLL2FRACN_CONFIG(FT8FracDivCoeff + 1);
+			}
+			else
+			{
+				__HAL_RCC_PLL2FRACN_CONFIG(FT8FracDivCoeff );
+			}
+			if (IntCounter == 8)
+			{
+				IntCounter = 0;
+			}
+			__HAL_RCC_PLL2FRACN_ENABLE();
+		}
 
 #ifdef CIC_DECIMATE_64
 
