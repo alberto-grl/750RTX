@@ -243,7 +243,7 @@ extern float i0(float);
 
 //#define XTAL_F_ERROR -10.142931e-6
 //#define XTAL_F_ERROR -12.142931e-6
-#define XTAL_F_ERROR -12.142931e-6
+#define XTAL_F_ERROR -8.142931e-6
 
 
 //#define SCAMP_OOK
