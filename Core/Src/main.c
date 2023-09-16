@@ -105,12 +105,16 @@
 
 // List of supported sample rates
 #if defined(__RX__)
-const uint32_t sample_rates[] = {44100, 48000};
+//const uint32_t sample_rates[] = {16000, 44100, 48000};
+
+  const uint32_t sample_rates[] = {48000};
 #else
-const uint32_t sample_rates[] = {44100, 48000, 88200, 96000};
+//const uint32_t sample_rates[] = {16000, 44100, 48000, 88200, 96000};
+
+const uint32_t sample_rates[] = {48000};
 #endif
 
-uint32_t current_sample_rate  = 44100;
+uint32_t current_sample_rate  = 48000; //44100;
 
 #define N_SAMPLE_RATES  TU_ARRAY_SIZE(sample_rates)
 
@@ -542,20 +546,21 @@ bool tud_audio_tx_done_post_load_cb(uint8_t rhport, uint16_t n_bytes_copied, uin
 	//TODO: better resampling  by  interpolation
 	*dst = (int16_t*)mic_buf;
 
-	for (uint16_t i = 0; i < 48; i++ )
+	for (uint16_t i = 0; i < (current_sample_rate / 1000); i++ )
 	{
-		SDRAudioPtr = (USBAudioPtr * 2 * 15625 + 24000)/ 48000;
-		if (SDRAudioPtr == 2 * BSIZE){
+		//resampling of audio, SDR clock is different from USB clock
+		SDRAudioPtr = (USBAudioPtr * 2 * 15625 + current_sample_rate/2)/ current_sample_rate;
+		if (SDRAudioPtr >= 2 * BSIZE){
 			USBAudioPtr = 0;
 			SDRAudioPtr = 0;
 		}
 		//	TODO: Use all of 16 bit
-		*dst ++ =  4 * ((int16_t)AudioOut[SDRAudioPtr]); //DAC out is 12 bit, USB 16
+    	*dst ++ =  4 * ((int16_t)AudioOut[SDRAudioPtr]); //DAC out is 12 bit, USB 16
 		//	*dst ++ = (int16_t)(-10000 + (AudioCounter+=500) % 20000); if (AudioCounter > 20000) AudioCounter-= 20000;
 
 		/*
 		 * PLL that keeps the resampling syncronized. At the conversion complete event we want to have
-		 * SDRAudioPointer (freezed in ConCompleteAudioPointer) always at the same point in buffer.
+		 * SDRAudioPointer (freezed in ConvCompleteAudioPointer) always at the same point in buffer.
 		 * When it is about 500 new data overwrites old data still to be read and audio gets damaged.
 		 * Executed at 30.51 Hz, it corrects 1 part in 48000.
 		 * TODO: introduce a new counter to have a gentler correction every Nth time. Not sure it's needed.
@@ -563,10 +568,11 @@ bool tud_audio_tx_done_post_load_cb(uint8_t rhport, uint16_t n_bytes_copied, uin
 		if (ConvComplete)
 		{
 			ConvComplete = 0;
-			if (ConvCompleteAudioPtr > 100)
+		if (ConvCompleteAudioPtr > 100)
 				USBAudioPtr--;
 			else
 				USBAudioPtr++;
+
 		}
 		USBAudioPtr++;
 	}
@@ -575,7 +581,7 @@ bool tud_audio_tx_done_post_load_cb(uint8_t rhport, uint16_t n_bytes_copied, uin
 	 * as in the 4 mic example.
 	 * Also, a delay in this callback has the same effect of a delay in the main loop.
 	 */
-	tud_audio_write((uint8_t *)mic_buf, (uint16_t) (2 * 48000 /1000));
+	tud_audio_write((uint8_t *)mic_buf, (uint16_t) (2 * current_sample_rate /1000));
 	//LED_RED_OFF;
 
 #endif
@@ -590,10 +596,10 @@ bool tud_audio_tx_done_post_load_cb(uint8_t rhport, uint16_t n_bytes_copied, uin
 	}
 #endif
 #if 0
-	for (uint16_t i = 0; i < 48000/1000; i++ )
+	for (uint16_t i = 0; i < current_sample_rate/1000; i++ )
 	{
-		//		*dst ++ = (int16_t)(20000.0f * arm_sinf32((float)(432.0f * 6.28f * AudioCounter++ / 48000)));
-		*dst ++ = (int16_t)(200.0f * sinf((float)(432.0f * 6.28f * AudioCounter++ / 48000))); //sinf is really slow
+		//		*dst ++ = (int16_t)(20000.0f * arm_sinf32((float)(432.0f * 6.28f * AudioCounter++ / current_sample_rate)));
+		*dst ++ = (int16_t)(200.0f * sinf((float)(432.0f * 6.28f * AudioCounter++ / current_sample_rate))); //sinf is really slow
 		//*dst ++ = (int16_t)(-10000 + (AudioCounter+=500) % 20000); if (AudioCounter > 20000) AudioCounter-= 20000;
 	}
 
@@ -602,7 +608,7 @@ bool tud_audio_tx_done_post_load_cb(uint8_t rhport, uint16_t n_bytes_copied, uin
 	 * as in the 4 mic example.
 	 * Also, a delay in this callback has the same effect of a delay in the main loop.
 	 */
-	tud_audio_write((uint8_t *)mic_buf, (uint16_t) (2 * 48000 /1000));
+	tud_audio_write((uint8_t *)mic_buf, (uint16_t) (2 * current_sample_rate /1000));
 
 #endif
 
@@ -748,7 +754,7 @@ void audio_task(void)
 			if ((AudioUSBIn >= 0) && (LastAudioUSBIn < 0))
 			{
 
-				USBFreq = 48000.0 / (AudioInCounter - LastAudioInCounter -  (float)AudioUSBIn / (float)(AudioUSBIn - LastAudioUSBIn));
+				USBFreq = (float) current_sample_rate / (AudioInCounter - LastAudioInCounter -  (float)AudioUSBIn / (float)(AudioUSBIn - LastAudioUSBIn));
 
 				USBFreqFiltered = (USBFreq + (USB_FREQ_FILTER_COEFF - 1) * USBFreqFiltered) / USB_FREQ_FILTER_COEFF;
 				LastAudioInCounter = - (float)AudioUSBIn / (float)(AudioUSBIn - LastAudioUSBIn);
