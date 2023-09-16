@@ -831,10 +831,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 
 	if (htim->Instance == TIM2)
 	{
-		tud_task();
+
+
 		audio_task();
 		//		MainLoopCounter++;  //used with debugger to check frequency of main loop
 		cdc_task();
+		tud_task();
 	}
 }
 
@@ -876,6 +878,7 @@ int32_t adc_ReadInternalTemp(void)
   * @brief  The application entry point.
   * @retval int
   */
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -1695,7 +1698,7 @@ static void MX_TIM2_Init(void)
 	htim2.Instance = TIM2;
 	htim2.Init.Prescaler = 8;
 	htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-	htim2.Init.Period = 30000;
+	htim2.Init.Period = 20000; //30000
 	htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
 	if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -2009,10 +2012,10 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Stream0_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 1, 0);
+  HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 2, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
   /* DMA1_Stream1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 2, 0);
+  HAL_NVIC_SetPriority(DMA1_Stream1_IRQn, 3, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream1_IRQn);
 
 }
@@ -2094,10 +2097,10 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(TinyUSB_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI0_IRQn, 2, 0);
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 3, 0);
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 4, 0);
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */

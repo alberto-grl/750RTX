@@ -316,7 +316,7 @@ extern float i0(float);
 
 //this is the frequency for RX in USB
 #define WSPR_RX_FREQ 7038600.f
-#define FT8_FREQ 7074000.f
+#define FT8_FREQ 7078000.f
 #define FT8_USB_MODE
 #define DCF77_FREQ 77500.f
 

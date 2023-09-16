@@ -23,7 +23,7 @@ void SendFT8(void)
 
 
 
-	LOfreq = (double)FT8_FREQ;
+//	LOfreq = (double)FT8_FREQ;
 	LastTXFreq = LOfreq;
 	/*
 	DMA interrupt must be active during transmission
