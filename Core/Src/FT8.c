@@ -66,7 +66,7 @@ void SendFT8(void)
 		{
 			break;  // stop when button/key pressed;
 		}
-		FracDiv = (uint32_t) ((FT8_FREQ + USBFreqFiltered - FT8_OutF) / (FT8_OutFHigherStep - FT8_OutF)
+		FracDiv = (uint32_t) ((LOfreq + USBFreqFiltered - FT8_OutF) / (FT8_OutFHigherStep - FT8_OutF)
 					* 8192 * 8); //FracDiv PWM has 8 levels
 
 		FT8FracPWMCoeff = FracDiv & 0x07;
@@ -75,6 +75,7 @@ void SendFT8(void)
 	}
 
 	TransmittingWSPR = 0;
+	TransmittingFT8 = 0;
 	TXSwitch(0);
 	CarrierEnable(0);
 }

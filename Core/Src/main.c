@@ -878,6 +878,43 @@ int32_t adc_ReadInternalTemp(void)
 
 }
 
+void CalcFT8Params()
+{
+	//Similar to WSPR, but for WSPR we precalculate the four set of parameters of the four FSK tones
+	//Here we set the base PLL coefficients, fractional divider and its PWM will be set by the detected audio tone.
+	volatile double TF, TXFreq, MinDiff = 999999999;
+	uint32_t m, n, p, od = 1;
+	volatile uint32_t fm, fn, fp, fod;
+	SetMode((Mode) USB);
+	TXFreq = LOfreq;
+	TF = TXFreq; //TODO: check for beginning and end of subband
+	LastTXFreq = (float) TXFreq;
+	//looking for coefficients just below the desired frequency. This is because the fractional divider generates lower frequencies with 0, and higher with 8191
+	for (m = 2; m <= 25; m++) //was 64
+	{
+		for (n = 2; n <= 512; n++) //was 1
+		{
+			for (p = 2; p <= 128; p += 2) {
+				FT8_OutF = XTalFreq * n / m / p / od;
+				if (((TF - FT8_OutF) < MinDiff) && ((TF - FT8_OutF) > 0)
+						&& ((XTalFreq * n / m) > 150000000.0)
+						&& ((XTalFreq * n / m) < 960000000.0)) {
+					MinDiff = fabs(FT8_OutF - TF);
+					fp = p;
+					fn = n;
+					fm = m;
+					fod = od;
+				}
+			}
+		}
+		FT8_OutF = XTalFreq * fn / fm / fp / fod;
+		FT8_OutFHigherStep = XTalFreq * (fn + 1) / fm / fp / fod;
+	}
+	__HAL_RCC_PLL2_DISABLE();
+	__HAL_RCC_PLL2_CONFIG(fm, fn, fp, 2, 1);
+	__HAL_RCC_PLL2_ENABLE();
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -1190,43 +1227,7 @@ int main(void)
 #ifdef FT8_USB_MODE
 	//Similar to WSPR, but for WSPR we precalculate the four set of parameters of the four FSK tones
 	//Here we set the base PLL coefficients, fractional divider and its PWM will be set by the detected audio tone.
-	volatile double TF, TXFreq, MinDiff = 999999999;
-	uint32_t m, n, p, od = 1;
-	volatile uint32_t fm, fn, fp, fod;
-	SetMode((Mode)USB);
-	LOfreq = TXFreq = FT8_FREQ;
-	TF = TXFreq; //TODO: check for beginning and end of subband
-	LastTXFreq = (float)TXFreq;
-
-	//looking for coefficients just below the desired frequency. This is because the fractional divider generates lower frequencies with 0, and higher with 8191
-	for (m = 2; m <= 25; m++) //was 64
-	{
-		for (n = 2; n <= 512; n++) //was 1
-		{
-			for (p = 2; p <= 128; p += 2) {
-				FT8_OutF = XTalFreq * n / m / p / od;
-				if (((TF - FT8_OutF) < MinDiff) && ((TF - FT8_OutF) > 0)
-						&& ((XTalFreq * n / m) > 150000000.0)
-						&& ((XTalFreq * n / m) < 960000000.0)) {
-					MinDiff = fabs(FT8_OutF - TF);
-
-					fp = p;
-					fn = n;
-					fm = m;
-					fod = od;
-				}
-			}
-		}
-
-
-		FT8_OutF = XTalFreq * fn / fm / fp / fod;
-		FT8_OutFHigherStep = XTalFreq * (fn + 1) / fm / fp / fod;
-
-		__HAL_RCC_PLL2_DISABLE();
-		__HAL_RCC_PLL2_CONFIG(fm, fn, fp, 2, 1); //These parameters should stay the whole 3 KHz FT8 subband
-		__HAL_RCC_PLL2_ENABLE();
-	}
-
+	CalcFT8Params();
 #endif
 
 
@@ -2513,6 +2514,13 @@ void UserInput(void)
 #ifdef FT8_USB_MODE
 	if (FSKAudioPresent)
 	{
+		if (LastTXFreq != LOfreq)
+				{
+					//TODO: these functions are almost the same. Make them one.
+					CalcFT8Params();
+					SetTXPLL(LOfreq);
+					LastTXFreq = LOfreq;
+				}
 		SendFT8(); //exits when there is no more USB audio (TX period is over)
 	}
 #endif
@@ -3203,6 +3211,8 @@ void TXSwitch(uint8_t Status)
 		// audio noise caused by RX starving
 		if (LastTXFreq != LOfreq)
 		{
+			//TODO: these functions are almost the same. Make them one.
+			CalcFT8Params();
 			SetTXPLL(LOfreq);
 			LastTXFreq = LOfreq;
 		}
