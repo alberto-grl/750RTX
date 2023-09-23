@@ -72,6 +72,7 @@
 #include "usbd_cdc_if.h"
 
 
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,6 +90,14 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 
+void HAL_COMP_TriggerCallback(COMP_HandleTypeDef *hcomp)
+{
+	CompTrigTime = DWT->CYCCNT;
+	if ((CompTrigTime - LastCompTrigTime) > 6000)
+	 CompCounter++;
+	LastCompTrigTime = CompTrigTime;
+
+}
 
 /**
  * @brief  Computation of ADC master conversion result
@@ -116,6 +125,8 @@
 ADC_HandleTypeDef hadc1;
 ADC_HandleTypeDef hadc2;
 DMA_HandleTypeDef hdma_adc1;
+
+COMP_HandleTypeDef hcomp1;
 
 DAC_HandleTypeDef hdac1;
 DMA_HandleTypeDef hdma_dac1_ch1;
@@ -163,12 +174,49 @@ static void MX_USART3_UART_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_TIM7_Init(void);
 static void MX_TIM2_Init(void);
+static void MX_COMP1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+
+/**
+ * @brief Initializes DWT_Clock_Cycle_Count for DWT_Delay_us function
+ * @return Error DWT counter
+ * 1: clock cycle counter not started
+ * 0: clock cycle counter works
+ */
+uint32_t DWT_Delay_Init(void) {
+	/* Disable TRC */
+
+	CoreDebug->DEMCR &= ~CoreDebug_DEMCR_TRCENA_Msk; // ~0x01000000;
+	/* Enable TRC */
+	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; // 0x01000000;
+	DWT->LAR = 0xC5ACCE55; // unlock CM7
+	/* Disable clock cycle counter */
+	DWT->CTRL &= ~DWT_CTRL_CYCCNTENA_Msk; //~0x00000001;
+	/* Enable clock cycle counter */
+	DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk; //0x00000001;
+	/* Reset the clock cycle counter value */
+	DWT->CYCCNT = 0;
+	/* 3 NO OPERATION instructions */
+	asm("NOP");
+	asm("NOP");
+	asm("NOP");
+	/* Check if clock cycle counter has started */
+	if(DWT->CYCCNT)
+	{
+		return 0; /*clock cycle counter started*/
+	}
+	else
+	{
+		return 1; /*clock cycle counter not started*/
+	}
+}
+
 
 /* USER CODE END 0 */
 
@@ -204,6 +252,7 @@ int main(void)
 	/* Enable I-Cache---------------------------------------------------------*/
 	SCB_EnableICache();
 
+	DWT_Delay_Init();
 
 	// Don't forget to set a different SamplingRate in main.c
 	SystemClock_Config_For_OC();
@@ -227,6 +276,7 @@ int main(void)
   MX_TIM4_Init();
   MX_TIM7_Init();
   MX_TIM2_Init();
+  MX_COMP1_Init();
   /* USER CODE BEGIN 2 */
 	/* Enable D-Cache---------------------------------------------------------*/
 #ifdef USE_DCACHE
@@ -417,6 +467,10 @@ int main(void)
 		Error_Handler();
 	}
 
+	if (HAL_COMP_Start_IT(&hcomp1) != HAL_OK)
+	{
+		Error_Handler();
+	}
 	///////////////
 	if (HAL_TIM_Base_Start_IT(&htim7) != HAL_OK)
 	{
@@ -467,7 +521,7 @@ int main(void)
 
 		/* ADC conversion buffer complete variable is updated into ADC conversions*/
 		/* complete callback.*/
-
+		CompVal = HAL_COMP_GetOutputLevel(&hcomp1);
 		UserInput();
 #ifdef WSPR_BEACON_MODE
 		DCF77StatusDisplay();
@@ -497,10 +551,6 @@ void SystemClock_Config(void)
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
 
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
-
-  /** Macro to configure the PLL clock source
-  */
-  __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -730,6 +780,40 @@ static void MX_ADC2_Init(void)
   /* USER CODE BEGIN ADC2_Init 2 */
 
   /* USER CODE END ADC2_Init 2 */
+
+}
+
+/**
+  * @brief COMP1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_COMP1_Init(void)
+{
+
+  /* USER CODE BEGIN COMP1_Init 0 */
+
+  /* USER CODE END COMP1_Init 0 */
+
+  /* USER CODE BEGIN COMP1_Init 1 */
+
+  /* USER CODE END COMP1_Init 1 */
+  hcomp1.Instance = COMP1;
+  hcomp1.Init.InvertingInput = COMP_INPUT_MINUS_VREFINT;
+  hcomp1.Init.NonInvertingInput = COMP_INPUT_PLUS_IO1;
+  hcomp1.Init.OutputPol = COMP_OUTPUTPOL_NONINVERTED;
+  hcomp1.Init.Hysteresis = COMP_HYSTERESIS_HIGH;
+  hcomp1.Init.BlankingSrce = COMP_BLANKINGSRC_NONE;
+  hcomp1.Init.Mode = COMP_POWERMODE_MEDIUMSPEED;
+  hcomp1.Init.WindowMode = COMP_WINDOWMODE_DISABLE;
+  hcomp1.Init.TriggerMode = COMP_TRIGGERMODE_IT_RISING;
+  if (HAL_COMP_Init(&hcomp1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN COMP1_Init 2 */
+
+  /* USER CODE END COMP1_Init 2 */
 
 }
 
@@ -1099,6 +1183,8 @@ static void MX_DMA_Init(void)
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
+/* USER CODE BEGIN MX_GPIO_Init_1 */
+/* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -1163,6 +1249,8 @@ static void MX_GPIO_Init(void)
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 4, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
+/* USER CODE BEGIN MX_GPIO_Init_2 */
+/* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
@@ -1546,7 +1634,7 @@ void UserInput(void)
 	{
 		HAL_ADCEx_MultiModeStop_DMA(&hadc1);
 
-//		HAL_Delay(100);
+		//		HAL_Delay(100);
 		SendWSPR(); //endless loop, only way to exit is by CW keying.
 		if (HAL_ADCEx_MultiModeStart_DMA(&hadc1,
 				(uint32_t *)aADCDualConvertedValues,

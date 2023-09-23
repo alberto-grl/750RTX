@@ -71,6 +71,8 @@
 #define USBD_CONFIGURATION_STRING_FS     "CDC Config"
 #define USBD_INTERFACE_STRING_FS     "CDC Interface"
 
+#define USB_SIZ_BOS_DESC            0x0C
+
 /* USER CODE BEGIN PRIVATE_DEFINES */
 
 /* USER CODE END PRIVATE_DEFINES */
@@ -168,6 +170,28 @@ __ALIGN_BEGIN uint8_t USBD_FS_DeviceDesc[USB_LEN_DEV_DESC] __ALIGN_END =
 };
 
 /* USB_DeviceDescriptor */
+/** BOS descriptor. */
+#if (USBD_LPM_ENABLED == 1)
+#if defined ( __ICCARM__ ) /* IAR Compiler */
+  #pragma data_alignment=4
+#endif /* defined ( __ICCARM__ ) */
+__ALIGN_BEGIN uint8_t USBD_FS_BOSDesc[USB_SIZ_BOS_DESC] __ALIGN_END =
+{
+  0x5,
+  USB_DESC_TYPE_BOS,
+  0xC,
+  0x0,
+  0x1,  /* 1 device capability*/
+        /* device capability*/
+  0x7,
+  USB_DEVICE_CAPABITY_TYPE,
+  0x2,
+  0x2,  /* LPM capability bit set*/
+  0x0,
+  0x0,
+  0x0
+};
+#endif /* (USBD_LPM_ENABLED == 1) */
 
 /**
   * @}
