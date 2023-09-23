@@ -91,10 +91,10 @@ EXTERN float     volume, Qfactor, a1, a2, b0, cwpitch, audiotmp,
 	               AgcThreshold, AGC_decay[2], LOfreq, mean, meanavg, Decay[4];
 EXTERN uint16_t  Hangcount[2], AMindex, LSBindex, USBindex, CWindex, Hcount[4];    
 EXTERN Mode      CurrentMode;
-EXTERN float32_t SamplingRate, AudioRate;
+EXTERN float32_t SamplingRate, AudioRate, CPU_CLK_Freq;
 
 EXTERN volatile uint32_t CompCounter, CompVal;
-EXTERN volatile uint32_t CompTrigTime, LastCompTrigTime;
+EXTERN volatile uint32_t CompTrigTime, LastCompTrigTime, CompElapsedTime;
 
 EXTERN uint32_t  os_time, Fstep;
 //EXTERN __IO uint32_t uwTick;
@@ -207,6 +207,16 @@ EXTERN uint8_t WSPRBeaconMode;
 
 EXTERN float PeakAudioValue;
 
+
+EXTERN volatile float FSKFreq, FSKFreqFiltered, FSKAudioLevelFiltered;
+
+EXTERN volatile double FT8_OutF, FT8_OutFHigherStep;
+
+EXTERN uint16_t FT8FracDivCoeff;
+EXTERN uint16_t FT8FracPWMCoeff;
+EXTERN uint8_t TransmittingFT8;
+
+EXTERN volatile uint32_t FSKAudioPresent;
 //EXTERN WM_MESSAGE *GlobalMsgPtr;
 
 #endif /* __GLOBALS_H */

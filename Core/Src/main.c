@@ -6,6 +6,7 @@
 
                                                   Copyright 2015 by Alberto I2PHD, June 2015
 
+					Heavy remix by Alberto I4NZX
     This file is part of ARM_Radio.
 
     ARM_Radio is free software: you can redistribute it and/or modify
@@ -40,6 +41,15 @@
  * CW Decoder based on WB7FHC's Morse Code Decoder v1.1
  * https://github.com/kareiva/wb7fhc-cw-decoder
  *
+ * * On-demand filter generator based on Phil Karn KA9Q code, https://github.com/ka9q/ka9q-radio
+ * Simplified Linux test project is at https://github.com/alberto-grl/ka9q-filters
+ *
+ * SCAMP protocol by Daniel Marks, KW4TI https://github.com/profdc9/RFBitBanger/blob/main/Docs/SCAMP-Digital-Mode-Proposal-v0.6.pdf
+ * https://github.com/profdc9/RFBitBanger/blob/main/Code/RFBitBanger/scamp.c
+ * Linux SCAMP terminal and test code at https://github.com/alberto-grl/SCAMP_TERM
+ *
+ *
+ *
  ******************************************************************************
   FAQ about cache https://community.st.com/s/article/FAQ-DMA-is-not-working-on-STM32H7-devices
   FPU performance https://community.arm.com/developer/ip-products/processors/f/cortex-m-forum/5567/what-is-the-advantage-of-floating-point-of-cm7-versus-cm4
@@ -52,9 +62,18 @@
   Only terminal for Android that supports escape codes is DroidTerm, AFAIK.
   Capacitors ESR: https://ds.murata.co.jp/simsurfing/index.html?lcid=en-us
   DSP, FFT filters: https://www.analog.com/en/education/education-library/scientist_engineers_guide.html
-  FT8 FSK: 8 different tones spaced at 5.86 Hz (6.25 is reported elsewhere)
+  FT8 FSK: 8 different tones spaced at 6.25
 
   MCO2 output is pin PC9, CN8 pin 4.
+
+
+  TIM4 - Encoder
+  TIM6 - DMA trigger for audio DAC
+  TIM7 - CW Keyer
+
+  PA6 - Keyer Dash
+  PA7 - Keyer Dot
+
  */
 
 #define IN_MAIN
@@ -70,6 +89,8 @@
 #include "Globals.h"
 #include "FIRcoefs.h"
 #include "usbd_cdc_if.h"
+
+#include "stdlib.h"
 
 
 
@@ -92,10 +113,20 @@
 
 void HAL_COMP_TriggerCallback(COMP_HandleTypeDef *hcomp)
 {
+#define FSK_FREQ_FILTER_COEFF 50
+
 	CompTrigTime = DWT->CYCCNT;
-	if ((CompTrigTime - LastCompTrigTime) > 6000)
+	uint32_t CompElapsedTime = CompTrigTime - LastCompTrigTime;
+	if ((CompElapsedTime) > 6000)
+	{
+		FSKFreq = CPU_CLK_Freq / CompElapsedTime;
+
+		FSKFreqFiltered = (FSKFreq + (FSK_FREQ_FILTER_COEFF - 1) * FSKFreqFiltered) / FSK_FREQ_FILTER_COEFF;
+
 	 CompCounter++;
-	LastCompTrigTime = CompTrigTime;
+	}
+
+	 LastCompTrigTime = CompTrigTime;
 
 }
 
@@ -277,6 +308,7 @@ int main(void)
   MX_TIM7_Init();
   MX_TIM2_Init();
   MX_COMP1_Init();
+
   /* USER CODE BEGIN 2 */
 	/* Enable D-Cache---------------------------------------------------------*/
 #ifdef USE_DCACHE
@@ -467,10 +499,13 @@ int main(void)
 		Error_Handler();
 	}
 
+#ifdef DIGITAL_MODES
 	if (HAL_COMP_Start_IT(&hcomp1) != HAL_OK)
 	{
 		Error_Handler();
 	}
+#endif
+
 	///////////////
 	if (HAL_TIM_Base_Start_IT(&htim7) != HAL_OK)
 	{
@@ -521,7 +556,6 @@ int main(void)
 
 		/* ADC conversion buffer complete variable is updated into ADC conversions*/
 		/* complete callback.*/
-		CompVal = HAL_COMP_GetOutputLevel(&hcomp1);
 		UserInput();
 #ifdef WSPR_BEACON_MODE
 		DCF77StatusDisplay();
@@ -1352,50 +1386,61 @@ void SystemClock_Config_For_OC(void)
 	RCC_OscInitStruct.PLL.PLLM = 2;
 #ifdef CLK_600M_CPU_150M_ADC
 	RCC_OscInitStruct.PLL.PLLN = 300;
+	CPU_CLK_Freq = 600000000;
 #endif
 #ifdef CLK_500M_CPU_120M_ADC
 	RCC_OscInitStruct.PLL.PLLN = 250;
+	CPU_CLK_Freq = 500000000;
 #endif
 #ifdef CLK_500M_CPU_128M_ADC
 	RCC_OscInitStruct.PLL.PLLN = 250;
+	CPU_CLK_Freq = 500000000;
 #endif
 #ifdef CLK_480M_CPU_120M_ADC
 	RCC_OscInitStruct.PLL.PLLN = 240;
 #endif
 #ifdef CLK_600M_CPU_60M_ADC
 	RCC_OscInitStruct.PLL.PLLN = 300;
+	CPU_CLK_Freq = 600000000;
 #endif
 #ifdef CLK_600M_CPU_160M_ADC
 	RCC_OscInitStruct.PLL.PLLN = 300;
+	CPU_CLK_Freq = 600000000;
 #endif
 #ifdef CLK_600M_CPU_160M_ADC_XTAL25
 	RCC_OscInitStruct.PLL.PLLM = 10;
 	RCC_OscInitStruct.PLL.PLLN = 480;
 	XTalFreq = 25000000;
+	CPU_CLK_Freq = 600000000;
 #endif
 #ifdef CLK_620M_CPU_160M_ADC_XTAL25
 	RCC_OscInitStruct.PLL.PLLM = 10;
 	RCC_OscInitStruct.PLL.PLLN = 496;
 	XTalFreq = 25000000;
+	CPU_CLK_Freq = 620000000;
 #endif
 #ifdef CLK_640M_CPU_160M_ADC_XTAL25
 	RCC_OscInitStruct.PLL.PLLM = 10;
 	RCC_OscInitStruct.PLL.PLLN = 512;
 	XTalFreq = 25000000;
+	CPU_CLK_Freq = 640000000;
 #endif
 #ifdef CLK_600M_CPU_150M_ADC_XTAL25
 	RCC_OscInitStruct.PLL.PLLM = 10;
 	RCC_OscInitStruct.PLL.PLLN = 480;
 	XTalFreq = 25000000;
+	CPU_CLK_Freq = 600000000;
 #endif
 #ifdef CLK_600M_CPU_120M_ADC_XTAL25
 	RCC_OscInitStruct.PLL.PLLM = 10;
 	RCC_OscInitStruct.PLL.PLLN = 480;
 	XTalFreq = 25000000;
+	CPU_CLK_Freq = 600000000;
 #endif
 #ifdef CLK_600M_CPU_128M_ADC_XTAL25
 	RCC_OscInitStruct.PLL.PLLM = 10;
 	RCC_OscInitStruct.PLL.PLLN = 480;
+    CPU_CLK_Freq = 600000000;
 	XTalFreq = 25000000;
 #endif
 
@@ -1403,6 +1448,7 @@ void SystemClock_Config_For_OC(void)
 	RCC_OscInitStruct.PLL.PLLM = 10;
 	RCC_OscInitStruct.PLL.PLLN = 480;
 	XTalFreq = 25000000;
+	CPU_CLK_Freq = 600000000;
 #endif
 
 	XTalFreq += XTalFreq * XTAL_F_ERROR;

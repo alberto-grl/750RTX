@@ -53,6 +53,9 @@ void loadWPM (int wpm) // Calculate new time constants based on wpm value
 
 void switch_rxtx(uint8_t tx_enable){
 
+#ifdef DIGITAL_MODES
+	return;
+#endif
 #ifdef TX_DELAY
 #ifdef SEMI_QSK
 	if(!(semi_qsk_timeout))

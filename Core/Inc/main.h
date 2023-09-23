@@ -351,6 +351,8 @@ extern void My_arm_cfft_f32(
 
 #define OVF_TIMEOUT 2
 
+#define DIGITAL_MODES
+
 
 
 

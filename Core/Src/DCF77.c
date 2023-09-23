@@ -1,8 +1,28 @@
-/*
- * DCF77.c
+/* DCF77.c
  *
  *  Created on: 30 nov 2022
- *      Author: alberto
+ *
+ *     Author: Alberto I4NZX
+ *
+
+    This file is part of ARM_Radio.
+
+    ARM_Radio is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    ARM_Radio is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with ARM_Radio.  It is contained in the file Copying.txt in the
+    same ZIP file where this file was extracted from.
+ *
+ *
+ *
  */
 
 #include "stdio.h"
@@ -20,6 +40,7 @@
 //#pragma GCC optimize ("O0")
 
 volatile static int16_t DecodedTestBuffer[16384], Test_i;
+static uint8_t RisingEdge, FallingEdge, DCF77Message[60];
 static uint8_t LastCWIn, RisingEdge, FallingEdge, DCF77Message[60];
 static uint32_t DCF77HighSampleCounter, DCF77LowSampleCounter, DCF77BitCounter;
 
@@ -71,15 +92,18 @@ void DecodeDCF77(void)
 			WSPRBeaconState = FIRST_FIX;
 		}
 		break;
+	case SEND_WSPR:
+		break;
+
 	}
 }
 
 void DoDCF77(uint16_t DCF77In)
 {
-//This routine is called eg (128 MHz ADC); 128000000 / 16 / 64 / 4 = 32000 Hz
-//100 mSec (DCF77 0) is 3200 samples
-//200 mSec (DCF77 1) is 6400 samples
-//2 Sec (DCF77 Sync) is 64000 samples
+	//This routine is called eg (128 MHz ADC); 128000000 / 16 / 64 / 4 = 32000 Hz
+	//100 mSec (DCF77 0) is 3200 samples
+	//200 mSec (DCF77 1) is 6400 samples
+	//2 Sec (DCF77 Sync) is 64000 samples
 
 
 	if (DCF77In && !LastDCF77In)

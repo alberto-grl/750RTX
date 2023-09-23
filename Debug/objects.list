@@ -10,6 +10,7 @@
 "./Core/Src/CWDecoder.o"
 "./Core/Src/CWKeyer.o"
 "./Core/Src/DCF77.o"
+"./Core/Src/FT8.o"
 "./Core/Src/MyFFT.o"
 "./Core/Src/SDR_func.o"
 "./Core/Src/SDR_math.o"
