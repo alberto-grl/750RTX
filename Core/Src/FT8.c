@@ -72,7 +72,9 @@ void SendFT8(void)
 	{
 		if(KEYER_DASH || KEYER_DOT)
 		{
+#ifndef DIGITAL_MODES
 			break;  // stop when button/key pressed;
+#endif
 		}
 		FracDiv = (uint32_t) ((LOfreq + FSKFreqFiltered - FT8_OutF) / (FT8_OutFHigherStep - FT8_OutF)
 					* 8192 * 8); //FracDiv PWM has 8 levels

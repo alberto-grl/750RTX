@@ -93,7 +93,7 @@ EXTERN uint16_t  Hangcount[2], AMindex, LSBindex, USBindex, CWindex, Hcount[4];
 EXTERN Mode      CurrentMode;
 EXTERN float32_t SamplingRate, AudioRate, CPU_CLK_Freq;
 
-EXTERN volatile uint32_t CompCounter, CompVal;
+EXTERN volatile uint32_t CompCounter, LastCompCounter, CompVal;
 EXTERN volatile uint32_t CompTrigTime, LastCompTrigTime, CompElapsedTime;
 
 EXTERN uint32_t  os_time, Fstep;

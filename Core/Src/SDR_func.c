@@ -280,15 +280,16 @@ void LED_switch()
 //void EXTI1_IRQHandler()
 void HAL_GPIO_EXTI_Callback(uint16_t pin)
 {
-#if 0
-	if (pin == GPIO_PIN_0) {
-		tud_task();
-		audio_task(); //not needed anymore
-//		MainLoopCounter++;  //used with debugger to check frequency of main loop
-	cdc_task();
-	}
-#endif
 	if (pin == GPIO_PIN_14) {
+
+#ifdef DIGITAL_MODES
+		if (CompCounter > LastCompCounter )
+			FSKAudioPresent = 1;
+		else
+			FSKAudioPresent = 0;
+		LastCompCounter = CompCounter;
+#endif
+
 
 #ifdef CW_DECODER
 		volatile uint16_t WFSample;
@@ -300,24 +301,24 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 
 #ifdef TEST_NO_SDR
-	return;
+		return;
 #endif
 
 
 #ifdef DEBUG_TX_CW
-	static int TX;
-	if (TX++ == 1)
-	{
-		TXEnable(0);
-	}
-	else
-	{
-		if (TX== 4)
+		static int TX;
+		if (TX++ == 1)
 		{
-			TX = 0;
-			TXEnable(1);
+			TXEnable(0);
 		}
-	}
+		else
+		{
+			if (TX== 4)
+			{
+				TX = 0;
+				TXEnable(1);
+			}
+		}
 #endif
 
 
@@ -351,32 +352,32 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 
 
-	// copy into the (in place...) FFT buffer
-	SDR_memcpy_f32(FFTbuf, fCbase, FFTLEN*2);
+		// copy into the (in place...) FFT buffer
+		SDR_memcpy_f32(FFTbuf, fCbase, FFTLEN*2);
 
 
 
 
-	//FFT returns BUFLEN/2 bins, 1024. Each bin size is FADC/ decimation /FFT size
-	//ADC requires 16 clock cycles per sample, as it is set now
-	// eg (160 MHz ADC) 10000000 / 64 / 4 / 1024 = 38.14697 Hz
-	// eg (150 MHz ADC) 9375000 / 64 / 4 / 1024 = 36.62109375 Hz
-	// eg (128 MHz ADC) 9375000 / 64 / 4 / 1024 = 31.250 Hz
-	// when NCO F is higher than signal then the highest elements are filled
-	//eg NCO 625381, signal 625000, FFTbuf elements filled are 2028 and 2029
-	//FFTBuf 1023 and 1025 are the farest from NCO freq.
+		//FFT returns BUFLEN/2 bins, 1024. Each bin size is FADC/ decimation /FFT size
+		//ADC requires 16 clock cycles per sample, as it is set now
+		// eg (160 MHz ADC) 10000000 / 64 / 4 / 1024 = 38.14697 Hz
+		// eg (150 MHz ADC) 9375000 / 64 / 4 / 1024 = 36.62109375 Hz
+		// eg (128 MHz ADC) 9375000 / 64 / 4 / 1024 = 31.250 Hz
+		// when NCO F is higher than signal then the highest elements are filled
+		//eg NCO 625381, signal 625000, FFTbuf elements filled are 2028 and 2029
+		//FFTBuf 1023 and 1025 are the farest from NCO freq.
 
-	// compute the direct FFT
-	arm_cfft_f32(&arm_cfft_sR_f32_len1024, FFTbuf, DIRECTFFT, NOREVERSE);
-	/*
+		// compute the direct FFT
+		arm_cfft_f32(&arm_cfft_sR_f32_len1024, FFTbuf, DIRECTFFT, NOREVERSE);
+		/*
 	// if LSB, copy the LSB in the lower half (USB)
 	if(CurrentMode == LSB) SDR_mirror_LSB(FFTbuf, FFTLEN);
-	 */
+		 */
 
-	// TODO: check why with the original code above LSB and USB are swapped
+		// TODO: check why with the original code above LSB and USB are swapped
 
-	//if USB, copy the USB in the lower half (LSB)
-	if(CurrentMode == USB) SDR_mirror_LSB(FFTbuf, FFTLEN);
+		//if USB, copy the USB in the lower half (LSB)
+		if(CurrentMode == USB) SDR_mirror_LSB(FFTbuf, FFTLEN);
 
 #ifdef TEST_WF
 		if (ShowWF) {
@@ -390,42 +391,42 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 
 #ifdef CW_DECODER
-	volatile static int16_t DecodedTestBuffer[256], Test_i;
-	CWLevel = 0;
-	BaseNoiseLevel = 9999.f;
-	for (WFSample=22; WFSample<44; WFSample += 2)
-		//	for (WFSample=64; WFSample<84; WFSample += 2)
-		//		for (WFSample=2*FFTLEN -50; WFSample<(2*FFTLEN - 40); WFSample += 2)
-		//for (WFSample=46; WFSample<52; WFSample += 2)
-	{
-		tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
-		arm_sqrt_f32(tmp, &BinValue);
-		if (CWLevel < BinValue)
-			CWLevel = BinValue;
-		if (BaseNoiseLevel > BinValue)
-			BaseNoiseLevel = BinValue;
-	}
-	SignalAverage = SIGNAL_AVERAGE_T_CONST * CWLevel + (1 - SIGNAL_AVERAGE_T_CONST) * OldSignalAverage;
-	OldSignalAverage = SignalAverage;
+		volatile static int16_t DecodedTestBuffer[256], Test_i;
+		CWLevel = 0;
+		BaseNoiseLevel = 9999.f;
+		for (WFSample=22; WFSample<44; WFSample += 2)
+			//	for (WFSample=64; WFSample<84; WFSample += 2)
+			//		for (WFSample=2*FFTLEN -50; WFSample<(2*FFTLEN - 40); WFSample += 2)
+			//for (WFSample=46; WFSample<52; WFSample += 2)
+		{
+			tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+			arm_sqrt_f32(tmp, &BinValue);
+			if (CWLevel < BinValue)
+				CWLevel = BinValue;
+			if (BaseNoiseLevel > BinValue)
+				BaseNoiseLevel = BinValue;
+		}
+		SignalAverage = SIGNAL_AVERAGE_T_CONST * CWLevel + (1 - SIGNAL_AVERAGE_T_CONST) * OldSignalAverage;
+		OldSignalAverage = SignalAverage;
 
-	//We shorten the pulse by filtering out the first sample at attack.
-	// This gives a 50% duty cycle for a square wave.
-	// Without filter a square wave would have an higher on time than off time.
+		//We shorten the pulse by filtering out the first sample at attack.
+		// This gives a 50% duty cycle for a square wave.
+		// Without filter a square wave would have an higher on time than off time.
 
-	//		if (CWLevel > (SignalAverage * CWThreshold))
-	if (CWLevel - BaseNoiseLevel > (CWThreshold))
-		//			if (CWLevel / BaseNoiseLevel > (CWThreshold))
-		//			if (!SW01_IN)
-		CWIn += 1; //TODO limit CW increase
-	else
-		CWIn = 0;
+		//		if (CWLevel > (SignalAverage * CWThreshold))
+		if (CWLevel - BaseNoiseLevel > (CWThreshold))
+			//			if (CWLevel / BaseNoiseLevel > (CWThreshold))
+			//			if (!SW01_IN)
+			CWIn += 1; //TODO limit CW increase
+		else
+			CWIn = 0;
 
 
-	DecodeCW();
+		DecodeCW();
 
 #endif
 
-	/*
+		/*
 #ifdef CW_DECODER
 
 	CWLevel = 0;
@@ -493,31 +494,31 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 #endif
 		 */
 
-	// mult. by the fast convolution mask
-	arm_cmplx_mult_cmplx_f32(FFTbuf, FFTmask, FFTbuf2, FFTLEN);
+		// mult. by the fast convolution mask
+		arm_cmplx_mult_cmplx_f32(FFTbuf, FFTmask, FFTbuf2, FFTLEN);
 
-	// compute now the inverse FFT
-	arm_cfft_f32(&arm_cfft_sR_f32_len1024, FFTbuf2, INVERSEFFT, NOREVERSE);
-	// then do the overlap-discard
-	SDR_memcpy_f32(tmpSamp, FFTbuf2 + 2*FFTLEN - 2*BSIZE, 2*BSIZE);
+		// compute now the inverse FFT
+		arm_cfft_f32(&arm_cfft_sR_f32_len1024, FFTbuf2, INVERSEFFT, NOREVERSE);
+		// then do the overlap-discard
+		SDR_memcpy_f32(tmpSamp, FFTbuf2 + 2*FFTLEN - 2*BSIZE, 2*BSIZE);
 
 
-	// we have now the bandpass filtered I/Q, demodulate the signal
-	switch(CurrentMode)
-	{	
-	case AM :
+		// we have now the bandpass filtered I/Q, demodulate the signal
+		switch(CurrentMode)
+		{
+		case AM :
 #ifdef RECEIVE_AM
-		SDR_demodAM_AGC(tmpSamp, fAudio);  break;
+			SDR_demodAM_AGC(tmpSamp, fAudio);  break;
 #endif
-	case LSB :
-	case USB :
-		SDR_demodSSB_CW_AGC(tmpSamp, fAudio); break;
+		case LSB :
+		case USB :
+			SDR_demodSSB_CW_AGC(tmpSamp, fAudio); break;
 
-	case  CW :
-		SDR_demodSSB_CW_AGC(tmpSamp, fAudio);
-		if(bw[CW] == Narrow)
-			SDR_CWPeak(fAudio, BSIZE);
-		break;
+		case  CW :
+			SDR_demodSSB_CW_AGC(tmpSamp, fAudio);
+			if(bw[CW] == Narrow)
+				SDR_CWPeak(fAudio, BSIZE);
+			break;
 
 		default:
 			break;
@@ -526,37 +527,37 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 #ifdef DCF77_DECODER
 
-	if (WSPRBeaconMode == 1)
-	{
-		CWLevel = 0;
-		BaseNoiseLevel = 9999.f;
-		//	uint16_t i;
-
-		for (i = 0; i < BSIZE; i++)
+		if (WSPRBeaconMode == 1)
 		{
-			CWLevel = fabs(fAudio[i]);
-			CWLevelFiltered = CW_LEVEL_AVERAGE_T_CONST * CWLevel + (1 - CW_LEVEL_AVERAGE_T_CONST) * OldCWLevelAverage;
-			OldCWLevelAverage = CWLevelFiltered;
+			CWLevel = 0;
+			BaseNoiseLevel = 9999.f;
+			//	uint16_t i;
 
-			MediumLevelFiltered = MEDIUM_LEVEL_AVERAGE_T_CONST * CWLevel + (1 - MEDIUM_LEVEL_AVERAGE_T_CONST) * OldMediumLevelAverage;
-			OldMediumLevelAverage = MediumLevelFiltered;
-			//		if (CWLevel > (SignalAverage * CWThreshold))
-			if ( MediumLevelFiltered - CWLevelFiltered  > CWThreshold)
+			for (i = 0; i < BSIZE; i++)
 			{
-				DCF77In = 0;
-				LED_RED_OFF;
-			}
-			else
-			{
-				DCF77In += 1; //TODO limit CW increase
-				LED_RED_ON;
-			}
+				CWLevel = fabs(fAudio[i]);
+				CWLevelFiltered = CW_LEVEL_AVERAGE_T_CONST * CWLevel + (1 - CW_LEVEL_AVERAGE_T_CONST) * OldCWLevelAverage;
+				OldCWLevelAverage = CWLevelFiltered;
+
+				MediumLevelFiltered = MEDIUM_LEVEL_AVERAGE_T_CONST * CWLevel + (1 - MEDIUM_LEVEL_AVERAGE_T_CONST) * OldMediumLevelAverage;
+				OldMediumLevelAverage = MediumLevelFiltered;
+				//		if (CWLevel > (SignalAverage * CWThreshold))
+				if ( MediumLevelFiltered - CWLevelFiltered  > CWThreshold)
+				{
+					DCF77In = 0;
+					LED_RED_OFF;
+				}
+				else
+				{
+					DCF77In += 1; //TODO limit CW increase
+					LED_RED_ON;
+				}
 #ifdef SNAPSHOT_ACQUISITION_DBG
-			DumpTrace();
+				DumpTrace();
 #endif
-			DoDCF77(DCF77In);
+				DoDCF77(DCF77In);
+			}
 		}
-	}
 #endif
 
 
@@ -597,11 +598,11 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 		}
 #endif
 
-	// send the demodulated audio to the DMA buffer just emptied
+		// send the demodulated audio to the DMA buffer just emptied
 
-	//LED_YELLOW_ON;
-	SDR_float_to_DAC_audio(fAudio, ValidAudioHalf, BSIZE);
-	//LED_YELLOW_OFF;
+		//LED_YELLOW_ON;
+		SDR_float_to_DAC_audio(fAudio, ValidAudioHalf, BSIZE);
+		//LED_YELLOW_OFF;
 
 
 		// HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET); // set bit 8 of GPIOF low, to be observed with an oscilloscope
@@ -747,21 +748,21 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 	}
 
 	if (TransmittingFT8)
+	{
+		if (IntCounter++ < FT8FracPWMCoeff)
 		{
-			if (IntCounter++ < FT8FracPWMCoeff)
-			{
-				__HAL_RCC_PLL2FRACN_CONFIG(FT8FracDivCoeff + 1);
-			}
-			else
-			{
-				__HAL_RCC_PLL2FRACN_CONFIG(FT8FracDivCoeff );
-			}
-			if (IntCounter == 8)
-			{
-				IntCounter = 0;
-			}
-			__HAL_RCC_PLL2FRACN_ENABLE();
+			__HAL_RCC_PLL2FRACN_CONFIG(FT8FracDivCoeff + 1);
 		}
+		else
+		{
+			__HAL_RCC_PLL2FRACN_CONFIG(FT8FracDivCoeff );
+		}
+		if (IntCounter == 8)
+		{
+			IntCounter = 0;
+		}
+		__HAL_RCC_PLL2FRACN_ENABLE();
+	}
 
 #ifdef CIC_DECIMATE_64
 
