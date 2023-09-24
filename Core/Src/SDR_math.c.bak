@@ -3,7 +3,6 @@
                    SDR_math.c module of the program ARM_Radio
 
 						                          Copyright 2015 by Alberto I2PHD, June 2015
-					Heavy remix by Alberto I4NZX
 
     This file is part of ARM_Radio.
 
@@ -28,8 +27,6 @@
  ******************************************************************************/
 
 #include "Globals.h"
-
-#include <arm_const_structs.h>
 
 //------------------------------------------------------------------------------
 void SDR_ComputeLO(float32_t freq)
@@ -152,10 +149,10 @@ void SDR_float_to_DAC_audio(float *pSrc, short *pDst, uint16_t blockSize)
 	blkCnt = blockSize >> 2u;   // loop unrolling.  Compute 4 outputs at a time
 	while(blkCnt--)
 	{
-		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * RXVolume);
-		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * RXVolume);
-		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * RXVolume);
-		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * RXVolume);
+		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * volume);
+		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * volume);
+		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * volume);
+		*pDst++ = (short)(2048.f + *pSrc++ * 2048.f * volume);
 	}	
 
 	// SCB_Clean because is from RAM to DMA. Invalidate is for DMA to RAM
@@ -367,117 +364,5 @@ void SDR_demodSSB_CW_AGC(float32_t * tmpSamp, float32_t * fAudio)
 	}
 	PeakAudioValue=pk;
 	if(hangcnt > 0)  hangcnt--;
-}
-
-
-// Modified Bessel function of the 0th kind, used by the Kaiser window
-float i0(float const x){
-	const float t = 0.25 * x * x;
-	float sum = 1 + t;
-	float term = t;
-	for(int k=2;k<40;k++){
-		term *= t/(k*k);
-		sum += term;
-		if(term < 1e-12 * sum)
-			break;
-	}
-	return sum;
-}
-
-// Compute an entire Kaiser window
-// More efficient than repeatedly calling kaiser(n,M,beta)
-int make_kaiser(float * const window,unsigned int const M,float const beta){
-	assert(window != NULL);
-	if(window == NULL)
-		return -1;
-	// Precompute unchanging partial values
-	float const numc = M_PI * beta;
-	float const inv_denom = 1. / i0(numc); // Inverse of denominator
-	float const pc = 2.0 / (M-1);
-
-	// The window is symmetrical, so compute only half of it and mirror
-	// this won't compute the middle value in an odd-length sequence
-	for(int n = 0; n < M/2; n++){
-		float const p = pc * n  - 1;
-		window[M-1-n] = window[n] = i0(numc * sqrtf(1-p*p)) * inv_denom;
-	}
-	// If sequence length is odd, middle value is unity
-	if(M & 1)
-		window[(M-1)/2] = 1; // The -1 is actually unnecessary
-
-	return 0;
-}
-
-
-
-void SetMask(float low, float high)
-{
-
-	int const L = BSIZE;
-	int const M = BSIZE + 1;
-
-	int const N = L + M - 1;
-	// Window shape factor for Kaiser window
-	// Transition region is approx sqrt(1+Beta^2)
-	float Kaiser_beta = 3.0;
-	float kaiser_window[M];
-
-	//TODO controllare
-	for(int n=0;n<N;n++){
-		float f;
-		if(n <= N/2)
-			f = (float)n / N;
-		else
-			f = (float)(n-N) / N;
-		if(f >= low / AudioRate && f <= high /AudioRate)
-			FFTmask[n * 2] = 1024;
-		else
-			FFTmask[n * 2] = 0;
-		FFTmask[n * 2 + 1] = 0; // Imaginary part
-	}
-
-
-	// compute now the inverse FFT
-	arm_cfft_f32(&arm_cfft_sR_f32_len1024, FFTmask, INVERSEFFT, NOREVERSE);
-	make_kaiser(kaiser_window,M,Kaiser_beta); //TODO: integrate coefficient in window shaping loop
-
-
-
-	// Round trip through FFT/IFFT scales by N
-	float const gain = 1./N;
-	// Shift to beginning of buffer to make causal; apply window and gain
-	for(int n = M - 1; n >= 0; n--){
-		FFTmask[n * 2] = FFTmask[((n-M/2+N)%N) * 2] * kaiser_window[n] * gain;
-	//	FFTmask[n * 2 + 1] = FFTmask[((n-M/2+N)%N) * 2 + 1];
-		FFTmask[n * 2 + 1] = FFTmask[((n-M/2+N)%N) * 2 + 1] * kaiser_window[n] * gain;
-	}
-	// Pad with zeroes on right side
-	memset(FFTmask + M * 2,0,(N-M)* 2 * sizeof(*FFTmask));
-
-
-	// Now back to frequency domain
-	arm_cfft_f32(&arm_cfft_sR_f32_len1024, FFTmask, DIRECTFFT, NOREVERSE);
-
-
-#if 0
-	void SDR_2R_toC_f32(float * pSrcA, float * pSrcB, float * pDst, uint32_t blockSize)
-	{
-		uint32_t blkCnt;           /* loop counter */
-
-		// loop Unrolling
-		blkCnt = blockSize >> 2u;
-
-		// Compute 4 outputs at a time
-		while(blkCnt)
-		{
-			*pDst++ = *pSrcA++;  *pDst++ = *pSrcB++;
-			*pDst++ = *pSrcA++;  *pDst++ = *pSrcB++;
-			*pDst++ = *pSrcA++;  *pDst++ = *pSrcB++;
-			*pDst++ = *pSrcA++;  *pDst++ = *pSrcB++;
-
-			blkCnt--;
-		}
-	}
-#endif
 }
 //---------------------------------------------------------------------------

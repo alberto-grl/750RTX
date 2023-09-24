@@ -3,7 +3,7 @@
                    Globals.h module of the program ARM_Radio
 						                          
 						                          Copyright 2015 by Alberto I2PHD, June 2015
-						                                      
+						                  		Heavy remix by Alberto I4NZX
     This file is part of ARM_Radio.
 
     ARM_Radio is free software: you can redistribute it and/or modify
@@ -60,7 +60,7 @@ EXTERN volatile uint16_t ADC_Data1[BSIZE] __attribute__ ((section (".dtcm")));
 #pragma pack(16)
 EXTERN float ADC_Rdata[BSIZE] __attribute__ ((section (".dtcm")));
 EXTERN float ADC_Idata[BSIZE] __attribute__ ((section (".dtcm")));
-EXTERN float IQdata[BSIZE*2] ;__attribute__ ((section (".dtcm")));    // IQdata  is a complex signal
+EXTERN float IQdata[BSIZE*2]  __attribute__ ((section (".dtcm")));    // IQdata  is a complex signal
 EXTERN float fCbase[FFTLEN*2] ;//__attribute__ ((section (".dtcm")));   //TODO: when in DTCIM RX works only after a debugger reset. No working after power up           // fCbase  is a complex signal
 EXTERN float tmpSamp[BSIZE*2+12] ;//__attribute__ ((section (".dtcm")));         // tmpSamp is a complex signal
 EXTERN float LO_R[BSIZE] ;//__attribute__ ((section (".dtcm")));
@@ -87,7 +87,7 @@ EXTERN arm_fir_decimate_instance_f32 SfirI;
 
 EXTERN float TestSampledValue;
 
-EXTERN float     volume, Qfactor, a1, a2, b0, cwpitch, audiotmp,
+EXTERN float     RXVolume, Qfactor, a1, a2, b0, cwpitch, audiotmp,
 	               AgcThreshold, AGC_decay[2], LOfreq, mean, meanavg, Decay[4];
 EXTERN uint16_t  Hangcount[2], AMindex, LSBindex, USBindex, CWindex, Hcount[4];    
 EXTERN Mode      CurrentMode;
@@ -174,7 +174,7 @@ EXTERN uint8_t txdelay;
 
 EXTERN uint32_t SpaceFracDiv, MarkFracDiv;
 
-EXTERN enum KSTYPE {IDLE, CHK_DIT, CHK_DAH, KEYED_PREP, KEYED, INTER_ELEMENT }; // State machine states
+EXTERN enum KSTYPE {IDLE, CHK_DIT, CHK_DAH, KEYED_PREP, KEYED, INTER_ELEMENT } KSType; // State machine states
 EXTERN int hangcnt, Saved_hangcnt;
 EXTERN float pk, Saved_pk;
 
@@ -192,6 +192,7 @@ EXTERN uint16_t FracDivCoeff[4];
 EXTERN uint16_t FracPWMCoeff[4];
 EXTERN uint32_t SystemSeconds, SystemMinutes;
 
+
 EXTERN uint8_t TransmittingWSPR;
 EXTERN uint8_t WSPRTone, WSPRTXFraction;
 EXTERN float LastTXFreq;
@@ -207,6 +208,8 @@ EXTERN uint8_t WSPRBeaconMode;
 
 EXTERN float PeakAudioValue;
 
+EXTERN uint32_t USBAudioPtr;
+EXTERN uint32_t SDRAudioPtr;
 
 EXTERN volatile float FSKFreq, FSKFreqFiltered, FSKAudioLevelFiltered;
 
@@ -217,6 +220,7 @@ EXTERN uint16_t FT8FracPWMCoeff;
 EXTERN uint8_t TransmittingFT8;
 
 EXTERN volatile uint32_t FSKAudioPresent;
+
 //EXTERN WM_MESSAGE *GlobalMsgPtr;
 
 #endif /* __GLOBALS_H */

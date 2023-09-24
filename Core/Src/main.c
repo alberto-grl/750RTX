@@ -5,8 +5,8 @@
                    main.c module of the program ARM_Radio
 
                                                   Copyright 2015 by Alberto I2PHD, June 2015
-
 					Heavy remix by Alberto I4NZX
+
     This file is part of ARM_Radio.
 
     ARM_Radio is free software: you can redistribute it and/or modify
@@ -41,13 +41,12 @@
  * CW Decoder based on WB7FHC's Morse Code Decoder v1.1
  * https://github.com/kareiva/wb7fhc-cw-decoder
  *
- * * On-demand filter generator based on Phil Karn KA9Q code, https://github.com/ka9q/ka9q-radio
+ * On-demand filter generator based on Phil Karn KA9Q code, https://github.com/ka9q/ka9q-radio
  * Simplified Linux test project is at https://github.com/alberto-grl/ka9q-filters
  *
  * SCAMP protocol by Daniel Marks, KW4TI https://github.com/profdc9/RFBitBanger/blob/main/Docs/SCAMP-Digital-Mode-Proposal-v0.6.pdf
  * https://github.com/profdc9/RFBitBanger/blob/main/Code/RFBitBanger/scamp.c
  * Linux SCAMP terminal and test code at https://github.com/alberto-grl/SCAMP_TERM
- *
  *
  *
  ******************************************************************************
@@ -71,9 +70,9 @@
   TIM6 - DMA trigger for audio DAC
   TIM7 - CW Keyer
 
+
   PA6 - Keyer Dash
   PA7 - Keyer Dot
-
  */
 
 #define IN_MAIN
@@ -248,6 +247,96 @@ uint32_t DWT_Delay_Init(void) {
 	}
 }
 
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
+{
+
+	if (htim->Instance == TIM7)
+	{
+#ifdef USE_KEYER
+		DoKeyer();
+#endif
+#ifdef USE_SCAMP
+		TXScamp();
+#endif
+	}
+
+	if (htim->Instance == TIM2)
+	{
+
+	}
+}
+
+#if 0
+int32_t adc_ReadInternalTemp(void)
+
+{
+
+	//https://github.com/sweesineng/STM32_ADC_MultiCh_SingleConv_Polling/blob/main/Core/Src/main.c
+	int32_t Temp;
+	uint32_t adcTempVal;
+	uint32_t adcVRefVal;
+	uint32_t VRefMilliVoltsValue;
+
+
+	//used for MPU temperature reading
+	HAL_ADC_Start(&hadc3);
+	HAL_ADC_PollForConversion(&hadc3, 100);
+	adcTempVal = HAL_ADC_GetValue(&hadc3);
+
+	HAL_ADC_PollForConversion(&hadc3, 100);
+	adcVRefVal = HAL_ADC_GetValue(&hadc3);
+
+	HAL_ADC_Stop(&hadc3);
+	//used for MPU temperature reading.
+	//Start ADC and let it sample while doing other things. First reading after power up will be wrong.
+	HAL_ADC_Start(&hadc3);
+
+
+	// Calculating VRef voltage
+	VRefMilliVoltsValue = __HAL_ADC_CALC_VREFANALOG_VOLTAGE(adcVRefVal, ADC_RESOLUTION_16B);
+	Temp = __HAL_ADC_CALC_TEMPERATURE(VRefMilliVoltsValue, adcTempVal, ADC_RESOLUTION_16B);
+
+	return Temp; // 55-59 �C at startup, 80�C after warming up
+
+}
+#endif
+
+void CalcFT8Params()
+{
+	//Similar to WSPR, but for WSPR we precalculate the four set of parameters of the four FSK tones
+	//Here we set the base PLL coefficients, fractional divider and its PWM will be set by the detected audio tone.
+	volatile double TF, TXFreq, MinDiff = 999999999;
+	uint32_t m, n, p, od = 1;
+	volatile uint32_t fm, fn, fp, fod;
+	SetMode((Mode) USB);
+	TXFreq = LOfreq;
+	TF = TXFreq; //TODO: check for beginning and end of subband
+	LastTXFreq = (float) TXFreq;
+	//looking for coefficients just below the desired frequency. This is because the fractional divider generates lower frequencies with 0, and higher with 8191
+	for (m = 2; m <= 25; m++) //was 64
+	{
+		for (n = 2; n <= 512; n++) //was 1
+		{
+			for (p = 2; p <= 128; p += 2) {
+				FT8_OutF = XTalFreq * n / m / p / od;
+				if (((TF - FT8_OutF) < MinDiff) && ((TF - FT8_OutF) > 0)
+						&& ((XTalFreq * n / m) > 150000000.0)
+						&& ((XTalFreq * n / m) < 960000000.0)) {
+					MinDiff = fabs(FT8_OutF - TF);
+					fp = p;
+					fn = n;
+					fm = m;
+					fod = od;
+				}
+			}
+		}
+		FT8_OutF = XTalFreq * fn / fm / fp / fod;
+		FT8_OutFHigherStep = XTalFreq * (fn + 1) / fm / fp / fod;
+	}
+	__HAL_RCC_PLL2_DISABLE();
+	__HAL_RCC_PLL2_CONFIG(fm, fn, fp, 2, 1);
+	__HAL_RCC_PLL2_ENABLE();
+}
 
 /* USER CODE END 0 */
 
@@ -332,7 +421,7 @@ int main(void)
 	}
 	HAL_Delay(1);
 	HAL_TIM_Encoder_Start(&htim4, TIM_CHANNEL_1);
-	volume= 0.1;
+	RXVolume= 0.1;
 	//	LED_GREEN_ON;
 	//	LED_GREEN_OFF;
 
@@ -547,6 +636,13 @@ int main(void)
 	}
 #endif
 
+#ifdef FT8_USB_MODE
+	//Similar to WSPR, but for WSPR we precalculate the four set of parameters of the four FSK tones
+	//Here we set the base PLL coefficients, fractional divider and its PWM will be set by the detected audio tone.
+	CalcFT8Params();
+#endif
+
+
 	while (1)
 	{
     /* USER CODE END WHILE */
@@ -556,12 +652,13 @@ int main(void)
 
 		/* ADC conversion buffer complete variable is updated into ADC conversions*/
 		/* complete callback.*/
+
 		UserInput();
 #ifdef WSPR_BEACON_MODE
 		DCF77StatusDisplay();
 #endif
 		//	HAL_Delay(100);
-		HAL_Delay(200);
+		HAL_Delay(50);
 
 	}
   /* USER CODE END 3 */
@@ -582,7 +679,12 @@ void SystemClock_Config(void)
 
   /** Configure the main internal regulator output voltage
   */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
+  while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
+
+  __HAL_RCC_SYSCFG_CLK_ENABLE();
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
 
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
 
@@ -590,16 +692,16 @@ void SystemClock_Config(void)
   * in the RCC_OscInitTypeDef structure.
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
   RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 10;
-  RCC_OscInitStruct.PLL.PLLN = 81;
-  RCC_OscInitStruct.PLL.PLLP = 16;
+  RCC_OscInitStruct.PLL.PLLM = 5;
+  RCC_OscInitStruct.PLL.PLLN = 192;
+  RCC_OscInitStruct.PLL.PLLP = 2;
   RCC_OscInitStruct.PLL.PLLQ = 2;
   RCC_OscInitStruct.PLL.PLLR = 2;
-  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_1;
+  RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_2;
   RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
   RCC_OscInitStruct.PLL.PLLFRACN = 0;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -620,7 +722,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
   RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
   {
     Error_Handler();
   }
@@ -638,21 +740,21 @@ void PeriphCommonClock_Config(void)
   /** Initializes the peripherals clock
   */
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADC|RCC_PERIPHCLK_LPTIM2;
-  PeriphClkInitStruct.PLL2.PLL2M = 14;
-  PeriphClkInitStruct.PLL2.PLL2N = 447;
-  PeriphClkInitStruct.PLL2.PLL2P = 114;
+  PeriphClkInitStruct.PLL2.PLL2M = 2;
+  PeriphClkInitStruct.PLL2.PLL2N = 12;
+  PeriphClkInitStruct.PLL2.PLL2P = 3;
   PeriphClkInitStruct.PLL2.PLL2Q = 2;
   PeriphClkInitStruct.PLL2.PLL2R = 2;
-  PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_0;
-  PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
+  PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_3;
+  PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOMEDIUM;
   PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
-  PeriphClkInitStruct.PLL3.PLL3M = 25;
-  PeriphClkInitStruct.PLL3.PLL3N = 512;
+  PeriphClkInitStruct.PLL3.PLL3M = 2;
+  PeriphClkInitStruct.PLL3.PLL3N = 12;
   PeriphClkInitStruct.PLL3.PLL3P = 2;
   PeriphClkInitStruct.PLL3.PLL3Q = 8;
-  PeriphClkInitStruct.PLL3.PLL3R = 16;
-  PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_0;
-  PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
+  PeriphClkInitStruct.PLL3.PLL3R = 4;
+  PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_3;
+  PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOMEDIUM;
   PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
   PeriphClkInitStruct.Lptim2ClockSelection = RCC_LPTIM2CLKSOURCE_PLL2;
   PeriphClkInitStruct.AdcClockSelection = RCC_ADCCLKSOURCE_PLL3;
@@ -1391,6 +1493,9 @@ void SystemClock_Config_For_OC(void)
 #ifdef CLK_500M_CPU_120M_ADC
 	RCC_OscInitStruct.PLL.PLLN = 250;
 	CPU_CLK_Freq = 500000000;
+	RCC_OscInitStruct.PLL.PLLM = 10;
+	RCC_OscInitStruct.PLL.PLLN = 400;
+	XTalFreq = 25000000;
 #endif
 #ifdef CLK_500M_CPU_128M_ADC
 	RCC_OscInitStruct.PLL.PLLN = 250;
@@ -1498,7 +1603,16 @@ void SystemClock_Config_For_OC(void)
 	PeriphClkInitStruct.PLL3.PLL3N = 300;
 #endif
 #ifdef CLK_500M_CPU_120M_ADC
-	PeriphClkInitStruct.PLL3.PLL3N = 240;
+
+	PeriphClkInitStruct.PLL2.PLL2M = 4;
+	PeriphClkInitStruct.PLL2.PLL2N = 38;
+	PeriphClkInitStruct.PLL2.PLL2P = 24;
+	PeriphClkInitStruct.PLL2.PLL2Q = 2;
+	PeriphClkInitStruct.PLL2.PLL2R = 2;
+	PeriphClkInitStruct.PLL3.PLL3M = 5;
+	PeriphClkInitStruct.PLL3.PLL3N = 120;
+	PeriphClkInitStruct.PLL3.PLL3R = 5;
+
 #endif
 #ifdef CLK_500M_CPU_128M_ADC
 	PeriphClkInitStruct.PLL3.PLL3N = 256;
@@ -1676,6 +1790,22 @@ void UserInput(void)
 {
 	volatile HAL_StatusTypeDef result;
 
+#ifdef FT8_USB_MODE
+	if (FSKAudioPresent)
+	{
+		if (LastTXFreq != LOfreq)
+				{
+					//TODO: these functions are almost the same. Make them one.
+					CalcFT8Params();
+					SetTXPLL(LOfreq);
+					LastTXFreq = LOfreq;
+				}
+		SendFT8(); //exits when there is no more USB audio (TX period is over)
+	}
+#endif
+
+
+
 	if (WSPRBeaconState == SEND_WSPR)
 	{
 		HAL_ADCEx_MultiModeStop_DMA(&hadc1);
@@ -1715,19 +1845,20 @@ void UserInput(void)
 		switch (UartRXString[0])
 		{
 		case 43: //+
-			volume += 0.1;
-			if (volume > 1.0)
-				volume = 1.0;
+			RXVolume += 0.1;
+			if (RXVolume > 1.0)
+				RXVolume = 1.0;
 			break;
 		case 45: //-
-			volume -= 0.1;
-			if (volume < 0)
-				volume = 0;
+			RXVolume -= 0.1;
+			if (RXVolume < 0)
+				RXVolume = 0;
 			break;
+			//Keyboard and encoder F step is 1/2 because most QSO are at freq. multiple of 500 Hz
 		case 49: //1
-			FminusClicked(2); break;
+			FminusClicked(1); break; //change to 2 for step equal to selection
 		case 50: //2
-			FplusClicked(2); break;
+			FplusClicked(1); break;  //change to 2 for step equal to selection
 		case 51: //3
 			SetFstep(5);  break;
 		case 52: //4
@@ -1764,6 +1895,7 @@ void UserInput(void)
 				ShowWF=1;
 			break;
 		case 89: //Y
+
 			SetWSPRPLLCoeff((double)LOfreq, FracDivCoeff, FracPWMCoeff);
 			TransmittingWSPR = 1;
 			SendWSPR();
@@ -1871,11 +2003,12 @@ void UserInput(void)
 
 	if (!DisableDisplay)
 	{
+//		int32_t Temp = adc_ReadInternalTemp();
 		SValue = 4 + 10 / 3.01 * log10(PeakAudioValue * 2000.0);
 #ifdef WSPR_BEACON_MODE
 		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f     T %d:%2d:%2d  \r", SValue, DCF77Hour, (int)SystemMinutes, (int)SystemSeconds);
 #else
-		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f       \r", SValue);
+//		sprintf((char*)UartTXString, "\e[1;1HS %-4.1f TEMP %d     \r", SValue, (int)Temp);
 #endif
 		PrintUI(UartTXString);
 
@@ -2051,7 +2184,7 @@ void DisplayStatus(void)
 		case MID_POWER_OUT: strcpy(StringTxPower,"Mid"); break;
 		case MAX_POWER_OUT: strcpy(StringTxPower,"Max"); break;
 		}
-		sprintf((char *)UartTXString, "\e[3;1HFreq %5.3f  Step %s\e[5;1HMode %s BW %s AGG %s ERR %d WPM %d PWR %s Volume %1.1f   \r", LOfreq/1000.f, StringStep, StringMode, StringWidth, StringAGC, TXFreqError, keyer_speed, StringTxPower, volume);
+		sprintf((char *)UartTXString, "\e[3;1HFreq %5.3f  Step %s\e[5;1HMode %s BW %s AGG %s ERR %d WPM %d PWR %s Volume %1.1f   \r", LOfreq/1000.f, StringStep, StringMode, StringWidth, StringAGC, TXFreqError, keyer_speed, StringTxPower, RXVolume);
 		PrintUI(UartTXString);
 	}
 }
@@ -2083,7 +2216,7 @@ void MX_TIM6_Init_Custom_Rate(void)
 	htim6.Init.Period = 8191;
 #endif
 #ifdef CLK_500M_CPU_120M_ADC
-	htim6.Init.Period = 8541;
+	htim6.Init.Period = 8532; //was 8541;
 #endif
 #ifdef CLK_500M_CPU_128M_ADC
 	htim6.Init.Period = 7999;
@@ -2207,7 +2340,7 @@ void SetWSPRPLLCoeff(double TXFreq, uint16_t *FracDivCoeff, uint16_t *FracPWMCoe
 
 	volatile double TF, OutFHigherStep, OutF, MinDiff = 999999999;
 	uint32_t m, n, p, od;
-	volatile uint32_t fm, fn, fp, fdiff, fod, FMaxErr, FracDiv, i;
+	volatile uint32_t fm, fn, fp, fod, FracDiv, i;
 	LastTXFreq = (float)TXFreq;
 #define TEST_COEFF 1
 	for (i = 0; i < 4; i++) {
@@ -2224,7 +2357,7 @@ void SetWSPRPLLCoeff(double TXFreq, uint16_t *FracDivCoeff, uint16_t *FracPWMCoe
 					if (((TF - OutF) < MinDiff) && ((TF - OutF) > 0)
 							&& ((XTalFreq * n / m) > 150000000.0)
 							&& ((XTalFreq * n / m) < 960000000.0)) {
-						MinDiff = abs(OutF - TF);
+						MinDiff = fabs(OutF - TF);
 
 						fp = p;
 						fn = n;
@@ -2276,7 +2409,7 @@ void SetTXPLL(float TF)
 
 	volatile float OutFHigherStep, OutF, MinDiff = 999999999;
 	uint32_t m, n, p, od;
-	volatile uint32_t fm, fn, fp, fod, FMaxErr, FracDiv;
+	volatile uint32_t fm, fn, fp, fod, FracDiv;
 
 
 	MinDiff = 999999999;
@@ -2291,7 +2424,7 @@ void SetTXPLL(float TF)
 				OutF = XTalFreq * n / m / p / od;
 				if (((TF - OutF) < MinDiff) && ((TF - OutF) > 0) && ((XTalFreq * n / m)> 150000000.0) && ((XTalFreq * n / m)< 960000000.0))
 				{
-					MinDiff = abs(OutF - TF);
+					MinDiff = fabs(OutF - TF);
 
 					fp = p;
 					fn = n;
@@ -2335,6 +2468,8 @@ void TXSwitch(uint8_t Status)
 		// audio noise caused by RX starving
 		if (LastTXFreq != LOfreq)
 		{
+			//TODO: these functions are almost the same. Make them one.
+			CalcFT8Params();
 			SetTXPLL(LOfreq);
 			LastTXFreq = LOfreq;
 		}

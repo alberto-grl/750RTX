@@ -1,8 +1,8 @@
-/*
- * DCF77.c
+/* DCF77.c
  *
  *  Created on: 30 nov 2022
- *      Author: Alberto I4NZX
+ *
+ *     Author: Alberto I4NZX
  *
 
     This file is part of ARM_Radio.
@@ -41,6 +41,7 @@
 
 volatile static int16_t DecodedTestBuffer[16384], Test_i;
 static uint8_t RisingEdge, FallingEdge, DCF77Message[60];
+static uint8_t LastCWIn, RisingEdge, FallingEdge, DCF77Message[60];
 static uint32_t DCF77HighSampleCounter, DCF77LowSampleCounter, DCF77BitCounter;
 
 void DecodeDCF77(void)
@@ -93,15 +94,16 @@ void DecodeDCF77(void)
 		break;
 	case SEND_WSPR:
 		break;
+
 	}
 }
 
 void DoDCF77(uint16_t DCF77In)
 {
-//This routine is called eg (128 MHz ADC); 128000000 / 16 / 64 / 4 = 32000 Hz
-//100 mSec (DCF77 0) is 3200 samples
-//200 mSec (DCF77 1) is 6400 samples
-//2 Sec (DCF77 Sync) is 64000 samples
+	//This routine is called eg (128 MHz ADC); 128000000 / 16 / 64 / 4 = 32000 Hz
+	//100 mSec (DCF77 0) is 3200 samples
+	//200 mSec (DCF77 1) is 6400 samples
+	//2 Sec (DCF77 Sync) is 64000 samples
 
 
 	if (DCF77In && !LastDCF77In)

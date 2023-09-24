@@ -3,7 +3,7 @@
                    SDR_func.c module of the program ARM_Radio
 
 						                          Copyright 2015 by Alberto I2PHD, June 2015
-
+					Heavy remix by Alberto I4NZX
     This file is part of ARM_Radio.
 
     ARM_Radio is free software: you can redistribute it and/or modify
@@ -29,12 +29,13 @@
 #include "Globals.h"
 #include "dataAcq.h"
 
+
 extern uint16_t FracDivPWM;
 extern uint16_t LowestWSPRToneFracDivPWM;
 
 
 #ifdef TEST_FRAC_DIV
-static int16_t IntCounter, FracDutyCycle;
+static int16_t IntCounter;
 #endif
 
 //#include "Presets.h"
@@ -90,6 +91,9 @@ void Tune_Preset(uint8_t Idx)
 // and change the color of the buttons to indicate the active bandwidth
 void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 {
+	if (newbw == CurrentBW)
+		return;
+
 	CurrentBW = newbw;
 	switch(CurrentMode)
 	{
@@ -98,8 +102,13 @@ void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 		bw[AM] = newbw;
 		AMindex = (newbw == Narrow) ? 0 : 1;
 		AMindex = 0; // TODO toglimi
+#ifdef PRECALC_MASKS
 		SDR_2R_toC_f32((float *)FFTmaskAM_R[AMindex],
 				(float *)FFTmaskAM_I[AMindex], FFTmask, FFTLEN);
+#else
+
+		SetMask(-3000.0f, 3000.0f);
+#endif
 		break;
 #endif
 	case LSB :
@@ -108,8 +117,12 @@ void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 		LSBindex = (newbw == Narrow) ? 0 : 1;
 		AMindex = (newbw == Narrow) ? 0 : 1;
 		LSBindex = 0; // TODO toglimi
+#ifdef PRECALC_MASKS
 		SDR_2R_toC_f32((float *)FFTmaskSSB_R[LSBindex],
 				(float *)FFTmaskSSB_I[LSBindex], FFTmask, FFTLEN);
+#else
+		SetMask(300.0f, 2500.0f);
+#endif
 
 		break;
 
@@ -119,9 +132,12 @@ void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 		USBindex = (newbw == Narrow) ? 0 : 1;
 		AMindex = (newbw == Narrow) ? 0 : 1;
 		USBindex = 0; // TODO toglimi
+#ifdef PRECALC_MASKS
 		SDR_2R_toC_f32((float *)FFTmaskSSB_R[USBindex],
 				(float *)FFTmaskSSB_I[USBindex], FFTmask, FFTLEN);
-
+#else
+		SetMask(300.0f, 2500.0f);
+#endif
 		break;
 
 	case CW  :
@@ -129,9 +145,12 @@ void SetBW(/*WM_HWIN ptr,*/ Bwidth newbw)
 		bw[CW] = newbw;
 		CWindex = (newbw == Narrow) ? 0 : 1;
 		CWindex = 0; // TODO toglimi
+#ifdef PRECALC_MASKS
 		SDR_2R_toC_f32((float *)FFTmaskCW_R[CWindex],
 				(float *)FFTmaskCW_I[CWindex], FFTmask, FFTLEN);
-
+#else
+		SetMask(500.0f, 800.0f); //CWPITCH is 650
+#endif
 		break;
 
 	default :
@@ -171,6 +190,9 @@ void SetAGC(/*WM_HWIN ptr,*/ Agctype newAGC)
 
 void SetMode(/*WM_HWIN ptr,*/ Mode newmode)
 {
+	if (CurrentMode == newmode)
+		return;
+
 	CurrentMode = newmode;
 
 	switch(CurrentMode)
@@ -258,11 +280,22 @@ void LED_switch()
 //void EXTI1_IRQHandler()
 void HAL_GPIO_EXTI_Callback(uint16_t pin)
 {
+#if 0
+	if (pin == GPIO_PIN_0) {
+		tud_task();
+		audio_task(); //not needed anymore
+//		MainLoopCounter++;  //used with debugger to check frequency of main loop
+	cdc_task();
+	}
+#endif
+	if (pin == GPIO_PIN_14) {
 
-	volatile uint16_t WFSample;
-	volatile float tmp;
-	float BinValue;
-	int16_t i;
+#ifdef CW_DECODER
+		volatile uint16_t WFSample;
+		volatile float tmp;
+		float BinValue;
+		int16_t i;
+#endif
 
 
 
@@ -291,30 +324,30 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 
 
-	// HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET); // set bit 8 of GPIOF high, to be observed with an oscilloscope
+		// HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET); // set bit 8 of GPIOF high, to be observed with an oscilloscope
 
 
-	// copy into work buffers the data received by CIC decimator
-	SDR_memcpy_f32(Rbase, Rbasedata, BSIZE*4);
-	SDR_memcpy_f32(Ibase, Ibasedata, BSIZE*4);
-
-
-
-
-	// inverse sync filtering and decimation by 4
-	arm_fir_decimate_f32(&SfirR, Rbase, Rdata, BSIZE*4);
-	arm_fir_decimate_f32(&SfirI, Ibase, Idata, BSIZE*4);
-
-	// filter now with fast convolution
-	//---------------------------------
-	// shift the FFT buffer to the left
-	SDR_memcpy_f32(fCbase, fCbase + FFTLEN, FFTLEN);
+		// copy into work buffers the data received by CIC decimator
+		SDR_memcpy_f32(Rbase, Rbasedata, BSIZE*4);
+		SDR_memcpy_f32(Ibase, Ibasedata, BSIZE*4);
 
 
 
 
-	// insert at the right edge the latest data
-	SDR_2R_toC_f32(Rdata, Idata, fCbase + FFTLEN, BSIZE);
+		// inverse sync filtering and decimation by 4
+		arm_fir_decimate_f32(&SfirR, Rbase, Rdata, BSIZE*4);
+		arm_fir_decimate_f32(&SfirI, Ibase, Idata, BSIZE*4);
+
+		// filter now with fast convolution
+		//---------------------------------
+		// shift the FFT buffer to the left
+		SDR_memcpy_f32(fCbase, fCbase + FFTLEN, FFTLEN);
+
+
+
+
+		// insert at the right edge the latest data
+		SDR_2R_toC_f32(Rdata, Idata, fCbase + FFTLEN, BSIZE);
 
 
 
@@ -346,13 +379,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	if(CurrentMode == USB) SDR_mirror_LSB(FFTbuf, FFTLEN);
 
 #ifdef TEST_WF
-	if (ShowWF) {
-		for (WFSample=0; WFSample<(FFTLEN * 2); WFSample += 2)
-		{
-			tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
-			arm_sqrt_f32(tmp, &WFBuffer[WFSample >> 1]);
+		if (ShowWF) {
+			for (WFSample=0; WFSample<(FFTLEN * 2); WFSample += 2)
+			{
+				tmp = FFTbuf[WFSample] * FFTbuf[WFSample] + FFTbuf[WFSample+1] * FFTbuf[WFSample+1];
+				arm_sqrt_f32(tmp, &WFBuffer[WFSample >> 1]);
+			}
 		}
-	}
 #endif
 
 
@@ -425,8 +458,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	DecodeCW();
 
 #endif
-	 */
-	/*
+		 */
+		/*
 #ifdef CW_DECODER
 
 	CWLevel = 0;
@@ -458,7 +491,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	DecodeCW();
 
 #endif
-	 */
+		 */
 
 	// mult. by the fast convolution mask
 	arm_cmplx_mult_cmplx_f32(FFTbuf, FFTmask, FFTbuf2, FFTLEN);
@@ -486,9 +519,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 			SDR_CWPeak(fAudio, BSIZE);
 		break;
 
-	default:
-		break;
-	}
+		default:
+			break;
+		}
 
 
 #ifdef DCF77_DECODER
@@ -528,40 +561,40 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 
 
 #ifdef AG_TEST_AUDIO
-	//TODO correct comment
-	// Sample rate of DAC is 27901.786 Hz set from timer 6 (TIM_TimeBaseInit)
-	// Soft interrupt handler is at 27901.786 / 512 = 54.496 Hz
-	// Generate test square wave with a period of 64 samples = 436 Hz. (32 On 32 Off)
-	for (i=0; i<BSIZE; i++)
-	{
-		if (i % 64 > 31)
-			fAudio[i] = 0.1; //Volume
-		else
-			fAudio[i] = -0.1;
-	}
+		//TODO correct comment
+		// Sample rate of DAC is 27901.786 Hz set from timer 6 (TIM_TimeBaseInit)
+		// Soft interrupt handler is at 27901.786 / 512 = 54.496 Hz
+		// Generate test square wave with a period of 64 samples = 436 Hz. (32 On 32 Off)
+		for (uint32_t i=0; i<BSIZE; i++)
+		{
+			if (i % 64 > 31)
+				fAudio[i] = 1; //Volume
+			else
+				fAudio[i] = -1;
+		}
 
 #endif
 
 #ifdef CW_TX_SIDETONE
-	// CW tone while keying
-	//TODO: make it sine and with attack/decay
-	if (TXCarrierEnabled)
-		for (i=0; i<BSIZE; i++)
-		{
-			if (i % 64 > 31)
-				fAudio[i] = volume * SIDETONE_VOLUME; //Volume
-			else
-				fAudio[i] = -volume * SIDETONE_VOLUME;
-		}
-	else
-	{
-		if (TransmissionEnabled)
-			for (i=0; i<BSIZE; i++)
+		// CW tone while keying
+		//TODO: make it sine and with attack/decay
+		if (TXCarrierEnabled)
+			for (int i=0; i<BSIZE; i++)
 			{
-				fAudio[i] = 0.;
+				if (i % 64 > 31)
+					fAudio[i] = RXVolume * SIDETONE_VOLUME; //Volume
+				else
+					fAudio[i] = -RXVolume * SIDETONE_VOLUME;
 			}
+		else
+		{
+			if (TransmissionEnabled)
+				for (int i=0; i<BSIZE; i++)
+				{
+					fAudio[i] = 0.;
+				}
 
-	}
+		}
 #endif
 
 	// send the demodulated audio to the DMA buffer just emptied
@@ -571,7 +604,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	//LED_YELLOW_OFF;
 
 
-	// HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET); // set bit 8 of GPIOF low, to be observed with an oscilloscope
+		// HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET); // set bit 8 of GPIOF low, to be observed with an oscilloscope
+	}
 }
 
 
@@ -631,7 +665,7 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 	 * Reference manual says otherwise.
 	 * So we disable at the top of the ISR and set the parameter near the bottom.
 	 */
-	if (TransmittingWSPR)
+	if (TransmittingWSPR || TransmittingFT8)
 	{
 		__HAL_RCC_PLL2FRACN_DISABLE();
 	}
@@ -712,6 +746,23 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 		__HAL_RCC_PLL2FRACN_ENABLE();
 	}
 
+	if (TransmittingFT8)
+		{
+			if (IntCounter++ < FT8FracPWMCoeff)
+			{
+				__HAL_RCC_PLL2FRACN_CONFIG(FT8FracDivCoeff + 1);
+			}
+			else
+			{
+				__HAL_RCC_PLL2FRACN_CONFIG(FT8FracDivCoeff );
+			}
+			if (IntCounter == 8)
+			{
+				IntCounter = 0;
+			}
+			__HAL_RCC_PLL2FRACN_ENABLE();
+		}
+
 #ifdef CIC_DECIMATE_64
 
 	//-------------------------------------------------------------------------
@@ -725,6 +776,7 @@ void ADC_Stream0_Handler(uint8_t FullConversion)
 	//-------------------------------------------------------------------------
 
 	k=BSIZE/2;  // BSIZE/2 to process BSIZE entries, two at a time
+	asm("nop");
 	while(k--)
 	{
 		// CIC, R=16, M=4, computed in four div_by_2 sections, using the polyphase decomposition
