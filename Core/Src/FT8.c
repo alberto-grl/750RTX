@@ -31,7 +31,7 @@ void SendFT8(void)
 
 
 
-//	LOfreq = (double)FT8_FREQ;
+	//	LOfreq = (double)FT8_FREQ;
 	LastTXFreq = LOfreq;
 	/*
 	DMA interrupt must be active during transmission
@@ -53,12 +53,12 @@ void SendFT8(void)
 #if 1
 	HAL_ADCEx_MultiModeStop_DMA(HAdc1);
 	do
-		{
+	{
 		result = HAL_ADCEx_MultiModeStart_DMA(HAdc1,
-			(uint32_t *)aADCDualConvertedValues,
-			BSIZE);   //Source code says transfer size is in bytes, but it is in number of transfers
-			//We transfer BSIZE * 4 bytes, it equals 2 * BSIZE samples (1024) because we have full and half interrupts
-		}
+				(uint32_t *)aADCDualConvertedValues,
+				BSIZE);   //Source code says transfer size is in bytes, but it is in number of transfers
+		//We transfer BSIZE * 4 bytes, it equals 2 * BSIZE samples (1024) because we have full and half interrupts
+	}
 	while (result != HAL_OK);
 
 #endif
@@ -72,12 +72,12 @@ void SendFT8(void)
 	{
 		if(KEYER_DASH || KEYER_DOT)
 		{
-#ifndef DIGITAL_MODES
-			break;  // stop when button/key pressed;
-#endif
+			if (!DigitalModes)
+				break;  // stop when button/key pressed, but ignore when audio cable is inserted (acts like a continuous paddle press);
+
 		}
 		FracDiv = (uint32_t) ((LOfreq + FSKFreqFiltered - FT8_OutF) / (FT8_OutFHigherStep - FT8_OutF)
-					* 8192 * 8); //FracDiv PWM has 8 levels
+				* 8192 * 8); //FracDiv PWM has 8 levels
 
 		FT8FracPWMCoeff = FracDiv & 0x07;
 		FracDiv >>= 0x03;

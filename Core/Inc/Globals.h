@@ -219,6 +219,8 @@ EXTERN uint16_t FT8FracDivCoeff;
 EXTERN uint16_t FT8FracPWMCoeff;
 EXTERN uint8_t TransmittingFT8;
 
+EXTERN uint8_t DigitalModes;
+
 EXTERN volatile uint32_t FSKAudioPresent;
 
 //EXTERN WM_MESSAGE *GlobalMsgPtr;

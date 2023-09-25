@@ -282,13 +282,14 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 {
 	if (pin == GPIO_PIN_14) {
 
-#ifdef DIGITAL_MODES
+if (DigitalModes)
+{
 		if (CompCounter > LastCompCounter )
 			FSKAudioPresent = 1;
 		else
 			FSKAudioPresent = 0;
 		LastCompCounter = CompCounter;
-#endif
+}
 
 
 #ifdef CW_DECODER

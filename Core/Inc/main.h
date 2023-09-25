@@ -360,7 +360,6 @@ extern float i0(float);
 
 #define OVF_TIMEOUT 2
 
-#define DIGITAL_MODES
 
 
 

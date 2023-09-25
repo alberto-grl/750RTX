@@ -54,9 +54,12 @@ void loadWPM (int wpm) // Calculate new time constants based on wpm value
 
 void switch_rxtx(uint8_t tx_enable){
 
-#ifdef DIGITAL_MODES
+//do not tx because of paddle. Dah input is in common with audio in and when PC's audio out
+//is connected it always tx
+
+if (DigitalModes)
 	return;
-#endif
+
 #ifdef TX_DELAY
 #ifdef SEMI_QSK
 	if(!(semi_qsk_timeout))
