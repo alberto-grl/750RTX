@@ -308,7 +308,6 @@ void CalcFT8Params()
 	volatile double TF, TXFreq, MinDiff = 999999999;
 	uint32_t m, n, p, od = 1;
 	volatile uint32_t fm, fn, fp, fod;
-	SetMode((Mode) USB);
 	TXFreq = LOfreq;
 	TF = TXFreq; //TODO: check for beginning and end of subband
 	LastTXFreq = (float) TXFreq;
